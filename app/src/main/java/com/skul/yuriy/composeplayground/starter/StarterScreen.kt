@@ -72,7 +72,7 @@ fun NavigationItem(modifier: Modifier = Modifier, text: String) {
             .fillMaxWidth()
             .wrapContentHeight(),
 
-        colors = CardDefaults.cardColors().copy(containerColor = LightWhite),
+//        colors = CardDefaults.cardColors().copy(containerColor = LightWhite),
         border = BorderStroke(1.dp, Color.DarkGray),
         shape = CircleShape
     ) {
