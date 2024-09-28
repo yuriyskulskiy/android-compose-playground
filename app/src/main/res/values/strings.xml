@@ -2,14 +2,12 @@
     <string name="app_name">ComposePlayground</string>
     <string name="toyota_supra_the_fourth_generation_a80">Toyota Supra, the fourth-generation (A80)</string>
     <string name="toyota_new_supra">Toyota New Supra</string>
-    <string name="nissan_silvia_s15">Nissan Silvia, S15)</string>
-    <string name="nissan_silvia_200sx">Nissan Silvia and 240SX)</string>
-    <string name="nissan_350_z">Nissan 350z)</string>
-    <string name="nissan_silvia_s14.5">Nissan Silvia, S14.5)</string>
+    <string name="nissan_silvia_s15">Nissan Silvia, S15</string>
+    <string name="nissan_silvia_200sx">Nissan Silvia and 240SX</string>
+    <string name="nissan_350_z">Nissan 350z</string>
+    <string name="nissan_silvia_s14.5">Nissan Silvia, S14.5</string>
     <string name="nissan_silvia_s14">Nissan Silvia, S14)</string>
-    <string name="nissan_gtr_r34">Nissan GT-R R34)</string>
-    <string name="nissan_gtr_r35">Nissan GT-R R35)</string>
-    <string name="nissan_200sx_s13.5">Nissan 200sx, S13.5)</string>
-
-
+    <string name="nissan_gtr_r34">Nissan GT-R R34</string>
+    <string name="nissan_gtr_r35">Nissan GT-R R35</string>
+    <string name="nissan_200sx_s13.5">Nissan 200sx, S13.5</string>
 </resources>
