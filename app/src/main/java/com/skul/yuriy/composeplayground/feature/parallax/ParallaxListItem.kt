@@ -36,13 +36,6 @@ import coil.size.Scale
 import coil.size.Size
 import kotlin.math.max
 
-// another way to track item height and offset
-//.onGloballyPositioned { layoutCoordinates ->
-//    // Capture the height of the item
-//    itemHeight = layoutCoordinates.size.height.toFloat()
-//    itemOffsetY = layoutCoordinates.positionInParent().y
-//    },
-
 
 @Composable
 fun ParallaxListItem(
@@ -89,19 +82,8 @@ fun ListItem(
     val topWeight = max(0.01f, 1f - progress)
     val bottomWeight = max(0.01f, progress)
 
-//    val bottomWeight = max(0.01f, 1f - progress)
-//    val topWeight = max(0.01f, progress)
-
-
-
     Card(
-        colors = CardDefaults.cardColors(
-            containerColor = if (index == 4) {
-                Color.LightGray
-            } else {
-                Color.White
-            }
-        ),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(4 / 3f),
@@ -109,49 +91,38 @@ fun ListItem(
         shape = RoundedCornerShape(16.dp)
     ) {
 
-        // States to capture the width and height of the Box
-        var boxHeight by remember { mutableStateOf(0) }
-        var boxWidth by remember { mutableStateOf(0) }
+        var maxOffset by remember { mutableStateOf(1f) }
+        var boxHeight by remember { mutableStateOf(1) }
 
         Box(modifier = Modifier
             .fillMaxSize()
             .onGloballyPositioned { coordinates ->
-                // Capture the width and height of the Box
                 val newHeight = coordinates.size.height
                 val newWidth = coordinates.size.width
-
-                // Only update if values are different to ensure recomposition is efficient
-                if (newHeight != boxHeight || newWidth != boxWidth) {
-                    boxHeight = newHeight
-                    boxWidth = newWidth
-                }
+                boxHeight = newHeight
+                // Calculate the maximum offset directly based on the width and height
+                maxOffset = (newWidth - newHeight)
+                    .coerceAtLeast(0)
+                    .toFloat()
             }
         ) {
-            // Calculate the maximum offset based on the difference in aspect ratios
-            val maxOffset = (boxWidth - boxHeight).coerceAtLeast(0).toFloat()
 
-            // Calculate the vertical offset based on progress
-            val verticalOffset = -maxOffset * (-0.5f + progress)
-
-
+            val currentVerticalOffset = maxOffset * (0.5f - progress)
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(itemUi.drawableRes) // Load the local drawable resource
-                    .size(Size(400, 400)) // Set the target width, keeping the original aspect ratio
-                    .scale(Scale.FILL) // Scale to fill while maintaining aspect ratio
-                    .crossfade(true)   // Optional: Adds a crossfade effect when loading
+                    .data(itemUi.drawableRes)
+                    .size(Size(boxHeight, boxHeight))
+                    .scale(Scale.FILL)
+                    .crossfade(true)
                     .build(),
                 contentDescription = "Downscaled WebP Image",
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
                     .offset {
-                        IntOffset(
-                            0,
-                            verticalOffset.toInt()
-                        )
-                    }, // Apply the vertical offset                contentScale = ContentScale.Crop   // Adjust content scale as needed
+                        IntOffset(0, currentVerticalOffset.toInt())
+                    },
             )
 
             Column(
@@ -167,9 +138,7 @@ fun ListItem(
                         .background(color = Color.Black.copy(alpha = 0.4f))
                         .padding(4.dp),
                     color = Color.White,
-                    text = stringResource(
-                        id = itemUi.textRes
-                    ),
+                    text = stringResource(id = itemUi.textRes),
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Spacer(modifier = Modifier.weight(bottomWeight))
