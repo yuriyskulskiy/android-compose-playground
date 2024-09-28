@@ -86,4 +86,6 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
     kapt(libs.hilt.android.compiler)
+
+    implementation ("io.coil-kt:coil-compose:2.4.0")
 }

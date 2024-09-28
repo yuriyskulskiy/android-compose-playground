@@ -1,10 +1,13 @@
 package com.skul.yuriy.composeplayground.feature.parallax
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,11 +18,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Scale
+import coil.size.Size
 import kotlin.math.max
 
 // another way to track item height and offset
@@ -32,6 +46,7 @@ import kotlin.math.max
 
 @Composable
 fun ParallaxListItem(
+    itemUi: ListItemUi,
     listState: LazyListState,
     index: Int,
     modifier: Modifier = Modifier,
@@ -54,6 +69,7 @@ fun ParallaxListItem(
     }
 
     ListItem(
+        itemUi = itemUi,
         modifier = modifier,
         progress = progress,
         index = index
@@ -65,11 +81,18 @@ fun ParallaxListItem(
 fun ListItem(
     modifier: Modifier = Modifier,
     index: Int,
-    progress: Float
+    progress: Float,
+    itemUi: ListItemUi
 ) {
-    // Weights for spacers to create the parallax effect
+
+    // Calculate spacer weights based on scroll progress, ensuring they are always positive
     val topWeight = max(0.01f, 1f - progress)
     val bottomWeight = max(0.01f, progress)
+
+//    val bottomWeight = max(0.01f, 1f - progress)
+//    val topWeight = max(0.01f, progress)
+
+
 
     Card(
         colors = CardDefaults.cardColors(
@@ -85,18 +108,73 @@ fun ListItem(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(16.dp)
     ) {
-        Column(
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+
+        // States to capture the width and height of the Box
+        var boxHeight by remember { mutableStateOf(0) }
+        var boxWidth by remember { mutableStateOf(0) }
+
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .onGloballyPositioned { coordinates ->
+                // Capture the width and height of the Box
+                val newHeight = coordinates.size.height
+                val newWidth = coordinates.size.width
+
+                // Only update if values are different to ensure recomposition is efficient
+                if (newHeight != boxHeight || newWidth != boxWidth) {
+                    boxHeight = newHeight
+                    boxWidth = newWidth
+                }
+            }
         ) {
-            Spacer(modifier = Modifier.weight(topWeight))
-            Text(
-                text = "Parallax text...",
-                style = MaterialTheme.typography.headlineLarge
+            // Calculate the maximum offset based on the difference in aspect ratios
+            val maxOffset = (boxWidth - boxHeight).coerceAtLeast(0).toFloat()
+
+            // Calculate the vertical offset based on progress
+            val verticalOffset = -maxOffset * (-0.5f + progress)
+
+
+
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(itemUi.drawableRes) // Load the local drawable resource
+                    .size(Size(400, 400)) // Set the target width, keeping the original aspect ratio
+                    .scale(Scale.FILL) // Scale to fill while maintaining aspect ratio
+                    .crossfade(true)   // Optional: Adds a crossfade effect when loading
+                    .build(),
+                contentDescription = "Downscaled WebP Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .offset {
+                        IntOffset(
+                            0,
+                            verticalOffset.toInt()
+                        )
+                    }, // Apply the vertical offset                contentScale = ContentScale.Crop   // Adjust content scale as needed
             )
-            Spacer(modifier = Modifier.weight(bottomWeight))
+
+            Column(
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Spacer(modifier = Modifier.weight(topWeight))
+                Text(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(color = Color.Black.copy(alpha = 0.4f))
+                        .padding(4.dp),
+                    color = Color.White,
+                    text = stringResource(
+                        id = itemUi.textRes
+                    ),
+                    style = MaterialTheme.typography.headlineSmall
+                )
+                Spacer(modifier = Modifier.weight(bottomWeight))
+            }
+
         }
     }
 }
