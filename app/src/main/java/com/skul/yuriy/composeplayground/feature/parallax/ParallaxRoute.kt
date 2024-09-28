@@ -27,8 +27,6 @@ fun ParallaxRoute(
 fun ParallaxScreen(
     uiState: List<ListItemUi>
 ) {
-
-
     ParallaxLazyColumn(uiState)
 }
 
