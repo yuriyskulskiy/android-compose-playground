@@ -16,22 +16,24 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun ParallaxRoute() {
-    ParallaxScreen()
+fun ParallaxRoute(
+    viewModel: ParallaxVewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    ParallaxScreen(uiState)
 }
 
 @Composable
 fun ParallaxScreen(
-    viewModel: ParallaxVewModel = hiltViewModel(),
+    uiState: List<ListItemUi>
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
 
     ParallaxLazyColumn(uiState)
 }
 
 @Composable
 fun ParallaxLazyColumn(uiState: List<ListItemUi>) {
-    // Create a LazyListState to track the scroll position
     val listState = rememberLazyListState()
     val viewportHeight by remember {
         derivedStateOf {
