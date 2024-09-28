@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.parallax
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -36,6 +38,8 @@ import coil.size.Scale
 import coil.size.Size
 import kotlin.math.max
 
+//const val ASPECT_RATIO = 4/3f
+const val ASPECT_RATIO = 1.55f
 
 @Composable
 fun ScrollPositionListItem(
@@ -65,7 +69,6 @@ fun ScrollPositionListItem(
         itemUi = itemUi,
         modifier = modifier,
         progress = normalizedScrollProgress,
-        index = index
     )
 }
 
@@ -73,26 +76,22 @@ fun ScrollPositionListItem(
 @Composable
 fun ListItem(
     modifier: Modifier = Modifier,
-    index: Int,
     progress: Float,
     itemUi: ListItemUi
 ) {
-
-    // Calculate spacer weights based on scroll progress, ensuring they are always positive
-    val topWeight = max(0.01f, 1f - progress)
-    val bottomWeight = max(0.01f, progress)
 
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(4 / 3f),
+            .aspectRatio(ASPECT_RATIO),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(16.dp)
     ) {
 
-        var maxOffset by remember { mutableStateOf(1f) }
-        var boxHeight by remember { mutableStateOf(1) }
+        var maxOffset by remember { mutableFloatStateOf(1f) }
+        var boxHeight by remember { mutableIntStateOf(1) }
+        val currentVerticalOffset = maxOffset * (0.5f - progress)
 
         Box(modifier = Modifier
             .fillMaxSize()
@@ -106,43 +105,69 @@ fun ListItem(
             }
         ) {
 
-            val currentVerticalOffset = maxOffset * (0.5f - progress)
-
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(itemUi.drawableRes)
-                    .size(Size(boxHeight, boxHeight))
-                    .scale(Scale.FILL)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Downscaled WebP Image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .offset {
-                        IntOffset(0, currentVerticalOffset.toInt())
-                    },
+            ImageBackLayer(
+                itemUi = itemUi,
+                boxHeight = boxHeight,
+                verticalOffset = currentVerticalOffset
             )
 
-            Column(
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                Spacer(modifier = Modifier.weight(topWeight))
-                Text(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(color = Color.Black.copy(alpha = 0.4f))
-                        .padding(4.dp),
-                    color = Color.White,
-                    text = stringResource(id = itemUi.textRes),
-                    style = MaterialTheme.typography.headlineSmall
-                )
-                Spacer(modifier = Modifier.weight(bottomWeight))
-            }
+            TextFrontLayer(
+                progress = progress,
+                textRes = itemUi.textRes
+            )
         }
+    }
+}
+
+@Composable
+fun ImageBackLayer(
+    itemUi: ListItemUi,
+    boxHeight: Int,
+    verticalOffset: Float
+) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(itemUi.drawableRes)
+            .size(Size(boxHeight, boxHeight))
+            .scale(Scale.FILL)
+            .crossfade(true)
+            .build(),
+        contentDescription = "Downscaled WebP Image",
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f)
+            .offset {
+                IntOffset(0, verticalOffset.toInt())
+            },
+    )
+}
+
+@Composable
+fun TextFrontLayer(
+    progress: Float,
+    @StringRes textRes: Int
+) {
+    // Calculate spacer weights based on scroll progress, ensuring they are always positive
+    val topWeight = max(0.01f, 1f - progress)
+    val bottomWeight = max(0.01f, progress)
+
+    Column(
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
+        Spacer(modifier = Modifier.weight(topWeight))
+        Text(
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .background(color = Color.Black.copy(alpha = 0.4f))
+                .padding(4.dp),
+            color = Color.White,
+            text = stringResource(id = textRes),
+            style = MaterialTheme.typography.headlineSmall
+        )
+        Spacer(modifier = Modifier.weight(bottomWeight))
     }
 }
 
