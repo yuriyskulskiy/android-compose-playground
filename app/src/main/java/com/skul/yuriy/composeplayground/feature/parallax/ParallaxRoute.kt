@@ -46,7 +46,7 @@ fun ParallaxLazyColumn(uiState: List<ListItemUi>) {
     ) {
         this.itemsIndexed(items = uiState,
             key = { index, itemUi -> itemUi.id }) { index, itemUi: ListItemUi ->
-            ParallaxListItem(
+            ScrollPositionListItem(
                 itemUi = itemUi,
                 listState = listState,
                 index = index,

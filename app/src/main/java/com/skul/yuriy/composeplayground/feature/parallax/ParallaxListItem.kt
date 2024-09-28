@@ -38,7 +38,7 @@ import kotlin.math.max
 
 
 @Composable
-fun ParallaxListItem(
+fun ScrollPositionListItem(
     itemUi: ListItemUi,
     listState: LazyListState,
     index: Int,
@@ -47,7 +47,7 @@ fun ParallaxListItem(
 ) {
 
 
-    val progress by remember(listState, viewportHeight) {
+    val normalizedScrollProgress by remember(listState, viewportHeight) {
         derivedStateOf {
             val layoutInfo = listState.layoutInfo
             val visibleItemInfo = layoutInfo.visibleItemsInfo.firstOrNull { it.index == index }
@@ -57,14 +57,14 @@ fun ParallaxListItem(
                 offsetY to height
             } ?: (0 to 0)
             val (offsetY, height) = itemInfo
-            computeProgress(offsetY = offsetY, height = height, viewportHeight = viewportHeight)
+            computeNormalizedScrollProgress(offsetY = offsetY, height = height, viewportHeight = viewportHeight)
         }
     }
 
     ListItem(
         itemUi = itemUi,
         modifier = modifier,
-        progress = progress,
+        progress = normalizedScrollProgress,
         index = index
     )
 }
@@ -100,7 +100,6 @@ fun ListItem(
                 val newHeight = coordinates.size.height
                 val newWidth = coordinates.size.width
                 boxHeight = newHeight
-                // Calculate the maximum offset directly based on the width and height
                 maxOffset = (newWidth - newHeight)
                     .coerceAtLeast(0)
                     .toFloat()
@@ -143,7 +142,6 @@ fun ListItem(
                 )
                 Spacer(modifier = Modifier.weight(bottomWeight))
             }
-
         }
     }
 }
@@ -157,7 +155,7 @@ fun ListItem(
  * @param viewportHeight The height of the viewport.
  * @return A normalized progress value from 0 to 1.
  */
-fun computeProgress(offsetY: Int, height: Int, viewportHeight: Float): Float {
+fun computeNormalizedScrollProgress(offsetY: Int, height: Int, viewportHeight: Float): Float {
     return if (height > 0 && viewportHeight > 0) {
         val fullScrollPath = viewportHeight + height
         val itemTop = offsetY + height
