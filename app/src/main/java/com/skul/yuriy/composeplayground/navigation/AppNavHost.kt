@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.skul.yuriy.composeplayground.feature.dynamicBackground.DynamicBackGroundRoue
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.starter.StarterRoute
@@ -18,6 +19,10 @@ fun NavController.navigateToParallax() {
 
 fun NavController.navigateToStickyHeaderStateTracker() {
     navigate(Screens.Route.StickyHeaderStateTracker)
+}
+
+fun NavController.navigateToDynamicBackground() {
+    navigate(Screens.Route.DynamicBackground)
 }
 
 @Serializable
@@ -33,6 +38,9 @@ sealed class Screens {
 
         @Serializable
         object StickyHeaderStateTracker
+
+        @Serializable
+        object DynamicBackground
 
         @Serializable
         object CircularAnimatedButton
@@ -58,6 +66,10 @@ internal fun AppNavHost(
         }
         composable<Screens.Route.StickyHeaderStateTracker> {
             StickyHeaderRoute()
+        }
+
+        composable<Screens.Route.DynamicBackground> {
+            DynamicBackGroundRoue()
         }
 
     }

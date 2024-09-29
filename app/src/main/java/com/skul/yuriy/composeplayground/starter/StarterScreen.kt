@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.navigation.navigateToDynamicBackground
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
 import com.skul.yuriy.composeplayground.navigation.navigateToStickyHeaderStateTracker
 import com.skul.yuriy.composeplayground.ui.theme.LightWhite
@@ -62,6 +63,8 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToParallax() })
         NavigationItem(text = "Sticky header state tracker",
             onClick = { navController.navigateToStickyHeaderStateTracker() })
+        NavigationItem(text = "Dynamic background",
+            onClick = { navController.navigateToDynamicBackground() })
     }
 }
 
