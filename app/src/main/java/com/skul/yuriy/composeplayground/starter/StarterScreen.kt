@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
+import com.skul.yuriy.composeplayground.navigation.navigateToStickyHeaderStateTracker
 import com.skul.yuriy.composeplayground.ui.theme.LightWhite
 
 
@@ -55,18 +56,20 @@ fun NavigationContent(modifier: Modifier) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        NavigationItem(text = "Parallax scroll list")
-        NavigationItem(text = "todo")
+        val navController = LocalNavController.current
+        NavigationItem(
+            text = "Parallax scroll list",
+            onClick = { navController.navigateToParallax() })
+        NavigationItem(text = "Sticky header state tracker",
+            onClick = { navController.navigateToStickyHeaderStateTracker() })
     }
 }
 
 @Composable
-fun NavigationItem(modifier: Modifier = Modifier, text: String) {
-   val navController = LocalNavController.current
+fun NavigationItem(modifier: Modifier = Modifier, text: String, onClick: () -> Unit) {
+
     OutlinedCard(
-        onClick = {
-            navController.navigateToParallax()
-        },
+        onClick = onClick,
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
