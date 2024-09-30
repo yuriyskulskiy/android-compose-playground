@@ -10,4 +10,7 @@
     <string name="nissan_gtr_r34">Nissan GT-R R34</string>
     <string name="nissan_gtr_r35">Nissan GT-R R35</string>
     <string name="nissan_200sx_s13.5">Nissan 200sx, S13.5</string>
+    <string name="parallax_scroll_list">Parallax scroll list</string>
+    <string name="sticky_header_state_tracker">Sticky header state tracker</string>
+    <string name="metaballs">Metaballs</string>
 </resources>
