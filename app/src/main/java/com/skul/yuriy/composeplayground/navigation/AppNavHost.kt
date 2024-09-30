@@ -7,12 +7,22 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.skul.yuriy.composeplayground.feature.dynamicBackground.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
+import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToParallax() {
     navigate(Screens.Route.Parallax)
+}
+
+fun NavController.navigateToStickyHeaderStateTracker() {
+    navigate(Screens.Route.StickyHeaderStateTracker)
+}
+
+fun NavController.navigateToMetaballsScreen() {
+    navigate(Screens.Route.MetaballScreen)
 }
 
 @Serializable
@@ -27,7 +37,10 @@ sealed class Screens {
         object Parallax
 
         @Serializable
-        object StickyHeaderSTateTracker
+        object StickyHeaderStateTracker
+
+        @Serializable
+        object MetaballScreen
 
         @Serializable
         object CircularAnimatedButton
@@ -51,6 +64,12 @@ internal fun AppNavHost(
         composable<Screens.Route.Parallax> {
             ParallaxRoute()
         }
+        composable<Screens.Route.StickyHeaderStateTracker> {
+            StickyHeaderRoute()
+        }
 
+        composable<Screens.Route.MetaballScreen> {
+            MetaballsRoute()
+        }
     }
 }
