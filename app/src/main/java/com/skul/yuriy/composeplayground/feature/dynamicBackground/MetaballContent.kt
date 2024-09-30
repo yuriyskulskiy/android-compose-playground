@@ -5,12 +5,14 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +26,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import kotlinx.coroutines.android.awaitFrame
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -50,15 +55,34 @@ fun MovingCirclesWithMetaballEffect(circleCount: Int = 15) {
     var circles by remember { mutableStateOf(listOf<CircleModel>()) }
     val density = LocalDensity.current
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+    var isAnimationRunning by remember { mutableStateOf(true) }
+
+    // Observe lifecycle to control animation only when "screen is resumed"
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            isAnimationRunning = when (event) {
+                Lifecycle.Event.ON_RESUME -> true
+                Lifecycle.Event.ON_PAUSE -> false
+                else -> isAnimationRunning
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     LaunchedEffect(boxSize) {
         if (boxSize.width > 0 && boxSize.height > 0) {
             circles = generateRandomCircles(circleCount, boxSize.width, boxSize.height, density)
         }
     }
 
-    LaunchedEffect(circles) {
-        while (true) {
+    LaunchedEffect(circles, isAnimationRunning) {
+        while (isAnimationRunning) {
             awaitFrame()
+
             circles = circles.map { circle ->
                 val radiusPx = with(density) { circle.size.toPx() / 2 }
                 val updatedX = circle.x + circle.velocityX
@@ -91,7 +115,7 @@ fun MovingCirclesWithMetaballEffect(circleCount: Int = 15) {
     val renderEffect = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         metaBallRenderEffect
     } else {
-        throw  UnsupportedOperationException("ups, go to sleep.")
+        throw UnsupportedOperationException("Unsupported Android version.")
     }
 
     Box(
