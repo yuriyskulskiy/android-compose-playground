@@ -1,11 +1,10 @@
-package com.skul.yuriy.composeplayground.feature.dynamicBackground
+package com.skul.yuriy.composeplayground.feature.metaball
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background

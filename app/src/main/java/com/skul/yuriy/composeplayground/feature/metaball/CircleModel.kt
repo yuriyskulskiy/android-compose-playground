@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.dynamicBackground
+package com.skul.yuriy.composeplayground.feature.metaball
 
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp

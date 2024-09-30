@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.dynamicBackground
+package com.skul.yuriy.composeplayground.feature.metaball
 
 import androidx.compose.runtime.Composable
 
