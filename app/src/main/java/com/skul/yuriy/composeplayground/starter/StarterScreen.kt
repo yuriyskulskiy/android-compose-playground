@@ -58,7 +58,7 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToParallax() })
         NavigationItem(text = stringResource(R.string.metaballs),
             onClick = { navController.navigateToMetaballsScreen() })
-        NavigationItem(text = stringResource(R.string.scrolling_content_animated_elevation_ege),
+        NavigationItem(text = stringResource(R.string.topbar_animated_elevation),
             onClick = { navController.navigateToMAnimatedElevationEdge() })
         NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
             onClick = { navController.navigateToStickyHeaderStateTracker() })
