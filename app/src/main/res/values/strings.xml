@@ -13,4 +13,8 @@
     <string name="parallax_scroll_list">Parallax scroll list</string>
     <string name="sticky_header_state_tracker">Sticky header state tracker</string>
     <string name="metaballs">Metaballs</string>
+    <string name="topbar_animated_elevation">Top bar animated elevation</string>
+    <string name="regular_column">Regular Column</string>
+    <string name="lazy_column">LazyColumn</string>
+    <string name="animated_elevation">Animated elevation</string>
 </resources>
