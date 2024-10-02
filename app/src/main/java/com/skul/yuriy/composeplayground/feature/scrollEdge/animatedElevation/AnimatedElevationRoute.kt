@@ -70,7 +70,7 @@ fun AnimatedElevationScreen(
 
     // `animatedElevation` animates the change of elevation with a duration of 600ms.
     // This provides a smooth transition when the elevation changes based on scroll state.
-    val animatedElevation by columnTabElevation.animateElevation(600)
+    val animatedElevation by columnTabElevation.animateElevation()
 
 
     Scaffold(
