@@ -17,4 +17,5 @@
     <string name="regular_column">Regular Column</string>
     <string name="lazy_column">LazyColumn</string>
     <string name="animated_elevation">Animated elevation</string>
+    <string name="fading_edges_screen">Fading edges screen</string>
 </resources>

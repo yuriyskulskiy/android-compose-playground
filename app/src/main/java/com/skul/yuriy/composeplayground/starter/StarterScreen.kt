@@ -23,10 +23,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.navigation.navigateToMAnimatedElevationEdge
+import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
+import com.skul.yuriy.composeplayground.navigation.navigateToManimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
-import com.skul.yuriy.composeplayground.navigation.navigateToStickyHeaderStateTracker
 
 
 @Composable
@@ -59,9 +59,12 @@ fun NavigationContent(modifier: Modifier) {
         NavigationItem(text = stringResource(R.string.metaballs),
             onClick = { navController.navigateToMetaballsScreen() })
         NavigationItem(text = stringResource(R.string.topbar_animated_elevation),
-            onClick = { navController.navigateToMAnimatedElevationEdge() })
-        NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
-            onClick = { navController.navigateToStickyHeaderStateTracker() })
+            onClick = { navController.navigateToManimatedElevationEdge() })
+        NavigationItem(text = stringResource(R.string.fading_edges_screen),
+            onClick = { navController.navigateToFadingEdgesScreen() })
+
+//        NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
+//            onClick = { navController.navigateToStickyHeaderStateTracker() })
 
     }
 }
