@@ -2,9 +2,13 @@
 
 package com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -18,6 +22,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -68,17 +73,34 @@ fun FadingEdgesScreen(
 fun ScreenContent(
     modifier: Modifier = Modifier
 ) {
-    Column(
+//    Column(
+//        modifier = modifier
+//            .fillMaxWidth()
+//            .verticalScroll(rememberScrollState())
+//            .fadingTopBottomEdges()
+//    ) {
+//        // Long Lorem Ipsum text
+//        Text(
+//            color = Color.White,
+//            text = stringResource(R.string.very_long_mock_text).trimIndent(),
+//            modifier = Modifier.padding(16.dp),
+//            fontWeight = FontWeight.Normal
+//        )
+//    }
+
+    LazyColumn(
+        contentPadding = PaddingValues(24.dp),
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // Enable scrolling
+            .fadingTopBottomEdges()
+            .clipToBounds(),
     ) {
-        // Long Lorem Ipsum text
-        Text(
-            color = Color.White,
-            text = stringResource(R.string.very_long_mock_text).trimIndent(),
-            modifier = Modifier.padding(16.dp),
-            fontWeight = FontWeight.Normal
-        )
+        item {
+            Text(
+                color = Color.White,
+                text = stringResource(R.string.very_long_mock_text).trimIndent(),
+                fontWeight = FontWeight.Normal
+            )
+        }
     }
 }
