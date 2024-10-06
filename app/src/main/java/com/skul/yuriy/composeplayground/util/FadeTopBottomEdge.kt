@@ -14,64 +14,52 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+
 /**
- * Adds fading edges to the top and bottom of a composable using percentages of the height to determine the fade size.
- * If the percentage for either edge is null or 0, the corresponding edge fade will not be drawn.
+ * Applies a fading effect to the top and bottom edges of a composable using percentages of the
+ * total height. This ensures that the content fades in or out smoothly when it reaches the top or bottom.
  *
- * The fading effect transitions from transparent to black for the top fade and from black to transparent for the bottom fade.
+ * The fading effect transitions from transparent to black at the top and from black to transparent
+ * at the bottom, based on the provided percentages.
  *
- * @param topFadePercentage The percentage of the composable's height to apply as the top fade. Default is 20%.
- *                          If null or 0, no top fade will be applied.
- * @param bottomFadePercentage The percentage of the composable's height to apply as the bottom fade. Default is 20%.
- *                             If null or 0, no bottom fade will be applied.
- * @return A modified [Modifier] that applies fading effects to the top and bottom edges of the composable.
+ * No explicit pixel heights are used; instead, the gradient is applied based on the percentage of the total height.
+ *
+ * @param topFadePercentage The percentage of the height to apply as the top fade. Default is 10%.
+ *                          If set to 0, no top fade will be applied.
+ * @param bottomFadePercentage The percentage of the height to apply as the bottom fade. Default is 10%.
+ *                             If set to 0, no bottom fade will be applied.
+ * @return A modified [Modifier] that applies the fading effect to the top and bottom edges of the composable.
  */
 fun Modifier.fadingTopBottomEdgesSimplified(
-    topFadePercentage: Float? = 0.20f,
-    bottomFadePercentage: Float? = 0.20f
+    topFadePercentage: Float = 0.1f,    // Default 10% fade for the top
+    bottomFadePercentage: Float = 0.1f  // Default 10% fade for the bottom
 ): Modifier {
     return this
         .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen) // Required for blend modes to work correctly
         .drawWithContent {
+            // Draw the content first
             drawContent()
 
-            val heightPx = size.height
-
-            if (topFadePercentage != null && topFadePercentage > 0) {
-                val topFadeHeight = heightPx * topFadePercentage
-
+            // Apply top fade based on percentage (no size.height usage)
+            if (topFadePercentage > 0) {
                 val topBrush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Black
-                    ),
-                    startY = 0f,
-                    endY = topFadeHeight
+                    0f to Color.Transparent,
+                    topFadePercentage to Color.Black
                 )
-
                 drawRect(
                     brush = topBrush,
-                    size = Size(size.width, topFadeHeight),
                     blendMode = BlendMode.DstIn
                 )
             }
 
-            if (bottomFadePercentage != null && bottomFadePercentage > 0) {
-                val bottomFadeHeight = heightPx * bottomFadePercentage
-
+            // Apply bottom fade based on percentage (no size.height usage)
+            if (bottomFadePercentage > 0) {
                 val bottomBrush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Black,
-                        Color.Transparent
-                    ),
-                    startY = heightPx - bottomFadeHeight,
-                    endY = heightPx
+                    (1 - bottomFadePercentage) to Color.Black,
+                    1f to Color.Transparent
                 )
-
                 drawRect(
                     brush = bottomBrush,
-                    topLeft = Offset(0f, heightPx - bottomFadeHeight),
-                    size = Size(size.width, bottomFadeHeight),
                     blendMode = BlendMode.DstIn
                 )
             }
@@ -86,14 +74,14 @@ fun Modifier.fadingTopBottomEdgesSimplified(
  * If the top or bottom fade percentage is `null` or `0`, no fade will be applied for that edge.
  *
  * @param topFadePercentage The percentage of the composable's height to apply as the top fade.
- *                          Default is 27%. If `null` or 0, no top fade will be applied.
+ *                          Default is 10%. If `null` or 0, no top fade will be applied.
  * @param bottomFadePercentage The percentage of the composable's height to apply as the bottom fade.
- *                             Default is 27%. If `null` or 0, no bottom fade will be applied.
+ *                             Default is 10%. If `null` or 0, no bottom fade will be applied.
  * @return A modified [Modifier] that applies fading effects to the top and bottom edges of the composable.
  */
 fun Modifier.fadingTopBottomEdgesPercent(
-    topFadePercentage: Float? = 0.27f,
-    bottomFadePercentage: Float? = 0.27f
+    topFadePercentage: Float? = 0.1f,
+    bottomFadePercentage: Float? = 0.1f
 ): Modifier {
     return this
         .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen) // Required for blend modes to work correctly
