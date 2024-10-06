@@ -1,5 +1,7 @@
 package com.skul.yuriy.composeplayground.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -10,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
+import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesScreen
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.starter.StarterRoute
@@ -63,6 +66,7 @@ sealed class Screens {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun AppNavHost(
     modifier: Modifier = Modifier,
@@ -93,7 +97,7 @@ internal fun AppNavHost(
         }
 
         composable<Screens.Route.FadingEdgesScreen> {
-            FadingEdgesScreen()
+            FadingEdgesRoute()
         }
     }
 }

@@ -1,106 +1,255 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.util.ScreenBackground
+import com.skul.yuriy.composeplayground.util.fadingTopBottomEdgesDp
+
+@Composable
+fun FadingEdgesRoute() {
+    ScreenBackground(
+        modifier = Modifier.fillMaxSize(),
+        imageRes = R.drawable.forest
+    ) {
+        FadingEdgesScreen(
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
 
 
 @Composable
 fun FadingEdgesScreen(
+    modifier: Modifier = Modifier
 ) {
 
     val navController = LocalNavController.current
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Black,
+        modifier = modifier,
+//            .background(
+//                brush = cornerRedLinearGradient2()
+//            ),
+        containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    navigationIconContentColor = Color.White,
-                    titleContentColor = Color.White,
-                    containerColor = Color.Transparent
-                ),
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Go Back"
-                        )
-                    }
-                },
-                title = {
-                    Text(
-                        text = stringResource(R.string.scrolling_fading_edges)
-                    )
-                },
+            FadingEdgesTopBar(
+                onNavigateUp = { navController.navigateUp() }
             )
         },
         bottomBar = {
-            RegularBottomBar()
+            BottomBar()
         }
     ) { paddingValues ->
-        ScreenContent(Modifier.padding(paddingValues))
+
+
+        //switch for column or lazyColumn scroll content
+        val showLazyListExample = true
+
+        if (showLazyListExample) {
+            LazyListScreenContent(
+                modifier = Modifier.padding(paddingValues)
+            )
+        } else {
+            RegularScrollColumn(
+                modifier = Modifier.padding(paddingValues)
+            )
+        }
+
+//        WrongWay(Modifier.padding(paddingValues)) //don't do this
     }
 }
 
+
 @Composable
-fun ScreenContent(
+fun LazyListScreenContent(
     modifier: Modifier = Modifier
 ) {
-//    Column(
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .verticalScroll(rememberScrollState())
-//            .fadingTopBottomEdges()
-//    ) {
-//        // Long Lorem Ipsum text
-//        Text(
-//            color = Color.White,
-//            text = stringResource(R.string.very_long_mock_text).trimIndent(),
-//            modifier = Modifier.padding(16.dp),
-//            fontWeight = FontWeight.Normal
-//        )
-//    }
+
+    val lazyListState = rememberLazyListState()
+    val isAtTop: Boolean by remember {
+        derivedStateOf {
+            lazyListState.firstVisibleItemIndex == 0 && lazyListState.firstVisibleItemScrollOffset == 0
+        }
+    }
+
+    val isAtBottom by remember {
+        derivedStateOf {
+            val layoutInfo = lazyListState.layoutInfo
+            val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
+
+            // Check if the last visible item is the last item AND if it's fully visible
+            lastVisibleItem != null &&
+                    lastVisibleItem.index == layoutInfo.totalItemsCount - 1 &&
+                    lastVisibleItem.offset + lastVisibleItem.size <= layoutInfo.viewportEndOffset
+        }
+    }
+
+    // Animated Dp values for the top and bottom fade heights
+    val topFadeHeight by animateDpAsState(
+        if (isAtTop) 0.dp else 150.dp,
+        animationSpec = tween(durationMillis = 600),
+        label = ""
+    )
+
+    val bottomFadeHeight by animateDpAsState(
+
+        if (isAtBottom) 0.dp else 150.dp,
+        animationSpec = tween(durationMillis = 600),
+        label = ""
+    )
 
     LazyColumn(
-        contentPadding = PaddingValues(24.dp),
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp),
+        state = lazyListState,
+
         modifier = modifier
             .fillMaxSize()
-            .fadingTopBottomEdges()
+            .fadingTopBottomEdgesDp(
+                topFadeHeight,
+                bottomFadeHeight
+            )
             .clipToBounds(),
     ) {
         item {
             Text(
                 color = Color.White,
                 text = stringResource(R.string.very_long_mock_text).trimIndent(),
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+
+@Composable
+fun RegularScrollColumn(
+    modifier: Modifier = Modifier
+) {
+    val scrollState = rememberScrollState()
+
+    // Track if the column is scrolled to the top
+    val isAtTop by remember {
+        derivedStateOf {
+            scrollState.value == 0
+        }
+    }
+
+    // Track if the column is scrolled to the bottom
+    val isAtBottom by remember {
+        derivedStateOf {
+            scrollState.value == scrollState.maxValue
+        }
+    }
+
+    // Animated Dp values for the top and bottom fades
+    val topFadeHeight by animateDpAsState(
+        targetValue = if (isAtTop) 0.dp else 150.dp, label = ""
+    )
+
+    val bottomFadeHeight by animateDpAsState(
+        targetValue = if (isAtBottom) 0.dp else 150.dp, label = ""
+    )
+
+    Box(
+        modifier
+            .fillMaxSize()
+            .fadingTopBottomEdgesDp(
+                topFadeHeight = topFadeHeight,
+                bottomFadeHeight = bottomFadeHeight
+            )
+            .clipToBounds()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(scrollState) // Apply scroll state
+        ) {
+            Text(
+                color = Color.White,
+                text = stringResource(R.string.very_long_mock_text).trimIndent(),
+                modifier = Modifier.padding(16.dp),
                 fontWeight = FontWeight.Normal
             )
         }
+    }
+}
+
+
+/// wrong solution
+@Composable
+fun WrongWay(modifier: Modifier = Modifier) {
+    Box(
+        modifier
+            .fillMaxSize()
+            .clipToBounds()
+    ) {
+        // Scrollable content inside the Box
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .clipToBounds()
+        ) {
+            // Long Lorem Ipsum text
+            Text(
+                color = Color.White,
+                text = stringResource(R.string.very_long_mock_text).trimIndent(),
+                modifier = Modifier.padding(16.dp),
+                fontWeight = FontWeight.Normal
+            )
+        }
+
+        // Top fading edge (gradient)
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(40.dp)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color.Black, Color.Transparent) // Gradient colors
+                    )
+                )
+        )
+
+        // Bottom fading edge (gradient)
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter) // Align to bottom
+                .height(40.dp) // Adjust height as needed
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color.Transparent, Color.Black) // Gradient colors
+                    )
+                )
+        )
     }
 }

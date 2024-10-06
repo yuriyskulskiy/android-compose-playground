@@ -19,7 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.skul.yuriy.composeplayground.R
 
 enum class BottomNavItem {
     Home,
@@ -29,7 +31,7 @@ enum class BottomNavItem {
 }
 
 @Composable
-fun RegularBottomBar() {
+fun BottomBar() {
 
     var selectedItem by remember { mutableStateOf(BottomNavItem.Home) } // Track the selected item using enum
 
@@ -40,17 +42,14 @@ fun RegularBottomBar() {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
-        )
-        {
-
-            // Home Button
+        ) {
             IconButton(
                 onClick = { selectedItem = BottomNavItem.Home },
             ) {
                 Icon(
                     Icons.Filled.Home,
-                    contentDescription = "Home",
-                    tint = if (selectedItem == BottomNavItem.Home) Color.Red else Color.White,
+                    contentDescription = stringResource(R.string.home),
+                    tint = setColor(selectedItem == BottomNavItem.Home)
                 )
             }
 
@@ -59,8 +58,8 @@ fun RegularBottomBar() {
             ) {
                 Icon(
                     Icons.Filled.ShoppingCart,
-                    contentDescription = "Shopping Cart",
-                    tint = if (selectedItem == BottomNavItem.ShoppingCart) Color.Red else Color.White,
+                    contentDescription = stringResource(R.string.shopping_cart),
+                    tint = setColor(selectedItem == BottomNavItem.ShoppingCart),
                 )
             }
 
@@ -69,20 +68,31 @@ fun RegularBottomBar() {
             ) {
                 Icon(
                     Icons.Filled.Search,
-                    contentDescription = "Search",
-                    tint = if (selectedItem == BottomNavItem.Search) Color.Red else Color.White,
+                    contentDescription = stringResource(R.string.search),
+                    tint = setColor(selectedItem == BottomNavItem.Search),
                 )
             }
 
             IconButton(
+                modifier = Modifier,
                 onClick = { selectedItem = BottomNavItem.Settings },
             ) {
                 Icon(
                     Icons.Filled.Settings,
-                    contentDescription = "Settings",
-                    tint = if (selectedItem == BottomNavItem.Settings) Color.Red else Color.White,
+                    contentDescription = stringResource(R.string.settings),
+                    tint = setColor(selectedItem == BottomNavItem.Settings),
                 )
             }
         }
+
     }
+}
+
+fun setColor(isSelected: Boolean): Color {
+    return if (isSelected) {
+        Color.Red
+    } else {
+        Color.White
+    }
+
 }
