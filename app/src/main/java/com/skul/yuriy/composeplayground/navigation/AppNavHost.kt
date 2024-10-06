@@ -1,5 +1,7 @@
 package com.skul.yuriy.composeplayground.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -10,6 +12,8 @@ import androidx.navigation.compose.rememberNavController
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
+import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesRoute
+import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesScreen
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
@@ -26,8 +30,12 @@ fun NavController.navigateToMetaballsScreen() {
     navigate(Screens.Route.MetaballScreen)
 }
 
-fun NavController.navigateToMAnimatedElevationEdge() {
+fun NavController.navigateToManimatedElevationEdge() {
     navigate(Screens.Route.AnimatedElevationEdge)
+}
+
+fun NavController.navigateToFadingEdgesScreen() {
+    navigate(Screens.Route.FadingEdgesScreen)
 }
 
 @Serializable
@@ -52,9 +60,13 @@ sealed class Screens {
 
         @Serializable
         object AnimatedElevationEdge
+
+        @Serializable
+        object FadingEdgesScreen
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun AppNavHost(
     modifier: Modifier = Modifier,
@@ -82,6 +94,10 @@ internal fun AppNavHost(
 
         composable<Screens.Route.AnimatedElevationEdge> {
             AnimatedElevationRoute()
+        }
+
+        composable<Screens.Route.FadingEdgesScreen> {
+            FadingEdgesRoute()
         }
     }
 }
