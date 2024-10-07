@@ -1,6 +1,7 @@
-
 package com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -34,6 +35,7 @@ import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.util.ScreenBackground
 import com.skul.yuriy.composeplayground.util.fadingTopBottomEdgesDp
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun FadingEdgesRoute() {
     ScreenBackground(
@@ -51,22 +53,14 @@ fun FadingEdgesRoute() {
 fun FadingEdgesScreen(
     modifier: Modifier = Modifier
 ) {
-
     val navController = LocalNavController.current
     Scaffold(
         modifier = modifier,
-//            .background(
-//                brush = cornerRedLinearGradient2()
-//            ),
         containerColor = Color.Transparent,
         topBar = {
-            FadingEdgesTopBar(
-                onNavigateUp = { navController.navigateUp() }
-            )
+            FadingEdgesTopBar(onNavigateUp = { navController.navigateUp() })
         },
-        bottomBar = {
-            BottomBar()
-        }
+        bottomBar = { BottomBar() }
     ) { paddingValues ->
 
 
@@ -203,7 +197,7 @@ fun RegularScrollColumn(
 }
 
 
-/// wrong solution
+// wrong solution
 @Composable
 fun WrongWay(modifier: Modifier = Modifier) {
     Box(
@@ -231,7 +225,7 @@ fun WrongWay(modifier: Modifier = Modifier) {
         Box(
             Modifier
                 .fillMaxWidth()
-                .height(40.dp)
+                .height(100.dp)
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(Color.Black, Color.Transparent) // Gradient colors
@@ -243,8 +237,8 @@ fun WrongWay(modifier: Modifier = Modifier) {
         Box(
             Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter) // Align to bottom
-                .height(40.dp) // Adjust height as needed
+                .align(Alignment.BottomCenter)
+                .height(100.dp)
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(Color.Transparent, Color.Black) // Gradient colors
