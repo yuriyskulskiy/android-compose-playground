@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.skul.yuriy.composeplayground.feature.animatedBorder.AnimatedBorderScreen
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -38,6 +39,10 @@ fun NavController.navigateToFadingEdgesScreen() {
     navigate(Screens.Route.FadingEdgesScreen)
 }
 
+fun NavController.navigateToAnimatedBorder() {
+    navigate(Screens.Route.AnimatedBorder)
+}
+
 @Serializable
 sealed class Screens {
 
@@ -63,6 +68,9 @@ sealed class Screens {
 
         @Serializable
         object FadingEdgesScreen
+
+        @Serializable
+        object AnimatedBorder
     }
 }
 
@@ -98,6 +106,10 @@ internal fun AppNavHost(
 
         composable<Screens.Route.FadingEdgesScreen> {
             FadingEdgesRoute()
+        }
+
+        composable<Screens.Route.AnimatedBorder> {
+            AnimatedBorderScreen()
         }
     }
 }

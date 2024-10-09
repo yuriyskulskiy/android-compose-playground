@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToManimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
@@ -62,6 +63,8 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToManimatedElevationEdge() })
         NavigationItem(text = stringResource(R.string.fading_edges_screen),
             onClick = { navController.navigateToFadingEdgesScreen() })
+        NavigationItem(text = "Animated border",
+            onClick = { navController.navigateToAnimatedBorder() })
 
 //        NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
 //            onClick = { navController.navigateToStickyHeaderStateTracker() })
