@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorder
+import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToManimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
@@ -63,6 +64,8 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToManimatedElevationEdge() })
         NavigationItem(text = stringResource(R.string.fading_edges_screen),
             onClick = { navController.navigateToFadingEdgesScreen() })
+        NavigationItem(text = "Circular halo border",
+            onClick = { navController.navigateToCircularHaloBorder() })
         NavigationItem(text = "Animated border",
             onClick = { navController.navigateToAnimatedBorder() })
 
