@@ -16,7 +16,10 @@ fun cornerRedLinearGradient(): Brush = Brush.linearGradient(
 private val gradientColorStops = listOf(
     0.0f to Color(0xFF8B0000),
     0.20f to Color(0xFF000000),
-    0.83f to Color(0xFF000000),
+    0.40f to Color(0xFF8B0000),
+    0.50f to Color(0xFF000000),
+    0.60f to Color(0xFF602AA3),
+    0.75f to Color(0xFF000000),
     1.0f to Color(0xFF8B0000)
 )
 

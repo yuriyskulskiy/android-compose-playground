@@ -9,11 +9,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.skul.yuriy.composeplayground.draft.AnimatedCircularBtnScreen
+import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesRoute
-import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesScreen
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
@@ -36,6 +37,14 @@ fun NavController.navigateToManimatedElevationEdge() {
 
 fun NavController.navigateToFadingEdgesScreen() {
     navigate(Screens.Route.FadingEdgesScreen)
+}
+
+fun NavController.navigateToCircularHaloBorder() {
+    navigate(Screens.Route.CircularHaloShadow)
+}
+
+fun NavController.navigateToAnimatedBorder() {
+    navigate(Screens.Route.AnimatedBorder)
 }
 
 @Serializable
@@ -63,6 +72,12 @@ sealed class Screens {
 
         @Serializable
         object FadingEdgesScreen
+
+        @Serializable
+        object AnimatedBorder
+
+        @Serializable
+        object CircularHaloShadow
     }
 }
 
@@ -98,6 +113,13 @@ internal fun AppNavHost(
 
         composable<Screens.Route.FadingEdgesScreen> {
             FadingEdgesRoute()
+        }
+        composable<Screens.Route.CircularHaloShadow> {
+            CircularHaloShadowScreen()
+        }
+
+        composable<Screens.Route.AnimatedBorder> {
+            AnimatedCircularBtnScreen()
         }
     }
 }
