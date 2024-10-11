@@ -76,7 +76,6 @@ fun BlurredCircularShadowBox(
 
     Box(
         modifier = modifier
-            .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
             .drawOutlineHaloShadowBlur(
                 color = color.copy(alpha = 0.6f),
                 blurRadius = animatedBlurRadius,
