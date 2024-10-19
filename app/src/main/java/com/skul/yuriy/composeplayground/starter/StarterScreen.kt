@@ -29,7 +29,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
-import com.skul.yuriy.composeplayground.navigation.navigateToTransparentOutlineShadow
+import com.skul.yuriy.composeplayground.navigation.navigateToShadowBox
 
 
 @Composable
@@ -70,7 +70,7 @@ fun NavigationContent(modifier: Modifier) {
         NavigationItem(text = "Animated border",
             onClick = { navController.navigateToAnimatedBorder() })
         NavigationItem(text = "Transparent outline shadow",
-            onClick = { navController.navigateToTransparentOutlineShadow() })
+            onClick = { navController.navigateToShadowBox() })
 
 //        NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
 //            onClick = { navController.navigateToStickyHeaderStateTracker() })

@@ -42,3 +42,24 @@ private val gradientColorStops2 = listOf(
     0.93f to Color(0xFF4B0000), // Larger black section to frame the red
     1.0f to Color(0xFF4B0000)   // Darker red at the end
 )
+
+
+val zebraWhiteBrush = Brush.linearGradient(
+    colorStops = arrayOf(
+        0.0f to Color.White,
+        0.2f to Color.LightGray.copy(alpha = 0.9f),
+        0.4f to Color.White,
+        0.6f to Color.LightGray.copy(alpha = 0.9f),
+        0.8f to Color.White,
+        1.0f to Color.LightGray.copy(alpha = 0.9f)
+    ),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)// Horizontal direction
+
+val horizontalGradient = Brush.horizontalGradient(
+    colors = listOf(
+        Color.White,
+        Color(0xFFC7C1C1)
+    )
+)
