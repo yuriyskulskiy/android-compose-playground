@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedArk
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
@@ -67,6 +68,8 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToFadingEdgesScreen() })
         NavigationItem(text = "Circular halo border",
             onClick = { navController.navigateToCircularHaloBorder() })
+        NavigationItem(text = "Animated ark",
+            onClick = { navController.navigateToAnimatedArk() })
         NavigationItem(text = "Animated border",
             onClick = { navController.navigateToAnimatedBorder() })
         NavigationItem(text = "Transparent outline shadow",

@@ -17,6 +17,7 @@ import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.Ani
 import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesRoute
 import com.skul.yuriy.composeplayground.feature.shadowBox.OutlineShadowBoxRoute
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
+import com.skul.yuriy.composeplayground.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
 
@@ -52,6 +53,10 @@ fun NavController.navigateToShadowBox() {
     navigate(Screens.Route.TransparentShadowBox)
 }
 
+fun NavController.navigateToAnimatedArk() {
+    navigate(Screens.Route.AnimatedArk)
+}
+
 @Serializable
 sealed class Screens {
 
@@ -83,6 +88,9 @@ sealed class Screens {
 
         @Serializable
         object CircularHaloShadow
+
+        @Serializable
+        object AnimatedArk
 
         @Serializable
         object TransparentShadowBox
@@ -132,6 +140,10 @@ internal fun AppNavHost(
 
         composable<Screens.Route.TransparentShadowBox> {
             OutlineShadowBoxRoute()
+        }
+
+        composable<Screens.Route.AnimatedArk> {
+            AnimatedArkScreen()
         }
     }
 }
