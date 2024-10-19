@@ -26,9 +26,10 @@ import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
-import com.skul.yuriy.composeplayground.navigation.navigateToManimatedElevationEdge
+import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
+import com.skul.yuriy.composeplayground.navigation.navigateToShadowBox
 
 
 @Composable
@@ -61,13 +62,15 @@ fun NavigationContent(modifier: Modifier) {
         NavigationItem(text = stringResource(R.string.metaballs),
             onClick = { navController.navigateToMetaballsScreen() })
         NavigationItem(text = stringResource(R.string.topbar_animated_elevation),
-            onClick = { navController.navigateToManimatedElevationEdge() })
+            onClick = { navController.navigateToAnimatedElevationEdge() })
         NavigationItem(text = stringResource(R.string.fading_edges_screen),
             onClick = { navController.navigateToFadingEdgesScreen() })
         NavigationItem(text = "Circular halo border",
             onClick = { navController.navigateToCircularHaloBorder() })
         NavigationItem(text = "Animated border",
             onClick = { navController.navigateToAnimatedBorder() })
+        NavigationItem(text = "Transparent outline shadow",
+            onClick = { navController.navigateToShadowBox() })
 
 //        NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
 //            onClick = { navController.navigateToStickyHeaderStateTracker() })
@@ -102,7 +105,6 @@ fun NavigationItem(modifier: Modifier = Modifier, text: String, onClick: () -> U
             )
         }
     }
-
 }
 
 

@@ -28,4 +28,10 @@
     <string name="paint_with_blurmaskfilter">Paint with BlurMaskFilter</string>
     <string name="composable_border_on">Composable Border On</string>
     <string name="composable_border_off">Composable Border Off</string>
+    <string name="default_android_shadow">Default Android Shadow</string>
+    <string name="multi_layer_shadow">Multi Layer Shadow</string>
+    <string name="outlined_shadow_layer">Outlined Shadow Layer</string>
+    <string name="outlined_blur_shadow">Outlined Blur Shadow</string>
+    <string name="clipped_default_android_shadow">Clipped Default Android Shadow</string>
+    <string name="go_back">Go Back</string>
 </resources>

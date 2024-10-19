@@ -15,6 +15,7 @@ import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesRoute
+import com.skul.yuriy.composeplayground.feature.shadowBox.OutlineShadowBoxRoute
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
@@ -31,7 +32,7 @@ fun NavController.navigateToMetaballsScreen() {
     navigate(Screens.Route.MetaballScreen)
 }
 
-fun NavController.navigateToManimatedElevationEdge() {
+fun NavController.navigateToAnimatedElevationEdge() {
     navigate(Screens.Route.AnimatedElevationEdge)
 }
 
@@ -45,6 +46,10 @@ fun NavController.navigateToCircularHaloBorder() {
 
 fun NavController.navigateToAnimatedBorder() {
     navigate(Screens.Route.AnimatedBorder)
+}
+
+fun NavController.navigateToShadowBox() {
+    navigate(Screens.Route.TransparentShadowBox)
 }
 
 @Serializable
@@ -78,6 +83,9 @@ sealed class Screens {
 
         @Serializable
         object CircularHaloShadow
+
+        @Serializable
+        object TransparentShadowBox
     }
 }
 
@@ -120,6 +128,10 @@ internal fun AppNavHost(
 
         composable<Screens.Route.AnimatedBorder> {
             AnimatedCircularBtnScreen()
+        }
+
+        composable<Screens.Route.TransparentShadowBox> {
+            OutlineShadowBoxRoute()
         }
     }
 }

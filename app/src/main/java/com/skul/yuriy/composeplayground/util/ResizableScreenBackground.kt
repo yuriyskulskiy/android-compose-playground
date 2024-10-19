@@ -29,6 +29,7 @@ fun ScreenBackground(
         Color.Black.copy(alpha = 0.6f),
         blendMode = BlendMode.Darken
     ),
+    showBackground: Boolean = true,
     content: @Composable BoxScope.() -> Unit,
 ) {
     var containerHeightPx by remember { mutableIntStateOf(0) }
@@ -44,7 +45,7 @@ fun ScreenBackground(
                 containerWidthPx = size.width
             }
     ) {
-        if (containerHeightPx > 0 && containerWidthPx > 0) {
+        if (showBackground && containerHeightPx > 0 && containerWidthPx > 0) {
             val scaledWidth = (containerWidthPx / density).toInt()
             val scaledHeight = (containerHeightPx / density).toInt()
 
