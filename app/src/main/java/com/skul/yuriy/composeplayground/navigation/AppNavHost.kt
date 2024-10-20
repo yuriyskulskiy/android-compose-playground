@@ -17,7 +17,7 @@ import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.Ani
 import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesRoute
 import com.skul.yuriy.composeplayground.feature.shadowBox.OutlineShadowBoxRoute
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
-import com.skul.yuriy.composeplayground.rotationArk.AnimatedArkScreen
+import com.skul.yuriy.composeplayground.feature.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
 

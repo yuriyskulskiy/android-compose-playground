@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.rotationArk
+package com.skul.yuriy.composeplayground.feature.rotationArk
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
