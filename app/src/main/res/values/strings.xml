@@ -34,4 +34,8 @@
     <string name="outlined_blur_shadow">Outlined Blur Shadow</string>
     <string name="clipped_default_android_shadow">Clipped Default Android Shadow</string>
     <string name="go_back">Go Back</string>
+    <string name="halo">Halo</string>
+    <string name="pressed">Pressed</string>
+    <string name="body">Body</string>
+    <string name="blur">Blur</string>
 </resources>
