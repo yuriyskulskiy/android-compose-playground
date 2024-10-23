@@ -62,7 +62,7 @@ fun BottomEdgeShadowScreen() {
                     .copy(containerColor = Color.White),
                 modifier = Modifier
                     .shadowWithClipIntersect(
-                        elevation = 16.dp,
+                        elevation = 8.dp,
                         shape = RectangleShape,
                     ),
                 title = { Text(stringResource(R.string.rectangle_bottom_edge)) },
@@ -78,7 +78,7 @@ fun BottomEdgeShadowScreen() {
                     .copy(containerColor = Color.White),
                 modifier = Modifier
                     .shadowWithClipIntersect(
-                        elevation = 16.dp,
+                        elevation = 8.dp,
                         shape = RoundedCornerShape(
                             bottomStart = 24.dp,
                             bottomEnd = 24.dp
@@ -104,7 +104,7 @@ fun BottomEdgeShadowScreen() {
                     modifier = Modifier
                         .size(150.dp, 150.dp)
                         .shadowWithClipIntersect(
-                            elevation = 16.dp,
+                            elevation = 8.dp,
                             shape = RectangleShape
                         )
                         .background(color = Color.White)
