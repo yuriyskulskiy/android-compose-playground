@@ -38,4 +38,13 @@
     <string name="pressed">Pressed</string>
     <string name="body">Body</string>
     <string name="blur">Blur</string>
+    <string name="circular_halo_border">Circular halo border</string>
+    <string name="animated_ark">Animated ark</string>
+    <string name="animated_border">Animated border</string>
+    <string name="transparent_outline_shadow">Transparent outline shadow</string>
+    <string name="bottom_edge_shadow">Bottom edge shadow</string>
+    <string name="rectangle_bottom_edge">Rectangle bottom edge</string>
+    <string name="rounded_corners_bottom_edge">Rounded Corners bottom edge</string>
+    <string name="circle_shape_bottom_shadow">Circle shape\nbottom shadow\edge</string>
+    <string name="square_shape_bottom_shadow_edge">Square shape\nbottom shadow\nedge</string>
 </resources>

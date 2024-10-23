@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.skul.yuriy.composeplayground.draft.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
+import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -57,6 +58,10 @@ fun NavController.navigateToAnimatedArk() {
     navigate(Screens.Route.AnimatedArk)
 }
 
+fun NavController.navigateToBottomEdgeShadowScreen() {
+    navigate(Screens.Route.BottomEdgeShadow)
+}
+
 @Serializable
 sealed class Screens {
 
@@ -94,6 +99,9 @@ sealed class Screens {
 
         @Serializable
         object TransparentShadowBox
+
+        @Serializable
+        object BottomEdgeShadow
     }
 }
 
@@ -144,6 +152,9 @@ internal fun AppNavHost(
 
         composable<Screens.Route.AnimatedArk> {
             AnimatedArkScreen()
+        }
+        composable<Screens.Route.BottomEdgeShadow> {
+            BottomEdgeShadowScreen()
         }
     }
 }
