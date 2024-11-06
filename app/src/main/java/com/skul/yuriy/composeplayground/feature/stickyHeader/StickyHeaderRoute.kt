@@ -6,6 +6,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -66,6 +68,7 @@ fun StickyHeaderScreen(
     val navController: NavController = LocalNavController.current
 
     Scaffold(
+        containerColor = Color.White,
         modifier = Modifier.fillMaxSize(),
         topBar = {
             Surface(
@@ -114,14 +117,15 @@ fun ScreenContent(
         // Loop through each section
         sections.forEach { section ->
 
-            // Display the sticky header for the section
             stickyHeader {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 0.dp, vertical = 4.dp)
+                        .shadow(elevation = 0.dp, clip = true, shape = RoundedCornerShape(8.dp))
                         .clip(RoundedCornerShape(8.dp)) // Clip to rounded corners
-                        .background(Color.LightGray)
+                        .clickable { toggleExpanded(section.id) }
+                        .background(Color.White)
                         .padding(start = 16.dp),
 
                     verticalAlignment = Alignment.CenterVertically
@@ -136,7 +140,6 @@ fun ScreenContent(
                         onClick = {
                             // Toggle the isExpanded state for this section
                             toggleExpanded(section.id)
-//                            section.isExpanded = !section.isExpanded
                         }
                     ) {
                         Icon(
@@ -149,17 +152,15 @@ fun ScreenContent(
 
             items(items = section.list,
                 key = { it.id }) { item ->
-                // Here you would show each item.text within this section
                 AnimatedVisibility(
                     visible = section.isExpanded,
                     enter =
 //                    fadeIn(animationSpec = tween()) +
-                            expandVertically(animationSpec = tween()),
+                    expandVertically(animationSpec = tween()),
                     exit =
 //                    fadeOut(animationSpec = tween()) +
-                            shrinkVertically(animationSpec = tween())
+                    shrinkVertically(animationSpec = tween())
                 ) {
-
                     Text(
                         text = item.text,
                         style = MaterialTheme.typography.bodyLarge.copy(fontSize = 24.sp)
@@ -169,7 +170,6 @@ fun ScreenContent(
             }
         }
     }
-
 }
 
 
