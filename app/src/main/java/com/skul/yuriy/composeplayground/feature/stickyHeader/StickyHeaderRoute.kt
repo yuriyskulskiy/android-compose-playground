@@ -162,7 +162,6 @@ fun ScreenContent(
                         text = item.text,
                         style = MaterialTheme.typography.bodyLarge.copy(fontSize = 24.sp)
                     )
-//                    Spacer(modifier = Modifier.size(8.dp))
                 }
             }
         }
