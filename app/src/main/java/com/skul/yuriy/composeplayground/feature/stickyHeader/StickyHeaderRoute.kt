@@ -143,7 +143,7 @@ fun ScreenContent(
                         }
                     ) {
                         Icon(
-                            imageVector = if (section.isExpanded) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
+                            imageVector = if (section.isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                             contentDescription = if (section.isExpanded) "Collapse" else "Expand"
                         )
                     }
@@ -154,18 +154,15 @@ fun ScreenContent(
                 key = { it.id }) { item ->
                 AnimatedVisibility(
                     visible = section.isExpanded,
-                    enter =
-//                    fadeIn(animationSpec = tween()) +
-                    expandVertically(animationSpec = tween()),
-                    exit =
-//                    fadeOut(animationSpec = tween()) +
-                    shrinkVertically(animationSpec = tween())
+                    enter = expandVertically(animationSpec = tween()),
+                    exit = shrinkVertically(animationSpec = tween())
                 ) {
                     Text(
+                        modifier = Modifier.padding(vertical = 4.dp),
                         text = item.text,
                         style = MaterialTheme.typography.bodyLarge.copy(fontSize = 24.sp)
                     )
-                    Spacer(modifier = Modifier.size(8.dp))
+//                    Spacer(modifier = Modifier.size(8.dp))
                 }
             }
         }
