@@ -47,4 +47,5 @@
     <string name="rounded_corners_bottom_edge">Rounded Corners bottom edge</string>
     <string name="circle_shape_bottom_shadow">Circle shape\nbottom shadow\nedge</string>
     <string name="square_shape_bottom_shadow_edge">Square shape\nbottom shadow\nedge</string>
+    <string name="animated_sticky_header">Animated sticky header</string>
 </resources>
