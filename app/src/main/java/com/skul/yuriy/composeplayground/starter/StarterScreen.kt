@@ -32,6 +32,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToBottomEdgeShadowScr
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
 import com.skul.yuriy.composeplayground.navigation.navigateToShadowBox
+import com.skul.yuriy.composeplayground.navigation.navigateToStickyHeaderStateTracker
 
 
 @Composable
@@ -78,8 +79,8 @@ fun NavigationContent(modifier: Modifier) {
         NavigationItem(text = stringResource(R.string.bottom_edge_shadow),
             onClick = { navController.navigateToBottomEdgeShadowScreen() })
 
-//        NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
-//            onClick = { navController.navigateToStickyHeaderStateTracker() })
+        NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
+            onClick = { navController.navigateToStickyHeaderStateTracker() })
 
     }
 }
