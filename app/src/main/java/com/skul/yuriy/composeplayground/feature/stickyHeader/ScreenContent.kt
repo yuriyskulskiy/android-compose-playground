@@ -52,9 +52,9 @@ fun ScreenContent(
 
         ) {
         sections.forEach { section ->
-            stickyHeader(key = "header-${section.id}") {
+            stickyHeader(key = section.id) {
                 val isHeaderAtTop by
-                rememberStickyHeaderActive(lazyListState, key = "header-${section.id}")
+                rememberStickyHeaderActive(lazyListState, key = section.id)
 
                 val elevation by animateDpAsState(
                     targetValue = if (isHeaderAtTop) 4.dp else 0.dp,
@@ -140,16 +140,6 @@ fun rememberStickyHeaderActive(state: LazyListState, key: Any): State<Boolean> =
         val header = items.getOrNull(0) ?: return@derivedStateOf false
         val nextElement = items.getOrNull(1) ?: return@derivedStateOf false
 
-//        if ((item.key as String).startsWith("header")) return@derivedStateOf false
-//        if (header.key == key) {
-//            Log.e("WTF","next element key "+item.key)
-//            if (header.offset < 0 || header.offset > 0) return@derivedStateOf false
-//            return@derivedStateOf header.size > item.offset
-//        } else {
-//            return@derivedStateOf false
-//        }
         header.key == key && header.offset == 0 && header.size > nextElement.offset
-//        header.key == key
-//                && item.offset < header.size && !(item.key as String).startsWith("header")
     }
 }
