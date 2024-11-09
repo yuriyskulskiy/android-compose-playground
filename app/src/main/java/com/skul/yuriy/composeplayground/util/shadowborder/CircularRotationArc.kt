@@ -36,7 +36,7 @@ fun Modifier.developSnake(
     bodyStrokeWidth: Dp = 12.dp,
     glowingShadowWidth: Dp = 24.dp,
     glowingBlurRadius: Dp = glowingShadowWidth / 2,
-    arcPaddingType: ArcPaddingType
+    arcPaddingType: ArcPaddingType =  ArcPaddingType.HALF_INSIDE_HALF_OUTSIDE
 ): Modifier = this
     .drawWithCache {
 
