@@ -25,6 +25,7 @@ import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedArk
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorder
+import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedCircularBtn
 import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
@@ -81,6 +82,8 @@ fun NavigationContent(modifier: Modifier) {
 
         NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
             onClick = { navController.navigateToStickyHeaderStateTracker() })
+        NavigationItem(text = stringResource(R.string.animated_circular_button),
+            onClick = { navController.navigateToAnimatedCircularBtn() })
 
     }
 }
