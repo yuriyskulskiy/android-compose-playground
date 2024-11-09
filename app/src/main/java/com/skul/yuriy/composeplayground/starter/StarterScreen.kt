@@ -60,6 +60,11 @@ fun NavigationContent(modifier: Modifier) {
         horizontalAlignment = Alignment.Start
     ) {
         val navController = LocalNavController.current
+
+        //todo move to the bottom
+        NavigationItem(text = stringResource(R.string.animated_circular_button),
+            onClick = { navController.navigateToAnimatedCircularBtn() })
+
         NavigationItem(
             text = stringResource(R.string.parallax_scroll_list),
             onClick = { navController.navigateToParallax() })
@@ -82,8 +87,8 @@ fun NavigationContent(modifier: Modifier) {
 
         NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
             onClick = { navController.navigateToStickyHeaderStateTracker() })
-        NavigationItem(text = stringResource(R.string.animated_circular_button),
-            onClick = { navController.navigateToAnimatedCircularBtn() })
+//        NavigationItem(text = stringResource(R.string.animated_circular_button),
+//            onClick = { navController.navigateToAnimatedCircularBtn() })
 
     }
 }

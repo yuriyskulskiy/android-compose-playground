@@ -22,7 +22,7 @@ import com.skul.yuriy.composeplayground.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnimatedCircularBtn() {
+fun AnimatedCircularBtnScreen() {
     val navController: NavController = LocalNavController.current
     Column(modifier = Modifier.fillMaxSize()) {
 

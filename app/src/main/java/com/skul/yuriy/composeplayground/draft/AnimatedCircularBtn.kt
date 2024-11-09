@@ -43,7 +43,7 @@ import com.skul.yuriy.composeplayground.util.cornerRedLinearGradient2
 
 //Draft
 @Composable
-fun AnimatedCircularBtnScreen() {
+fun AnimatedCircularBtnScreenDraft() {
     Box(
         Modifier
             .fillMaxSize()

@@ -9,9 +9,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.skul.yuriy.composeplayground.draft.AnimatedCircularBtnScreen
+import com.skul.yuriy.composeplayground.draft.AnimatedCircularBtnScreenDraft
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
-import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtn
+import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
@@ -150,8 +150,9 @@ internal fun AppNavHost(
             CircularHaloShadowScreen()
         }
 
+        //remove
         composable<Screens.Route.AnimatedBorder> {
-            AnimatedCircularBtnScreen()
+            AnimatedCircularBtnScreenDraft()
         }
 
         composable<Screens.Route.TransparentShadowBox> {
@@ -165,7 +166,7 @@ internal fun AppNavHost(
             BottomEdgeShadowScreen()
         }
         composable<Screens.Route.AnimateCircularButton> {
-            AnimatedCircularBtn()
+            AnimatedCircularBtnScreen()
         }
     }
 }
