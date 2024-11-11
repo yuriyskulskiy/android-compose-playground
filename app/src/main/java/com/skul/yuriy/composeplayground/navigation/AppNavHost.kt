@@ -46,7 +46,7 @@ fun NavController.navigateToFadingEdgesScreen() {
 fun NavController.navigateToCircularHaloBorder() {
     navigate(Screens.Route.CircularHaloShadow)
 }
-//todo rename or remove
+
 fun NavController.navigateToVectorIconWithShadow() {
     navigate(Screens.Route.VectorDrawableShadow)
 }

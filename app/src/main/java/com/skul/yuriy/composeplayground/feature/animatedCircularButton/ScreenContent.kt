@@ -12,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -26,12 +27,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
 import com.skul.yuriy.composeplayground.util.shadowborder.developSnake
 import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineCircularShadowGradient
 
@@ -54,7 +59,10 @@ fun AnimatedCircleButtonScreenContent(
 @Composable
 fun AnimatedCircularBtnBox(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    iconSize: Dp = 56.dp,
+    shadowOffsetSize: Dp = 4.dp,
+    blurRadius: Dp = 8.dp,
 ) {
 
     val mainColor = Color.Green
@@ -117,6 +125,12 @@ fun AnimatedCircularBtnBox(
         animatedAngle = animatedAngleValue
     }
 
+    //icon animated offset based on rotation angle
+    val shadowOffset = remember(animatedAngle, shadowOffsetSize) {
+        computeShadowOffset(angleDegrees = 120 - animatedAngle, radius = shadowOffsetSize)
+    }
+
+
     //Store th rotation angle when press
     LaunchedEffect(isPressed) {
         if (isPressed) {
@@ -167,8 +181,23 @@ fun AnimatedCircularBtnBox(
             },
         contentAlignment = Alignment.Center
     ) {
+
         Icon(
-            modifier = Modifier.size(56.dp),
+            imageVector = Icons.Default.Add,
+            contentDescription = null,
+            modifier = Modifier
+                .size(iconSize)
+                .scale(1.2f)
+                .offset(
+                    x = if (isPressed) 0.dp else shadowOffset.first,
+                    y = if (isPressed) 0.dp else shadowOffset.second
+                )
+                .blur(blurRadius),
+            tint = iconTintColor.copy(alpha = 0.8f),
+        )
+
+        Icon(
+            modifier = Modifier.size(iconSize),
             imageVector = Icons.Default.Add,
             contentDescription = "Add",
             tint = iconTintColor
