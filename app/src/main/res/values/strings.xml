@@ -54,4 +54,5 @@
     <string name="blur_radius_dp">Blur Radius (Dp):</string>
     <string name="shadow_offset_dp">Shadow Offset (Dp) :</string>
     <string name="drop_shadow_example">Drop Shadow Example</string>
+    <string name="effects_description">Effects:\n- Animated blurred arc with sweep gradient\n- Animated radial gradient border\n- Animated drop shadow for vector icon</string>
 </resources>

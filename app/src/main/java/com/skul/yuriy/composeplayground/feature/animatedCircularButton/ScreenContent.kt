@@ -36,11 +36,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
 import com.skul.yuriy.composeplayground.util.shadowborder.snakeBorder
@@ -66,10 +68,11 @@ fun AnimatedCircleButtonScreenContent(
         Text(
             modifier = Modifier.padding(24.dp),
             color = Color.White,
-            text = "Effects:\n" +
-                    "- Animated blurred arc with sweep gradient\n" +
-                    "- Animated radial gradient border\n" +
-                    "- Animated drop shadow for vector icon"
+//            text = "Effects:\n" +
+//                    "- Animated blurred arc with sweep gradient\n" +
+//                    "- Animated radial gradient border\n" +
+//                    "- Animated drop shadow for vector icon"
+            text = stringResource(R.string.effects_description)
 
         )
     }
@@ -154,7 +157,7 @@ fun AnimatedCircularBtnBox(
     }
 
 
-    //Store th rotation angle when press
+    //Store the rotation angle when press
     LaunchedEffect(isPressed) {
         if (isPressed) {
             lastSavedAngle = animatedAngle
