@@ -27,8 +27,8 @@ fun ColumnScope.ScreenContent(
             color = Color.Green,
             initialBlurRadius = 4.dp,
             initialHaloShadowWidth = 4.dp,
-            pressedHaloShadowWidth = 28.dp,
-            pressedBlurRadius = 36.dp,
+            pressedHaloShadowWidth = 24.dp,
+            pressedBlurRadius = 16.dp,
             innerCircleContentSize = 100.dp,
         )
     }

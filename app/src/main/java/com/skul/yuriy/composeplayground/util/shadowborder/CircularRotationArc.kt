@@ -29,14 +29,14 @@ enum class ArcPaddingType {
 }
 
 
-fun Modifier.developSnake(
+fun Modifier.snakeBorder(
     bodyColor: Color = Color.Green,
     glowShadowColor: Color = Color.Green.copy(alpha = 0.8f),
     rotationDegrees: Float = 0f,
     bodyStrokeWidth: Dp = 12.dp,
     glowingShadowWidth: Dp = 24.dp,
     glowingBlurRadius: Dp = glowingShadowWidth / 2,
-    arcPaddingType: ArcPaddingType
+    arcPaddingType: ArcPaddingType =  ArcPaddingType.HALF_INSIDE_HALF_OUTSIDE
 ): Modifier = this
     .drawWithCache {
 

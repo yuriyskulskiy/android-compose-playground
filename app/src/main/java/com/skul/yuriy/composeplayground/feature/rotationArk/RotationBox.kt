@@ -26,7 +26,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.util.shadowborder.ArcPaddingType
-import com.skul.yuriy.composeplayground.util.shadowborder.developSnake
+import com.skul.yuriy.composeplayground.util.shadowborder.snakeBorder
 
 
 @Composable
@@ -102,7 +102,7 @@ fun RotationBox(
             )
             .then(
                 if (!isPressed && isRunning) {
-                    Modifier.developSnake(
+                    Modifier.snakeBorder(
                         rotationDegrees = animatedAngle,
                         bodyColor = bodyColor,
                         glowShadowColor = glowShadowColor,

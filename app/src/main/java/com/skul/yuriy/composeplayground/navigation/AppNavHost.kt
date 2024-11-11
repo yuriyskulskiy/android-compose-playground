@@ -9,9 +9,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.skul.yuriy.composeplayground.draft.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
+import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
+import com.skul.yuriy.composeplayground.feature.drawableShadow.VectorDrawableShadowScreen
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -46,8 +47,8 @@ fun NavController.navigateToCircularHaloBorder() {
     navigate(Screens.Route.CircularHaloShadow)
 }
 
-fun NavController.navigateToAnimatedBorder() {
-    navigate(Screens.Route.AnimatedBorder)
+fun NavController.navigateToVectorIconWithShadow() {
+    navigate(Screens.Route.VectorDrawableShadow)
 }
 
 fun NavController.navigateToShadowBox() {
@@ -60,6 +61,10 @@ fun NavController.navigateToAnimatedArk() {
 
 fun NavController.navigateToBottomEdgeShadowScreen() {
     navigate(Screens.Route.BottomEdgeShadow)
+}
+
+fun NavController.navigateToAnimatedCircularBtn() {
+    navigate(Screens.Route.AnimateCircularButton)
 }
 
 @Serializable
@@ -80,16 +85,13 @@ sealed class Screens {
         object MetaballScreen
 
         @Serializable
-        object CircularAnimatedButton
-
-        @Serializable
         object AnimatedElevationEdge
 
         @Serializable
         object FadingEdgesScreen
 
         @Serializable
-        object AnimatedBorder
+        object VectorDrawableShadow
 
         @Serializable
         object CircularHaloShadow
@@ -102,6 +104,9 @@ sealed class Screens {
 
         @Serializable
         object BottomEdgeShadow
+
+        @Serializable
+        object AnimateCircularButton
     }
 }
 
@@ -142,8 +147,9 @@ internal fun AppNavHost(
             CircularHaloShadowScreen()
         }
 
-        composable<Screens.Route.AnimatedBorder> {
-            AnimatedCircularBtnScreen()
+        //remove
+        composable<Screens.Route.VectorDrawableShadow> {
+            VectorDrawableShadowScreen()
         }
 
         composable<Screens.Route.TransparentShadowBox> {
@@ -155,6 +161,9 @@ internal fun AppNavHost(
         }
         composable<Screens.Route.BottomEdgeShadow> {
             BottomEdgeShadowScreen()
+        }
+        composable<Screens.Route.AnimateCircularButton> {
+            AnimatedCircularBtnScreen()
         }
     }
 }

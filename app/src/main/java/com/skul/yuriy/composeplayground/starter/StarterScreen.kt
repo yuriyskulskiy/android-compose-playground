@@ -24,7 +24,8 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedArk
-import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorder
+import com.skul.yuriy.composeplayground.navigation.navigateToVectorIconWithShadow
+import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedCircularBtn
 import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
@@ -59,6 +60,7 @@ fun NavigationContent(modifier: Modifier) {
         horizontalAlignment = Alignment.Start
     ) {
         val navController = LocalNavController.current
+
         NavigationItem(
             text = stringResource(R.string.parallax_scroll_list),
             onClick = { navController.navigateToParallax() })
@@ -72,16 +74,16 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToCircularHaloBorder() })
         NavigationItem(text = stringResource(R.string.animated_ark),
             onClick = { navController.navigateToAnimatedArk() })
-        NavigationItem(text = stringResource(R.string.animated_border),
-            onClick = { navController.navigateToAnimatedBorder() })
         NavigationItem(text = stringResource(R.string.transparent_outline_shadow),
             onClick = { navController.navigateToShadowBox() })
         NavigationItem(text = stringResource(R.string.bottom_edge_shadow),
             onClick = { navController.navigateToBottomEdgeShadowScreen() })
-
         NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
             onClick = { navController.navigateToStickyHeaderStateTracker() })
-
+        NavigationItem(text = stringResource(R.string.vector_drawable_shadow),
+            onClick = { navController.navigateToVectorIconWithShadow() })
+        NavigationItem(text = stringResource(R.string.animated_circular_button),
+            onClick = { navController.navigateToAnimatedCircularBtn() })
     }
 }
 

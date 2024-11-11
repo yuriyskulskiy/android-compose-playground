@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.draft
+package com.skul.yuriy.composeplayground.draft.renderEffectProblem
 
 import android.graphics.BlurMaskFilter
 import androidx.compose.foundation.shape.CircleShape
