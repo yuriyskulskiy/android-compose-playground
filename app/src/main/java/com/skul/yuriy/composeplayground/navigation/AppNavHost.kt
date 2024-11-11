@@ -9,10 +9,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.skul.yuriy.composeplayground.draft.AnimatedCircularBtnScreenDraft
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
+import com.skul.yuriy.composeplayground.feature.drawableShadow.VectorDrawableShadowScreen
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -46,9 +46,9 @@ fun NavController.navigateToFadingEdgesScreen() {
 fun NavController.navigateToCircularHaloBorder() {
     navigate(Screens.Route.CircularHaloShadow)
 }
-
-fun NavController.navigateToAnimatedBorder() {
-    navigate(Screens.Route.AnimatedBorder)
+//todo rename or remove
+fun NavController.navigateToVectorIconWithShadow() {
+    navigate(Screens.Route.VectorDrawableShadow)
 }
 
 fun NavController.navigateToShadowBox() {
@@ -85,16 +85,13 @@ sealed class Screens {
         object MetaballScreen
 
         @Serializable
-        object CircularAnimatedButton
-
-        @Serializable
         object AnimatedElevationEdge
 
         @Serializable
         object FadingEdgesScreen
 
         @Serializable
-        object AnimatedBorder
+        object VectorDrawableShadow
 
         @Serializable
         object CircularHaloShadow
@@ -151,8 +148,8 @@ internal fun AppNavHost(
         }
 
         //remove
-        composable<Screens.Route.AnimatedBorder> {
-            AnimatedCircularBtnScreenDraft()
+        composable<Screens.Route.VectorDrawableShadow> {
+            VectorDrawableShadowScreen()
         }
 
         composable<Screens.Route.TransparentShadowBox> {

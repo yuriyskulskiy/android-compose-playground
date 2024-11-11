@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedArk
-import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorder
+import com.skul.yuriy.composeplayground.navigation.navigateToVectorIconWithShadow
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedCircularBtn
 import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
@@ -78,8 +78,8 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToCircularHaloBorder() })
         NavigationItem(text = stringResource(R.string.animated_ark),
             onClick = { navController.navigateToAnimatedArk() })
-        NavigationItem(text = stringResource(R.string.animated_border),
-            onClick = { navController.navigateToAnimatedBorder() })
+        NavigationItem(text = stringResource(R.string.drop_shadow_drawables),
+            onClick = { navController.navigateToVectorIconWithShadow() })
         NavigationItem(text = stringResource(R.string.transparent_outline_shadow),
             onClick = { navController.navigateToShadowBox() })
         NavigationItem(text = stringResource(R.string.bottom_edge_shadow),

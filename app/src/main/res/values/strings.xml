@@ -40,7 +40,7 @@
     <string name="blur">Blur</string>
     <string name="circular_halo_border">Circular halo border</string>
     <string name="animated_ark">Animated ark</string>
-    <string name="animated_border">Animated border</string>
+    <string name="drop_shadow_drawables">Shadow for drawables</string>
     <string name="transparent_outline_shadow">Transparent outline shadow</string>
     <string name="bottom_edge_shadow">Bottom edge shadow</string>
     <string name="rectangle_bottom_edge">Rectangle bottom edge</string>
@@ -49,4 +49,9 @@
     <string name="square_shape_bottom_shadow_edge">Square shape\nbottom shadow\nedge</string>
     <string name="animated_sticky_header">Animated sticky header</string>
     <string name="animated_circular_button">Animated Circular Button</string>
+    <string name="alpha">Alpha:</string>
+    <string name="scale_factor">Scale Factor:</string>
+    <string name="blur_radius_dp">Blur Radius (Dp):</string>
+    <string name="shadow_offset_dp">Shadow Offset (Dp) :</string>
+    <string name="drop_shadow_example">Drop Shadow Example</string>
 </resources>
