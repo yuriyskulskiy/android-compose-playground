@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.drawableShadow
+package com.skul.yuriy.composeplayground.feature.vectorIconShadow
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

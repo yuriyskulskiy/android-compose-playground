@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
-import com.skul.yuriy.composeplayground.feature.drawableShadow.VectorDrawableShadowScreen
+import com.skul.yuriy.composeplayground.feature.vectorIconShadow.VectorDrawableShadowScreen
 import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
