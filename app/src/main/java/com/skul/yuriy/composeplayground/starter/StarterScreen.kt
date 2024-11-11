@@ -74,15 +74,14 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToCircularHaloBorder() })
         NavigationItem(text = stringResource(R.string.animated_ark),
             onClick = { navController.navigateToAnimatedArk() })
-        NavigationItem(text = stringResource(R.string.drop_shadow_drawables),
-            onClick = { navController.navigateToVectorIconWithShadow() })
         NavigationItem(text = stringResource(R.string.transparent_outline_shadow),
             onClick = { navController.navigateToShadowBox() })
         NavigationItem(text = stringResource(R.string.bottom_edge_shadow),
             onClick = { navController.navigateToBottomEdgeShadowScreen() })
-
         NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
             onClick = { navController.navigateToStickyHeaderStateTracker() })
+        NavigationItem(text = stringResource(R.string.vector_drawable_shadow),
+            onClick = { navController.navigateToVectorIconWithShadow() })
         NavigationItem(text = stringResource(R.string.animated_circular_button),
             onClick = { navController.navigateToAnimatedCircularBtn() })
     }
