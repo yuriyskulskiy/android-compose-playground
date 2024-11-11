@@ -11,13 +11,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -31,46 +35,64 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
-import com.skul.yuriy.composeplayground.util.shadowborder.developSnake
+import com.skul.yuriy.composeplayground.util.shadowborder.snakeBorder
 import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineCircularShadowGradient
 
 @Composable
 fun AnimatedCircleButtonScreenContent(
     modifier: Modifier = Modifier
 ) {
-    Box(
-        contentAlignment = Alignment.Center,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
         AnimatedCircularBtnBox(
             modifier = Modifier
                 .size(112.dp),
-            onClick = {}
+            onClick = {},
+            mainColor = BrightNeonBlue,
+            imageVector = Icons.Default.Add
+        )
+
+        Text(
+            modifier = Modifier.padding(24.dp),
+            color = Color.White,
+            text = "Effects:\n" +
+                    "- Animated blurred arc with sweep gradient\n" +
+                    "- Animated radial gradient border\n" +
+                    "- Animated drop shadow for vector icon"
+
         )
     }
 }
 
 @Composable
 fun AnimatedCircularBtnBox(
+    imageVector: ImageVector,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     iconSize: Dp = 56.dp,
     shadowOffsetSize: Dp = 4.dp,
     blurRadius: Dp = 8.dp,
+    mainColor: Color,
+    iconPressedColor: Color = Color.Black,
+    correctionOffsetForVectorIconAngel: Int = 120,
 ) {
 
-    val mainColor = Color.Green
 
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    val iconTintColor = if (isPressed) (Color.Black) else (mainColor)
+    val iconTintColor = if (isPressed) (iconPressedColor) else (mainColor)
     val backgroundColor = if (isPressed) mainColor else Color.Transparent
 
     // glowing shadow
@@ -127,7 +149,8 @@ fun AnimatedCircularBtnBox(
 
     //icon animated offset based on rotation angle
     val shadowOffset = remember(animatedAngle, shadowOffsetSize) {
-        computeShadowOffset(angleDegrees = 120 - animatedAngle, radius = shadowOffsetSize)
+        val correctedAngle = correctionOffsetForVectorIconAngel - animatedAngle
+        computeShadowOffset(angleDegrees = correctedAngle, radius = shadowOffsetSize)
     }
 
 
@@ -148,7 +171,7 @@ fun AnimatedCircularBtnBox(
                 if (isPressed) {
                     //add optionally small lighting ring
                     Modifier.drawOutlineCircularShadowGradient(
-                        color = Color.Green,
+                        color = mainColor,
                         haloBorderWidth = 4.dp,
                     )
                 } else {
@@ -157,13 +180,12 @@ fun AnimatedCircularBtnBox(
             )
             .then(
                 if (!isPressed && isRunning) {
-                    Modifier.developSnake(
+                    Modifier.snakeBorder(
                         rotationDegrees = animatedAngle,
                         bodyColor = mainColor,
                         glowShadowColor = mainColor.copy(alpha = 0.6f),
                         bodyStrokeWidth = 2.dp,
                         glowingShadowWidth = 12.dp,
-//                        glowingBlurRadius = blurRadius
                     )
                 } else Modifier
             )
@@ -183,7 +205,7 @@ fun AnimatedCircularBtnBox(
     ) {
 
         Icon(
-            imageVector = Icons.Default.Add,
+            imageVector = imageVector,
             contentDescription = null,
             modifier = Modifier
                 .size(iconSize)
@@ -198,7 +220,7 @@ fun AnimatedCircularBtnBox(
 
         Icon(
             modifier = Modifier.size(iconSize),
-            imageVector = Icons.Default.Add,
+            imageVector = imageVector,
             contentDescription = "Add",
             tint = iconTintColor
         )

@@ -29,7 +29,7 @@ enum class ArcPaddingType {
 }
 
 
-fun Modifier.developSnake(
+fun Modifier.snakeBorder(
     bodyColor: Color = Color.Green,
     glowShadowColor: Color = Color.Green.copy(alpha = 0.8f),
     rotationDegrees: Float = 0f,

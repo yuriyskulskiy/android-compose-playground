@@ -36,7 +36,7 @@ private val gradientColorStops2 = listOf(
     0.0f to Color(0xFF4B0000),
     0.10f to Color(0xFF4B0000),
     0.15f to Color(0xFF000000),
-    0.25f to Color(0xFF4B0000),  // Darker red for better contrast with white text
+    0.35f to Color(0xFF4B0000),  // Darker red for better contrast with white text
     0.55f to Color(0xFF000000), // Black section to provide contrast
     0.83f to Color(0xFF000000), // Larger black section to frame the red
     0.93f to Color(0xFF4B0000), // Larger black section to frame the red
