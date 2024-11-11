@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -87,7 +88,8 @@ fun DropShadowSection() {
                 .padding(top = 4.dp)
                 .size(200.dp),
             shadowOffsetSize = shadowOffsetSize,
-            circularSliderArcRadius = 100.dp
+            circularSliderArcRadius = 100.dp,
+            imageVector = Icons.Default.Add
         )
         //section title
         Text(
@@ -110,7 +112,8 @@ fun DropShadowBox(
     blurRadius: Dp = 8.dp,
     iconTintColor: Color = Color.Green,
     circularTrackColor: Color = Color.Green.copy(alpha = 0.4f),
-    backgroundColor: Color = Color.Transparent
+    backgroundColor: Color = Color.Transparent,
+    imageVector: ImageVector,
 ) {
 
     // Angle state for the draggable circle
@@ -149,7 +152,7 @@ fun DropShadowBox(
     ) {
         // Shadow icon, offset dynamically based on the light source (draggable dot) position
         Icon(
-            imageVector = Icons.Default.Add,
+            imageVector = imageVector,
             contentDescription = null,
             modifier = Modifier
                 .size(iconSize)
@@ -160,7 +163,7 @@ fun DropShadowBox(
         // Main icon in the center
         Icon(
             modifier = Modifier.size(iconSize),
-            imageVector = Icons.Default.Add,
+            imageVector = imageVector,
             contentDescription = "Add",
             tint = iconTintColor
         )
