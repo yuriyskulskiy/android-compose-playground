@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.skul.yuriy.composeplayground.draft.gooey.GooeyScreen
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
@@ -67,6 +68,10 @@ fun NavController.navigateToAnimatedCircularBtn() {
     navigate(Screens.Route.AnimateCircularButton)
 }
 
+fun NavController.navigateToGooeyScreen() {
+    navigate(Screens.Route.GooeyEffect)
+}
+
 @Serializable
 sealed class Screens {
 
@@ -107,6 +112,9 @@ sealed class Screens {
 
         @Serializable
         object AnimateCircularButton
+
+        @Serializable
+        object GooeyEffect
     }
 }
 
@@ -164,6 +172,10 @@ internal fun AppNavHost(
         }
         composable<Screens.Route.AnimateCircularButton> {
             AnimatedCircularBtnScreen()
+        }
+
+        composable<Screens.Route.GooeyEffect> {
+            GooeyScreen()
         }
     }
 }
