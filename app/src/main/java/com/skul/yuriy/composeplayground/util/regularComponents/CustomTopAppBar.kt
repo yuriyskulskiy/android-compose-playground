@@ -21,11 +21,12 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CustomTopAppBar(
     title: String,
-    onNavUp: () -> Unit, // Callback for navigation action
+    onNavUp: () -> Unit,
     modifier: Modifier = Modifier,
     containerColor: Color = Color.Black,
     navigationIconColor: Color = Color.White,
     titleColor: Color = Color.White,
+    enableHorizontalDivider: Boolean = true,
     dividerColor: Color = Color.Gray
 ) {
     Column(modifier = modifier) {
@@ -54,9 +55,11 @@ fun CustomTopAppBar(
                 )
             }
         )
-        HorizontalDivider(
-            thickness = 1.dp,
-            color = dividerColor
-        )
+        if (enableHorizontalDivider) {
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = dividerColor
+            )
+        }
     }
 }
