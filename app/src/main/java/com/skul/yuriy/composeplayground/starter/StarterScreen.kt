@@ -31,6 +31,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToBottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
+import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
 import com.skul.yuriy.composeplayground.navigation.navigateToShadowBox
@@ -62,8 +63,8 @@ fun NavigationContent(modifier: Modifier) {
     ) {
         val navController = LocalNavController.current
 
-        NavigationItem(text = "Gooey Effect",
-            onClick = { navController.navigateToGooeyScreen() })
+        NavigationItem(text = "Metaball math",
+            onClick = { navController.navigateToMetaballMath() })
 
         NavigationItem(
             text = stringResource(R.string.parallax_scroll_list),
@@ -88,6 +89,9 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToVectorIconWithShadow() })
         NavigationItem(text = stringResource(R.string.animated_circular_button),
             onClick = { navController.navigateToAnimatedCircularBtn() })
+        NavigationItem(text = "Gooey Effect",
+            onClick = { navController.navigateToGooeyScreen() })
+
 
     }
 }
