@@ -50,7 +50,7 @@ fun RenderEffectShaderMetaballBox(
 ) {
     //api 12+
     val metaBallShader = remember {
-        metaBallRenderEffectApi12()
+        metaBallRenderEffect()
     }
 
     Box(
@@ -62,7 +62,7 @@ fun RenderEffectShaderMetaballBox(
 }
 
 @RequiresApi(Build.VERSION_CODES.S)
-fun metaBallRenderEffectApi12(): androidx.compose.ui.graphics.RenderEffect =
+fun metaBallRenderEffect(): androidx.compose.ui.graphics.RenderEffect =
     RenderEffect.createColorFilterEffect(
         ColorMatrixColorFilter(
             android.graphics.ColorMatrix(
@@ -77,7 +77,7 @@ fun metaBallRenderEffectApi12(): androidx.compose.ui.graphics.RenderEffect =
     ).asComposeRenderEffect()
 
 @Composable
-fun NativeColorMatrixMetaballBox(
+fun StandardColorMatrixMetalBox(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit,
 ) {
@@ -89,7 +89,7 @@ fun NativeColorMatrixMetaballBox(
     Box(
         modifier = modifier
             .colorMatrix(metaballColorMatrix),
-//            .colorMatrixWithContent(metaballColorMatrix) same like colorMatrix
+//            .colorMatrixWithContent(metaballColorMatrix)  same conception
         content = content,
     )
 }
