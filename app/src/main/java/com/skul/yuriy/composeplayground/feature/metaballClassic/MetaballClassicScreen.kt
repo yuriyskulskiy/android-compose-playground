@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.draft.metaballClassic
+package com.skul.yuriy.composeplayground.feature.metaballClassic
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border

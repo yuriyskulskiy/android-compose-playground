@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballBlure
+package com.skul.yuriy.composeplayground.feature.metaballBlur
 
 import androidx.compose.runtime.Composable
 

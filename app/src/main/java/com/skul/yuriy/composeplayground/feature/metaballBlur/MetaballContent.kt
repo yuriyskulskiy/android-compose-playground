@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballBlure
+package com.skul.yuriy.composeplayground.feature.metaballBlur
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
