@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.skul.yuriy.composeplayground.feature.metaballClassic.MetaballMathScreen
+import com.skul.yuriy.composeplayground.feature.metaballClassic.MetaballClassicScreen
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
@@ -187,7 +187,7 @@ internal fun AppNavHost(
         }
 
         composable<Screens.Route.MetaballClassicMath> {
-            MetaballMathScreen()
+            MetaballClassicScreen()
         }
     }
 }

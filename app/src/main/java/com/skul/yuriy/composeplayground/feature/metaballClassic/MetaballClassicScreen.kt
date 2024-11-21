@@ -31,7 +31,7 @@ import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
 import kotlinx.coroutines.delay
 
 @Composable
-fun MetaballMathScreen() {
+fun MetaballClassicScreen() {
     val navController: NavController = LocalNavController.current
     Column(Modifier.fillMaxSize()) {
         CustomTopAppBar(
