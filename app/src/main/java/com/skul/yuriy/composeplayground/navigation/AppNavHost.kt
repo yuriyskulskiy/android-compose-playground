@@ -9,12 +9,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.skul.yuriy.composeplayground.draft.metaballMath.MetaballMathScreen
+import com.skul.yuriy.composeplayground.draft.metaballClassic.MetaballMathScreen
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
-import com.skul.yuriy.composeplayground.feature.metaball.MetaballsRoute
+import com.skul.yuriy.composeplayground.feature.metaballBlure.MetaballsRoute
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -74,7 +74,7 @@ fun NavController.navigateToGooeyScreen() {
 }
 
 fun NavController.navigateToMetaballMath() {
-    navigate(Screens.Route.MetaballMath)
+    navigate(Screens.Route.MetaballClassicMath)
 }
 
 @Serializable
@@ -122,7 +122,7 @@ sealed class Screens {
         object GooeyEffect
 
         @Serializable
-        object MetaballMath
+        object MetaballClassicMath
     }
 }
 
@@ -186,7 +186,7 @@ internal fun AppNavHost(
             GooeyBasicScreen()
         }
 
-        composable<Screens.Route.MetaballMath> {
+        composable<Screens.Route.MetaballClassicMath> {
             MetaballMathScreen()
         }
     }

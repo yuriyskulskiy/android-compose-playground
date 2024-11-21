@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaball
+package com.skul.yuriy.composeplayground.feature.metaballBlure
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
@@ -47,36 +47,6 @@ val metaBallRenderEffect =
         ),
         RenderEffect.createBlurEffect(100f, 100f, Shader.TileMode.MIRROR)
     ).asComposeRenderEffect()
-
-//@RequiresApi(Build.VERSION_CODES.S)
-//val metaBallRenderEffect2 =
-//        RenderEffect.createColorFilterEffect(
-//            ColorMatrixColorFilter(
-//                ColorMatrix(
-//                    floatArrayOf(
-//                        1f, 0f, 0f, 0f, 0f,
-//                        0f, 1f, 0f, 0f, 0f,
-//                        0f, 0f, 1f, 0f, 0f,
-//                        0f, 0f, 0f, 160f, -10000f
-//                    )
-//                )
-//            )
-//    ).asComposeRenderEffect()
-
-//@RequiresApi(Build.VERSION_CODES.S)
-//val metaBallRenderEffect2 =
-//        RenderEffect.createColorFilterEffect(
-//            ColorMatrixColorFilter(
-//                ColorMatrix(
-//                    floatArrayOf(
-//                        1f, 0f, 0f, 0f, 0f,
-//                        0f, 1f, 0f, 0f, 0f,
-//                        0f, 0f, 1f, 0f, 0f,
-//                        0f, 0f, 0f, 50f, -5000f
-//                    )
-//                )
-//            )
-//    ).asComposeRenderEffect()
 
 
 

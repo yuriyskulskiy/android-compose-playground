@@ -63,13 +63,11 @@ fun NavigationContent(modifier: Modifier) {
     ) {
         val navController = LocalNavController.current
 
-        NavigationItem(text = "Metaball math",
-            onClick = { navController.navigateToMetaballMath() })
 
         NavigationItem(
             text = stringResource(R.string.parallax_scroll_list),
             onClick = { navController.navigateToParallax() })
-        NavigationItem(text = stringResource(R.string.metaballs),
+        NavigationItem(text = stringResource(R.string.metaballs_blur),
             onClick = { navController.navigateToMetaballsScreen() })
         NavigationItem(text = stringResource(R.string.topbar_animated_elevation),
             onClick = { navController.navigateToAnimatedElevationEdge() })
@@ -91,7 +89,8 @@ fun NavigationContent(modifier: Modifier) {
             onClick = { navController.navigateToAnimatedCircularBtn() })
         NavigationItem(text = "Gooey Effect",
             onClick = { navController.navigateToGooeyScreen() })
-
+        NavigationItem(text = stringResource(R.string.metaballs_classic_approach),
+            onClick = { navController.navigateToMetaballMath() })
 
     }
 }

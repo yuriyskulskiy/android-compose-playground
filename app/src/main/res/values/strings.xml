@@ -12,7 +12,7 @@
     <string name="nissan_200sx_s13.5">Nissan 200sx, S13.5</string>
     <string name="parallax_scroll_list">Parallax scroll list</string>
     <string name="sticky_header_state_tracker">Sticky header state tracker</string>
-    <string name="metaballs">Metaballs</string>
+    <string name="metaballs_blur">Metaballs blur</string>
     <string name="topbar_animated_elevation">Top bar animated elevation</string>
     <string name="regular_column">Regular Column</string>
     <string name="lazy_column">LazyColumn</string>
@@ -55,4 +55,5 @@
     <string name="shadow_offset_dp">Shadow Offset (Dp) :</string>
     <string name="drop_shadow_example">Drop Shadow Example</string>
     <string name="effects_description">Effects:\n- Animated blurred arc with sweep gradient\n- Animated radial gradient border\n- Animated drop shadow for vector icon</string>
+    <string name="metaballs_classic_approach">Metaballs: Classic Approach</string>
 </resources>
