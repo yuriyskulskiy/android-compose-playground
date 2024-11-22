@@ -2,10 +2,13 @@ package com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.addOutline
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -50,6 +53,46 @@ fun Modifier.outlineBlur(
             }
 
             // Draw the main content (unblurred)
+            drawContent()
+        }
+    }
+)
+
+fun Modifier.outlineGradient(
+    color: Color = Color.Black,
+    gradientRadiusOffset: Dp
+): Modifier = this.then(
+    Modifier.drawWithCache {
+        val gradientRadiusOffsetPx = gradientRadiusOffset.toPx()
+        val innerRadius = size.minDimension / 2 // Button's actual radius
+        val outerRadius = innerRadius + gradientRadiusOffsetPx // Halo's outer radius
+
+        // Precompute the center manually
+        val center = Offset(size.width / 2, size.height / 2)
+
+        // Precompute the radial gradient
+        val gradientBrush = Brush.radialGradient(
+            colorStops = arrayOf(
+                0.0f to color.copy(alpha = 0.0f), // Fully transparent at the center
+                (innerRadius / outerRadius) to color.copy(alpha = 0.0f), // Transparent up to edge
+                (innerRadius / outerRadius) to color, // Fully opaque at edge of the button
+                1.0f to color.copy(alpha = 0.0f) // Fully transparent at halo's outer edge
+            ),
+            center = center,
+            radius = outerRadius,
+            tileMode = TileMode.Clamp
+        )
+
+        // Cache the gradient to reuse in subsequent draws
+        onDrawWithContent {
+            // Draw the cached gradient halo
+            drawCircle(
+                brush = gradientBrush,
+                radius = outerRadius,
+                center = center
+            )
+
+            // Draw the composable content (unblurred)
             drawContent()
         }
     }

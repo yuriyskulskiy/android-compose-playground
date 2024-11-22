@@ -19,11 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.BlurFilledTonalIconButton
-import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.StandardColorMatrixMetalBox
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.GradientHaloFilledIconButton
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.StandardColorMatrixMetaBox
 
 
-
+// target device Android 8.1 (API level 27)
 @Composable
 fun ExampleLegacyContent(
     modifier: Modifier = Modifier
@@ -37,7 +37,7 @@ fun ExampleLegacyContent(
 
     val color = Color.Black
 
-    StandardColorMatrixMetalBox(
+    StandardColorMatrixMetaBox(
         modifier = modifier,
     ) {
 
@@ -45,10 +45,10 @@ fun ExampleLegacyContent(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp)
+                .padding(vertical = 36.dp)
         ) {
 
-            BlurFilledTonalIconButton(
+            GradientHaloFilledIconButton(
                 icon = Icons.Filled.Done,
                 containerColor = color,
                 modifier = Modifier
@@ -58,7 +58,7 @@ fun ExampleLegacyContent(
                 },
                 contentDescription = null,
             )
-            BlurFilledTonalIconButton(
+            GradientHaloFilledIconButton(
                 containerColor = color,
                 modifier = Modifier
                     .offset { IntOffset(x = buttonOffset.roundToPx(), y = 0) },

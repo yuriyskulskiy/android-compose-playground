@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.BlurFilledTonalIconButton
-import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.StandardColorMatrixMetalBox
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.StandardColorMatrixMetaBox
 
 
 @Composable
@@ -36,7 +36,7 @@ fun ExampleStandardColorMatrixContent(
 
     val color = Color.Black
 
-    StandardColorMatrixMetalBox(
+    StandardColorMatrixMetaBox(
         modifier = modifier,
     ) {
 

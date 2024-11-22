@@ -87,7 +87,7 @@ fun GooeyBasicScreenContent(modifier: Modifier) {
 
         MitosisButtonsSection(
             modifier = Modifier.fillMaxWidth(),
-            title = "for old android devices where BlurFilter needs manual on in manifest"
+            title = "Replacing Blur Mask with Circular Gradient for Pre-Android 10 Devices  (Pre-Api lev 29)"
         ) {
             ExampleLegacyContent(Modifier.fillMaxWidth())
         }
