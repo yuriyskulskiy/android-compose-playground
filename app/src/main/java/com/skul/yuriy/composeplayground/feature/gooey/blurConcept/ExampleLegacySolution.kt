@@ -23,8 +23,9 @@ import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.BlurFille
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.StandardColorMatrixMetalBox
 
 
+
 @Composable
-fun ExampleStandardColorMatrixContent(
+fun ExampleLegacyContent(
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
