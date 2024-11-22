@@ -77,7 +77,7 @@ fun metaBallRenderEffect(): androidx.compose.ui.graphics.RenderEffect =
     ).asComposeRenderEffect()
 
 @Composable
-fun StandardColorMatrixMetalBox(
+fun StandardColorMatrixMetaBox(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit,
 ) {

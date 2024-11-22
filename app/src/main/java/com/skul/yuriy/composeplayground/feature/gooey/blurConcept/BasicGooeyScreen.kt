@@ -77,12 +77,19 @@ fun GooeyBasicScreenContent(modifier: Modifier) {
             ExampleRenderEffectShaderContent(Modifier.fillMaxWidth())
         }
 
-        //legacy example, tested android 10 Api lev 29
+        //regular example, tested android 10 Api lev 29
         MitosisButtonsSection(
             modifier = Modifier.fillMaxWidth(),
             title = "Regular Color Matrix filter with Native BlurMaskFilter (Pre-Api lev 31)"
         ) {
-            ExampleLegacyColorMatrixContent(Modifier.fillMaxWidth())
+            ExampleStandardColorMatrixContent(Modifier.fillMaxWidth())
+        }
+
+        MitosisButtonsSection(
+            modifier = Modifier.fillMaxWidth(),
+            title = "Replacing Blur Mask with Circular Gradient for Pre-Android 10 Devices  (Pre-Api lev 29)"
+        ) {
+            ExampleLegacyContent(Modifier.fillMaxWidth())
         }
     }
 }
