@@ -3,6 +3,7 @@ package com.skul.yuriy.composeplayground.feature.gooey
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,5 +29,6 @@ fun MitosisButtonsSection(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = title, color = Color.Black
         )
+        HorizontalDivider(Modifier.padding(vertical = 8.dp, horizontal = 16.dp))
     }
 }
