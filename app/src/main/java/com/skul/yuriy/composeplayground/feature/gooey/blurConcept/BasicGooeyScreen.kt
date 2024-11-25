@@ -64,11 +64,10 @@ fun GooeyBasicScreenContent(modifier: Modifier) {
         //android 13 example
         MitosisButtonsSection(
             modifier = Modifier.fillMaxWidth(),
-            title = "RuntimeShader AGSL(RenderEffect)  and BlurEffect (Api lev 33 android 33)"
+            title = "RuntimeShader AGSL(RenderEffect)  and BlurEffect (Api lev 33 android 13)"
         ) {
             ExampleRuntimeShaderContent(Modifier.fillMaxWidth())
         }
-
         //Android 12
         MitosisButtonsSection(
             modifier = Modifier.fillMaxWidth(),
@@ -90,6 +89,13 @@ fun GooeyBasicScreenContent(modifier: Modifier) {
             title = "Replacing Blur Mask with Circular Gradient for Pre-Android 10 Devices  (Pre-Api lev 29)"
         ) {
             ExampleLegacyContent(Modifier.fillMaxWidth())
+        }
+
+        MitosisButtonsSection(
+            modifier = Modifier.fillMaxWidth(),
+            title = "AGSL with color issue fix (Api lev 33 android 13)"
+        ) {
+            ExampleRuntimeRenderEffectColorFix(Modifier.fillMaxWidth())
         }
     }
 }

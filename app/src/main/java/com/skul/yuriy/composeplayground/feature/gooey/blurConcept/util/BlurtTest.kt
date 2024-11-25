@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.gooey.blurConcept.legacy
+package com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.outlineGradient
 
 //Box with  or gradient modifier just for testing blur/gradient border on old devices
 @Composable
