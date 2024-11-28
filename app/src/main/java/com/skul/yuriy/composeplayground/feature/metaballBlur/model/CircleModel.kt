@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballBlur
+package com.skul.yuriy.composeplayground.feature.metaballBlur.model
 
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -21,7 +21,7 @@ fun generateRandomCircles(
     density: Density
 ): List<CircleModel> {
     return List(count) {
-        val size = Random.nextInt(40, 160).dp
+        val size = Random.nextInt(70, 160).dp
         val radiusPx = with(density) { size.toPx() / 2 }
         val x = Random.nextFloat() * (screenWidth - 2 * radiusPx) + radiusPx
         val y = Random.nextFloat() * (screenHeight - 2 * radiusPx) + radiusPx

@@ -1,9 +1,5 @@
 package com.skul.yuriy.composeplayground.feature.metaballBlur
 
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.RenderEffect
-import android.graphics.Shader
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
@@ -20,38 +16,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asComposeRenderEffect
+import androidx.compose.ui.graphics.RenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.skul.yuriy.composeplayground.feature.metaballBlur.model.CircleModel
+import com.skul.yuriy.composeplayground.feature.metaballBlur.model.generateRandomCircles
+import com.skul.yuriy.composeplayground.util.cornerRedLinearGradient2
 import kotlinx.coroutines.android.awaitFrame
 
-@RequiresApi(Build.VERSION_CODES.S)
-val metaBallRenderEffect =
-    RenderEffect.createChainEffect(
-        RenderEffect.createColorFilterEffect(
-            ColorMatrixColorFilter(
-                ColorMatrix(
-                    floatArrayOf(
-                        1f, 0f, 0f, 0f, 0f,
-                        0f, 1f, 0f, 0f, 0f,
-                        0f, 0f, 1f, 0f, 0f,
-                        0f, 0f, 0f, 160f, -10000f
-                    )
-                )
-            )
-        ),
-        RenderEffect.createBlurEffect(100f, 100f, Shader.TileMode.MIRROR)
-    ).asComposeRenderEffect()
 
-
-
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-fun MovingCirclesWithMetaballEffect(circleCount: Int = 15) {
+fun MetaballsScreen() {
+    val circleCount = 15
     var boxSize by remember { mutableStateOf(IntSize(0, 0)) }
     var circles by remember { mutableStateOf(listOf<CircleModel>()) }
     val density = LocalDensity.current
@@ -83,46 +66,23 @@ fun MovingCirclesWithMetaballEffect(circleCount: Int = 15) {
     LaunchedEffect(circles, isAnimationRunning) {
         while (isAnimationRunning) {
             awaitFrame()
-
-            circles = circles.map { circle ->
-                val radiusPx = with(density) { circle.size.toPx() / 2 }
-                val updatedX = circle.x + circle.velocityX
-                val updatedY = circle.y + circle.velocityY
-
-                val newVelocityX =
-                    if (updatedX - radiusPx < 0 || updatedX + radiusPx > boxSize.width) {
-                        -circle.velocityX
-                    } else {
-                        circle.velocityX
-                    }
-
-                val newVelocityY =
-                    if (updatedY - radiusPx < 0 || updatedY + radiusPx > boxSize.height) {
-                        -circle.velocityY
-                    } else {
-                        circle.velocityY
-                    }
-
-                circle.copy(
-                    x = updatedX,
-                    y = updatedY,
-                    velocityX = newVelocityX,
-                    velocityY = newVelocityY
-                )
-            }
+            circles = updateCircles(
+                circles = circles,
+                boxSize = boxSize,
+                density = density
+            )
         }
     }
 
-    val renderEffect = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        metaBallRenderEffect
-    } else {
-        throw UnsupportedOperationException("Unsupported Android version.")
+    val renderEffectMap = remember { generateRenderEffectMap() }
+    val selectedRenderEffect = remember(renderEffectMap) {
+        mutableStateOf(renderEffectMap.values.firstOrNull()?.renderEffect)
     }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(brush = cornerRedLinearGradient2())
             .onGloballyPositioned { coordinates -> boxSize = coordinates.size }
     ) {
         Canvas(
@@ -130,12 +90,11 @@ fun MovingCirclesWithMetaballEffect(circleCount: Int = 15) {
             Modifier
                 .fillMaxSize()
                 .graphicsLayer {
-                    this.renderEffect = renderEffect
+                    this.renderEffect = selectedRenderEffect.value
                 }
         ) {
             circles.forEach { circle ->
                 val radiusPx = with(density) { circle.size.toPx() / 2 }
-
                 // Draw the circles
                 drawCircle(
                     color = Color.White,
@@ -144,5 +103,57 @@ fun MovingCirclesWithMetaballEffect(circleCount: Int = 15) {
                 )
             }
         }
+
+        RenderEffectSelector(
+            selectedRenderEffect = selectedRenderEffect.value,
+            renderEffectMap = renderEffectMap,
+
+            onRenderEffectSelectedById = { id ->
+                selectedRenderEffect.value = renderEffectMap[id]?.renderEffect
+            }
+        )
+    }
+
+}
+
+// update every animation frame circle position according to velocity
+fun updateCircles(
+    circles: List<CircleModel>,
+    boxSize: IntSize,
+    density: Density
+): List<CircleModel> {
+    return circles.map { circle ->
+        val radiusPx = with(density) { circle.size.toPx() / 2 }
+        val updatedX = circle.x + circle.velocityX
+        val updatedY = circle.y + circle.velocityY
+
+        val newVelocityX =
+            if (updatedX - radiusPx < 0 || updatedX + radiusPx > boxSize.width) {
+                -circle.velocityX
+            } else {
+                circle.velocityX
+            }
+
+        val newVelocityY =
+            if (updatedY - radiusPx < 0 || updatedY + radiusPx > boxSize.height) {
+                -circle.velocityY
+            } else {
+                circle.velocityY
+            }
+
+        circle.copy(
+            x = updatedX,
+            y = updatedY,
+            velocityX = newVelocityX,
+            velocityY = newVelocityY
+        )
     }
 }
+
+
+
+
+
+
+
+
