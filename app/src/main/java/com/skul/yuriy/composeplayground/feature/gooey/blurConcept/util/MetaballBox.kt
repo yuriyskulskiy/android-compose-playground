@@ -13,6 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.shader.ShaderSourceProperColoring
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.shader.ShaderSourceSimple
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.shader.ShaderSource_outlined_color_test_1
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.shader.ShaderSource_outlined_marker_color
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.shader.ShaderSource_outlined_marker_color_and_marker_brightness
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.shader.ShaderSource_outlined_simple
 
 
 @Composable
@@ -45,7 +51,6 @@ fun RuntimeShaderMetaballBox(
 enum class ShaderType(val source: String) {
     Simple(ShaderSourceSimple),
     FixColor(ShaderSourceProperColoring),
-    Outline(ShaderSourceProperColoring)
 }
 
 /**
@@ -137,6 +142,46 @@ fun StandardColorMatrixMetaBox(
 //            .colorMatrixWithContent(metaballColorMatrix)  same conception
         content = content,
     )
+}
+
+//wrapper for outline border AGSL render script
+@Composable
+fun OutlineShaderMetaballBox(
+    modifier: Modifier = Modifier,
+    cutoffMin: Float = 0.5f,
+    borderAlphaThickness: Float = 0.05f,
+    color: Color = Color.Black,
+    markerColor: Color = Color.Black,
+    content: @Composable BoxScope.() -> Unit,
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        //api 13+
+        val metaBallShader = remember {
+//            RuntimeShader(ShaderSource_outlined_color_test_1) //article chapter 1
+//            RuntimeShader(ShaderSource_outlined_simple) // article chapter 2
+//            RuntimeShader(ShaderSource_outlined_marker_color) //article chapter 3
+            RuntimeShader(ShaderSource_outlined_marker_color_and_marker_brightness) //article chapter 4
+        }
+
+        Box(
+            modifier = modifier
+                .graphicsLayer {
+                    clip = true
+                    metaBallShader.setFloatUniform("cutoff_min", cutoffMin)
+                    metaBallShader.setFloatUniform("border_thickness", borderAlphaThickness)
+                    metaBallShader.setFloatUniform("rgbColor", color.red, color.green, color.blue)
+                    metaBallShader
+                        .setFloatUniform(
+                            "rgbMarkerColor", markerColor.red, markerColor.green, markerColor.blue
+                        )
+
+                    renderEffect = RenderEffect
+                        .createRuntimeShaderEffect(metaBallShader, "composable")
+                        .asComposeRenderEffect()
+                },
+            content = content,
+        )
+    }
 }
 
 

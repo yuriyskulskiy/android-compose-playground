@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util
+package com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.shader
 
 import org.intellij.lang.annotations.Language
 
@@ -88,7 +88,7 @@ const val ShaderSourceProperColoring = """
         half4 color = composable.eval(fragCoord);
         
         if (color.a < 1) {
-            color.rgb = half3(rgbColor[0], rgbColor[1], rgbColor[2]); 
+            color.rgb = rgbColor; 
         }
         color.a = step(transparencyLimit, color.a);
         return color;

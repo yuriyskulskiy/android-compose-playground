@@ -120,14 +120,13 @@ fun ExampleRuntimeRenderEffectColorFix(
 }
 
 @Composable
-fun ShaderTypeRadioGroup(
+private fun ShaderTypeRadioGroup(
     selectedShader: ShaderType,
     onShaderSelected: (ShaderType) -> Unit
 ) {
     val shaderOptions = listOf(
         ShaderType.Simple to "Simple",
         ShaderType.FixColor to "Fix Color",
-//        ShaderType.Outline to "Outline"
     )
 
     Row(
