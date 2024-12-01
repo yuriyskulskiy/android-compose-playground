@@ -63,3 +63,12 @@ val horizontalGradient = Brush.horizontalGradient(
         Color(0xFFC7C1C1)
     )
 )
+
+val diagonalGradientBrush = Brush.linearGradient(
+    colors = listOf(
+        Color.White,
+        Color.Gray
+    ),
+    start = Offset(0f, 0f), // Top-left corner
+    end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY) // Bottom-right corner
+)
