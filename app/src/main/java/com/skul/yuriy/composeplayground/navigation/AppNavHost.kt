@@ -14,7 +14,7 @@ import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShado
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
-import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsRoute
+import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -149,7 +149,7 @@ internal fun AppNavHost(
         }
 
         composable<Screens.Route.MetaballScreen> {
-            MetaballsRoute()
+            MetaballsScreen()
         }
 
         composable<Screens.Route.AnimatedElevationEdge> {

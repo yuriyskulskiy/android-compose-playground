@@ -7,16 +7,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.gooey.MitosisButtonsSection
+import com.skul.yuriy.composeplayground.util.ScreenBackground
 import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
 
 
@@ -97,5 +103,28 @@ fun GooeyBasicScreenContent(modifier: Modifier) {
         ) {
             ExampleRuntimeRenderEffectColorFix(Modifier.fillMaxWidth())
         }
+
+        ScreenBackground(
+            showBackground = true,
+            modifier = Modifier.fillMaxWidth(),
+            imageRes = R.drawable.img_10,
+            colorFilter = ColorFilter.tint(
+                Color.White.copy(alpha = 0.75f),
+                blendMode = BlendMode.Lighten    // Blend mode to lighten the background
+            ),
+        ) {
+            MitosisButtonsSection(
+                modifier = Modifier.fillMaxWidth()
+//                    .background(diagonalGradientBrush)
+                ,
+                title = "AGSL with outline border  effect \n(Api lev 33 android 13)",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold // Set the text to bold
+                )
+            ) {
+                ExampleAGSLOutlineContent(Modifier.fillMaxWidth())
+            }
+        }
+
     }
 }

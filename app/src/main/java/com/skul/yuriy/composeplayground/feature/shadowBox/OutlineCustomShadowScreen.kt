@@ -41,7 +41,8 @@ fun OutlineShadowBoxRoute() {
     ScreenBackground(
         showBackground = showBackground,
         modifier = Modifier.fillMaxSize(),
-        imageRes = R.drawable.test2,
+//        imageRes = R.drawable.test2,
+        imageRes = R.drawable.gtr_34_1,
         colorFilter = ColorFilter.tint(
             Color.White.copy(alpha = 0.5f),  // Light white tint with 50% default opacity
             blendMode = BlendMode.Lighten    // Blend mode to lighten the background
