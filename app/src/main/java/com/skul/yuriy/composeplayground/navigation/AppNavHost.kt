@@ -15,6 +15,7 @@ import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedC
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
+import com.skul.yuriy.composeplayground.feature.metaballTextEdge.MetaballTextEdgeScreen
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -77,6 +78,10 @@ fun NavController.navigateToMetaballMath() {
     navigate(Screens.Route.MetaballClassicMath)
 }
 
+fun NavController.navigateToMetaballEdges() {
+    navigate(Screens.Route.MetaballTextEdges)
+}
+
 @Serializable
 sealed class Screens {
 
@@ -123,6 +128,9 @@ sealed class Screens {
 
         @Serializable
         object MetaballClassicMath
+
+        @Serializable
+        object MetaballTextEdges
     }
 }
 
@@ -188,6 +196,10 @@ internal fun AppNavHost(
 
         composable<Screens.Route.MetaballClassicMath> {
             MetaballClassicScreen()
+        }
+
+        composable<Screens.Route.MetaballTextEdges> {
+            MetaballTextEdgeScreen()
         }
     }
 }
