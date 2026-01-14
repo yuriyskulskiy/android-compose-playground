@@ -31,6 +31,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToBottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
+import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
@@ -65,31 +66,48 @@ fun NavigationContent(modifier: Modifier) {
 
 
         NavigationItem(
+            text = stringResource(R.string.metaball_text_edge),
+            onClick = { navController.navigateToMetaballEdges() })
+
+
+        NavigationItem(
             text = stringResource(R.string.parallax_scroll_list),
             onClick = { navController.navigateToParallax() })
-        NavigationItem(text = stringResource(R.string.metaballs_blur),
+        NavigationItem(
+            text = stringResource(R.string.metaballs_blur),
             onClick = { navController.navigateToMetaballsScreen() })
-        NavigationItem(text = stringResource(R.string.topbar_animated_elevation),
+        NavigationItem(
+            text = stringResource(R.string.topbar_animated_elevation),
             onClick = { navController.navigateToAnimatedElevationEdge() })
-        NavigationItem(text = stringResource(R.string.fading_edges_screen),
+        NavigationItem(
+            text = stringResource(R.string.fading_edges_screen),
             onClick = { navController.navigateToFadingEdgesScreen() })
-        NavigationItem(text = stringResource(R.string.circular_halo_border),
+        NavigationItem(
+            text = stringResource(R.string.circular_halo_border),
             onClick = { navController.navigateToCircularHaloBorder() })
-        NavigationItem(text = stringResource(R.string.animated_ark),
+        NavigationItem(
+            text = stringResource(R.string.animated_ark),
             onClick = { navController.navigateToAnimatedArk() })
-        NavigationItem(text = stringResource(R.string.transparent_outline_shadow),
+        NavigationItem(
+            text = stringResource(R.string.transparent_outline_shadow),
             onClick = { navController.navigateToShadowBox() })
-        NavigationItem(text = stringResource(R.string.bottom_edge_shadow),
+        NavigationItem(
+            text = stringResource(R.string.bottom_edge_shadow),
             onClick = { navController.navigateToBottomEdgeShadowScreen() })
-        NavigationItem(text = stringResource(R.string.sticky_header_state_tracker),
+        NavigationItem(
+            text = stringResource(R.string.sticky_header_state_tracker),
             onClick = { navController.navigateToStickyHeaderStateTracker() })
-        NavigationItem(text = stringResource(R.string.vector_drawable_shadow),
+        NavigationItem(
+            text = stringResource(R.string.vector_drawable_shadow),
             onClick = { navController.navigateToVectorIconWithShadow() })
-        NavigationItem(text = stringResource(R.string.animated_circular_button),
+        NavigationItem(
+            text = stringResource(R.string.animated_circular_button),
             onClick = { navController.navigateToAnimatedCircularBtn() })
-        NavigationItem(text = "Gooey Effect",
+        NavigationItem(
+            text = "Gooey Effect",
             onClick = { navController.navigateToGooeyScreen() })
-        NavigationItem(text = stringResource(R.string.metaballs_classic_approach),
+        NavigationItem(
+            text = stringResource(R.string.metaballs_classic_approach),
             onClick = { navController.navigateToMetaballMath() })
 
     }
