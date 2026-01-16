@@ -1,10 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.metaballTextEdge
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,14 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.BottomBar
-import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdgesTopBar
-import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.LazyListScreenContent
-import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.RegularScrollColumn
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,9 +58,8 @@ fun MetaballTextEdgeScreen(
         }
     ) { paddingValues ->
         MetaballEdgeScrollingContent(
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(paddingValues),
         )
     }
 }
-
 
