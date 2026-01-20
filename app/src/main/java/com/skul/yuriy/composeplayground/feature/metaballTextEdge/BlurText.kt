@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TextWithTopBlur(
+fun BlurredTextOverlay(
     text: String,
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,

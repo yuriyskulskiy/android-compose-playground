@@ -2,8 +2,11 @@ package com.skul.yuriy.composeplayground.feature.metaballTextEdge
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,24 +17,21 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.util.fadingTopBottomEdgesDp
 
+@OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun MetaballEdgeScrollingContent(
@@ -40,30 +40,55 @@ fun MetaballEdgeScrollingContent(
     val scrollState = rememberScrollState()
 
     val verticalParam = 56.dp
+    val text = stringResource(R.string.very_long_mock_text).trimIndent()
+    val textModifier = Modifier.padding(24.dp)
+    val textStyle = MaterialTheme.typography.titleMedium
+    val textColor = Color.Black
+    val textWeight = FontWeight.Normal
 
+    CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
+        MetaballScrollText(
+            modifier = modifier,
+            scrollState = scrollState,
+            verticalParam = verticalParam,
+            text = text,
+            textModifier = textModifier,
+            textStyle = textStyle,
+            textColor = textColor,
+            textWeight = textWeight,
+        )
+    }
+}
+
+@Composable
+private fun MetaballScrollText(
+    modifier: Modifier,
+    scrollState: androidx.compose.foundation.ScrollState,
+    verticalParam: Dp,
+    text: String,
+    textModifier: Modifier,
+    textStyle: androidx.compose.ui.text.TextStyle,
+    textColor: Color,
+    textWeight: FontWeight,
+) {
     Box(
-        modifier
-            .fillMaxSize()
+        modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(scrollState)
-
         ) {
             Text(
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                text = stringResource(R.string.very_long_mock_text).trimIndent(),
-                modifier = Modifier
-                    .padding(24.dp),
-                fontWeight = FontWeight.Normal
+                style = textStyle,
+                color = textColor,
+                text = text,
+                modifier = textModifier,
+                fontWeight = textWeight
             )
         }
-//////////////////////////////////////////////////////////////////////
 
-        var parentHeightPx by remember { mutableStateOf(0) }
-        Box(
+        BoxWithConstraints(
             modifier = Modifier
                 .graphicsLayer {
                     this.renderEffect = singleEffect
@@ -71,10 +96,11 @@ fun MetaballEdgeScrollingContent(
                 .fillMaxSize()
                 .align(Alignment.TopStart)
                 .zIndex(1f)
-                .onGloballyPositioned { coords ->
-                    parentHeightPx = coords.size.height
-                }
         ) {
+            val density = LocalDensity.current
+            val textHeighPx = with(density) { verticalParam.toPx() }
+            val parentHeightPx = with(density) { maxHeight.toPx() }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -105,42 +131,35 @@ fun MetaballEdgeScrollingContent(
                     )
             )
 
-            TextWithTopBlur(
-                text = stringResource(R.string.very_long_mock_text).trimIndent(),
+            BlurredTextOverlay(
+                text = text,
                 modifier = Modifier
                     .fillMaxWidth()
                     .gradientTopButtonEdges(
                         topFadeHeight = verticalParam,
                     ),
-
-                textModifier = Modifier
-                    .padding(24.dp),
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                fontWeight = FontWeight.Normal,
+                textModifier = textModifier,
+                style = textStyle,
+                color = textColor,
+                fontWeight = textWeight,
                 blurHeight = verticalParam,
                 topOffset = 0f,
                 scrollOffsetPx = scrollState.value.toFloat(),
             )
 
-
-            val textHeighPx = with(LocalDensity.current) { verticalParam.toPx() }
-
-            TextWithTopBlur(
-                text = stringResource(R.string.very_long_mock_text).trimIndent(),
+            BlurredTextOverlay(
+                text = text,
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomStart)
                     .gradientTopButtonEdges(
                         bottomFadeHeight = verticalParam
                     ),
-                textModifier = Modifier
-                    .padding(24.dp),
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                fontWeight = FontWeight.Normal,
+                textModifier = textModifier,
+                style = textStyle,
+                color = textColor,
+                fontWeight = textWeight,
                 blurHeight = verticalParam,
-
                 topOffset = parentHeightPx - textHeighPx,
                 scrollOffsetPx = scrollState.value.toFloat(),
             )
