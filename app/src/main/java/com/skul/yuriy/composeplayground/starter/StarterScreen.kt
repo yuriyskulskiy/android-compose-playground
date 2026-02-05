@@ -30,6 +30,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToBottomEdgeShadowScreen
+import com.skul.yuriy.composeplayground.navigation.navigateToCustomBlur
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
@@ -68,6 +69,10 @@ fun NavigationContent(modifier: Modifier) {
         NavigationItem(
             text = stringResource(R.string.metaball_text_edge),
             onClick = { navController.navigateToMetaballEdges() })
+
+        NavigationItem(
+            text = stringResource(R.string.custom_blur),
+            onClick = { navController.navigateToCustomBlur() })
 
 
         NavigationItem(
@@ -141,5 +146,4 @@ fun NavigationItem(modifier: Modifier = Modifier, text: String, onClick: () -> U
         }
     }
 }
-
 

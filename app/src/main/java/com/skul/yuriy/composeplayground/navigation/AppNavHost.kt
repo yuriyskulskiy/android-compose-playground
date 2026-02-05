@@ -23,6 +23,7 @@ import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdge
 import com.skul.yuriy.composeplayground.feature.shadowBox.OutlineShadowBoxRoute
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.feature.vectorIconShadow.VectorDrawableShadowScreen
+import com.skul.yuriy.composeplayground.feature.customBlur.CustomBlurScreen
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
 
@@ -82,6 +83,10 @@ fun NavController.navigateToMetaballEdges() {
     navigate(Screens.Route.MetaballTextEdges)
 }
 
+fun NavController.navigateToCustomBlur() {
+    navigate(Screens.Route.CustomBlur)
+}
+
 @Serializable
 sealed class Screens {
 
@@ -131,6 +136,9 @@ sealed class Screens {
 
         @Serializable
         object MetaballTextEdges
+
+        @Serializable
+        object CustomBlur
     }
 }
 
@@ -200,6 +208,10 @@ internal fun AppNavHost(
 
         composable<Screens.Route.MetaballTextEdges> {
             MetaballTextEdgeScreen()
+        }
+
+        composable<Screens.Route.CustomBlur> {
+            CustomBlurScreen()
         }
     }
 }
