@@ -1,7 +1,10 @@
 package com.skul.yuriy.composeplayground.feature.customBlur
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -24,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
@@ -34,7 +39,7 @@ fun CustomBlurScreen(
     modifier: Modifier = Modifier
 ) {
     val navController = LocalNavController.current
-    var blurRadius by remember { mutableStateOf(2.dp) }
+    var blurRadius by remember { mutableStateOf(14.dp) }
     var blurMode by remember { mutableStateOf(CustomBlurMode.Native) }
     Scaffold(
         modifier = modifier,
@@ -78,15 +83,17 @@ fun CustomBlurScreen(
         }
     ) { paddingValues ->
         CustomBlurScrollingContent(
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier
+                .padding(paddingValues),
+//                .padding(paddingValues),
             blurRadius = blurRadius,
             blurMode = blurMode
         )
     }
 }
 
-private fun androidx.compose.ui.unit.Dp.nextBlurStep(): androidx.compose.ui.unit.Dp {
-    val steps = listOf(2, 4, 6, 8, 10, 12, 14, 16)
+private fun Dp.nextBlurStep(): Dp {
+    val steps = listOf(2, 4, 6, 8, 10, 12, 14, 16,32,48)
     val current = value.toInt()
     val index = steps.indexOf(current)
     val nextIndex = if (index == -1) 0 else (index + 1) % steps.size
