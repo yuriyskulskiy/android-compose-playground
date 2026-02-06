@@ -1,6 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.metaballPrimer
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,8 +12,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -22,12 +23,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.feature.metaballPrimer.edge.GooeyEdgeScreen
+import com.skul.yuriy.composeplayground.feature.metaballPrimer.text.TextMeltScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,9 +74,16 @@ fun MetaballPrimerScreen(
                     containerColor = Color.Black,
                     contentColor = Color.White,
                     indicator = { tabPositions ->
-                        TabRowDefaults.SecondaryIndicator(
-                            modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
-                            color = Color(0xFF8B0000)
+                        Box(
+                            modifier = Modifier
+                                .tabIndicatorOffset(tabPositions[selectedTab])
+                                .fillMaxSize()
+                                .padding(horizontal = 8.dp, vertical = 6.dp)
+                                .border(
+                                    width = 1.dp,
+                                    color = Color.White,
+                                    shape = androidx.compose.foundation.shape.RoundedCornerShape(999.dp)
+                                )
                         )
                     }
                 ) {
@@ -88,9 +100,9 @@ fun MetaballPrimerScreen(
                                         Color.White.copy(alpha = 0.8f)
                                     },
                                     fontWeight = if (selectedTab == index) {
-                                        androidx.compose.ui.text.font.FontWeight.Bold
+                                        FontWeight.Bold
                                     } else {
-                                        androidx.compose.ui.text.font.FontWeight.Normal
+                                       FontWeight.Normal
                                     }
                                 )
                             }
@@ -100,14 +112,15 @@ fun MetaballPrimerScreen(
             }
         },
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .padding(paddingValues)
         ) {
-            Text(text = tabs[selectedTab])
+            when (selectedTab) {
+                0 -> GooeyEdgeScreen(modifier = Modifier.fillMaxSize())
+                else -> TextMeltScreen(modifier = Modifier.fillMaxSize())
+            }
         }
     }
 }
