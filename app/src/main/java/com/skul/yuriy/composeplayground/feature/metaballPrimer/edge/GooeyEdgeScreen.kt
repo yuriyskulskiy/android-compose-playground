@@ -3,11 +3,13 @@ package com.skul.yuriy.composeplayground.feature.metaballPrimer.edge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,6 +27,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.platform.LocalDensity
 import kotlin.math.max
@@ -35,7 +40,10 @@ import kotlin.math.roundToInt
 fun GooeyEdgeScreen(
     modifier: Modifier = Modifier,
 ) {
-    val radiusDp: Dp = 72.dp
+
+    val blurRadius = 60.dp
+
+    val radiusDp: Dp = 56.dp
     val radiusPx = with(LocalDensity.current) { radiusDp.toPx() }
     var containerWidth by remember { mutableFloatStateOf(0f) }
     var containerHeight by remember { mutableFloatStateOf(0f) }
@@ -59,20 +67,34 @@ fun GooeyEdgeScreen(
                 detectDragGestures { change: PointerInputChange, dragAmount: Offset ->
                     change.consume()
                     val newCenter = center + dragAmount
-                    val clampedX = min(max(radiusPx, newCenter.x), max(radiusPx, containerWidth - radiusPx))
-                    val clampedY = min(max(radiusPx, newCenter.y), max(radiusPx, containerHeight - radiusPx))
+                    val clampedX =
+                        min(max(radiusPx, newCenter.x), max(radiusPx, containerWidth - radiusPx))
+                    val clampedY =
+                        min(max(radiusPx, newCenter.y), max(radiusPx, containerHeight - radiusPx))
                     center = Offset(clampedX, clampedY)
-//                    center = newCenter
                 }
             },
         contentAlignment = Alignment.TopStart,
     ) {
+
+        //gooey edge
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .width(56.dp)
+                .fillMaxHeight()
+                .align(alignment = Alignment.TopStart)
                 .height(24.dp)
-                .background(Color.Red)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Color.Red.copy(alpha = 0.9f),
+                            Color.Red.copy(alpha = 0.0f)
+                        )
+                    )
+                )
         )
+
+        //draggable circle
         Box(
             modifier = Modifier
                 .offset {
@@ -83,6 +105,7 @@ fun GooeyEdgeScreen(
                 }
                 .background(Color.Black, shape = CircleShape)
                 .size(radiusDp * 2)
+                .blur(radius = blurRadius, edgeTreatment = BlurredEdgeTreatment.Unbounded)
         )
     }
 }
