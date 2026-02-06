@@ -24,6 +24,7 @@ import com.skul.yuriy.composeplayground.feature.shadowBox.OutlineShadowBoxRoute
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.feature.vectorIconShadow.VectorDrawableShadowScreen
 import com.skul.yuriy.composeplayground.feature.customBlur.CustomBlurScreen
+import com.skul.yuriy.composeplayground.feature.metaballPrimer.MetaballPrimerScreen
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
 
@@ -87,6 +88,10 @@ fun NavController.navigateToCustomBlur() {
     navigate(Screens.Route.CustomBlur)
 }
 
+fun NavController.navigateToMetaballPrimer() {
+    navigate(Screens.Route.MetaballPrimer)
+}
+
 @Serializable
 sealed class Screens {
 
@@ -139,6 +144,9 @@ sealed class Screens {
 
         @Serializable
         object CustomBlur
+
+        @Serializable
+        object MetaballPrimer
     }
 }
 
@@ -212,6 +220,10 @@ internal fun AppNavHost(
 
         composable<Screens.Route.CustomBlur> {
             CustomBlurScreen()
+        }
+
+        composable<Screens.Route.MetaballPrimer> {
+            MetaballPrimerScreen()
         }
     }
 }

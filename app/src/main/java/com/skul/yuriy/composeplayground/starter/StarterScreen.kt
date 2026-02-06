@@ -35,6 +35,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
+import com.skul.yuriy.composeplayground.navigation.navigateToMetaballPrimer
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
 import com.skul.yuriy.composeplayground.navigation.navigateToShadowBox
 import com.skul.yuriy.composeplayground.navigation.navigateToStickyHeaderStateTracker
@@ -65,6 +66,9 @@ fun NavigationContent(modifier: Modifier) {
     ) {
         val navController = LocalNavController.current
 
+        NavigationItem(
+            text = stringResource(R.string.metaball_primer_title),
+            onClick = { navController.navigateToMetaballPrimer() })
 
         NavigationItem(
             text = stringResource(R.string.metaball_text_edge),
@@ -146,4 +150,3 @@ fun NavigationItem(modifier: Modifier = Modifier, text: String, onClick: () -> U
         }
     }
 }
-

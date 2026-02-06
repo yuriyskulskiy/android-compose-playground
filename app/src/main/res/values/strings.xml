@@ -12,6 +12,9 @@
     <string name="nissan_200sx_s13.5">Nissan 200sx, S13.5</string>
     <string name="parallax_scroll_list">Parallax scroll list</string>
     <string name="metaball_text_edge">Metaball Text Edge</string>
+    <string name="metaball_primer_title">Metaball Basics</string>
+    <string name="metaball_primer_tab_edge_embrace">Gooey Edge</string>
+    <string name="metaball_primer_tab_text_melt">Text Melt</string>
     <string name="custom_blur">Custom Blur</string>
     <string name="sticky_header_state_tracker">Sticky header state tracker</string>
     <string name="metaballs_blur">Metaballs blur</string>
