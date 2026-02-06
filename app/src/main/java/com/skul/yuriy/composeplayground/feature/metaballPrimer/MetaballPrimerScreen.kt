@@ -1,5 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.metaballPrimer
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +34,7 @@ import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.metaballPrimer.edge.GooeyEdgeScreen
 import com.skul.yuriy.composeplayground.feature.metaballPrimer.text.TextMeltScreen
 
+@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MetaballPrimerScreen(

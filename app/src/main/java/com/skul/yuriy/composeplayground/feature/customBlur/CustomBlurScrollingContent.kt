@@ -4,12 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -28,16 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.customBlur.effects.threeZones.alphaGaussianBlurThreeZone
 import com.skul.yuriy.composeplayground.feature.customBlur.effects.threeZones.alphaLinearBlurThreeZone
-import com.skul.yuriy.composeplayground.feature.customBlur.effects.threeZones.withAlphaFilter.alphaGaussianBlurThreeZoneWithThreshold
-import com.skul.yuriy.composeplayground.feature.customBlur.test.alphaThreshold20PercentEffect
-import com.skul.yuriy.composeplayground.feature.customBlur.test.alphaThreshold2PercentEffect
-import com.skul.yuriy.composeplayground.feature.customBlur.test.alphaThreshold30PercentEffect
-import com.skul.yuriy.composeplayground.feature.customBlur.test.alphaThreshold50PercentEffect
-import com.skul.yuriy.composeplayground.feature.customBlur.test.alphaThreshold5PercentEffect
-import com.skul.yuriy.composeplayground.feature.customBlur.test.alphaThreshold70PercentEffect
-import com.skul.yuriy.composeplayground.feature.customBlur.test.verticalAlphaFadeTop1Bottom0
-import com.skul.yuriy.composeplayground.util.fadingTopBottomEdgesDp
-import com.skul.yuriy.composeplayground.util.fadingTopBottomEdgesPx
+import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold20PercentEffect
 
 @Composable
 fun CustomBlurScrollingContent(

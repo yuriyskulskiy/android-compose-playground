@@ -1,61 +1,77 @@
 package com.skul.yuriy.composeplayground.feature.metaballPrimer.edge
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import kotlin.math.max
-import kotlin.math.min
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold50PercentEffect
+import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.applyRenderEffect
 import kotlin.math.roundToInt
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun GooeyEdgeScreen(
     modifier: Modifier = Modifier,
 ) {
 
-    val blurRadius = 60.dp
+    //region Visual tuning params for metaball effect
+    val blurRadius = 40.dp
+    val circleRadius: Dp = 56.dp
+    val gooeyBottomEdgeHeight = 56.dp
+    val gooeyTopEdgeHeight = 156.dp
+    val edgeMaxAlpha = 0.5f
+    val alphaThreshold = alphaThreshold50PercentEffect
+    // Keep alphaThreshold cutoff >= edgeMaxAlpha,
+    // otherwise top/bottom edge gradients can leak through after filtering.
+    //endregion
 
-    val radiusDp: Dp = 56.dp
-    val radiusPx = with(LocalDensity.current) { radiusDp.toPx() }
+
+
+    val radiusPx = with(LocalDensity.current) { circleRadius.toPx() }
     var containerWidth by remember { mutableFloatStateOf(0f) }
     var containerHeight by remember { mutableFloatStateOf(0f) }
-    var center by remember { mutableStateOf(Offset.Zero) }
+    val scope = rememberCoroutineScope()
+    val controller = rememberDragFlingController(
+        radiusPx = { radiusPx },
+        containerSize = { androidx.compose.ui.geometry.Size(containerWidth, containerHeight) },
+        overflowMultiplier = 3f,
+        velocityScale = 1f,
+        scope = scope,
+        decay = exponentialDecay(frictionMultiplier = 3f),
+    )
 
     //places circle in center
     LaunchedEffect(containerWidth, containerHeight) {
-        if (containerWidth > 0f && containerHeight > 0f && center == Offset.Zero) {
-            center = Offset(containerWidth / 2f, containerHeight / 2f)
-        }
+        controller.centerIfUnset()
     }
 
+    //the root screen  box wrapper for circle and gradient edges - the point to apply alpha filter
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -63,49 +79,58 @@ fun GooeyEdgeScreen(
                 containerWidth = size.width.toFloat()
                 containerHeight = size.height.toFloat()
             }
+            .applyRenderEffect(alphaThreshold)
             .pointerInput(radiusPx, containerWidth, containerHeight) {
-                detectDragGestures { change: PointerInputChange, dragAmount: Offset ->
-                    change.consume()
-                    val newCenter = center + dragAmount
-                    val clampedX =
-                        min(max(radiusPx, newCenter.x), max(radiusPx, containerWidth - radiusPx))
-                    val clampedY =
-                        min(max(radiusPx, newCenter.y), max(radiusPx, containerHeight - radiusPx))
-                    center = Offset(clampedX, clampedY)
-                }
+                controller.handleDrag(this)
             },
         contentAlignment = Alignment.TopStart,
     ) {
 
-        //gooey edge
+        //gooey  vertical edge edge
         Box(
             modifier = Modifier
-                .width(56.dp)
-                .fillMaxHeight()
+                .fillMaxWidth()
+                .height(gooeyTopEdgeHeight)
                 .align(alignment = Alignment.TopStart)
-                .height(24.dp)
                 .background(
-                    brush = Brush.horizontalGradient(
+                    brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color.Red.copy(alpha = 0.9f),
-                            Color.Red.copy(alpha = 0.0f)
+                            Color.Black.copy(alpha = edgeMaxAlpha),
+                            Color.Black.copy(alpha = 0.0f)
                         )
                     )
                 )
         )
 
-        //draggable circle
+        //gooey  vertical bottom edge
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(gooeyBottomEdgeHeight)
+                .align(alignment = Alignment.BottomEnd)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Red.copy(alpha = 0.0f),
+                            Color.Red.copy(alpha = edgeMaxAlpha)
+                        )
+                    )
+                )
+        )
+
+
+        //draggable and flingable  circle
         Box(
             modifier = Modifier
                 .offset {
                     IntOffset(
-                        (center.x - radiusPx).roundToInt(),
-                        (center.y - radiusPx).roundToInt()
+                        (controller.center.x - radiusPx).roundToInt(),
+                        (controller.center.y - radiusPx).roundToInt()
                     )
                 }
-                .background(Color.Black, shape = CircleShape)
-                .size(radiusDp * 2)
+                .size(circleRadius * 2)
                 .blur(radius = blurRadius, edgeTreatment = BlurredEdgeTreatment.Unbounded)
+                .background(Color.Black, shape = CircleShape)
         )
     }
 }
