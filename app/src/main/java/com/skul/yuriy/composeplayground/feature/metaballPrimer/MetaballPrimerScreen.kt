@@ -13,7 +13,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -26,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
@@ -73,6 +71,7 @@ fun MetaballPrimerScreen(
                     selectedTabIndex = selectedTab,
                     containerColor = Color.Black,
                     contentColor = Color.White,
+                    divider = {},
                     indicator = { tabPositions ->
                         Box(
                             modifier = Modifier
@@ -102,7 +101,7 @@ fun MetaballPrimerScreen(
                                     fontWeight = if (selectedTab == index) {
                                         FontWeight.Bold
                                     } else {
-                                       FontWeight.Normal
+                                        FontWeight.Normal
                                     }
                                 )
                             }
