@@ -50,6 +50,25 @@ val alphaThreshold5PercentEffect =
     ).asComposeRenderEffect()
 
 @RequiresApi(Build.VERSION_CODES.S)
+val alphaThreshold10PercentEffect =
+    RenderEffect.createColorFilterEffect(
+        ColorMatrixColorFilter(
+            ColorMatrix(
+                floatArrayOf(
+                    // R
+                    1f, 0f, 0f, 0f, 0f,
+                    // G
+                    0f, 1f, 0f, 0f, 0f,
+                    // B
+                    0f, 0f, 1f, 0f, 0f,
+                    // A' = 160 * A - 4080  → threshold ≈ 10%
+                    0f, 0f, 0f, 160f, -4080f
+                )
+            )
+        )
+    ).asComposeRenderEffect()
+
+@RequiresApi(Build.VERSION_CODES.S)
 val alphaThreshold20PercentEffect =
     RenderEffect.createColorFilterEffect(
         ColorMatrixColorFilter(
