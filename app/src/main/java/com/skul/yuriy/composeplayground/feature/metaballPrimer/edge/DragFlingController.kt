@@ -92,7 +92,11 @@ fun rememberDragFlingController(
     scope: CoroutineScope,
     decay: DecayAnimationSpec<Offset> = rememberSplineBasedDecay(),
 ): DragFlingController {
-    return remember(radiusPx, containerSize, overflowMultiplier, velocityScale, scope, decay) {
+    // IMPORTANT:
+    // Do NOT use lambda references (radiusPx/containerSize) as remember keys.
+    // They are usually recreated on every recomposition, which would recreate the controller,
+    // resetting center to Offset.Zero and causing the circle to blink at TopStart.
+    return remember(overflowMultiplier, velocityScale, scope, decay) {
         DragFlingController(
             radiusPx = radiusPx,
             containerSize = containerSize,

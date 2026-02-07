@@ -1,42 +1,32 @@
 package com.skul.yuriy.composeplayground.feature.metaballPrimer
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -47,15 +37,63 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavController
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.metaballPrimer.edge.GooeyEdgeScreen
 import com.skul.yuriy.composeplayground.feature.metaballPrimer.text.TextMeltScreen
 import com.skul.yuriy.composeplayground.feature.metaballPrimer.text.rememberTextMeltState
+
+private const val BottomBarAnimMs = 260
+
+private data class BottomBarMotion(
+    val contentBottomInset: Dp,
+    val barTranslationY: Dp,
+    val barHeight: Dp,
+)
+
+@Composable
+private fun rememberBottomBarMotion(
+    visible: Boolean,
+    barHeight: Dp,
+    durationMs: Int = BottomBarAnimMs,
+): BottomBarMotion {
+    val inset by animateDpAsState(
+        targetValue = if (visible) barHeight else 0.dp,
+        animationSpec = tween(durationMs),
+        label = "contentInset"
+    )
+
+    val offsetY by animateDpAsState(
+        targetValue = if (visible) 0.dp else barHeight,
+        animationSpec = tween(durationMs),
+        label = "barOffsetY"
+    )
+
+    return BottomBarMotion(
+        contentBottomInset = inset,
+        barTranslationY = offsetY,
+        barHeight = barHeight,
+    )
+}
+
+@Composable
+private fun PaddingValues.withAnimatedBottomInset(animatedBottom: Dp): PaddingValues {
+    val layoutDirection = LocalLayoutDirection.current
+    return PaddingValues(
+        start = calculateLeftPadding(layoutDirection),
+        top = calculateTopPadding(),
+        end = calculateRightPadding(layoutDirection),
+        bottom = animatedBottom,
+    )
+}
 
 @RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,11 +103,20 @@ fun MetaballPrimerScreen(
 ) {
     val navController = LocalNavController.current
     var selectedTab by remember { mutableIntStateOf(0) }
-    var showBottomBar by remember { mutableStateOf(true) }
     val textMeltState = rememberTextMeltState()
     val tabs = listOf(
         stringResource(R.string.metaball_primer_tab_edge_embrace),
         stringResource(R.string.metaball_primer_tab_text_melt),
+    )
+
+    val bottomBarVisible = selectedTab == 1
+
+    val density = LocalDensity.current
+    var bottomBarHeightDp by remember { mutableStateOf(0.dp) }
+
+    val motion = rememberBottomBarMotion(
+        visible = bottomBarVisible,
+        barHeight = bottomBarHeightDp
     )
 
     Scaffold(
@@ -94,14 +141,7 @@ fun MetaballPrimerScreen(
                     title = {
                         Text(text = stringResource(R.string.metaball_primer_title))
                     },
-                    actions = {
-                        IconButton(onClick = { showBottomBar = !showBottomBar }) {
-                            Icon(
-                                imageVector = Icons.Filled.Settings,
-                                contentDescription = "Toggle Bottom Bar"
-                            )
-                        }
-                    }
+                    actions = {}
                 )
                 TabRow(
                     selectedTabIndex = selectedTab,
@@ -147,64 +187,64 @@ fun MetaballPrimerScreen(
             }
         },
         bottomBar = {
-            AnimatedVisibility(
-                visible = if (selectedTab == 0) showBottomBar else true,
-                enter = fadeIn() + slideInVertically { it },
-                exit = fadeOut() + slideOutVertically { it },
+            BottomAppBar(
+                containerColor = Color.Black,
+                modifier = Modifier
+                    .onSizeChanged { size ->
+                        bottomBarHeightDp = with(density) { size.height.toDp() }
+                    }
+                    .graphicsLayer {
+                        translationY = with(density) { motion.barTranslationY.toPx() }
+                    }
             ) {
-                BottomAppBar(containerColor = Color.Black) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        TextButton(onClick = { textMeltState.previous() }) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = "Previous",
-                                tint = Color.White
-                            )
-                            Text(
-                                text = "Previous",
-                                color = Color.White,
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
-                        }
-                        TextButton(onClick = { textMeltState.next() }) {
-                            Text(
-                                text = "Next",
-                                color = Color.White,
-                                modifier = Modifier.padding(end = 8.dp)
-                            )
-                            Icon(
-                                imageVector = Icons.Filled.ArrowForward,
-                                contentDescription = "Next",
-                                tint = Color.White
-                            )
-                        }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    TextButton(onClick = { textMeltState.previous() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Previous",
+                            tint = Color.White
+                        )
+                        Text(
+                            text = "Previous",
+                            color = Color.White,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+                    TextButton(onClick = { textMeltState.next() }) {
+                        Text(
+                            text = "Next",
+                            color = Color.White,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        Icon(
+                            imageVector = Icons.Filled.ArrowForward,
+                            contentDescription = "Next",
+                            tint = Color.White
+                        )
                     }
                 }
             }
         }
     ) { paddingValues: PaddingValues ->
-        val bottom = paddingValues.calculateBottomPadding()
-        Log.e("WTF", " bottom = " + bottom)
+        val animatedPadding = paddingValues.withAnimatedBottomInset(motion.contentBottomInset)
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .background(Color.Green)
-
+                .padding(animatedPadding)
         ) {
-//            when (selectedTab) {
-//                0 -> GooeyEdgeScreen(modifier = Modifier.fillMaxSize())
-//                else -> TextMeltScreen(
-//                    state = textMeltState,
-//                    modifier = Modifier.fillMaxSize()
-//                )
-//            }
+            when (selectedTab) {
+                0 -> GooeyEdgeScreen(modifier = Modifier.fillMaxSize())
+                else -> TextMeltScreen(
+                    state = textMeltState,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
     }
 }

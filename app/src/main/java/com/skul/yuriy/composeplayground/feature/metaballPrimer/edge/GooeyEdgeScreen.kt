@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -57,13 +58,16 @@ fun GooeyEdgeScreen(
     var containerWidth by remember { mutableFloatStateOf(0f) }
     var containerHeight by remember { mutableFloatStateOf(0f) }
     val scope = rememberCoroutineScope()
+    // Must be remembered: a new DecayAnimationSpec per recomposition would recreate
+    // DragFlingController and reset center to Offset.Zero during animated layout changes.
+    val decay = remember { exponentialDecay<Offset>(frictionMultiplier = 3f) }
     val controller = rememberDragFlingController(
         radiusPx = { radiusPx },
         containerSize = { androidx.compose.ui.geometry.Size(containerWidth, containerHeight) },
         overflowMultiplier = 3f,
         velocityScale = 1f,
         scope = scope,
-        decay = exponentialDecay(frictionMultiplier = 3f),
+        decay = decay,
     )
 
     //places circle in center
