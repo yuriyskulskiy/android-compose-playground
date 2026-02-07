@@ -52,7 +52,6 @@ import com.skul.yuriy.composeplayground.feature.metaballPrimer.text.TextMeltScre
 import com.skul.yuriy.composeplayground.feature.metaballPrimer.text.rememberTextMeltState
 
 private const val BottomBarAnimMs = 260
-
 private data class BottomBarMotion(
     val contentBottomInset: Dp,
     val barTranslationY: Dp,
@@ -64,6 +63,7 @@ private fun rememberBottomBarMotion(
     visible: Boolean,
     barHeight: Dp,
     durationMs: Int = BottomBarAnimMs,
+    onHidden: () -> Unit,
 ): BottomBarMotion {
     val inset by animateDpAsState(
         targetValue = if (visible) barHeight else 0.dp,
@@ -74,7 +74,12 @@ private fun rememberBottomBarMotion(
     val offsetY by animateDpAsState(
         targetValue = if (visible) 0.dp else barHeight,
         animationSpec = tween(durationMs),
-        label = "barOffsetY"
+        label = "barOffsetY",
+        finishedListener = {
+            if (!visible && barHeight > 0.dp) {
+                onHidden()
+            }
+        }
     )
 
     return BottomBarMotion(
@@ -104,6 +109,7 @@ fun MetaballPrimerScreen(
     val navController = LocalNavController.current
     var selectedTab by remember { mutableIntStateOf(0) }
     val textMeltState = rememberTextMeltState()
+    var shouldComposeBottomBar by remember { mutableStateOf(false) }
     val tabs = listOf(
         stringResource(R.string.metaball_primer_tab_edge_embrace),
         stringResource(R.string.metaball_primer_tab_text_melt),
@@ -116,8 +122,15 @@ fun MetaballPrimerScreen(
 
     val motion = rememberBottomBarMotion(
         visible = bottomBarVisible,
-        barHeight = bottomBarHeightDp
+        barHeight = bottomBarHeightDp,
+        onHidden = {
+            shouldComposeBottomBar = false
+        }
     )
+
+    if (bottomBarVisible && !shouldComposeBottomBar) {
+        shouldComposeBottomBar = true
+    }
 
     Scaffold(
         modifier = modifier,
@@ -187,45 +200,47 @@ fun MetaballPrimerScreen(
             }
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = Color.Black,
-                modifier = Modifier
-                    .onSizeChanged { size ->
-                        bottomBarHeightDp = with(density) { size.height.toDp() }
-                    }
-                    .graphicsLayer {
-                        translationY = with(density) { motion.barTranslationY.toPx() }
-                    }
-            ) {
-                Row(
+            if (shouldComposeBottomBar) {
+                BottomAppBar(
+                    containerColor = Color.Black,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .onSizeChanged { size ->
+                            bottomBarHeightDp = with(density) { size.height.toDp() }
+                        }
+                        .graphicsLayer {
+                            translationY = with(density) { motion.barTranslationY.toPx() }
+                        }
                 ) {
-                    TextButton(onClick = { textMeltState.previous() }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Previous",
-                            tint = Color.White
-                        )
-                        Text(
-                            text = "Previous",
-                            color = Color.White,
-                            modifier = Modifier.padding(start = 8.dp)
-                        )
-                    }
-                    TextButton(onClick = { textMeltState.next() }) {
-                        Text(
-                            text = "Next",
-                            color = Color.White,
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                        Icon(
-                            imageVector = Icons.Filled.ArrowForward,
-                            contentDescription = "Next",
-                            tint = Color.White
-                        )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        TextButton(onClick = { textMeltState.previous() }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "Previous",
+                                tint = Color.White
+                            )
+                            Text(
+                                text = "Previous",
+                                color = Color.White,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                        TextButton(onClick = { textMeltState.next() }) {
+                            Text(
+                                text = "Next",
+                                color = Color.White,
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                            Icon(
+                                imageVector = Icons.Filled.ArrowForward,
+                                contentDescription = "Next",
+                                tint = Color.White
+                            )
+                        }
                     }
                 }
             }
