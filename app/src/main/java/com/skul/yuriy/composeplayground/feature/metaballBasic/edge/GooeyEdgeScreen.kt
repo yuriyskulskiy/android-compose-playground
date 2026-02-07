@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballPrimer.edge
+package com.skul.yuriy.composeplayground.feature.metaballBasic.edge
 
 import android.os.Build
 import androidx.annotation.RequiresApi

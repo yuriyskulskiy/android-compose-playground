@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballPrimer.text
+package com.skul.yuriy.composeplayground.feature.metaballBasic.text
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.VectorConverter
@@ -13,13 +13,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Stable
 class TextMeltState(
-    private val scope: kotlinx.coroutines.CoroutineScope,
+    private val scope: CoroutineScope,
     private val animationDurationMs: Int,
-    private val blurMaxDp: Dp,
+    private val maxBlurDp: Dp,
 ) {
     private val days = listOf(
         "Monday",
@@ -41,11 +42,14 @@ class TextMeltState(
     val blur: Dp
         get() = blurAnim.value
 
+    val blurMaxDp: Dp
+        get() = maxBlurDp
+
     fun next() {
         if (isAnimating) return
         scope.launch {
             isAnimating = true
-            blurAnim.animateTo(blurMaxDp, animationSpec = tween(animationDurationMs))
+            blurAnim.animateTo(maxBlurDp, animationSpec = tween(animationDurationMs))
             dayIndex = if (dayIndex == days.lastIndex) 0 else dayIndex + 1
             blurAnim.animateTo(0.dp, animationSpec = tween(animationDurationMs))
             isAnimating = false
@@ -56,7 +60,7 @@ class TextMeltState(
         if (isAnimating) return
         scope.launch {
             isAnimating = true
-            blurAnim.animateTo(blurMaxDp, animationSpec = tween(animationDurationMs))
+            blurAnim.animateTo(maxBlurDp, animationSpec = tween(animationDurationMs))
             dayIndex = if (dayIndex == 0) days.lastIndex else dayIndex - 1
             blurAnim.animateTo(0.dp, animationSpec = tween(animationDurationMs))
             isAnimating = false
@@ -67,14 +71,14 @@ class TextMeltState(
 @Composable
 fun rememberTextMeltState(
     blurMaxDp: Dp = 16.dp,
-    animationDurationMs: Int = 3000,
+    animationDurationMs: Int = 400,
 ): TextMeltState {
     val scope = rememberCoroutineScope()
     return remember(scope, blurMaxDp, animationDurationMs) {
         TextMeltState(
             scope = scope,
             animationDurationMs = animationDurationMs,
-            blurMaxDp = blurMaxDp,
+            maxBlurDp = blurMaxDp,
         )
     }
 }

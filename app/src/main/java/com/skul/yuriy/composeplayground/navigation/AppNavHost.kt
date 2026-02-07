@@ -24,7 +24,7 @@ import com.skul.yuriy.composeplayground.feature.shadowBox.OutlineShadowBoxRoute
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.feature.vectorIconShadow.VectorDrawableShadowScreen
 import com.skul.yuriy.composeplayground.feature.customBlur.CustomBlurScreen
-import com.skul.yuriy.composeplayground.feature.metaballPrimer.MetaballPrimerScreen
+import com.skul.yuriy.composeplayground.feature.metaballBasic.MetaballBasicsScreen
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
 
@@ -223,7 +223,7 @@ internal fun AppNavHost(
         }
 
         composable<Screens.Route.MetaballPrimer> {
-            MetaballPrimerScreen()
+            MetaballBasicsScreen()
         }
     }
 }

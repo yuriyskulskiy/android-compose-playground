@@ -15,6 +15,8 @@
     <string name="metaball_primer_title">Metaball Basics</string>
     <string name="metaball_primer_tab_edge_embrace">Gooey Edge</string>
     <string name="metaball_primer_tab_text_melt">Text Melt</string>
+    <string name="metaball_basics_prev">Previous</string>
+    <string name="metaball_basics_next">Next</string>
     <string name="custom_blur">Custom Blur</string>
     <string name="sticky_header_state_tracker">Sticky header state tracker</string>
     <string name="metaballs_blur">Metaballs blur</string>

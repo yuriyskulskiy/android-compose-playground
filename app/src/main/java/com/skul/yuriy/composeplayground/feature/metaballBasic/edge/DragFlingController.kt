@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballPrimer.edge
+package com.skul.yuriy.composeplayground.feature.metaballBasic.edge
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.DecayAnimationSpec
