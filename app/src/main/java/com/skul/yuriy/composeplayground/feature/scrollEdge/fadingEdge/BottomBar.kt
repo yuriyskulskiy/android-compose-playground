@@ -31,12 +31,14 @@ enum class BottomNavItem {
 }
 
 @Composable
-fun BottomBar() {
+fun BottomBar(
+    containerColor: Color = Color.Transparent,
+) {
 
     var selectedItem by remember { mutableStateOf(BottomNavItem.Home) } // Track the selected item using enum
 
     BottomAppBar(
-        containerColor = Color.Transparent,
+        containerColor = containerColor,
         contentPadding = PaddingValues(0.dp)
     ) {
         Row(

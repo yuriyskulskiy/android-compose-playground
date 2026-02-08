@@ -15,6 +15,7 @@ import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedC
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
+import com.skul.yuriy.composeplayground.feature.metaballTextEdge.MetaballTextEdgeScreen
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -22,6 +23,8 @@ import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.FadingEdge
 import com.skul.yuriy.composeplayground.feature.shadowBox.OutlineShadowBoxRoute
 import com.skul.yuriy.composeplayground.feature.stickyHeader.StickyHeaderRoute
 import com.skul.yuriy.composeplayground.feature.vectorIconShadow.VectorDrawableShadowScreen
+import com.skul.yuriy.composeplayground.feature.customBlur.CustomBlurScreen
+import com.skul.yuriy.composeplayground.feature.metaballBasic.MetaballBasicsScreen
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 import kotlinx.serialization.Serializable
 
@@ -77,6 +80,18 @@ fun NavController.navigateToMetaballMath() {
     navigate(Screens.Route.MetaballClassicMath)
 }
 
+fun NavController.navigateToMetaballEdges() {
+    navigate(Screens.Route.MetaballTextEdges)
+}
+
+fun NavController.navigateToCustomBlur() {
+    navigate(Screens.Route.CustomBlur)
+}
+
+fun NavController.navigateToMetaballPrimer() {
+    navigate(Screens.Route.MetaballPrimer)
+}
+
 @Serializable
 sealed class Screens {
 
@@ -123,6 +138,15 @@ sealed class Screens {
 
         @Serializable
         object MetaballClassicMath
+
+        @Serializable
+        object MetaballTextEdges
+
+        @Serializable
+        object CustomBlur
+
+        @Serializable
+        object MetaballPrimer
     }
 }
 
@@ -188,6 +212,18 @@ internal fun AppNavHost(
 
         composable<Screens.Route.MetaballClassicMath> {
             MetaballClassicScreen()
+        }
+
+        composable<Screens.Route.MetaballTextEdges> {
+            MetaballTextEdgeScreen()
+        }
+
+        composable<Screens.Route.CustomBlur> {
+            CustomBlurScreen()
+        }
+
+        composable<Screens.Route.MetaballPrimer> {
+            MetaballBasicsScreen()
         }
     }
 }
