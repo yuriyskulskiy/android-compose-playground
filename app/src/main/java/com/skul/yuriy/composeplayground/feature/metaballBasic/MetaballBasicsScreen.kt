@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.ScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,8 +35,10 @@ fun MetaballBasicsScreen(
     modifier: Modifier = Modifier,
 ) {
     val navBackStack = LocalNavBackStack.current
-    var selectedTab by remember { mutableStateOf(MetaballBasicsTab.GooeyEdge) }
+    var selectedTabOrdinal by rememberSaveable { mutableIntStateOf(MetaballBasicsTab.GooeyEdge.ordinal) }
+    val selectedTab = MetaballBasicsTab.entries.getOrElse(selectedTabOrdinal) { MetaballBasicsTab.GooeyEdge }
     val textMeltState = rememberTextMeltState()
+    val textMeltScrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(initial = 0) }
     var shouldComposeBottomBar by remember { mutableStateOf(false) }
     val tabs = MetaballBasicsTab.entries
 
@@ -61,7 +66,7 @@ fun MetaballBasicsScreen(
             MetaballBasicsTopBar(
                 tabs = tabs,
                 selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it },
+                onTabSelected = { selectedTabOrdinal = it.ordinal },
                 onNavUp = { navBackStack.navigateUp() },
                 shouldShowInfoAction = selectedTab == MetaballBasicsTab.TextMelt,
                 onInfoClick = { navBackStack.navigateToTextMetabalConcept() },
@@ -92,7 +97,8 @@ fun MetaballBasicsScreen(
         ) {
             MetaballBasicsContent(
                 selectedTab = selectedTab,
-                textMeltState = textMeltState
+                textMeltState = textMeltState,
+                textMeltScrollState = textMeltScrollState
             )
         }
     }
