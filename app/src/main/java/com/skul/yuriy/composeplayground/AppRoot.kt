@@ -17,6 +17,7 @@ import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScree
 import com.skul.yuriy.composeplayground.feature.customBlur.CustomBlurScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
 import com.skul.yuriy.composeplayground.feature.metaballBasic.MetaballBasicsScreen
+import com.skul.yuriy.composeplayground.feature.metaballBasic.text.concept.TextMetabalConceptScreen
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
 import com.skul.yuriy.composeplayground.feature.metaballClassic.MetaballClassicScreen
 import com.skul.yuriy.composeplayground.feature.metaballTextEdge.MetaballTextEdgeScreen
@@ -68,6 +69,7 @@ internal fun AppRoot(
             entry<Screens.MetaballTextEdges> { MetaballTextEdgeScreen() }
             entry<Screens.CustomBlur> { CustomBlurScreen() }
             entry<Screens.MetaballPrimer> { MetaballBasicsScreen() }
+            entry<Screens.TextMetaballConcept> { TextMetabalConceptScreen() }
         },
         modifier = modifier
     )

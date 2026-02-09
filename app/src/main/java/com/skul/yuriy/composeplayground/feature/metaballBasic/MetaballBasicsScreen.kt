@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.feature.metaballBasic.text.rememberTextMeltState
+import com.skul.yuriy.composeplayground.navigation.navigateToTextMetabalConcept
 import com.skul.yuriy.composeplayground.navigation.navigateUp
 
 
@@ -62,6 +63,8 @@ fun MetaballBasicsScreen(
                 selectedTab = selectedTab,
                 onTabSelected = { selectedTab = it },
                 onNavUp = { navBackStack.navigateUp() },
+                shouldShowInfoAction = selectedTab == MetaballBasicsTab.TextMelt,
+                onInfoClick = { navBackStack.navigateToTextMetabalConcept() },
             )
         },
         bottomBar = {

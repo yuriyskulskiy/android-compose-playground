@@ -56,4 +56,7 @@ sealed interface Screens : NavKey {
 
     @Serializable
     data object MetaballPrimer : Screens
+
+    @Serializable
+    data object TextMetaballConcept : Screens
 }
