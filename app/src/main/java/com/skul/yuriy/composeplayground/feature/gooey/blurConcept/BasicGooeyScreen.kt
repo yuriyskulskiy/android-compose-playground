@@ -18,17 +18,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.gooey.MitosisButtonsSection
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.util.ScreenBackground
 import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
 
 
 @Composable
 fun GooeyBasicScreen() {
-    val navController: NavController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
 
     Scaffold(
         containerColor = Color.White,
@@ -43,7 +43,7 @@ fun GooeyBasicScreen() {
                     titleColor = Color.Black,
                     containerColor = Color.Transparent,
                     title = "Gooey Effect Across APIs",
-                    onNavUp = { navController.navigateUp() },
+                    onNavUp = { navBackStack.navigateUp() },
                     dividerColor = Color.Transparent,
                     enableHorizontalDivider = false
                 )

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
-
 plugins {
     alias(libs.plugins.android.application)
 
@@ -70,15 +68,21 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3.android)
 
-    debugImplementation(libs.androidx.ui.tooling) // для превью
+    //nav 3
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    // If using the ViewModel add-on library
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
-    implementation(libs.navigation.compose)
+
+    debugImplementation(libs.androidx.ui.tooling) // for preview
+
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
 
     implementation(libs.androidx.compose.material.icons.extended)
-     ksp(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
-    implementation (libs.coil.compose)
+    implementation(libs.coil.compose)
 }

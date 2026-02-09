@@ -28,8 +28,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.util.ScreenBackground
 
 
@@ -63,7 +64,7 @@ fun OutlineShadowBoxScreen(
     onToggleClick: () -> Unit,
     showBackground: Boolean
 ) {
-    val navController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -85,7 +86,7 @@ fun OutlineShadowBoxScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = { navBackStack.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.go_back)

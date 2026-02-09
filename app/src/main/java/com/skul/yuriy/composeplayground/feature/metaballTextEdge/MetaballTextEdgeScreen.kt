@@ -1,5 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.metaballTextEdge
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -14,17 +16,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.scrollEdge.fadingEdge.BottomBar
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 
 
+@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MetaballTextEdgeScreen(
     modifier: Modifier = Modifier
 ) {
-    val navController = LocalNavController.current
+    val localNavBackStack = LocalNavBackStack.current
     Scaffold(
         modifier = modifier,
         containerColor = Color.White,
@@ -36,7 +40,7 @@ fun MetaballTextEdgeScreen(
                     containerColor = Color.Black
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = { localNavBackStack.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Go Back"

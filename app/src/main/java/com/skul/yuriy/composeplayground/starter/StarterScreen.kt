@@ -21,24 +21,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedArk
-import com.skul.yuriy.composeplayground.navigation.navigateToVectorIconWithShadow
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedCircularBtn
-import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
-import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToBottomEdgeShadowScreen
+import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToCustomBlur
+import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
-import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballPrimer
+import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
 import com.skul.yuriy.composeplayground.navigation.navigateToShadowBox
 import com.skul.yuriy.composeplayground.navigation.navigateToStickyHeaderStateTracker
+import com.skul.yuriy.composeplayground.navigation.navigateToVectorIconWithShadow
 
 
 @Composable
@@ -64,60 +64,61 @@ fun NavigationContent(modifier: Modifier) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        val navController = LocalNavController.current
-
+        val localNavBackStack = LocalNavBackStack.current
         NavigationItem(
             text = stringResource(R.string.metaball_primer_title),
-            onClick = { navController.navigateToMetaballPrimer() })
+            onClick = {
+                localNavBackStack.navigateToMetaballPrimer()
+            })
 
         NavigationItem(
             text = stringResource(R.string.metaball_text_edge),
-            onClick = { navController.navigateToMetaballEdges() })
+            onClick = { localNavBackStack.navigateToMetaballEdges() })
 
         NavigationItem(
             text = stringResource(R.string.custom_blur),
-            onClick = { navController.navigateToCustomBlur() })
+            onClick = { localNavBackStack.navigateToCustomBlur() })
 
 
         NavigationItem(
             text = stringResource(R.string.parallax_scroll_list),
-            onClick = { navController.navigateToParallax() })
+            onClick = { localNavBackStack.navigateToParallax() })
         NavigationItem(
             text = stringResource(R.string.metaballs_blur),
-            onClick = { navController.navigateToMetaballsScreen() })
+            onClick = { localNavBackStack.navigateToMetaballsScreen() })
         NavigationItem(
             text = stringResource(R.string.topbar_animated_elevation),
-            onClick = { navController.navigateToAnimatedElevationEdge() })
+            onClick = { localNavBackStack.navigateToAnimatedElevationEdge() })
         NavigationItem(
             text = stringResource(R.string.fading_edges_screen),
-            onClick = { navController.navigateToFadingEdgesScreen() })
+            onClick = { localNavBackStack.navigateToFadingEdgesScreen() })
         NavigationItem(
             text = stringResource(R.string.circular_halo_border),
-            onClick = { navController.navigateToCircularHaloBorder() })
+            onClick = { localNavBackStack.navigateToCircularHaloBorder() })
         NavigationItem(
             text = stringResource(R.string.animated_ark),
-            onClick = { navController.navigateToAnimatedArk() })
+            onClick = { localNavBackStack.navigateToAnimatedArk() })
         NavigationItem(
             text = stringResource(R.string.transparent_outline_shadow),
-            onClick = { navController.navigateToShadowBox() })
+            onClick = { localNavBackStack.navigateToShadowBox() })
         NavigationItem(
             text = stringResource(R.string.bottom_edge_shadow),
-            onClick = { navController.navigateToBottomEdgeShadowScreen() })
+            onClick = { localNavBackStack.navigateToBottomEdgeShadowScreen() })
         NavigationItem(
             text = stringResource(R.string.sticky_header_state_tracker),
-            onClick = { navController.navigateToStickyHeaderStateTracker() })
+            onClick = { localNavBackStack.navigateToStickyHeaderStateTracker() })
         NavigationItem(
             text = stringResource(R.string.vector_drawable_shadow),
-            onClick = { navController.navigateToVectorIconWithShadow() })
+            onClick = { localNavBackStack.navigateToVectorIconWithShadow() })
         NavigationItem(
             text = stringResource(R.string.animated_circular_button),
-            onClick = { navController.navigateToAnimatedCircularBtn() })
+            onClick = { localNavBackStack.navigateToAnimatedCircularBtn() })
         NavigationItem(
             text = "Gooey Effect",
-            onClick = { navController.navigateToGooeyScreen() })
+            onClick = { localNavBackStack.navigateToGooeyScreen() })
         NavigationItem(
             text = stringResource(R.string.metaballs_classic_approach),
-            onClick = { navController.navigateToMetaballMath() })
+            onClick = { localNavBackStack.navigateToMetaballMath() })
 
     }
 }

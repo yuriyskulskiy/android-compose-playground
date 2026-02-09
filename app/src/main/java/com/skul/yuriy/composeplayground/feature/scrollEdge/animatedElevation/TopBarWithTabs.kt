@@ -15,8 +15,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,11 +27,11 @@ fun TopBarWithTabs(
     selectedTab: Tab,
     onTabSelected: (Tab) -> Unit,
 ) {
-    val navController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
     Column(modifier = modifier) {
         TopAppBar(
             navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
+                IconButton(onClick = { navBackStack.navigateUp() }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Go Back"

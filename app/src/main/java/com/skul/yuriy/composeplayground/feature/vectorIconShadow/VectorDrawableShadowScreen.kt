@@ -15,13 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
 
 @Composable
 fun VectorDrawableShadowScreen() {
-    val navController: NavController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -31,7 +31,7 @@ fun VectorDrawableShadowScreen() {
 
         CustomTopAppBar(
             modifier = Modifier.fillMaxWidth(),
-            onNavUp = { navController.navigateUp() },
+            onNavUp = { navBackStack.navigateUp() },
             title = "Vector drawable shadow"
         )
 

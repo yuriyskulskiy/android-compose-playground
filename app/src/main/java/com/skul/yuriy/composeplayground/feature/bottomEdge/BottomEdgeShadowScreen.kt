@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.util.regularComponents.NavBackIconButton
 import com.skul.yuriy.composeplayground.util.shadowborder.shadowWithClipIntersect
 
@@ -34,7 +34,7 @@ import com.skul.yuriy.composeplayground.util.shadowborder.shadowWithClipIntersec
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomEdgeShadowScreen() {
-    val navController: NavController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
 
     Column(
         Modifier
@@ -44,7 +44,7 @@ fun BottomEdgeShadowScreen() {
             Modifier
                 .statusBarsPadding()
                 .padding(24.dp),
-            navigateBack = { navController.navigateUp() }
+            navigateBack = { navBackStack.navigateUp() }
         )
 
         Column(
@@ -67,7 +67,7 @@ fun BottomEdgeShadowScreen() {
                     ),
                 title = { Text(stringResource(R.string.rectangle_bottom_edge)) },
                 navigationIcon = {
-                    NavBackIconButton(navigateBack = { navController.navigateUp() })
+                    NavBackIconButton(navigateBack = { navBackStack.navigateUp() })
                 },
             )
 
@@ -88,7 +88,7 @@ fun BottomEdgeShadowScreen() {
                     Text(text = stringResource(R.string.rounded_corners_bottom_edge))
                 },
                 navigationIcon = {
-                    NavBackIconButton(navigateBack = { navController.navigateUp() })
+                    NavBackIconButton(navigateBack = { navBackStack.navigateUp() })
                 },
             )
 

@@ -19,8 +19,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.feature.metaballBasic.text.rememberTextMeltState
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -29,7 +30,7 @@ import com.skul.yuriy.composeplayground.feature.metaballBasic.text.rememberTextM
 fun MetaballBasicsScreen(
     modifier: Modifier = Modifier,
 ) {
-    val navController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
     var selectedTab by remember { mutableStateOf(MetaballBasicsTab.GooeyEdge) }
     val textMeltState = rememberTextMeltState()
     var shouldComposeBottomBar by remember { mutableStateOf(false) }
@@ -60,7 +61,7 @@ fun MetaballBasicsScreen(
                 tabs = tabs,
                 selectedTab = selectedTab,
                 onTabSelected = { selectedTab = it },
-                onNavUp = { navController.navigateUp() },
+                onNavUp = { navBackStack.navigateUp() },
             )
         },
         bottomBar = {

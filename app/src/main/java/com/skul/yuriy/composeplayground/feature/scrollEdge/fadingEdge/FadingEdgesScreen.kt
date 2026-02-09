@@ -30,8 +30,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.util.ScreenBackground
 import com.skul.yuriy.composeplayground.util.fadingTopBottomEdgesDp
 
@@ -53,12 +54,12 @@ fun FadingEdgesRoute() {
 fun FadingEdgesScreen(
     modifier: Modifier = Modifier
 ) {
-    val navController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
     Scaffold(
         modifier = modifier,
         containerColor = Color.Transparent,
         topBar = {
-            FadingEdgesTopBar(onNavigateUp = { navController.navigateUp() })
+            FadingEdgesTopBar(onNavigateUp = { navBackStack.navigateUp() })
         },
         bottomBar = { BottomBar() }
     ) { paddingValues ->

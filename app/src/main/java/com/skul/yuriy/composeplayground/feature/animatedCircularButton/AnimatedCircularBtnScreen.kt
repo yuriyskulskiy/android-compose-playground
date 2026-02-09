@@ -9,15 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.util.cornerRedLinearGradient2
 import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
 
 @Composable
 fun AnimatedCircularBtnScreen() {
-    val navController: NavController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -27,7 +27,7 @@ fun AnimatedCircularBtnScreen() {
 
         CustomTopAppBar(
             modifier = Modifier.fillMaxWidth(),
-            onNavUp = { navController.navigateUp() },
+            onNavUp = { navBackStack.navigateUp() },
             containerColor = Color.Transparent,
             title = stringResource(R.string.animated_circular_button)
         )

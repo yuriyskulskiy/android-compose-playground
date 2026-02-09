@@ -23,20 +23,22 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.navigation.NavController
-import com.skul.yuriy.composeplayground.LocalNavController
+import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.util.regularComponents.AdaptiveSquareBoxBasedOnOrientation
 import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
 import kotlinx.coroutines.delay
 
 @Composable
 fun MetaballClassicScreen() {
-    val navController: NavController = LocalNavController.current
+    val localNavBackStack = LocalNavBackStack.current
     Column(Modifier.fillMaxSize()) {
         CustomTopAppBar(
             title = stringResource(R.string.metaballs_classic_approach),
-            onNavUp = { navController.navigateUp() })
+            onNavUp = {
+                localNavBackStack.navigateUp()
+            })
         Box(
             modifier = Modifier
                 .fillMaxSize(),
