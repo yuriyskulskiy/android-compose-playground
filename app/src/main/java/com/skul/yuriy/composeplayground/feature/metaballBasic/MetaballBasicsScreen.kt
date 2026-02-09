@@ -2,11 +2,11 @@ package com.skul.yuriy.composeplayground.feature.metaballBasic
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.ScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -60,7 +60,7 @@ fun MetaballBasicsScreen(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         containerColor = Color.White,
         topBar = {
             MetaballBasicsTopBar(

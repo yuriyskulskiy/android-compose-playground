@@ -3,7 +3,10 @@ package com.skul.yuriy.composeplayground
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
@@ -33,6 +36,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.starter.StarterRoute
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 internal fun AppRoot(
     modifier: Modifier = Modifier,
@@ -43,34 +47,38 @@ internal fun AppRoot(
         backStack.navigateUp()
     }
 
-    NavDisplay(
-        backStack = backStack,
-        // Adds SaveableState support per destination
-        entryDecorators = listOf(
-            rememberSaveableStateHolderNavEntryDecorator(),
-            // Provides a destination-scoped ViewModelStoreOwner
-            rememberViewModelStoreNavEntryDecorator(),
-        ),
-        entryProvider = entryProvider {
-            entry<Screens.Starter> { StarterRoute() }
-            entry<Screens.Parallax> { ParallaxRoute() }
-            entry<Screens.StickyHeaderStateTracker> { StickyHeaderRoute() }
-            entry<Screens.MetaballScreen> { MetaballsScreen() }
-            entry<Screens.AnimatedElevationEdge> { AnimatedElevationRoute() }
-            entry<Screens.FadingEdgesScreen> { FadingEdgesRoute() }
-            entry<Screens.CircularHaloShadow> { CircularHaloShadowScreen() }
-            entry<Screens.VectorDrawableShadow> { VectorDrawableShadowScreen() }
-            entry<Screens.TransparentShadowBox> { OutlineShadowBoxRoute() }
-            entry<Screens.AnimatedArk> { AnimatedArkScreen() }
-            entry<Screens.BottomEdgeShadow> { BottomEdgeShadowScreen() }
-            entry<Screens.AnimateCircularButton> { AnimatedCircularBtnScreen() }
-            entry<Screens.GooeyEffect> { GooeyBasicScreen() }
-            entry<Screens.MetaballClassicMath> { MetaballClassicScreen() }
-            entry<Screens.MetaballTextEdges> { MetaballTextEdgeScreen() }
-            entry<Screens.CustomBlur> { CustomBlurScreen() }
-            entry<Screens.MetaballPrimer> { MetaballBasicsScreen() }
-            entry<Screens.TextMetaballConcept> { TextMetabalConceptScreen() }
-        },
-        modifier = modifier
-    )
+    SharedTransitionLayout {
+        CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
+            NavDisplay(
+                backStack = backStack,
+                // Adds SaveableState support per destination
+                entryDecorators = listOf(
+                    rememberSaveableStateHolderNavEntryDecorator(),
+                    // Provides a destination-scoped ViewModelStoreOwner
+                    rememberViewModelStoreNavEntryDecorator(),
+                ),
+                entryProvider = entryProvider {
+                    entry<Screens.Starter> { StarterRoute() }
+                    entry<Screens.Parallax> { ParallaxRoute() }
+                    entry<Screens.StickyHeaderStateTracker> { StickyHeaderRoute() }
+                    entry<Screens.MetaballScreen> { MetaballsScreen() }
+                    entry<Screens.AnimatedElevationEdge> { AnimatedElevationRoute() }
+                    entry<Screens.FadingEdgesScreen> { FadingEdgesRoute() }
+                    entry<Screens.CircularHaloShadow> { CircularHaloShadowScreen() }
+                    entry<Screens.VectorDrawableShadow> { VectorDrawableShadowScreen() }
+                    entry<Screens.TransparentShadowBox> { OutlineShadowBoxRoute() }
+                    entry<Screens.AnimatedArk> { AnimatedArkScreen() }
+                    entry<Screens.BottomEdgeShadow> { BottomEdgeShadowScreen() }
+                    entry<Screens.AnimateCircularButton> { AnimatedCircularBtnScreen() }
+                    entry<Screens.GooeyEffect> { GooeyBasicScreen() }
+                    entry<Screens.MetaballClassicMath> { MetaballClassicScreen() }
+                    entry<Screens.MetaballTextEdges> { MetaballTextEdgeScreen() }
+                    entry<Screens.CustomBlur> { CustomBlurScreen() }
+                    entry<Screens.MetaballBasicTextAndEdge> { MetaballBasicsScreen() }
+                    entry<Screens.TextMetaballConcept> { TextMetabalConceptScreen() }
+                },
+                modifier = modifier
+            )
+        }
+    }
 }

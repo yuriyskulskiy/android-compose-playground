@@ -80,7 +80,7 @@ fun NavBackStack<NavKey>.navigateToCustomBlur() =
     navigate(Screens.CustomBlur)
 
 fun NavBackStack<NavKey>.navigateToMetaballPrimer() =
-    navigate(Screens.MetaballPrimer)
+    navigate(Screens.MetaballBasicTextAndEdge)
 
 fun NavBackStack<NavKey>.navigateToTextMetabalConcept() =
     navigate(Screens.TextMetaballConcept)

@@ -1,11 +1,13 @@
 package com.skul.yuriy.composeplayground.feature.metaballBasic
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,13 +27,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
+import com.skul.yuriy.composeplayground.LocalSharedTransitionScope
 import com.skul.yuriy.composeplayground.R
-import androidx.compose.ui.res.stringResource
-import androidx.compose.foundation.shape.RoundedCornerShape
+import com.skul.yuriy.composeplayground.feature.metaballBasic.text.concept.TextMetaballConceptSharedKey
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
 internal fun MetaballBasicsTopBar(
     tabs: List<MetaballBasicsTab>,
@@ -42,10 +46,23 @@ internal fun MetaballBasicsTopBar(
     onInfoClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val infoActionModifier = if (sharedTransitionScope != null) {
+        with(sharedTransitionScope) {
+            Modifier.sharedBounds(
+                sharedContentState = rememberSharedContentState(key = TextMetaballConceptSharedKey),
+                animatedVisibilityScope = LocalNavAnimatedContentScope.current
+            )
+        }
+    } else {
+        Modifier
+    }
+
     Column(modifier = modifier) {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
                 navigationIconContentColor = Color.White,
+                actionIconContentColor = Color.White,
                 titleContentColor = Color.White,
                 containerColor = Color.Black
             ),
@@ -66,7 +83,10 @@ internal fun MetaballBasicsTopBar(
                     enter = fadeIn() + scaleIn(),
                     exit = fadeOut() + scaleOut()
                 ) {
-                    IconButton(onClick = onInfoClick) {
+                    IconButton(
+                        onClick = onInfoClick,
+                        modifier = infoActionModifier
+                    ) {
                         Icon(
                             imageVector = Icons.Filled.Info,
                             contentDescription = stringResource(R.string.metaball_primer_open_concept_info)

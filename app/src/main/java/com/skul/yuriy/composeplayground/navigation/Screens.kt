@@ -55,7 +55,7 @@ sealed interface Screens : NavKey {
     data object CustomBlur : Screens
 
     @Serializable
-    data object MetaballPrimer : Screens
+    data object MetaballBasicTextAndEdge : Screens
 
     @Serializable
     data object TextMetaballConcept : Screens
