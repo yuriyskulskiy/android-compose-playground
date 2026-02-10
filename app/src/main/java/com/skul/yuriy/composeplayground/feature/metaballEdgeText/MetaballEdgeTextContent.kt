@@ -12,15 +12,15 @@ import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.TextMeltSt
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-internal fun MetaballBasicsContent(
-    selectedTab: MetaballBasicsTab,
+internal fun MetaballEdgeTextContent(
+    selectedTab: MetaballEdgeTextTab,
     textMeltState: TextMeltState,
     textMeltScrollState: ScrollState,
     modifier: Modifier = Modifier,
 ) {
     val fullModifier = modifier.fillMaxSize()
     when (selectedTab) {
-        MetaballBasicsTab.GooeyEdge -> GooeyEdgeScreen(modifier = fullModifier)
+        MetaballEdgeTextTab.GooeyEdge -> GooeyEdgeScreen(modifier = fullModifier)
         else -> TextMeltScreen(
             state = textMeltState,
             scrollState = textMeltScrollState,

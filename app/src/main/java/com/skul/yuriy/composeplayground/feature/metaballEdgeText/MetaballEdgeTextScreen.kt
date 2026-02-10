@@ -35,14 +35,14 @@ fun MetaballEdgeTextScreen(
     modifier: Modifier = Modifier,
 ) {
     val navBackStack = LocalNavBackStack.current
-    var selectedTabOrdinal by rememberSaveable { mutableIntStateOf(MetaballBasicsTab.GooeyEdge.ordinal) }
-    val selectedTab = MetaballBasicsTab.entries.getOrElse(selectedTabOrdinal) { MetaballBasicsTab.GooeyEdge }
+    var selectedTabOrdinal by rememberSaveable { mutableIntStateOf(MetaballEdgeTextTab.GooeyEdge.ordinal) }
+    val selectedTab = MetaballEdgeTextTab.entries.getOrElse(selectedTabOrdinal) { MetaballEdgeTextTab.GooeyEdge }
     val textMeltState = rememberTextMeltState()
     val textMeltScrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(initial = 0) }
     var shouldComposeBottomBar by remember { mutableStateOf(false) }
-    val tabs = MetaballBasicsTab.entries
+    val tabs = MetaballEdgeTextTab.entries
 
-    val bottomBarVisible = selectedTab == MetaballBasicsTab.TextMelt
+    val bottomBarVisible = selectedTab == MetaballEdgeTextTab.TextMelt
 
     val density = LocalDensity.current
     var bottomBarHeightDp by remember { mutableStateOf(0.dp) }
@@ -63,18 +63,18 @@ fun MetaballEdgeTextScreen(
         modifier = modifier.fillMaxSize(),
         containerColor = Color.White,
         topBar = {
-            MetaballBasicsTopBar(
+            MetaballEdgeTextTopBar(
                 tabs = tabs,
                 selectedTab = selectedTab,
                 onTabSelected = { selectedTabOrdinal = it.ordinal },
                 onNavUp = { navBackStack.navigateUp() },
-                shouldShowInfoAction = selectedTab == MetaballBasicsTab.TextMelt,
+                shouldShowInfoAction = selectedTab == MetaballEdgeTextTab.TextMelt,
                 onInfoClick = { navBackStack.navigateToTextMetabalConcept() },
             )
         },
         bottomBar = {
             if (shouldComposeBottomBar) {
-                MetaballBasicsBottomBar(
+                MetaballEdgeTextBottomBar(
                     modifier = Modifier
                         .onSizeChanged { size ->
                             bottomBarHeightDp = with(density) { size.height.toDp() }
@@ -95,7 +95,7 @@ fun MetaballEdgeTextScreen(
                 .fillMaxSize()
                 .padding(animatedPadding)
         ) {
-            MetaballBasicsContent(
+            MetaballEdgeTextContent(
                 selectedTab = selectedTab,
                 textMeltState = textMeltState,
                 textMeltScrollState = textMeltScrollState

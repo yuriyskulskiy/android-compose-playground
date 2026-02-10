@@ -18,8 +18,8 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,10 +37,10 @@ import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.concept.Te
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
-internal fun MetaballBasicsTopBar(
-    tabs: List<MetaballBasicsTab>,
-    selectedTab: MetaballBasicsTab,
-    onTabSelected: (MetaballBasicsTab) -> Unit,
+internal fun MetaballEdgeTextTopBar(
+    tabs: List<MetaballEdgeTextTab>,
+    selectedTab: MetaballEdgeTextTab,
+    onTabSelected: (MetaballEdgeTextTab) -> Unit,
     onNavUp: () -> Unit,
     shouldShowInfoAction: Boolean,
     onInfoClick: () -> Unit,
@@ -95,15 +95,15 @@ internal fun MetaballBasicsTopBar(
                 }
             }
         )
-        TabRow(
+        PrimaryTabRow(
             selectedTabIndex = selectedTab.ordinal,
             containerColor = Color.Black,
             contentColor = Color.White,
             divider = {},
-            indicator = { tabPositions ->
+            indicator = {
                 Box(
                     modifier = Modifier
-                        .tabIndicatorOffset(tabPositions[selectedTab.ordinal])
+                        .tabIndicatorOffset(selectedTab.ordinal)
                         .fillMaxSize()
                         .padding(horizontal = 8.dp, vertical = 6.dp)
                         .border(

@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import com.skul.yuriy.composeplayground.R
 
 @Composable
-internal fun MetaballBasicsBottomBar(
+internal fun MetaballEdgeTextBottomBar(
     onPrevious: () -> Unit,
     onNext: () -> Unit,
     modifier: Modifier = Modifier,
