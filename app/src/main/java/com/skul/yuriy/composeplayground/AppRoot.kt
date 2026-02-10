@@ -19,8 +19,8 @@ import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedC
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.customBlur.CustomBlurScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
-import com.skul.yuriy.composeplayground.feature.metaballBasic.MetaballBasicsScreen
-import com.skul.yuriy.composeplayground.feature.metaballBasic.text.concept.TextMetabalConceptScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgeText.MetaballEdgeTextScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.concept.TextMetaballConceptScreen
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
 import com.skul.yuriy.composeplayground.feature.metaballClassic.MetaballClassicScreen
 import com.skul.yuriy.composeplayground.feature.metaballTextEdge.MetaballTextEdgeScreen
@@ -74,8 +74,8 @@ internal fun AppRoot(
                     entry<Screens.MetaballClassicMath> { MetaballClassicScreen() }
                     entry<Screens.MetaballTextEdges> { MetaballTextEdgeScreen() }
                     entry<Screens.CustomBlur> { CustomBlurScreen() }
-                    entry<Screens.MetaballBasicTextAndEdge> { MetaballBasicsScreen() }
-                    entry<Screens.TextMetaballConcept> { TextMetabalConceptScreen() }
+                    entry<Screens.MetaballBasicTextAndEdge> { MetaballEdgeTextScreen() }
+                    entry<Screens.TextMetaballConcept> { TextMetaballConceptScreen() }
                 },
                 modifier = modifier
             )

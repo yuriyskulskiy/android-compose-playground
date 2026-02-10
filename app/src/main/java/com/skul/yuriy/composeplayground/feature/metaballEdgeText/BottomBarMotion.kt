@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballBasic
+package com.skul.yuriy.composeplayground.feature.metaballEdgeText
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween

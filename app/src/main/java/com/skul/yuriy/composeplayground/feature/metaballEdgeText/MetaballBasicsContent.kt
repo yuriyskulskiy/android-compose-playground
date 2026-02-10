@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballBasic
+package com.skul.yuriy.composeplayground.feature.metaballEdgeText
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -6,9 +6,9 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.fillMaxSize
-import com.skul.yuriy.composeplayground.feature.metaballBasic.edge.GooeyEdgeScreen
-import com.skul.yuriy.composeplayground.feature.metaballBasic.text.TextMeltScreen
-import com.skul.yuriy.composeplayground.feature.metaballBasic.text.TextMeltState
+import com.skul.yuriy.composeplayground.feature.metaballEdgeText.edge.GooeyEdgeScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.TextMeltScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.TextMeltState
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable

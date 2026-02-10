@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballBasic
+package com.skul.yuriy.composeplayground.feature.metaballEdgeText
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -23,7 +23,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
-import com.skul.yuriy.composeplayground.feature.metaballBasic.text.rememberTextMeltState
+import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.rememberTextMeltState
 import com.skul.yuriy.composeplayground.navigation.navigateToTextMetabalConcept
 import com.skul.yuriy.composeplayground.navigation.navigateUp
 
@@ -31,7 +31,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateUp
 @RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MetaballBasicsScreen(
+fun MetaballEdgeTextScreen(
     modifier: Modifier = Modifier,
 ) {
     val navBackStack = LocalNavBackStack.current

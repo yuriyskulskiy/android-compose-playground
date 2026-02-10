@@ -65,4 +65,5 @@
     <string name="metaballs_classic_approach">Metaballs: Classic Approach</string>
     <string name="metaball_primer_open_concept_info">Open text metaball concept</string>
     <string name="text_metabal_concept_title">Text Metaball Concept</string>
+    <string name="alpha_filter">Alpha filter (%)</string>
 </resources>

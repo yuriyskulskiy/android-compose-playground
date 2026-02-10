@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballBasic
+package com.skul.yuriy.composeplayground.feature.metaballEdgeText
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import com.skul.yuriy.composeplayground.LocalSharedTransitionScope
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.feature.metaballBasic.text.concept.TextMetaballConceptSharedKey
+import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.concept.TextMetaballConceptSharedKey
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
