@@ -1,10 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.concept
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,18 +10,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.LocalSharedTransitionScope
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateUp
+import com.skul.yuriy.composeplayground.util.motion.rememberBottomBarMotion
+import com.skul.yuriy.composeplayground.util.motion.withAnimatedBottomInset
 import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
 import kotlinx.coroutines.delay
-import androidx.navigation3.ui.LocalNavAnimatedContentScope
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -39,6 +42,13 @@ fun TextMetaballConceptScreen(
     var blurEnabled by rememberSaveable { mutableStateOf(true) }
     var alphaEnabled by rememberSaveable { mutableStateOf(true) }
     var showBottomBar by rememberSaveable { mutableStateOf(false) }
+    val density = LocalDensity.current
+    var bottomBarHeightDp by remember { mutableStateOf(0.dp) }
+    val motion = rememberBottomBarMotion(
+        visible = showBottomBar,
+        barHeight = bottomBarHeightDp,
+        onHidden = {}
+    )
     val containerModifier = if (sharedTransitionScope != null) {
         with(sharedTransitionScope) {
             Modifier
@@ -51,9 +61,11 @@ fun TextMetaballConceptScreen(
     } else {
         Modifier.fillMaxSize()
     }
-    LaunchedEffect(Unit) {
-        delay(180)
-        showBottomBar = true
+    LaunchedEffect(bottomBarHeightDp, showBottomBar) {
+        if (!showBottomBar && bottomBarHeightDp > 0.dp) {
+            delay(180)
+            showBottomBar = true
+        }
     }
 
     Scaffold(
@@ -70,26 +82,34 @@ fun TextMetaballConceptScreen(
             )
         },
         bottomBar = {
-            AnimatedVisibility(
-                visible = showBottomBar,
-                enter = slideInVertically(
-                    animationSpec = tween(durationMillis = 420),
-                    initialOffsetY = { fullHeight -> fullHeight }
-                ) + fadeIn(animationSpec = tween(durationMillis = 320))
-            ) {
-                ConceptControlsBottomBar(
-                    blurRadiusDp = blurRadiusDp,
-                    onBlurRadiusChange = { blurRadiusDp = it },
-                    blurEnabled = blurEnabled,
-                    onBlurEnabledChange = { blurEnabled = it },
-                    alphaFilterPercent = alphaFilterPercent,
-                    onAlphaFilterChange = { alphaFilterPercent = it },
-                    alphaEnabled = alphaEnabled,
-                    onAlphaEnabledChange = { alphaEnabled = it },
-                )
-            }
+            ConceptControlsBottomBar(
+                blurRadiusDp = blurRadiusDp,
+                onBlurRadiusChange = { blurRadiusDp = it },
+                blurEnabled = blurEnabled,
+                onBlurEnabledChange = { blurEnabled = it },
+                alphaFilterPercent = alphaFilterPercent,
+                onAlphaFilterChange = { alphaFilterPercent = it },
+                alphaEnabled = alphaEnabled,
+                onAlphaEnabledChange = { alphaEnabled = it },
+                modifier = Modifier
+                    .onSizeChanged { size ->
+                        bottomBarHeightDp = with(density) { size.height.toDp() }
+                    }
+                    .graphicsLayer {
+                        alpha = if (bottomBarHeightDp == 0.dp) 0f else 1f
+                        translationY = with(density) {
+                            val hiddenOffsetPx = bottomBarHeightDp.toPx()
+                            if (showBottomBar) {
+                                motion.barTranslationY.toPx()
+                            } else {
+                                hiddenOffsetPx
+                            }
+                        }
+                    },
+            )
         }
     ) { paddingValues ->
+        val animatedPadding = paddingValues.withAnimatedBottomInset(motion.contentBottomInset)
         ConceptBlurTextContent(
             blurRadiusDp = blurRadiusDp,
             blurEnabled = blurEnabled,
@@ -97,7 +117,7 @@ fun TextMetaballConceptScreen(
             alphaFilterPercent = alphaFilterPercent,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(animatedPadding)
         )
     }
 }

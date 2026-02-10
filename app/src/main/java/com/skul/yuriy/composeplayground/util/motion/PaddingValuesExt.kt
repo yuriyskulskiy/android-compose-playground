@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgeText
+package com.skul.yuriy.composeplayground.util.motion
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable

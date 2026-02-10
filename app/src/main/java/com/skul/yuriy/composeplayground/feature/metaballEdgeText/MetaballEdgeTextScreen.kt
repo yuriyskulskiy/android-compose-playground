@@ -26,6 +26,8 @@ import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.rememberTextMeltState
 import com.skul.yuriy.composeplayground.navigation.navigateToTextMetabalConcept
 import com.skul.yuriy.composeplayground.navigation.navigateUp
+import com.skul.yuriy.composeplayground.util.motion.rememberBottomBarMotion
+import com.skul.yuriy.composeplayground.util.motion.withAnimatedBottomInset
 
 
 @RequiresApi(Build.VERSION_CODES.S)
