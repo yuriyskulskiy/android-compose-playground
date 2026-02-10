@@ -2,10 +2,12 @@ package com.skul.yuriy.composeplayground.feature.metaballEdgeText
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.fillMaxSize
 import com.skul.yuriy.composeplayground.feature.metaballEdgeText.tabs.edge.GooeyEdgeScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgeText.tabs.text.TextMeltScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgeText.tabs.text.TextMeltState
@@ -19,12 +21,20 @@ internal fun MetaballEdgeTextContent(
     modifier: Modifier = Modifier,
 ) {
     val fullModifier = modifier.fillMaxSize()
-    when (selectedTab) {
-        MetaballEdgeTextTab.GooeyEdge -> GooeyEdgeScreen(modifier = fullModifier)
-        else -> TextMeltScreen(
-            state = textMeltState,
-            scrollState = textMeltScrollState,
-            modifier = fullModifier
-        )
+
+    Crossfade(
+        targetState = selectedTab,
+        animationSpec = tween(durationMillis = 220),
+        modifier = fullModifier,
+        label = "metaballEdgeTextTabsTransition",
+    ) { tab ->
+        when (tab) {
+            MetaballEdgeTextTab.GooeyEdge -> GooeyEdgeScreen(modifier = Modifier.fillMaxSize())
+            else -> TextMeltScreen(
+                state = textMeltState,
+                scrollState = textMeltScrollState,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 }
