@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -33,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import com.skul.yuriy.composeplayground.LocalSharedTransitionScope
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.feature.metaballEdgeText.text.concept.TextMetaballConceptSharedKey
+import com.skul.yuriy.composeplayground.feature.metaballEdgeText.conceptSubscreen.TextMetaballConceptSharedKey
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable

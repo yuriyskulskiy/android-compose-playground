@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgeText.edge
+package com.skul.yuriy.composeplayground.feature.metaballEdgeText.tabs.edge
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -63,7 +64,7 @@ fun GooeyEdgeScreen(
     val decay = remember { exponentialDecay<Offset>(frictionMultiplier = 3f) }
     val controller = rememberDragFlingController(
         radiusPx = { radiusPx },
-        containerSize = { androidx.compose.ui.geometry.Size(containerWidth, containerHeight) },
+        containerSize = { Size(containerWidth, containerHeight) },
         overflowMultiplier = 3f,
         velocityScale = 1f,
         scope = scope,
