@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgeText.conceptSubscreen
+package com.skul.yuriy.composeplayground.feature.metaballEdgeText.textScreen
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.layout.fillMaxSize

@@ -23,6 +23,11 @@ import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RenderEffect
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold20PercentEffect
@@ -54,33 +59,46 @@ fun TextMeltScreen(
         MeltExampleItem(
             text = state.currentDay,
             blurRadius = state.blur,
-            description = buildDescription(maxBlurBase, 5),
+            maxBlur = maxBlurBase,
+            alphaPercent = 5,
             alphaEffect = alphaThreshold5PercentEffect,
         )
         MeltExampleItem(
             text = state.currentDay,
             blurRadius = state.blur * multiplierDouble,
-            description = buildDescription(maxBlurBase * multiplierDouble, 20),
+            maxBlur = maxBlurBase * multiplierDouble,
+            alphaPercent = 20,
             alphaEffect = alphaThreshold20PercentEffect,
         )
         MeltExampleItem(
             text = state.currentDay,
             blurRadius = state.blur * multiplierQuarter,
-            description = buildDescription(maxBlurBase * multiplierQuarter, 70),
+            maxBlur = maxBlurBase * multiplierQuarter,
+            alphaPercent = 70,
             alphaEffect = alphaThreshold70PercentEffect,
         )
     }
 }
 
-private fun buildDescription(maxBlur: Dp, alphaPercent: Int): String {
-    return "Animation: blur radius from 0 to ${maxBlur.value.toInt()}.dp; alpha filter = $alphaPercent%"
+private fun buildDescription(maxBlur: Dp, alphaPercent: Int): AnnotatedString {
+    return buildAnnotatedString {
+        append("Animation: blur radius from 0 to ")
+        withStyle(SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+            append("${maxBlur.value.toInt()}.dp")
+        }
+        append("; alpha filter = ")
+        withStyle(SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+            append("$alphaPercent%")
+        }
+    }
 }
 
 @Composable
 private fun MeltExampleItem(
     text: String,
     blurRadius: Dp,
-    description: String,
+    maxBlur: Dp,
+    alphaPercent: Int,
     alphaEffect: RenderEffect,
     modifier: Modifier = Modifier,
 ) {
@@ -103,8 +121,8 @@ private fun MeltExampleItem(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = description,
-            style = MaterialTheme.typography.bodyMedium,
+            text = buildDescription(maxBlur = maxBlur, alphaPercent = alphaPercent),
+            style = MaterialTheme.typography.titleMedium,
         )
     }
 }
