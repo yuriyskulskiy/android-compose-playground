@@ -141,49 +141,5 @@ fun CustomBlurScrollingContent(
             )
             Spacer(Modifier.height(56.dp))
         }
-
-
-
-
-
-
-
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .align(Alignment.TopCenter)
-////                .blur(10.dp)
-////                .blur(10.dp)
-//                .blur(10.dp)
-//                .height(10.dp + 20.dp) // запас под blur
-//        ) {
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .align(Alignment.TopCenter)
-//                    .background(Color.Red.copy(alpha = 0.7f))
-//                    .height(8.dp)
-//
-//
-//            )
-//        }
-
     }
-
-//        Box(
-//            modifier = modifier
-//                .fillMaxWidth()
-//                .align(Alignment.TopStart)
-//                .height(1.dp)
-//                .background(Color.Black)
-//        )
-//
-//        Box(
-//            modifier = modifier
-//                .fillMaxWidth()
-//                .align(Alignment.BottomStart)
-//                .height(20.dp)
-//                .background(Color.Black)
-//        )
-//    }
 }
