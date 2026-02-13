@@ -3,7 +3,8 @@ package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.LocalOverscrollConfiguration
+import androidx.compose.foundation.LocalOverscrollFactory
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold40PercentEffect
 
 @OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.S)
@@ -42,13 +44,16 @@ fun MetaballEdgeScrollingContent(
     val verticalParam = 56.dp
     val text = stringResource(R.string.very_long_mock_text).trimIndent()
     val textModifier = Modifier.padding(24.dp)
-    val textStyle = MaterialTheme.typography.titleMedium
+//    val textStyle = MaterialTheme.typography.titleLarge
+    val textStyle = MaterialTheme.typography.displayMedium
     val textColor = Color.Black
     val textWeight = FontWeight.Normal
+    val blurRadius = 6.dp
 
-    CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
+    CompositionLocalProvider(LocalOverscrollFactory provides null) {
         MetaballScrollText(
             modifier = modifier,
+            blurRadius = blurRadius,
             scrollState = scrollState,
             verticalParam = verticalParam,
             text = text,
@@ -63,17 +68,20 @@ fun MetaballEdgeScrollingContent(
 @Composable
 private fun MetaballScrollText(
     modifier: Modifier,
-    scrollState: androidx.compose.foundation.ScrollState,
+    scrollState: ScrollState,
     verticalParam: Dp,
     text: String,
     textModifier: Modifier,
     textStyle: androidx.compose.ui.text.TextStyle,
     textColor: Color,
+    blurRadius: Dp,
     textWeight: FontWeight,
 ) {
     Box(
         modifier.fillMaxSize()
     ) {
+
+        // real scrolling content
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -88,10 +96,11 @@ private fun MetaballScrollText(
             )
         }
 
+        //workaround with overlay: top blur text area and bottom blur text area
         BoxWithConstraints(
             modifier = Modifier
                 .graphicsLayer {
-                    this.renderEffect = singleEffect
+                    this.renderEffect = alphaThreshold40PercentEffect
                 }
                 .fillMaxSize()
                 .align(Alignment.TopStart)
@@ -101,6 +110,7 @@ private fun MetaballScrollText(
             val textHeighPx = with(density) { verticalParam.toPx() }
             val parentHeightPx = with(density) { maxHeight.toPx() }
 
+           //top gradient edge
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,13 +119,13 @@ private fun MetaballScrollText(
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Color.Black.copy(alpha = 0.245f),
+                                Color.Black.copy(alpha = 0.4f),
                                 Color.Black.copy(alpha = 0.0f)
                             )
                         )
                     )
             )
-
+            //bottom gradient edge
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -125,18 +135,22 @@ private fun MetaballScrollText(
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 Color.Black.copy(alpha = 0.0f),
-                                Color.Black.copy(alpha = 0.245f),
+                                Color.Black.copy(alpha = 0.4f),
                             )
                         )
                     )
             )
 
+            //top blurred text
             BlurredTextOverlay(
+                blurRadius = blurRadius,
                 text = text,
                 modifier = Modifier
                     .fillMaxWidth()
+//                    .border(width = 1.dp, color = Color.Red)
                     .gradientTopButtonEdges(
                         topFadeHeight = verticalParam,
+                        bottomFadeHeight = 0.dp,
                     ),
                 textModifier = textModifier,
                 style = textStyle,
@@ -147,12 +161,15 @@ private fun MetaballScrollText(
                 scrollOffsetPx = scrollState.value.toFloat(),
             )
 
+            //bottom blurred text
             BlurredTextOverlay(
+                blurRadius = blurRadius,
                 text = text,
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomStart)
                     .gradientTopButtonEdges(
+                        topFadeHeight = 0.dp,
                         bottomFadeHeight = verticalParam
                     ),
                 textModifier = textModifier,

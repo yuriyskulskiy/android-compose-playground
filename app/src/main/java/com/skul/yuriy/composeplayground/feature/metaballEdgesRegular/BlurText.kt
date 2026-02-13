@@ -42,7 +42,8 @@ fun BlurredTextOverlay(
         Text(
             text = "Not supported for SDK lev < ${Build.VERSION_CODES.S}",
             modifier = modifier.then(textModifier),
-            style = MaterialTheme.typography.titleMedium,
+//            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.displayMedium,
             color = Color.Red,
             fontWeight = fontWeight
         )

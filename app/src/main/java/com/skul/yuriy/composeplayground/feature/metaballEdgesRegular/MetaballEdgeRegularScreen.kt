@@ -25,7 +25,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateUp
 @RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MetaballTextEdgeScreen(
+fun MetaballEdgeRegularScreen(
     modifier: Modifier = Modifier
 ) {
     val localNavBackStack = LocalNavBackStack.current

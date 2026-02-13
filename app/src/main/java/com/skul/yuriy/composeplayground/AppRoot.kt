@@ -23,7 +23,7 @@ import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.MetaballEdg
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.textScreen.TextMetaballConceptScreen
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
 import com.skul.yuriy.composeplayground.feature.metaballClassic.MetaballClassicScreen
-import com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.MetaballTextEdgeScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.MetaballEdgeRegularScreen
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -72,7 +72,7 @@ internal fun AppRoot(
                     entry<Screens.AnimateCircularButton> { AnimatedCircularBtnScreen() }
                     entry<Screens.GooeyEffect> { GooeyBasicScreen() }
                     entry<Screens.MetaballClassicMath> { MetaballClassicScreen() }
-                    entry<Screens.MetaballTextEdges> { MetaballTextEdgeScreen() }
+                    entry<Screens.MetaballTextEdges> { MetaballEdgeRegularScreen() }
                     entry<Screens.CustomBlur> { CustomBlurScreen() }
                     entry<Screens.MetaballBasicTextAndEdge> { MetaballEdgeTextScreen() }
                     entry<Screens.TextMetaballConcept> { TextMetaballConceptScreen() }

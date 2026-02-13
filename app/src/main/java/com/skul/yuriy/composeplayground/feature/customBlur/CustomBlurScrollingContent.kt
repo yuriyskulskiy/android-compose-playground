@@ -135,6 +135,7 @@ fun CustomBlurScrollingContent(
             Text(
 //                    style = MaterialTheme.typography.titleLarge,
                 style = MaterialTheme.typography.displayMedium,
+//                style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
                 text = text,
                 fontWeight = FontWeight.Normal
