@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballTextEdge
+package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter

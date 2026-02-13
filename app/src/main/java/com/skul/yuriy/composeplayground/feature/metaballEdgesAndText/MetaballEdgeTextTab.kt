@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular
+package com.skul.yuriy.composeplayground.feature.metaballEdgesAndText
 
 import androidx.annotation.StringRes
 import com.skul.yuriy.composeplayground.R

@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.tabs.text
+package com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.tabs.text
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.VectorConverter

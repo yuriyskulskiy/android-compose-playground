@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular
+package com.skul.yuriy.composeplayground.feature.metaballEdgesAndText
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

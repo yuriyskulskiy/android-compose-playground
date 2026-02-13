@@ -19,11 +19,11 @@ import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedC
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.customBlur.CustomBlurScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
-import com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.MetaballEdgeTextScreen
-import com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.textScreen.TextMetaballConceptScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.MetaballEdgeTextScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.textScreen.TextMetaballConceptScreen
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
 import com.skul.yuriy.composeplayground.feature.metaballClassic.MetaballClassicScreen
-import com.skul.yuriy.composeplayground.feature.metaballTextEdge.MetaballTextEdgeScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.MetaballTextEdgeScreen
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute

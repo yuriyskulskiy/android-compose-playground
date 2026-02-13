@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular
+package com.skul.yuriy.composeplayground.feature.metaballEdgesAndText
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -23,7 +23,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
-import com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.tabs.text.rememberTextMeltState
+import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.tabs.text.rememberTextMeltState
 import com.skul.yuriy.composeplayground.navigation.navigateToTextMetabalConcept
 import com.skul.yuriy.composeplayground.navigation.navigateUp
 import com.skul.yuriy.composeplayground.util.motion.rememberBottomBarMotion
