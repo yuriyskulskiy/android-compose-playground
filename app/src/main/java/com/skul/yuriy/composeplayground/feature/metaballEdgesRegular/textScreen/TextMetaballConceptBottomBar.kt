@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgeText.textScreen
+package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.textScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize

@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgeText.tabs.edge
+package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.tabs.edge
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.DecayAnimationSpec

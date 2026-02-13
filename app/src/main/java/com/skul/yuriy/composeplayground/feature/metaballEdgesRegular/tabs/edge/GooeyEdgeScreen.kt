@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgeText.tabs.edge
+package com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.tabs.edge
 
 import android.os.Build
 import androidx.annotation.RequiresApi
