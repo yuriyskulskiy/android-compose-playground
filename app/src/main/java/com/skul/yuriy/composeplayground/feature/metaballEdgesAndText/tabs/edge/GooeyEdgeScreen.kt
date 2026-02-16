@@ -32,8 +32,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold50PercentEffect
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.applyRenderEffect
+import com.skul.yuriy.composeplayground.util.renderEffect.alphaThreshold50PercentEffect
 import kotlin.math.roundToInt
 
 @RequiresApi(Build.VERSION_CODES.S)

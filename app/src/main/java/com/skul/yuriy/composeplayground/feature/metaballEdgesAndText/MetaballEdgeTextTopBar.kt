@@ -74,7 +74,7 @@ internal fun MetaballEdgeTextTopBar(
                 }
             },
             title = {
-                Text(text = stringResource(R.string.metaball_primer_title))
+                Text(text = stringResource(R.string.metaball_edge_text_title))
             },
             actions = {
                 AnimatedVisibility(

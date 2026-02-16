@@ -11,13 +11,14 @@
     <string name="nissan_gtr_r35">Nissan GT-R R35</string>
     <string name="nissan_200sx_s13.5">Nissan 200sx, S13.5</string>
     <string name="parallax_scroll_list">Parallax scroll list</string>
-    <string name="metaball_text_edge">Metaball Text Edge</string>
-    <string name="metaball_primer_title">Metaball Basics</string>
+    <string name="metaball_edge">Metaball Edge</string>
+    <string name="metaball_edge_text_title">Metaball Edge and Text</string>
     <string name="metaball_primer_tab_edge_embrace">Gooey Edge</string>
     <string name="metaball_primer_tab_text_melt">Text Melt</string>
     <string name="metaball_basics_prev">Previous</string>
     <string name="metaball_basics_next">Next</string>
-    <string name="custom_blur">Custom Blur</string>
+    <string name="metaball_edge_advanced">Metaball Edge Advanced</string>
+    <string name="custom_alpha_blur">Custom Blur</string>
     <string name="sticky_header_state_tracker">Sticky header state tracker</string>
     <string name="metaballs_blur">Metaballs blur</string>
     <string name="topbar_animated_elevation">Top bar animated elevation</string>

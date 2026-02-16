@@ -76,8 +76,11 @@ fun NavBackStack<NavKey>.navigateToMetaballMath() =
 fun NavBackStack<NavKey>.navigateToMetaballEdges() =
     navigate(Screens.MetaballTextEdges)
 
-fun NavBackStack<NavKey>.navigateToCustomBlur() =
+fun NavBackStack<NavKey>.navigateToCustomAlphaBlur() =
     navigate(Screens.CustomBlur)
+
+fun NavBackStack<NavKey>.navigateToMetaballEdgeAdvanced() =
+    navigate(Screens.MetaballEdgeAdvanced)
 
 fun NavBackStack<NavKey>.navigateToMetaballPrimer() =
     navigate(Screens.MetaballBasicTextAndEdge)

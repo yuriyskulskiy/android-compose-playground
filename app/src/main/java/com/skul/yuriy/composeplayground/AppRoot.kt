@@ -17,8 +17,9 @@ import androidx.navigation3.ui.NavDisplay
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
-import com.skul.yuriy.composeplayground.feature.customBlur.CustomBlurScreen
+import com.skul.yuriy.composeplayground.feature.customAlphaBlur.CustomBlurScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgesAdvanced.MetaballEdgeAdvancedScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.MetaballEdgeTextScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.textScreen.TextMetaballConceptScreen
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
@@ -74,8 +75,10 @@ internal fun AppRoot(
                     entry<Screens.MetaballClassicMath> { MetaballClassicScreen() }
                     entry<Screens.MetaballTextEdges> { MetaballEdgeRegularScreen() }
                     entry<Screens.CustomBlur> { CustomBlurScreen() }
+                    entry<Screens.MetaballEdgeAdvanced> { MetaballEdgeAdvancedScreen() }
                     entry<Screens.MetaballBasicTextAndEdge> { MetaballEdgeTextScreen() }
                     entry<Screens.TextMetaballConcept> { TextMetaballConceptScreen() }
+                    //todo rename last 4 screens according to feature screen names
                 },
                 modifier = modifier
             )

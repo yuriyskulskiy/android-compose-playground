@@ -28,9 +28,10 @@ import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedCircularBtn
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToBottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
-import com.skul.yuriy.composeplayground.navigation.navigateToCustomBlur
+import com.skul.yuriy.composeplayground.navigation.navigateToCustomAlphaBlur
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
+import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdgeAdvanced
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballPrimer
@@ -66,19 +67,23 @@ fun NavigationContent(modifier: Modifier) {
     ) {
         val localNavBackStack = LocalNavBackStack.current
         NavigationItem(
-            text = stringResource(R.string.metaball_primer_title),
-            onClick = {
-                localNavBackStack.navigateToMetaballPrimer()
-            })
+            text = stringResource(R.string.metaball_edge_advanced),
+            onClick = { localNavBackStack.navigateToMetaballEdgeAdvanced() })
 
         NavigationItem(
-            text = stringResource(R.string.metaball_text_edge),
+            text = stringResource(R.string.custom_alpha_blur),
+            onClick = { localNavBackStack.navigateToCustomAlphaBlur() })
+
+
+        NavigationItem(
+            text = stringResource(R.string.metaball_edge),
             onClick = { localNavBackStack.navigateToMetaballEdges() })
 
         NavigationItem(
-            text = stringResource(R.string.custom_blur),
-            onClick = { localNavBackStack.navigateToCustomBlur() })
-
+            text = stringResource(R.string.metaball_edge_text_title),
+            onClick = {
+                localNavBackStack.navigateToMetaballPrimer()
+            })
 
         NavigationItem(
             text = stringResource(R.string.parallax_scroll_list),

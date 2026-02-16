@@ -30,9 +30,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold20PercentEffect
-import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold5PercentEffect
-import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold70PercentEffect
+import com.skul.yuriy.composeplayground.util.renderEffect.alphaThreshold20PercentEffect
+import com.skul.yuriy.composeplayground.util.renderEffect.alphaThreshold5PercentEffect
+import com.skul.yuriy.composeplayground.util.renderEffect.alphaThreshold70PercentEffect
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.applyRenderEffect
 
 @Composable

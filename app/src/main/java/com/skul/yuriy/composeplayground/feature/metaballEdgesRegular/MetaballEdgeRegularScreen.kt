@@ -49,7 +49,7 @@ fun MetaballEdgeRegularScreen(
                 },
                 title = {
                     Text(
-                        text = stringResource(R.string.metaball_text_edge)
+                        text = stringResource(R.string.metaball_edge)
                     )
                 },
             )

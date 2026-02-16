@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.feature.customBlur.util.rememberAlphaThresholdAgslEffect
+import com.skul.yuriy.composeplayground.util.renderEffect.rememberAlphaThresholdAgslEffect
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.util.applyRenderEffect
 
 private const val ConceptPreviewCharCount = 371

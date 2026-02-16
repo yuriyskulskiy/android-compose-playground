@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.feature.customBlur.util.alphaThreshold40PercentEffect
+import com.skul.yuriy.composeplayground.util.renderEffect.alphaThreshold40PercentEffect
 
 @OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.S)
