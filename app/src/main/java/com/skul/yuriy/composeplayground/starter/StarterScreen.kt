@@ -1,24 +1,15 @@
 package com.skul.yuriy.composeplayground.starter
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
@@ -66,9 +57,10 @@ fun NavigationContent(modifier: Modifier) {
         horizontalAlignment = Alignment.Start
     ) {
         val localNavBackStack = LocalNavBackStack.current
-        NavigationItem(
-            text = stringResource(R.string.metaball_edge_advanced),
-            onClick = { localNavBackStack.navigateToMetaballEdgeAdvanced() })
+        //todo soon
+//        NavigationItem(
+//            text = stringResource(R.string.metaball_edge_advanced),
+//            onClick = { localNavBackStack.navigateToMetaballEdgeAdvanced() })
 
         NavigationItem(
             text = stringResource(R.string.custom_alpha_blur),
@@ -84,6 +76,7 @@ fun NavigationContent(modifier: Modifier) {
             onClick = {
                 localNavBackStack.navigateToMetaballPrimer()
             })
+        YearDivider(label = "Year 2026")
 
         NavigationItem(
             text = stringResource(R.string.parallax_scroll_list),
@@ -125,34 +118,5 @@ fun NavigationContent(modifier: Modifier) {
             text = stringResource(R.string.metaballs_classic_approach),
             onClick = { localNavBackStack.navigateToMetaballMath() })
 
-    }
-}
-
-@Composable
-fun NavigationItem(modifier: Modifier = Modifier, text: String, onClick: () -> Unit) {
-
-    OutlinedCard(
-        onClick = onClick,
-        modifier = modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .wrapContentHeight(),
-
-//        colors = CardDefaults.cardColors().copy(containerColor = LightWhite),
-        border = BorderStroke(1.dp, Color.DarkGray),
-        shape = CircleShape
-    ) {
-        Box(
-            contentAlignment = Alignment.CenterStart,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-
-            ) {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.titleLarge
-            )
-        }
     }
 }
