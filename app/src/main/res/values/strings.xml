@@ -19,6 +19,7 @@
     <string name="metaball_basics_next">Next</string>
     <string name="metaball_edge_advanced">Metaball Edge Advanced</string>
     <string name="custom_alpha_blur">Custom Blur</string>
+    <string name="liquid_bar">Liquid Bar</string>
     <string name="sticky_header_state_tracker">Sticky header state tracker</string>
     <string name="metaballs_blur">Metaballs blur</string>
     <string name="topbar_animated_elevation">Top bar animated elevation</string>
@@ -29,8 +30,9 @@
     <string name="fading_edges_screen">Fading edges screen</string>
     <string name="very_long_mock_text">"\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure \n                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat \n                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. \n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure \n                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat \n                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n                \n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure \n                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat \n                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. \n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure \n                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat \n                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n            "</string>
     <string name="home">Home</string>
-    <string name="shopping_cart">Shopping Cart</string>
+    <string name="shopping_cart">Cart</string>
     <string name="search">Search</string>
+    <string name="profile">Profile</string>
     <string name="settings">Settings</string>
     <string name="regular_radial_gradient_brush">Regular radial gradient Brush</string>
     <string name="paint_with_blurmaskfilter">Paint with BlurMaskFilter</string>

@@ -19,6 +19,7 @@ import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedC
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.customAlphaBlur.CustomBlurScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
+import com.skul.yuriy.composeplayground.feature.liquidBar.LiquidBarScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAdvanced.MetaballEdgeAdvancedScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.MetaballEdgeTextScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.textScreen.TextMetaballConceptScreen
@@ -60,6 +61,7 @@ internal fun AppRoot(
                 ),
                 entryProvider = entryProvider {
                     entry<Screens.Starter> { StarterRoute() }
+                    entry<Screens.LiquidBar> { LiquidBarScreen() }
                     entry<Screens.Parallax> { ParallaxRoute() }
                     entry<Screens.StickyHeaderStateTracker> { StickyHeaderRoute() }
                     entry<Screens.MetaballScreen> { MetaballsScreen() }

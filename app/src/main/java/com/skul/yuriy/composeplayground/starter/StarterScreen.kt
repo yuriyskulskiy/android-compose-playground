@@ -22,7 +22,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToCustomAlphaBlur
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
-import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdgeAdvanced
+import com.skul.yuriy.composeplayground.navigation.navigateToLiquidBar
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballPrimer
@@ -57,6 +57,10 @@ fun NavigationContent(modifier: Modifier) {
         horizontalAlignment = Alignment.Start
     ) {
         val localNavBackStack = LocalNavBackStack.current
+        NavigationItem(
+            text = stringResource(R.string.liquid_bar),
+            onClick = { localNavBackStack.navigateToLiquidBar() })
+
         //todo soon
 //        NavigationItem(
 //            text = stringResource(R.string.metaball_edge_advanced),

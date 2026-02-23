@@ -10,6 +10,9 @@ sealed interface Screens : NavKey {
     data object Starter : Screens
 
     @Serializable
+    data object LiquidBar : Screens
+
+    @Serializable
     data object Parallax : Screens
 
     @Serializable

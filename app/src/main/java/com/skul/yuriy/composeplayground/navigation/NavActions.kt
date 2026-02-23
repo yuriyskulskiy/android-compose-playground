@@ -37,6 +37,9 @@ fun NavBackStack<NavKey>.navigateUp(): Boolean {
 fun NavBackStack<NavKey>.navigateToParallax() =
     navigate(Screens.Parallax)
 
+fun NavBackStack<NavKey>.navigateToLiquidBar() =
+    navigate(Screens.LiquidBar)
+
 fun NavBackStack<NavKey>.navigateToStickyHeaderStateTracker() =
     navigate(Screens.StickyHeaderStateTracker)
 
