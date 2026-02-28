@@ -2,4 +2,11 @@
 <resources>
 
     <style name="Theme.ComposePlayground" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.ComposePlayground.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#F6F8FC</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_playground_avd</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.ComposePlayground</item>
+    </style>
 </resources>

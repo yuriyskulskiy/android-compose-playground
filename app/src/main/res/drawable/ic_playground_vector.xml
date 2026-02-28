@@ -5,31 +5,70 @@
     android:viewportHeight="24">
 
     <group
-        android:name="left_ball_group"
-        android:translateX="0"
+        android:name="scene_group"
         android:pivotX="12"
-        android:pivotY="12">
-        <path
-            android:name="left_ball"
-            android:fillColor="#FFFFFF"
-            android:pathData="M12,12 m-4,0 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0" />
-    </group>
+        android:pivotY="12"
+        android:scaleX="0.86"
+        android:scaleY="0.86">
 
-    <group
-        android:name="right_ball_group"
-        android:translateX="0"
-        android:pivotX="12"
-        android:pivotY="12">
         <path
-            android:name="right_ball"
-            android:fillColor="#FFFFFF"
-            android:pathData="M12,12 m-4,0 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0" />
-    </group>
+            android:name="bridge"
+            android:fillColor="#111111"
+            android:fillAlpha="1"
+            android:pathData="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z" />
 
-    <path
-        android:name="bridge"
-        android:fillColor="#FFFFFF"
-        android:fillAlpha="1"
-        android:pathData="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z" />
+        <group
+            android:name="left_ball_group"
+            android:translateX="0"
+            android:pivotX="12"
+            android:pivotY="12">
+            <path
+                android:name="left_ball"
+                android:fillColor="#111111"
+                android:pathData="M12,12 m-4,0 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0" />
+        </group>
+
+        <group
+            android:name="right_ball_group"
+            android:translateX="0"
+            android:pivotX="12"
+            android:pivotY="12">
+            <path
+                android:name="right_ball"
+                android:fillColor="#111111"
+                android:pathData="M12,12 m-4,0 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0" />
+        </group>
+
+        <group
+            android:name="left_letter_group"
+            android:translateX="0"
+            android:pivotX="12"
+            android:pivotY="12">
+            <path
+                android:name="letter_c"
+                android:fillColor="#00000000"
+                android:strokeColor="#FFFFFF"
+                android:strokeWidth="0.72"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:pathData="M11.89,10.84 C11.4,10.6 10.86,10.88 10.86,12 C10.86,13.12 11.4,13.4 11.89,13.16" />
+        </group>
+
+        <group
+            android:name="right_letter_group"
+            android:translateX="0"
+            android:pivotX="12"
+            android:pivotY="12">
+            <path
+                android:name="letter_p"
+                android:fillColor="#00000000"
+                android:strokeColor="#FFFFFF"
+                android:strokeWidth="0.72"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:pathData="M12.05,13.28 L12.05,10.72 M12.05,10.72 L12.75,10.72 C13.15,10.72 13.35,10.95 13.35,11.3 C13.35,11.65 13.15,11.89 12.75,11.89 L12.05,11.89" />
+        </group>
+
+    </group>
 
 </vector>

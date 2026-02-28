@@ -2,1010 +2,674 @@
     android:ordering="sequentially">
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="0"
-        android:valueTo="-0.00215" />
+        android:valueTo="-0.0049" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.00215"
-        android:valueTo="-0.00884" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.00884"
+        android:valueFrom="-0.0049"
         android:valueTo="-0.02047" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.02047"
-        android:valueTo="-0.03749" />
+        android:valueTo="-0.04818" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.03749"
-        android:valueTo="-0.06041" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.06041"
+        android:valueFrom="-0.04818"
         android:valueTo="-0.0898" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.0898"
-        android:valueTo="-0.12628" />
+        android:valueTo="-0.1474" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.12628"
-        android:valueTo="-0.17056" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.17056"
+        android:valueFrom="-0.1474"
         android:valueTo="-0.22344" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.22344"
-        android:valueTo="-0.28576" />
+        android:valueTo="-0.32076" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.28576"
-        android:valueTo="-0.35847" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.35847"
+        android:valueFrom="-0.32076"
         android:valueTo="-0.44255" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.44255"
-        android:valueTo="-0.53899" />
+        android:valueTo="-0.59214" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.53899"
-        android:valueTo="-0.64872" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.64872"
+        android:valueFrom="-0.59214"
         android:valueTo="-0.77253" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.77253"
-        android:valueTo="-0.91088" />
+        android:valueTo="-0.98551" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.91088"
-        android:valueTo="-1.0637" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-1.0637"
+        android:valueFrom="-0.98551"
         android:valueTo="-1.23025" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-1.23025"
-        android:valueTo="-1.4089" />
+        android:valueTo="-1.50201" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-1.4089"
-        android:valueTo="-1.59713" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-1.59713"
+        android:valueFrom="-1.50201"
         android:valueTo="-1.79168" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-1.79168"
-        android:valueTo="-1.98893" />
+        android:valueTo="-2.08743" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-1.98893"
-        android:valueTo="-2.1853" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-2.1853"
+        android:valueFrom="-2.08743"
         android:valueTo="-2.37771" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-2.37771"
-        android:valueTo="-2.56372" />
+        android:valueTo="-2.65379" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-2.56372"
-        android:valueTo="-2.74168" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-2.74168"
+        android:valueFrom="-2.65379"
         android:valueTo="-2.9106" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-2.9106"
-        android:valueTo="-3.07002" />
+        android:valueTo="-3.14615" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-3.07002"
-        android:valueTo="-3.21991" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-3.21991"
+        android:valueFrom="-3.14615"
         android:valueTo="-3.36048" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-3.36048"
-        android:valueTo="-3.49209" />
+        android:valueTo="-3.55469" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-3.49209"
-        android:valueTo="-3.61522" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-3.61522"
+        android:valueFrom="-3.55469"
         android:valueTo="-3.73036" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-3.73036"
-        android:valueTo="-3.83803" />
+        android:valueTo="-3.88922" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-3.83803"
-        android:valueTo="-3.93873" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-3.93873"
+        android:valueFrom="-3.88922"
         android:valueTo="-4.03292" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.03292"
-        android:valueTo="-4.12105" />
+        android:valueTo="-4.16298" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.12105"
-        android:valueTo="-4.20354" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.20354"
+        android:valueFrom="-4.16298"
         android:valueTo="-4.28077" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.28077"
-        android:valueTo="-4.35308" />
+        android:valueTo="-4.3875" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.35308"
-        android:valueTo="-4.42081" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.42081"
+        android:valueFrom="-4.3875"
         android:valueTo="-4.48423" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.48423"
-        android:valueTo="-4.54362" />
+        android:valueTo="-4.57188" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.54362"
-        android:valueTo="-4.59922" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.59922"
+        android:valueFrom="-4.57188"
         android:valueTo="-4.65127" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.65127"
-        android:valueTo="-4.69996" />
+        android:valueTo="-4.72311" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.69996"
-        android:valueTo="-4.74549" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.74549"
+        android:valueFrom="-4.72311"
         android:valueTo="-4.78803" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.78803"
-        android:valueTo="-4.82775" />
+        android:valueTo="-4.84659" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.82775"
-        android:valueTo="-4.86478" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.86478"
+        android:valueFrom="-4.84659"
         android:valueTo="-4.89927" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.89927"
-        android:valueTo="-4.93135" />
+        android:valueTo="-4.94652" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.93135"
-        android:valueTo="-4.96113" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.96113"
+        android:valueFrom="-4.94652"
         android:valueTo="-4.98871" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.98871"
-        android:valueTo="-5.01421" />
+        android:valueTo="-5.02621" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.01421"
-        android:valueTo="-5.03771" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.03771"
+        android:valueFrom="-5.02621"
         android:valueTo="-5.05931" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.05931"
-        android:valueTo="-5.07909" />
+        android:valueTo="-5.08831" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.07909"
-        android:valueTo="-5.09711" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.09711"
+        android:valueFrom="-5.08831"
         android:valueTo="-5.11346" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.11346"
-        android:valueTo="-5.12821" />
+        android:valueTo="-5.135" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.12821"
-        android:valueTo="-5.14141" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.14141"
+        android:valueFrom="-5.135"
         android:valueTo="-5.15312" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.15312"
-        android:valueTo="-5.16341" />
+        android:valueTo="-5.16803" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.16341"
-        android:valueTo="-5.17231" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.17231"
+        android:valueFrom="-5.16803"
         android:valueTo="-5.1799" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.1799"
-        android:valueTo="-5.1862" />
+        android:valueTo="-5.18889" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.1862"
-        android:valueTo="-5.19127" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.19127"
+        android:valueFrom="-5.18889"
         android:valueTo="-5.19514" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.19514"
-        android:valueTo="-5.19786" />
+        android:valueTo="-5.19881" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.19786"
-        android:valueTo="-5.19947" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.19947"
+        android:valueFrom="-5.19881"
         android:valueTo="-5.2" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.2"
-        android:valueTo="-5.19947" />
+        android:valueTo="-5.19881" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.19947"
-        android:valueTo="-5.19786" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.19786"
+        android:valueFrom="-5.19881"
         android:valueTo="-5.19514" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.19514"
-        android:valueTo="-5.19127" />
+        android:valueTo="-5.18889" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.19127"
-        android:valueTo="-5.1862" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.1862"
+        android:valueFrom="-5.18889"
         android:valueTo="-5.1799" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.1799"
-        android:valueTo="-5.17231" />
+        android:valueTo="-5.16803" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.17231"
-        android:valueTo="-5.16341" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.16341"
+        android:valueFrom="-5.16803"
         android:valueTo="-5.15312" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.15312"
-        android:valueTo="-5.14141" />
+        android:valueTo="-5.135" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.14141"
-        android:valueTo="-5.12821" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.12821"
+        android:valueFrom="-5.135"
         android:valueTo="-5.11346" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.11346"
-        android:valueTo="-5.09711" />
+        android:valueTo="-5.08831" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.09711"
-        android:valueTo="-5.07909" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.07909"
+        android:valueFrom="-5.08831"
         android:valueTo="-5.05931" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-5.05931"
-        android:valueTo="-5.03771" />
+        android:valueTo="-5.02621" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-5.03771"
-        android:valueTo="-5.01421" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-5.01421"
+        android:valueFrom="-5.02621"
         android:valueTo="-4.98871" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.98871"
-        android:valueTo="-4.96113" />
+        android:valueTo="-4.94652" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.96113"
-        android:valueTo="-4.93135" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.93135"
+        android:valueFrom="-4.94652"
         android:valueTo="-4.89927" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.89927"
-        android:valueTo="-4.86478" />
+        android:valueTo="-4.84659" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.86478"
-        android:valueTo="-4.82775" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.82775"
+        android:valueFrom="-4.84659"
         android:valueTo="-4.78803" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.78803"
-        android:valueTo="-4.74549" />
+        android:valueTo="-4.72311" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.74549"
-        android:valueTo="-4.69996" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.69996"
+        android:valueFrom="-4.72311"
         android:valueTo="-4.65127" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.65127"
-        android:valueTo="-4.59922" />
+        android:valueTo="-4.57188" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.59922"
-        android:valueTo="-4.54362" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.54362"
+        android:valueFrom="-4.57188"
         android:valueTo="-4.48423" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.48423"
-        android:valueTo="-4.42081" />
+        android:valueTo="-4.3875" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.42081"
-        android:valueTo="-4.35308" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.35308"
+        android:valueFrom="-4.3875"
         android:valueTo="-4.28077" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.28077"
-        android:valueTo="-4.20354" />
+        android:valueTo="-4.16298" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-4.20354"
-        android:valueTo="-4.12105" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-4.12105"
+        android:valueFrom="-4.16298"
         android:valueTo="-4.03292" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-4.03292"
-        android:valueTo="-3.93873" />
+        android:valueTo="-3.88922" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-3.93873"
-        android:valueTo="-3.83803" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-3.83803"
+        android:valueFrom="-3.88922"
         android:valueTo="-3.73036" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-3.73036"
-        android:valueTo="-3.61522" />
+        android:valueTo="-3.55469" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="10"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-3.61522"
-        android:valueTo="-3.49209" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-3.49209"
+        android:valueFrom="-3.55469"
         android:valueTo="-3.36048" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-3.36048"
-        android:valueTo="-3.21991" />
+        android:valueTo="-3.14615" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-3.21991"
-        android:valueTo="-3.07002" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-3.07002"
+        android:valueFrom="-3.14615"
         android:valueTo="-2.9106" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-2.9106"
-        android:valueTo="-2.74168" />
+        android:valueTo="-2.65379" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="58"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-2.74168"
-        android:valueTo="-2.56372" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="58"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-2.56372"
+        android:valueFrom="-2.65379"
         android:valueTo="-2.37771" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-2.37771"
-        android:valueTo="-2.1853" />
+        android:valueTo="-2.08743" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-2.1853"
-        android:valueTo="-1.98893" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-1.98893"
+        android:valueFrom="-2.08743"
         android:valueTo="-1.79168" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-1.79168"
-        android:valueTo="-1.59713" />
+        android:valueTo="-1.50201" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-1.59713"
-        android:valueTo="-1.4089" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-1.4089"
+        android:valueFrom="-1.50201"
         android:valueTo="-1.23025" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-1.23025"
-        android:valueTo="-1.0637" />
+        android:valueTo="-0.98551" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-1.0637"
-        android:valueTo="-0.91088" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.91088"
+        android:valueFrom="-0.98551"
         android:valueTo="-0.77253" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.77253"
-        android:valueTo="-0.64872" />
+        android:valueTo="-0.59214" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.64872"
-        android:valueTo="-0.53899" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.53899"
+        android:valueFrom="-0.59214"
         android:valueTo="-0.44255" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.44255"
-        android:valueTo="-0.35847" />
+        android:valueTo="-0.32076" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.35847"
-        android:valueTo="-0.28576" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.28576"
+        android:valueFrom="-0.32076"
         android:valueTo="-0.22344" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.22344"
-        android:valueTo="-0.17056" />
+        android:valueTo="-0.1474" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.17056"
-        android:valueTo="-0.12628" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.12628"
+        android:valueFrom="-0.1474"
         android:valueTo="-0.0898" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.0898"
-        android:valueTo="-0.06041" />
+        android:valueTo="-0.04818" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.06041"
-        android:valueTo="-0.03749" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.03749"
+        android:valueFrom="-0.04818"
         android:valueTo="-0.02047" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
         android:valueFrom="-0.02047"
-        android:valueTo="-0.00884" />
+        android:valueTo="-0.0049" />
     <objectAnimator
         android:propertyName="translateX"
-        android:duration="59"
+        android:duration="11"
         android:interpolator="@android:interpolator/linear"
         android:valueType="floatType"
-        android:valueFrom="-0.00884"
-        android:valueTo="-0.00215" />
-    <objectAnimator
-        android:propertyName="translateX"
-        android:duration="59"
-        android:interpolator="@android:interpolator/linear"
-        android:valueType="floatType"
-        android:valueFrom="-0.00215"
+        android:valueFrom="-0.0049"
         android:valueTo="0" />
 </set>
