@@ -1,0 +1,35 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <group
+        android:name="left_ball_group"
+        android:translateX="0"
+        android:pivotX="12"
+        android:pivotY="12">
+        <path
+            android:name="left_ball"
+            android:fillColor="#FFFFFF"
+            android:pathData="M12,12 m-4,0 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0" />
+    </group>
+
+    <group
+        android:name="right_ball_group"
+        android:translateX="0"
+        android:pivotX="12"
+        android:pivotY="12">
+        <path
+            android:name="right_ball"
+            android:fillColor="#FFFFFF"
+            android:pathData="M12,12 m-4,0 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0" />
+    </group>
+
+    <path
+        android:name="bridge"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="1"
+        android:pathData="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z" />
+
+</vector>

@@ -1,0 +1,16 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_playground_vector">
+
+    <target
+        android:name="left_ball_group"
+        android:animation="@animator/mb_left_ball_split" />
+
+    <target
+        android:name="right_ball_group"
+        android:animation="@animator/mb_right_ball_split" />
+
+    <target
+        android:name="bridge"
+        android:animation="@animator/mb_bridge_curvature" />
+
+</animated-vector>
