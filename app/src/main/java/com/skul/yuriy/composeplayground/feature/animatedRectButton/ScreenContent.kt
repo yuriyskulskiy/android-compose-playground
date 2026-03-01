@@ -41,10 +41,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
-import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineRoundedRectShadowByBlurMask
-import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineRoundedRectShadowByNativeShadow
-import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineRoundedRectShadowGradient
-import com.skul.yuriy.composeplayground.util.shadowborder.pathSnakeBorder
+import com.skul.yuriy.composeplayground.util.shadowborder.rect.drawOutlineBlurMaskShadow
 
 @Composable
 fun AnimatedRectButtonScreenContent(
@@ -167,7 +164,7 @@ fun AnimatedRectBtnBox(
 //            )
 //
 //             Toggle option C:
-            .drawOutlineRoundedRectShadowByBlurMask(
+            .drawOutlineBlurMaskShadow(
                 color = mainColor.copy(alpha = 0.8f),
                 haloBorderWidth = animatedSpread,
                 cornerRadius = cornerRadius
