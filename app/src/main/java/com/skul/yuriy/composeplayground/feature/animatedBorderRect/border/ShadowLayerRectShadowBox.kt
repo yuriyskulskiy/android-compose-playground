@@ -3,14 +3,18 @@ package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineRoundedRectShadowByShadowLayer
@@ -21,10 +25,9 @@ fun ShadowLayerRectShadowBox(
     color: Color,
     cornerRadius: Dp,
     initialHaloBorderWidth: Dp,
-    pressedHaloBorderWidth: Dp,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    pressedHaloBorderWidth: Dp
 ) {
-    val isPressed by interactionSource.collectIsPressedAsState()
+    var isPressed by remember { mutableStateOf(false) }
 
     val animatedSpread by animateDpAsState(
         targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
@@ -35,7 +38,7 @@ fun ShadowLayerRectShadowBox(
     Box(
         modifier = modifier
             .drawOutlineRoundedRectShadowByShadowLayer(
-                color = color.copy(alpha = 0.6f),
+                color = color,
                 haloBorderWidth = animatedSpread,
                 cornerRadius = cornerRadius
             )
@@ -50,9 +53,17 @@ fun ShadowLayerRectShadowBox(
                     Modifier
                 }
             )
+            .pointerInput(Unit) {
+                awaitEachGesture {
+                    awaitFirstDown(requireUnconsumed = false)
+                    isPressed = true
+                    waitForUpOrCancellation()
+                    isPressed = false
+                }
+            }
             .clickable(
-                interactionSource = interactionSource,
-                indication = null
+                indication = null,
+                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
             ) {}
     )
 }

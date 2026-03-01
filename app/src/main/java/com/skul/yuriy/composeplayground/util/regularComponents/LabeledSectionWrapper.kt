@@ -2,7 +2,10 @@ package com.skul.yuriy.composeplayground.util.regularComponents
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -20,15 +23,22 @@ fun LabeledSectionWrapper(
     shadowBox: @Composable (Modifier) -> Unit
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        shadowBox(
-            modifier.then(
+        Spacer(modifier = Modifier.size(48.dp))
+        Box(
+            modifier = modifier.then(
                 if (isBorderEnabled) {
                     Modifier.border(BorderStroke(1.dp, Color.White))
                 } else {
                     Modifier
                 }
+            ),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            shadowBox(
+                Modifier
+                    .fillMaxSize()
             )
-        )
+        }
         Spacer(modifier = Modifier.size(24.dp))
         Text(text = text, color = Color.White)
     }

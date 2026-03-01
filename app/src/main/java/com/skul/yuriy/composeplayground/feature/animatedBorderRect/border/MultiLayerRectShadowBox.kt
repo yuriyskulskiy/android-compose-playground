@@ -17,47 +17,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineRoundedRectShadowByBlurMask
+import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineRoundedRectShadowGradient
 
 @Composable
-fun BlurredRectShadowBox(
+fun MultiLayerRectShadowBox(
     modifier: Modifier = Modifier,
     color: Color,
     cornerRadius: Dp,
-    initialBlurRadius: Dp,
-    pressedBlurRadius: Dp,
-    initialHaloShadowWidth: Dp,
-    pressedHaloShadowWidth: Dp
+    initialHaloBorderWidth: Dp,
+    pressedHaloBorderWidth: Dp
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
-    val animatedBlurRadius by animateDpAsState(
-        targetValue = if (isPressed) pressedBlurRadius else initialBlurRadius,
-        animationSpec = tween(durationMillis = 300),
-        label = ""
-    )
-
-    val animatedHaloBorderSize by animateDpAsState(
-        targetValue = if (isPressed) pressedHaloShadowWidth else initialHaloShadowWidth,
+    val animatedSpread by animateDpAsState(
+        targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
         animationSpec = tween(durationMillis = 300),
         label = ""
     )
 
     Box(
         modifier = modifier
-            .drawOutlineRoundedRectShadowByBlurMask(
-                color = color.copy(alpha = 0.7f),
-                haloBorderWidth = animatedHaloBorderSize,
-                cornerRadius = cornerRadius,
-                blurRadius = animatedBlurRadius
+            .drawOutlineRoundedRectShadowGradient(
+                color = color.copy(alpha = 0.6f),
+                haloBorderWidth = animatedSpread,
+                cornerRadius = cornerRadius
             )
             .then(
                 if (isPressed) {
-                    Modifier.drawOutlineRoundedRectShadowByBlurMask(
+                    Modifier.drawOutlineRoundedRectShadowGradient(
                         color = color,
                         haloBorderWidth = 4.dp,
-                        cornerRadius = cornerRadius,
-                        blurRadius = 2.dp
+                        cornerRadius = cornerRadius
                     )
                 } else {
                     Modifier

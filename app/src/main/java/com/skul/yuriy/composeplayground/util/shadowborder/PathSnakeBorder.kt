@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.alpha
 import kotlin.math.max
 import android.graphics.Path as AndroidPath
 
@@ -248,13 +249,12 @@ fun Modifier.drawOutlineRoundedRectShadowByShadowLayer(
         val shadowPaint = Paint().apply {
             asFrameworkPaint().apply {
                 isAntiAlias = true
-                this.color = color.toArgb()
+                this.color = color.copy(alpha = 0.01f).toArgb()
                 setShadowLayer(
                     shadowRadiusPx,
                     shadowOffsetXPx,
                     shadowOffsetYPx,
-//                    color.toArgb()
-                    Color.Red.toArgb()
+                    color.toArgb()
                 )
             }
         }
@@ -262,6 +262,7 @@ fun Modifier.drawOutlineRoundedRectShadowByShadowLayer(
         onDrawWithContent {
             clipPath(path, ClipOp.Difference) {
                 drawIntoCanvas { canvas ->
+                    canvas.drawPath(path, shadowPaint)
                     canvas.drawPath(path, shadowPaint)
                 }
             }
@@ -276,7 +277,7 @@ fun Modifier.drawOutlineRoundedRectShadowByBlurMask(
     color: Color,
     haloBorderWidth: Dp,
     cornerRadius: Dp,
-    blurRadius: Dp = haloBorderWidth/2
+    blurRadius: Dp = haloBorderWidth
 ): Modifier = if (haloBorderWidth > 0.dp) {
     val shape = RoundedCornerShape(cornerRadius)
     this.drawWithCache {
