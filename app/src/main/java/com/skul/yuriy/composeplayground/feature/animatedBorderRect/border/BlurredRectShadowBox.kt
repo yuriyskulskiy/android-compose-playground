@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineRoundedRectShadowByBlurMask
+import com.skul.yuriy.composeplayground.util.shadowborder.rect.drawOutlineBlurMaskShadow
 
 @Composable
 fun BlurredRectShadowBox(
@@ -45,7 +45,7 @@ fun BlurredRectShadowBox(
 
     Box(
         modifier = modifier
-            .drawOutlineRoundedRectShadowByBlurMask(
+            .drawOutlineBlurMaskShadow(
                 color = color.copy(alpha = 0.7f),
                 haloBorderWidth = animatedHaloBorderSize,
                 cornerRadius = cornerRadius,
@@ -53,7 +53,7 @@ fun BlurredRectShadowBox(
             )
             .then(
                 if (isPressed) {
-                    Modifier.drawOutlineRoundedRectShadowByBlurMask(
+                    Modifier.drawOutlineBlurMaskShadow(
                         color = color,
                         haloBorderWidth = 4.dp,
                         cornerRadius = cornerRadius,
