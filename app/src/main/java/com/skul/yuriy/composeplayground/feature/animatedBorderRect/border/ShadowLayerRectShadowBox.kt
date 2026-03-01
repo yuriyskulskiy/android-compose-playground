@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineRoundedRectShadowByShadowLayer
+import com.skul.yuriy.composeplayground.util.shadowborder.rect.drawOutlineShapeShadowByShadowLayer
 
 @Composable
 fun ShadowLayerRectShadowBox(
@@ -37,14 +37,14 @@ fun ShadowLayerRectShadowBox(
 
     Box(
         modifier = modifier
-            .drawOutlineRoundedRectShadowByShadowLayer(
+            .drawOutlineShapeShadowByShadowLayer(
                 color = color,
                 haloBorderWidth = animatedSpread,
                 cornerRadius = cornerRadius
             )
             .then(
                 if (isPressed) {
-                    Modifier.drawOutlineRoundedRectShadowByShadowLayer(
+                    Modifier.drawOutlineShapeShadowByShadowLayer(
                         color = color,
                         haloBorderWidth = 4.dp,
                         cornerRadius = cornerRadius
