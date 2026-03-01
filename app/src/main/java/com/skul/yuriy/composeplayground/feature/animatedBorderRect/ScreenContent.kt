@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.BlurredRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.MultiLayerRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.RadialLinearDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.ShadowLayerRectShadowBox
 import com.skul.yuriy.composeplayground.util.regularComponents.LabeledSectionWrapper
 
@@ -64,6 +65,20 @@ fun ScreenContent(
                 cornerRadius = 24.dp,
                 initialHaloBorderWidth = 4.dp,
                 pressedHaloBorderWidth = 28.dp
+            )
+        }
+
+        LabeledSectionWrapper(
+            modifier = Modifier.size(width = 220.dp, height = 120.dp),
+            isBorderEnabled = isBorderEnabled,
+            text = stringResource(R.string.radial_linear_draft)
+        ) { mod ->
+            RadialLinearDraftRectShadowBox(
+                modifier = mod,
+                color = Color.Yellow,
+                cornerRadius = 24.dp,
+                initialHaloBorderWidth = 4.dp,
+                pressedHaloBorderWidth = 36.dp
             )
         }
     }
