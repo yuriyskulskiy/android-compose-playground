@@ -68,10 +68,6 @@ fun AnimatedCircleButtonScreenContent(
         Text(
             modifier = Modifier.padding(24.dp),
             color = Color.White,
-//            text = "Effects:\n" +
-//                    "- Animated blurred arc with sweep gradient\n" +
-//                    "- Animated radial gradient border\n" +
-//                    "- Animated drop shadow for vector icon"
             text = stringResource(R.string.effects_description)
 
         )

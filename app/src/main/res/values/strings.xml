@@ -59,12 +59,14 @@
     <string name="square_shape_bottom_shadow_edge">Square shape\nbottom shadow\nedge</string>
     <string name="animated_sticky_header">Animated sticky header</string>
     <string name="animated_circular_button">Animated Circular Button</string>
+    <string name="animated_rect_button">Animated Rect Button</string>
     <string name="alpha">Alpha:</string>
     <string name="scale_factor">Scale Factor:</string>
     <string name="blur_radius_dp">Blur Radius (Dp):</string>
     <string name="shadow_offset_dp">Shadow Offset (Dp) :</string>
     <string name="drop_shadow_example">Drop Shadow Example</string>
     <string name="effects_description">Effects:\n- Animated blurred arc with sweep gradient\n- Animated radial gradient border\n- Animated drop shadow for vector icon</string>
+    <string name="effects_description_rect">Effects:\n- Animated blurred gradient segment on rounded rectangle\n- Animated rounded outline glow border\n- Animated drop shadow for vector icon</string>
     <string name="metaballs_classic_approach">Metaballs: Classic Approach</string>
     <string name="metaball_primer_open_concept_info">Open text metaball concept</string>
     <string name="text_metabal_concept_title">Text Metaball Concept</string>

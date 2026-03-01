@@ -70,6 +70,9 @@ fun NavBackStack<NavKey>.navigateToBottomEdgeShadowScreen() =
 fun NavBackStack<NavKey>.navigateToAnimatedCircularBtn() =
     navigate(Screens.AnimateCircularButton)
 
+fun NavBackStack<NavKey>.navigateToAnimatedRectBtn() =
+    navigate(Screens.AnimateRectButton)
+
 fun NavBackStack<NavKey>.navigateToGooeyScreen() =
     navigate(Screens.GooeyEffect)
 

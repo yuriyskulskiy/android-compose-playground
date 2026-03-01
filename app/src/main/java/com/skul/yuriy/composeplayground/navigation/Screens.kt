@@ -46,6 +46,9 @@ sealed interface Screens : NavKey {
     data object AnimateCircularButton : Screens
 
     @Serializable
+    data object AnimateRectButton : Screens
+
+    @Serializable
     data object GooeyEffect : Screens
 
     @Serializable
