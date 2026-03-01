@@ -58,6 +58,9 @@ fun NavBackStack<NavKey>.navigateToVectorIconWithShadow() =
 fun NavBackStack<NavKey>.navigateToCircularHaloBorder() =
     navigate(Screens.CircularHaloShadow)
 
+fun NavBackStack<NavKey>.navigateToAnimatedBorderRect() =
+    navigate(Screens.AnimatedBorderRect)
+
 fun NavBackStack<NavKey>.navigateToShadowBox() =
     navigate(Screens.TransparentShadowBox)
 

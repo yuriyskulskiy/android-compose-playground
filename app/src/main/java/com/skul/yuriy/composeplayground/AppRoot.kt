@@ -15,6 +15,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.AnimatedBorderRectScreen
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
 import com.skul.yuriy.composeplayground.feature.animatedRectButton.AnimatedRectBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
@@ -69,6 +70,7 @@ internal fun AppRoot(
                     entry<Screens.AnimatedElevationEdge> { AnimatedElevationRoute() }
                     entry<Screens.FadingEdgesScreen> { FadingEdgesRoute() }
                     entry<Screens.CircularHaloShadow> { CircularHaloShadowScreen() }
+                    entry<Screens.AnimatedBorderRect> { AnimatedBorderRectScreen() }
                     entry<Screens.VectorDrawableShadow> { VectorDrawableShadowScreen() }
                     entry<Screens.TransparentShadowBox> { OutlineShadowBoxRoute() }
                     entry<Screens.AnimatedArk> { AnimatedArkScreen() }

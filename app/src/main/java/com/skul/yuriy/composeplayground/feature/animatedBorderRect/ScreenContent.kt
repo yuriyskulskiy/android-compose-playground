@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.animatedBorder
+package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.size
@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.feature.animatedBorder.border.BlurredCircularShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorder.border.GradientCircularShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.BlurredRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.ShadowLayerRectShadowBox
 import com.skul.yuriy.composeplayground.util.regularComponents.LabeledSectionWrapper
 
 @Composable
@@ -17,34 +17,33 @@ fun ColumnScope.ScreenContent(
     isBorderEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {
-    // First LabeledSectionWrapper for BlurredCircularShadowBox
     LabeledSectionWrapper(
-        modifier = modifier.size(200.dp),
+        modifier = modifier.size(width = 220.dp, height = 120.dp),
         isBorderEnabled = isBorderEnabled,
         text = stringResource(R.string.paint_with_blurmaskfilter)
     ) { mod ->
-        BlurredCircularShadowBox(
+        BlurredRectShadowBox(
             modifier = mod,
             color = Color.Green,
+            cornerRadius = 24.dp,
             initialBlurRadius = 4.dp,
-            initialHaloShadowWidth = 4.dp,
-            pressedHaloShadowWidth = 24.dp,
             pressedBlurRadius = 16.dp,
-            innerCircleContentSize = 100.dp,
+            initialHaloShadowWidth = 4.dp,
+            pressedHaloShadowWidth = 24.dp
         )
     }
 
-    // Second LabeledSectionWrapper for GradientCircularShadowBox
     LabeledSectionWrapper(
-        modifier = modifier.size(100.dp),
+        modifier = modifier.size(width = 220.dp, height = 120.dp),
         isBorderEnabled = isBorderEnabled,
-        text = stringResource(R.string.regular_radial_gradient_brush)
+        text = stringResource(R.string.outlined_shadow_layer)
     ) { mod ->
-        GradientCircularShadowBox(
+        ShadowLayerRectShadowBox(
             modifier = mod,
             color = Color.Green,
+            cornerRadius = 24.dp,
             initialHaloBorderWidth = 4.dp,
-            pressedHaloBorderWidth = 32.dp,
+            pressedHaloBorderWidth = 32.dp
         )
     }
 }

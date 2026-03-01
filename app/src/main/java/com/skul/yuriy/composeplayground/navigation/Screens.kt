@@ -34,6 +34,9 @@ sealed interface Screens : NavKey {
     data object CircularHaloShadow : Screens
 
     @Serializable
+    data object AnimatedBorderRect : Screens
+
+    @Serializable
     data object AnimatedArk : Screens
 
     @Serializable

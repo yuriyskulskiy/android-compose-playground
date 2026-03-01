@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.animatedBorder
+package com.skul.yuriy.composeplayground.util.regularComponents
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun LabeledSectionWrapper(
     modifier: Modifier = Modifier,
@@ -21,7 +20,6 @@ fun LabeledSectionWrapper(
     shadowBox: @Composable (Modifier) -> Unit
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        // Pass the modifier with conditional border based on isBorderEnabled
         shadowBox(
             modifier.then(
                 if (isBorderEnabled) {
