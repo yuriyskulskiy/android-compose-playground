@@ -203,11 +203,11 @@ half4 main(float2 fragCoord) {
     float halo = exp(-dOut / blurRadius);
 
     // Stroke only outside contour. Interior must remain fully transparent.
-    float edgeW = max(haloPx * 2.0, 1.0);
-    float edge = (1.0 - smoothstep(0.0, edgeW, dOut)) * outsideMask;
+    float edgeW = max(haloPx * 2.1, 1.0);
+    float edge = (1.0 - smoothstep(0.0, edgeW * 0.82, dOut)) * outsideMask;
 
     // In rest state: no halo, only dark stroke.
-    float haloPart = halo * 1.35 * uPress * outsideMask;
+    float haloPart = halo * 1.45 * uPress * outsideMask;
     float edgePart = edge * mix(1.08, 1.18, uPress);
 
     // Combine alpha (no solid "core fill" -> no flat plate look)
@@ -221,7 +221,12 @@ half4 main(float2 fragCoord) {
         min(1.0, uEdgeColor.b * 0.96)
     );
     float3 edgeColor = mix(uGlowColor.rgb, saturatedEdge, 0.32 + 0.58 * uPress);
-    float3 rgb = (uGlowColor.rgb * haloPart + edgeColor * edgePart) * uIntensity * outsideMask;
+    float3 softHaloColor = float3(
+        uGlowColor.r * 0.92,
+        uGlowColor.g * 1.02,
+        min(1.0, uGlowColor.b * 1.08)
+    );
+    float3 rgb = (softHaloColor * haloPart + edgeColor * edgePart) * uIntensity * outsideMask;
 
     return half4(half3(rgb), half(a * uGlowColor.a));
 }
