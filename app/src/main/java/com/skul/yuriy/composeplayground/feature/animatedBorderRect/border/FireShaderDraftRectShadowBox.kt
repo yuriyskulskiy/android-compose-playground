@@ -202,7 +202,7 @@ float3 ramp(float t) {
 }
 
 float shade(float2 uv, float t) {
-    uv.x += 23.0 + t * 0.035;
+    uv.x += uv.y < 0.5 ? (23.0 + t * 0.035) : (-11.0 + t * 0.03);
     uv.y = abs(uv.y - 0.5);
     uv.x *= 35.0;
 
@@ -295,6 +295,7 @@ half4 main(float2 fragCoord) {
     float2 res = max(uResolution, float2(1.0));
     float t = uTime * 60.0;
     float2 p = fragCoord - 0.5 * res;
+    float2 pNorm = p / max(res.y, 1.0);
 
     float thickness = max(1.5, uBandPx * 0.30);
     float smokeW = max(thickness * 4.8, uBandPx * 2.2) * max(uSmokeScale, 0.3);
@@ -318,8 +319,27 @@ half4 main(float2 fragCoord) {
     float coreMask = 1.0 - smoothstep(thickness, thickness * 2.0, abs(d));
     float smokeMask = 1.0 - smoothstep(smokeW, smokeW * 3.2, abs(d));
 
-    float2 uv = float2(u + 1.30, v);
-    float3 flame = colorFromGrad(shade(uv, t)) * uIntensity;
+    float ff = smoothstep(-0.15, 0.25, -pNorm.y);
+
+    // Seam fix: 10px overlap crossfade between (u) and (u + 1).
+    float overlapPx = 10.0;
+    float seamWidth = clamp(overlapPx / max(P, 1.0), 0.001, 0.20);
+    float seamBlend = smoothstep(0.0, seamWidth, u) * smoothstep(0.0, seamWidth, 1.0 - u);
+
+    float2 uvA = float2(u + 1.30, v);
+    float2 uvA2 = float2(u + 1.90, 1.0 - v);
+    float3 a1 = colorFromGrad(shade(uvA, t)) * ff;
+    float3 a2 = colorFromGrad(shade(uvA2, t)) * (1.0 - ff);
+    float3 flameA = a1 + a2;
+
+    float uB = u + 1.0;
+    float2 uvB = float2(uB + 1.30, v);
+    float2 uvB2 = float2(uB + 1.90, 1.0 - v);
+    float3 b1 = colorFromGrad(shade(uvB, t)) * ff;
+    float3 b2 = colorFromGrad(shade(uvB2, t)) * (1.0 - ff);
+    float3 flameB = b1 + b2;
+
+    float3 flame = mix(flameB, flameA, seamBlend) * uIntensity;
     float3 col = flame * coreMask;
     col += flame * 0.55 * smokeMask;
     col *= smokeMask;
