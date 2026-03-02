@@ -101,8 +101,8 @@ fun ScreenContent(
             SimpleAgslBorderRectShadowBox(
                 modifier = mod,
                 cornerRadius = 24.dp,
-                initialHaloBorderWidth = 4.dp,
-                pressedHaloBorderWidth = 4.dp
+                initialHaloBorderWidth = 0.dp,
+                pressedHaloBorderWidth = 36.dp
             )
         }
 

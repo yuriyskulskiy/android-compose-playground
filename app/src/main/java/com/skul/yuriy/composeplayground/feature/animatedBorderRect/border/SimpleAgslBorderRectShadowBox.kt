@@ -32,19 +32,14 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SimpleAgslBorderRectShadowBox(
     modifier: Modifier = Modifier,
-    strokeColor: Color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
-    glowColor: Color = Color(red = 0.04f, green = 0.10f, blue = 0.55f, alpha = 1f),
+    baseColor: Color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
     cornerRadius: Dp = 24.dp,
-    initialHaloBorderWidth: Dp = 4.dp,
-    pressedHaloBorderWidth: Dp = 4.dp
+    initialHaloBorderWidth: Dp = 0.dp,
+    pressedHaloBorderWidth: Dp = 36.dp
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
-    val animatedHalo by animateDpAsState(
-        targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
-        animationSpec = tween(durationMillis = 280),
-        label = ""
-    )
+    val animatedThinWidth = 4.dp
     val animatedIntensity by animateFloatAsState(
         targetValue = if (isPressed) 1.6f else 1f,
         animationSpec = tween(durationMillis = 280),
@@ -55,10 +50,22 @@ fun SimpleAgslBorderRectShadowBox(
         animationSpec = tween(durationMillis = 280),
         label = ""
     )
-    val animatedBlurRadius by animateDpAsState(
-        targetValue = if (isPressed) 22.dp else 2.dp,
+    val animatedPressGlowWidth by animateDpAsState(
+        targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
         animationSpec = tween(durationMillis = 280),
         label = ""
+    )
+    val animatedPressGlowBlur by animateDpAsState(
+        targetValue = if (isPressed) 8.dp else 0.dp,
+        animationSpec = tween(durationMillis = 280),
+        label = ""
+    )
+    val strokeColor = baseColor
+    val glowColor = Color(
+        red = (baseColor.red * 0.40f).coerceIn(0f, 1f),
+        green = (baseColor.green * 0.33f).coerceIn(0f, 1f),
+        blue = (baseColor.blue * 0.55f).coerceIn(0f, 1f),
+        alpha = baseColor.alpha
     )
 
     Box(
@@ -75,8 +82,10 @@ fun SimpleAgslBorderRectShadowBox(
                 strokeColor = strokeColor,
                 glowColor = glowColor,
                 cornerRadius = cornerRadius,
-                haloWidth = animatedHalo,
-                blurRadius = animatedBlurRadius,
+                thinWidth = animatedThinWidth,
+                thinBlur = 2.dp,
+                pressGlowWidth = animatedPressGlowWidth,
+                pressGlowBlur = animatedPressGlowBlur,
                 intensity = animatedIntensity,
                 press = animatedPress
             )
@@ -87,8 +96,10 @@ private fun Modifier.simpleAgslRectHaloBorder(
     strokeColor: Color,
     glowColor: Color,
     cornerRadius: Dp,
-    haloWidth: Dp,
-    blurRadius: Dp,
+    thinWidth: Dp,
+    thinBlur: Dp,
+    pressGlowWidth: Dp,
+    pressGlowBlur: Dp,
     intensity: Float,
     press: Float
 ): Modifier = composed {
@@ -96,8 +107,10 @@ private fun Modifier.simpleAgslRectHaloBorder(
 
     val density = LocalDensity.current
     val cornerPx = with(density) { cornerRadius.toPx() }
-    val haloPx = with(density) { haloWidth.toPx() }
-    val blurPx = with(density) { blurRadius.toPx() }
+    val thinWidthPx = with(density) { thinWidth.toPx() }
+    val thinBlurPx = with(density) { thinBlur.toPx() }
+    val pressGlowWidthPx = with(density) { pressGlowWidth.toPx() }
+    val pressGlowBlurPx = with(density) { pressGlowBlur.toPx() }
 
     var widthPx by remember { mutableIntStateOf(0) }
     var heightPx by remember { mutableIntStateOf(0) }
@@ -108,8 +121,10 @@ private fun Modifier.simpleAgslRectHaloBorder(
         widthPx,
         heightPx,
         cornerPx,
-        haloPx,
-        blurPx,
+        thinWidthPx,
+        thinBlurPx,
+        pressGlowWidthPx,
+        pressGlowBlurPx,
         intensity,
         press,
         strokeColor,
@@ -119,8 +134,10 @@ private fun Modifier.simpleAgslRectHaloBorder(
         runCatching {
             runtimeShader.setFloatUniform("uResolution", widthPx.toFloat(), heightPx.toFloat())
             runtimeShader.setFloatUniform("uCornerPx", cornerPx)
-            runtimeShader.setFloatUniform("uHaloPx", haloPx.coerceAtLeast(1f))
-            runtimeShader.setFloatUniform("uBlurPx", blurPx.coerceAtLeast(1f))
+            runtimeShader.setFloatUniform("uThinWidthPx", thinWidthPx.coerceAtLeast(1f))
+            runtimeShader.setFloatUniform("uThinBlurPx", thinBlurPx.coerceAtLeast(0.001f))
+            runtimeShader.setFloatUniform("uPressGlowWidthPx", pressGlowWidthPx.coerceAtLeast(0f))
+            runtimeShader.setFloatUniform("uPressGlowBlurPx", pressGlowBlurPx.coerceAtLeast(0.001f))
             runtimeShader.setFloatUniform("uPress", press)
             runtimeShader.setFloatUniform("uIntensity", intensity)
             runtimeShader.setFloatUniform(
@@ -166,8 +183,10 @@ private const val SimpleRectHaloAgsl_V2 = """
 uniform shader src;
 uniform float2 uResolution;
 uniform float uCornerPx;
-uniform float uHaloPx;
-uniform float uBlurPx;
+uniform float uThinWidthPx;
+uniform float uThinBlurPx;
+uniform float uPressGlowWidthPx;
+uniform float uPressGlowBlurPx;
 uniform float uPress;
 uniform float uIntensity;
 
@@ -183,10 +202,10 @@ float sdRoundBox(float2 p, float2 b, float r) {
 }
 
 half4 main(float2 fragCoord) {
+    half4 base = src.eval(fragCoord);
+
     float2 center = uResolution * 0.5;
     float2 p = fragCoord - center;
-
-    float haloPx = max(uHaloPx, 1.0);
 
     // Full-rect shape in pixel space
     float2 halfSize = (uResolution * 0.5) - float2(1.0);
@@ -194,40 +213,26 @@ half4 main(float2 fragCoord) {
 
     float signedD = sdRoundBox(p, halfSize, radius);
 
-    // Outside-only distance for halo
+    // Outside-only distance
     float dOut = max(signedD, 0.0);
     float outsideMask = step(0.0, signedD);
 
-    // Blur radius comes from UI: 2dp rest -> 16dp pressed.
-    float blurRadius = max(uBlurPx, 1.0);
-    float halo = exp(-dOut / blurRadius);
+    // TEST MODE:
+    // Only red radial-by-distance alpha around contour:
+    // alpha at border = 0.6, fades to 0 at width distance.
+    float maxDistPx = max(uPressGlowWidthPx, 0.001);
+    float t = clamp(dOut / maxDistPx, 0.0, 1.0);
+    float widthMask = step(0.001, uPressGlowWidthPx);
+    float band = (1.0 - t) * outsideMask * widthMask;
 
-    // Stroke only outside contour. Interior must remain fully transparent.
-    float edgeW = max(haloPx * 2.1, 1.0);
-    float edge = (1.0 - smoothstep(0.0, edgeW * 0.82, dOut)) * outsideMask;
+    // Keep all uniforms "used" so runtime uniform updates stay stable in test mode.
+    float keep = (
+        uThinWidthPx + uThinBlurPx + uPressGlowWidthPx + uPressGlowBlurPx +
+        uPress + uIntensity + uGlowColor.r + uGlowColor.g + uGlowColor.b + uGlowColor.a
+    ) * 0.0;
 
-    // In rest state: no halo, only dark stroke.
-    float haloPart = halo * 1.45 * uPress * outsideMask;
-    float edgePart = edge * mix(1.08, 1.18, uPress);
-
-    // Combine alpha (no solid "core fill" -> no flat plate look)
-    float a = (haloPart + edgePart) * uIntensity * outsideMask;
-    a = clamp(a, 0.0, 1.0);
-
-    // In rest state stroke uses dark glow color, then shifts to edge color on press.
-    float3 saturatedEdge = float3(
-        uEdgeColor.r * 0.50,
-        uEdgeColor.g * 0.66,
-        min(1.0, uEdgeColor.b * 0.96)
-    );
-    float3 edgeColor = mix(uGlowColor.rgb, saturatedEdge, 0.32 + 0.58 * uPress);
-    float3 softHaloColor = float3(
-        uGlowColor.r * 0.92,
-        uGlowColor.g * 1.02,
-        min(1.0, uGlowColor.b * 1.08)
-    );
-    float3 rgb = (softHaloColor * haloPart + edgeColor * edgePart) * uIntensity * outsideMask;
-
-    return half4(half3(rgb), half(a * uGlowColor.a));
+    float a = clamp(0.6 * band + keep, 0.0, 1.0);
+    float3 rgb = float3(1.0, 0.0, 0.0) * a;
+    return half4(half3(rgb), half(a)) + base * 0.0;
 }
 """
