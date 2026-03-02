@@ -43,26 +43,82 @@ fun FireShaderDraftRectShadowBox(
     intensity: Float = 1f
 ) {
     var isPressed by remember { mutableStateOf(false) }
+    var activeQuadrant by remember { mutableStateOf<PressQuadrant?>(null) }
+
     val animatedPressBand by animateFloatAsState(
-        targetValue = if (isPressed) 2.05f else 1f,
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomLeft) 1.75f else 1f,
         animationSpec = tween(durationMillis = 220),
         label = ""
     )
     val animatedPressIntensity by animateFloatAsState(
-        targetValue = if (isPressed) 3.2f else 1f,
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.TopLeft) 2.55f else 1f,
         animationSpec = tween(durationMillis = 220),
         label = ""
     )
     val animatedPressSmoke by animateFloatAsState(
-        targetValue = if (isPressed) 2.35f else 1f,
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.TopRight) 3.2f else 1f,
+        animationSpec = tween(durationMillis = 220),
+        label = ""
+    )
+    val animatedPressSmokeOpacity by animateFloatAsState(
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.TopRight) 2.0f else 1f,
+        animationSpec = tween(durationMillis = 220),
+        label = ""
+    )
+    val animatedPressBottomRightBandThin by animateFloatAsState(
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 0.14f else 1f,
+        animationSpec = tween(durationMillis = 220),
+        label = ""
+    )
+    val animatedPressBottomRightIntensity by animateFloatAsState(
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 3.0f else 1f,
+        animationSpec = tween(durationMillis = 220),
+        label = ""
+    )
+    val animatedPressBottomRightSmokeTight by animateFloatAsState(
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 0.16f else 1f,
+        animationSpec = tween(durationMillis = 220),
+        label = ""
+    )
+    val animatedPressBottomRightSmokeOpacity by animateFloatAsState(
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 0.12f else 1f,
+        animationSpec = tween(durationMillis = 220),
+        label = ""
+    )
+    val animatedPressBottomRightThinMode by animateFloatAsState(
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 1f else 0f,
+        animationSpec = tween(durationMillis = 220),
+        label = ""
+    )
+    val animatedPressCoreScale by animateFloatAsState(
+        targetValue = when {
+            isPressed && activeQuadrant == PressQuadrant.TopLeft -> 1.55f
+            isPressed && activeQuadrant == PressQuadrant.TopRight -> 0.82f
+            isPressed && activeQuadrant == PressQuadrant.BottomRight -> 2.8f
+            else -> 1f
+        },
+        animationSpec = tween(durationMillis = 220),
+        label = ""
+    )
+    val animatedPressSmokeBlueTint by animateFloatAsState(
+        targetValue = when {
+            isPressed && activeQuadrant == PressQuadrant.TopRight -> 0.8f
+            isPressed && activeQuadrant == PressQuadrant.BottomRight -> 0.45f
+            else -> 0f
+        },
         animationSpec = tween(durationMillis = 220),
         label = ""
     )
 
-    val interactiveBand = (bandWidth * bandScale * animatedPressBand).coerceIn(8.dp, 86.dp)
+    val interactiveBand = (bandWidth * bandScale * animatedPressBand * animatedPressBottomRightBandThin)
+        .coerceIn(2.dp, 92.dp)
     val interactiveCorner = cornerRadius.coerceIn(8.dp, 56.dp)
-    val interactiveIntensity = (intensity * animatedPressIntensity).coerceIn(0.2f, 4.5f)
-    val interactiveSmoke = (smokeScale * animatedPressSmoke).coerceIn(0.3f, 4f)
+    val interactiveIntensity = (intensity * animatedPressIntensity * animatedPressBottomRightIntensity)
+        .coerceIn(0.2f, 3.4f)
+    val interactiveSmoke = (smokeScale * animatedPressSmoke * animatedPressBottomRightSmokeTight)
+        .coerceIn(0.18f, 4.6f)
+    val interactiveSmokeOpacity = (animatedPressSmokeOpacity * animatedPressBottomRightSmokeOpacity)
+        .coerceIn(0.14f, 6f)
 
     val transition = rememberInfiniteTransition(label = "")
     val time by transition.animateFloat(
@@ -78,10 +134,19 @@ fun FireShaderDraftRectShadowBox(
         modifier = modifier
             .pointerInput(Unit) {
                 awaitEachGesture {
-                    awaitFirstDown(requireUnconsumed = false)
+                    val down = awaitFirstDown(requireUnconsumed = false)
+                    val centerX = size.width * 0.5f
+                    val centerY = size.height * 0.5f
+                    activeQuadrant = when {
+                        down.position.x < centerX && down.position.y < centerY -> PressQuadrant.TopLeft
+                        down.position.x >= centerX && down.position.y < centerY -> PressQuadrant.TopRight
+                        down.position.x < centerX && down.position.y >= centerY -> PressQuadrant.BottomLeft
+                        else -> PressQuadrant.BottomRight
+                    }
                     isPressed = true
                     waitForUpOrCancellation()
                     isPressed = false
+                    activeQuadrant = null
                 }
             }
             .fireRectHaloShaderDraft(
@@ -91,7 +156,11 @@ fun FireShaderDraftRectShadowBox(
                 contourWidth = contourWidth,
                 contourHeight = contourHeight,
                 smokeScale = interactiveSmoke,
-                intensity = interactiveIntensity
+                intensity = interactiveIntensity,
+                smokeOpacity = interactiveSmokeOpacity,
+                coreScale = animatedPressCoreScale,
+                smokeBlueTint = animatedPressSmokeBlueTint,
+                thinMode = animatedPressBottomRightThinMode
             )
     )
 }
@@ -103,7 +172,11 @@ fun Modifier.fireRectHaloShaderDraft(
     contourWidth: Dp,
     contourHeight: Dp,
     smokeScale: Float,
-    intensity: Float = 1f
+    intensity: Float = 1f,
+    smokeOpacity: Float = 1f,
+    coreScale: Float = 1f,
+    smokeBlueTint: Float = 0f,
+    thinMode: Float = 0f
 ): Modifier = composed {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return@composed this
 
@@ -126,7 +199,11 @@ fun Modifier.fireRectHaloShaderDraft(
         contourWidthPx,
         contourHeightPx,
         smokeScale,
-        intensity
+        intensity,
+        smokeOpacity,
+        coreScale,
+        smokeBlueTint,
+        thinMode
     ) {
         if (widthPx <= 0 || heightPx <= 0) return@remember null
         runtimeShader.setFloatUniform("uResolution", widthPx.toFloat(), heightPx.toFloat())
@@ -136,6 +213,10 @@ fun Modifier.fireRectHaloShaderDraft(
         runtimeShader.setFloatUniform("uContourSize", contourWidthPx, contourHeightPx)
         runtimeShader.setFloatUniform("uSmokeScale", smokeScale)
         runtimeShader.setFloatUniform("uIntensity", intensity)
+        runtimeShader.setFloatUniform("uSmokeOpacity", smokeOpacity)
+        runtimeShader.setFloatUniform("uCoreScale", coreScale)
+        runtimeShader.setFloatUniform("uSmokeBlueTint", smokeBlueTint)
+        runtimeShader.setFloatUniform("uThinMode", thinMode)
         RenderEffect
             .createRuntimeShaderEffect(runtimeShader, "src")
             .asComposeRenderEffect()
@@ -162,6 +243,10 @@ fun Modifier.fireRectHaloShaderDraft(
         }
 }
 
+private enum class PressQuadrant {
+    TopLeft, TopRight, BottomLeft, BottomRight
+}
+
 private const val FireRectHaloAglsl = """
 uniform shader src;
 uniform float2 uResolution;
@@ -171,6 +256,10 @@ uniform float uCornerPx;
 uniform float2 uContourSize;
 uniform float uSmokeScale;
 uniform float uIntensity;
+uniform float uSmokeOpacity;
+uniform float uCoreScale;
+uniform float uSmokeBlueTint;
+uniform float uThinMode;
 
 const float PI = 3.14159265358979323846;
 const float TWO_PI = 6.28318530717958647692;
@@ -297,8 +386,10 @@ half4 main(float2 fragCoord) {
     float2 p = fragCoord - 0.5 * res;
     float2 pNorm = p / max(res.y, 1.0);
 
-    float thickness = max(1.5, uBandPx * 0.30);
-    float smokeW = max(thickness * 4.8, uBandPx * 2.2) * max(uSmokeScale, 0.3);
+    float thinMode = clamp(uThinMode, 0.0, 1.0);
+    float minThickness = mix(1.5, 0.55, thinMode);
+    float thickness = max(minThickness, uBandPx * mix(0.30, 0.16, thinMode));
+    float smokeW = max(thickness * 4.8, uBandPx * 2.2) * max(uSmokeScale, 0.3) * mix(1.0, 0.30, thinMode);
 
     float2 baseHalfSize = uContourSize * 0.5;
     float2 halfSize = baseHalfSize;
@@ -340,9 +431,19 @@ half4 main(float2 fragCoord) {
     float3 flameB = b1 + b2;
 
     float3 flame = mix(flameB, flameA, seamBlend) * uIntensity;
-    float3 col = flame * coreMask;
-    col += flame * 0.55 * smokeMask;
+    float3 smokeTinted = mix(
+        flame,
+        flame * float3(0.50, 0.72, 1.35) + float3(0.00, 0.02, 0.10),
+        clamp(uSmokeBlueTint, 0.0, 1.0)
+    );
+
+    float3 col = flame * coreMask * max(uCoreScale, 0.0);
+    col += smokeTinted * (0.55 * max(uSmokeOpacity, 0.0)) * smokeMask;
     col *= smokeMask;
+
+    // In thin mode, keep edge ultra-crisp.
+    float crispEdge = smoothstep(thickness * 0.85, thickness * 0.10, abs(d));
+    col += flame * crispEdge * thinMode * 0.55;
 
     float a = clamp(max(max(col.r, col.g), col.b), 0.0, 1.0);
     a = max(a * 0.95, coreMask * 0.35);
