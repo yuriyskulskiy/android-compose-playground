@@ -1,16 +1,11 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
@@ -23,7 +18,6 @@ import com.skul.yuriy.composeplayground.util.regularComponents.LabeledSectionWra
 
 @Composable
 fun ScreenContent(
-    isBorderEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -32,7 +26,7 @@ fun ScreenContent(
     ) {
         LabeledSectionWrapper(
             modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = isBorderEnabled,
+            isBorderEnabled = false,
             text = stringResource(R.string.multi_layer_shadow)
         ) { mod ->
             MultiLayerRectShadowBox(
@@ -46,7 +40,7 @@ fun ScreenContent(
 
         LabeledSectionWrapper(
             modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = isBorderEnabled,
+            isBorderEnabled = false,
             text = stringResource(R.string.paint_with_blurmaskfilter)
         ) { mod ->
             BlurredRectShadowBox(
@@ -62,7 +56,7 @@ fun ScreenContent(
 
         LabeledSectionWrapper(
             modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = isBorderEnabled,
+            isBorderEnabled = false,
             text = stringResource(R.string.outlined_shadow_layer)
         ) { mod ->
             ShadowLayerRectShadowBox(
@@ -76,7 +70,7 @@ fun ScreenContent(
 
         LabeledSectionWrapper(
             modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = isBorderEnabled,
+            isBorderEnabled = false,
             text = stringResource(R.string.radial_linear_draft)
         ) { mod ->
             RadialLinearDraftRectShadowBox(
@@ -90,7 +84,7 @@ fun ScreenContent(
 
         LabeledSectionWrapper(
             modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = isBorderEnabled,
+            isBorderEnabled = false,
             text = stringResource(R.string.simple_agsl_border)
         ) { mod ->
             SimpleAgslBorderRectShadowBox(
@@ -99,21 +93,6 @@ fun ScreenContent(
                 maxHaloBorderWidth = 32.dp
             )
         }
-
-        val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-        val sandboxModifier = Modifier
-            .fillMaxWidth()
-            .height(screenWidth)
-            .graphicsLayer {
-                clip = true
-            }
-            .then(
-                if (isBorderEnabled) {
-                    Modifier.border(1.dp, Color.White)
-                } else {
-                    Modifier
-                }
-            )
 
 //        Box(
 //            modifier = sandboxModifier,
