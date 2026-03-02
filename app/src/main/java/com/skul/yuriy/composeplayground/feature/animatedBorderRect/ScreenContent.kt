@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,7 @@ import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.FireSh
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.MultiLayerRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.RadialLinearDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.ShadowLayerRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.SimpleAgslBorderRectShadowBox
 import com.skul.yuriy.composeplayground.util.regularComponents.LabeledSectionWrapper
 
 @Composable
@@ -91,10 +93,26 @@ fun ScreenContent(
             )
         }
 
+        LabeledSectionWrapper(
+            modifier = Modifier.size(width = 220.dp, height = 120.dp),
+            isBorderEnabled = isBorderEnabled,
+            text = stringResource(R.string.simple_agsl_border)
+        ) { mod ->
+            SimpleAgslBorderRectShadowBox(
+                modifier = mod,
+                cornerRadius = 24.dp,
+                initialHaloBorderWidth = 4.dp,
+                pressedHaloBorderWidth = 4.dp
+            )
+        }
+
         val screenWidth = LocalConfiguration.current.screenWidthDp.dp
         val sandboxModifier = Modifier
             .fillMaxWidth()
             .height(screenWidth)
+            .graphicsLayer {
+                clip = true
+            }
             .then(
                 if (isBorderEnabled) {
                     Modifier.border(1.dp, Color.White)
@@ -103,22 +121,22 @@ fun ScreenContent(
                 }
             )
 
-        Box(
-            modifier = sandboxModifier,
-            contentAlignment = Alignment.Center
-        ) {
-            FireShaderDraftRectShadowBox(
-                modifier = Modifier.size(width = 340.dp, height = 220.dp),
-                cornerRadius = 24.dp,
-                bandWidth = 14.dp,
-                contourWidth = 220.dp,
-                contourHeight = 120.dp
-            )
-        }
-        Spacer(modifier = Modifier.size(24.dp))
-        Text(
-            text = stringResource(R.string.fire_shader_draft),
-            color = Color.White
-        )
+//        Box(
+//            modifier = sandboxModifier,
+//            contentAlignment = Alignment.Center
+//        ) {
+//            FireShaderDraftRectShadowBox(
+//                modifier = Modifier.size(width = 340.dp, height = 220.dp),
+//                cornerRadius = 24.dp,
+//                bandWidth = 14.dp,
+//                contourWidth = 220.dp,
+//                contourHeight = 120.dp
+//            )
+//        }
+//        Spacer(modifier = Modifier.size(24.dp))
+//        Text(
+//            text = stringResource(R.string.fire_shader_draft),
+//            color = Color.White
+//        )
     }
 }

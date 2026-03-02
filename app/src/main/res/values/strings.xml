@@ -42,6 +42,7 @@
     <string name="multi_layer_shadow">Multi Layer Shadow</string>
     <string name="outlined_shadow_layer">Outlined Shadow Layer</string>
     <string name="radial_linear_draft">Radial + Linear Draft</string>
+    <string name="simple_agsl_border">Simple AGSL Border</string>
     <string name="fire_shader_draft">Fire Shader Draft</string>
     <string name="outlined_blur_shadow">Outlined Blur Shadow</string>
     <string name="clipped_default_android_shadow">Clipped Default Android Shadow</string>
