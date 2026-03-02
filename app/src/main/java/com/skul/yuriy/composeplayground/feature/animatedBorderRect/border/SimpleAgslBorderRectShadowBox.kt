@@ -3,7 +3,6 @@ package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border
 import android.graphics.RenderEffect
 import android.graphics.RuntimeShader
 import android.os.Build
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.awaitEachGesture
@@ -29,43 +28,35 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * Simple AGSL rectangular halo border.
+ *
+ * Inputs are intentionally minimal:
+ * - [color] is the single tint used for both idle and pressed halo.
+ * - [maxHaloBorderWidth] is the outer halo reach in pressed state.
+ *
+ * Internal profile (fixed):
+ * - Idle: `0..2dp = 0.5 alpha`, `2..8dp -> 0 alpha`.
+ * - Pressed: `0..2dp = 1 alpha`, `2..6dp -> 0.5 alpha`, `6..maxHaloBorderWidth -> 0 alpha`.
+ * - Transition between idle and pressed is animated with `tween(300ms)`.
+ */
 @Composable
 fun SimpleAgslBorderRectShadowBox(
     modifier: Modifier = Modifier,
-    baseColor: Color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
-    cornerRadius: Dp = 24.dp,
-    initialHaloBorderWidth: Dp = 0.dp,
-    pressedHaloBorderWidth: Dp = 36.dp
+    color: Color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
+    maxHaloBorderWidth: Dp = 32.dp
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
-    val animatedThinWidth = 4.dp
     val animatedIntensity by animateFloatAsState(
         targetValue = if (isPressed) 1.6f else 1f,
-        animationSpec = tween(durationMillis = 280),
+        animationSpec = tween(durationMillis = 300),
         label = ""
     )
     val animatedPress by animateFloatAsState(
         targetValue = if (isPressed) 1f else 0f,
-        animationSpec = tween(durationMillis = 280),
+        animationSpec = tween(durationMillis = 300),
         label = ""
-    )
-    val animatedPressGlowWidth by animateDpAsState(
-        targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
-        animationSpec = tween(durationMillis = 280),
-        label = ""
-    )
-    val animatedPressGlowBlur by animateDpAsState(
-        targetValue = if (isPressed) 8.dp else 0.dp,
-        animationSpec = tween(durationMillis = 280),
-        label = ""
-    )
-    val strokeColor = baseColor
-    val glowColor = Color(
-        red = (baseColor.red * 0.40f).coerceIn(0f, 1f),
-        green = (baseColor.green * 0.33f).coerceIn(0f, 1f),
-        blue = (baseColor.blue * 0.55f).coerceIn(0f, 1f),
-        alpha = baseColor.alpha
     )
 
     Box(
@@ -79,13 +70,9 @@ fun SimpleAgslBorderRectShadowBox(
                 }
             }
             .simpleAgslRectHaloBorder(
-                strokeColor = strokeColor,
-                glowColor = glowColor,
-                cornerRadius = cornerRadius,
-                thinWidth = animatedThinWidth,
-                thinBlur = 2.dp,
-                pressGlowWidth = animatedPressGlowWidth,
-                pressGlowBlur = animatedPressGlowBlur,
+                color = color,
+                cornerRadius = 24.dp,
+                maxHaloBorderWidth = maxHaloBorderWidth,
                 intensity = animatedIntensity,
                 press = animatedPress
             )
@@ -93,13 +80,9 @@ fun SimpleAgslBorderRectShadowBox(
 }
 
 private fun Modifier.simpleAgslRectHaloBorder(
-    strokeColor: Color,
-    glowColor: Color,
+    color: Color,
     cornerRadius: Dp,
-    thinWidth: Dp,
-    thinBlur: Dp,
-    pressGlowWidth: Dp,
-    pressGlowBlur: Dp,
+    maxHaloBorderWidth: Dp,
     intensity: Float,
     press: Float
 ): Modifier = composed {
@@ -107,52 +90,40 @@ private fun Modifier.simpleAgslRectHaloBorder(
 
     val density = LocalDensity.current
     val cornerPx = with(density) { cornerRadius.toPx() }
-    val thinWidthPx = with(density) { thinWidth.toPx() }
-    val thinBlurPx = with(density) { thinBlur.toPx() }
-    val pressGlowWidthPx = with(density) { pressGlowWidth.toPx() }
-    val pressGlowBlurPx = with(density) { pressGlowBlur.toPx() }
+    val strokeWidthPx = with(density) { 2.dp.toPx() }
+    val idleFadeEndPx = with(density) { 8.dp.toPx() }
+    val maxHaloBorderWidthPx = with(density) { maxHaloBorderWidth.toPx() }
 
     var widthPx by remember { mutableIntStateOf(0) }
     var heightPx by remember { mutableIntStateOf(0) }
 
-//    val runtimeShader = remember { RuntimeShader(SimpleRectHaloAgsl) }
     val runtimeShader = remember { RuntimeShader(SimpleRectHaloAgsl_V2) }
     val effect = remember(
         widthPx,
         heightPx,
         cornerPx,
-        thinWidthPx,
-        thinBlurPx,
-        pressGlowWidthPx,
-        pressGlowBlurPx,
+        strokeWidthPx,
+        idleFadeEndPx,
+        maxHaloBorderWidthPx,
         intensity,
         press,
-        strokeColor,
-        glowColor
+        color
     ) {
         if (widthPx <= 0 || heightPx <= 0) return@remember null
         runCatching {
             runtimeShader.setFloatUniform("uResolution", widthPx.toFloat(), heightPx.toFloat())
             runtimeShader.setFloatUniform("uCornerPx", cornerPx)
-            runtimeShader.setFloatUniform("uThinWidthPx", thinWidthPx.coerceAtLeast(1f))
-            runtimeShader.setFloatUniform("uThinBlurPx", thinBlurPx.coerceAtLeast(0.001f))
-            runtimeShader.setFloatUniform("uPressGlowWidthPx", pressGlowWidthPx.coerceAtLeast(0f))
-            runtimeShader.setFloatUniform("uPressGlowBlurPx", pressGlowBlurPx.coerceAtLeast(0.001f))
+            runtimeShader.setFloatUniform("uStrokeWidthPx", strokeWidthPx.coerceAtLeast(0.001f))
+            runtimeShader.setFloatUniform("uIdleFadeEndPx", idleFadeEndPx.coerceAtLeast(0.001f))
+            runtimeShader.setFloatUniform("uMaxHaloBorderWidthPx", maxHaloBorderWidthPx.coerceAtLeast(0.001f))
             runtimeShader.setFloatUniform("uPress", press)
             runtimeShader.setFloatUniform("uIntensity", intensity)
             runtimeShader.setFloatUniform(
-                "uEdgeColor",
-                strokeColor.red,
-                strokeColor.green,
-                strokeColor.blue,
-                strokeColor.alpha
-            )
-            runtimeShader.setFloatUniform(
-                "uGlowColor",
-                glowColor.red,
-                glowColor.green,
-                glowColor.blue,
-                glowColor.alpha
+                "uColor",
+                color.red,
+                color.green,
+                color.blue,
+                color.alpha
             )
 
             RenderEffect.createRuntimeShaderEffect(runtimeShader, "src").asComposeRenderEffect()
@@ -183,18 +154,12 @@ private const val SimpleRectHaloAgsl_V2 = """
 uniform shader src;
 uniform float2 uResolution;
 uniform float uCornerPx;
-uniform float uThinWidthPx;
-uniform float uThinBlurPx;
-uniform float uPressGlowWidthPx;
-uniform float uPressGlowBlurPx;
+uniform float uStrokeWidthPx;
+uniform float uIdleFadeEndPx;
+uniform float uMaxHaloBorderWidthPx;
 uniform float uPress;
 uniform float uIntensity;
-
-// Base glow color (used for the wide halo)
-uniform float4 uGlowColor;
-
-// Thin outline color (used for the crisp edge)
-uniform float4 uEdgeColor;
+uniform float4 uColor;
 
 float sdRoundBox(float2 p, float2 b, float r) {
     float2 q = abs(p) - b + float2(r);
@@ -217,22 +182,38 @@ half4 main(float2 fragCoord) {
     float dOut = max(signedD, 0.0);
     float outsideMask = step(0.0, signedD);
 
-    // TEST MODE:
-    // Only red radial-by-distance alpha around contour:
-    // alpha at border = 0.6, fades to 0 at width distance.
-    float maxDistPx = max(uPressGlowWidthPx, 0.001);
-    float t = clamp(dOut / maxDistPx, 0.0, 1.0);
-    float widthMask = step(0.001, uPressGlowWidthPx);
-    float band = (1.0 - t) * outsideMask * widthMask;
+    float d = max(dOut, 0.0);
+    float coreW = max(uStrokeWidthPx, 0.001);
+    float idleFadeEnd = max(uIdleFadeEndPx, coreW + 0.001);
+    float pressSolidEnd = coreW;
+    float pressDropEnd = coreW * 3.0;
+    float pressTailStart = pressDropEnd;
+    float pressTailEnd = max(uMaxHaloBorderWidthPx, pressTailStart + 0.001);
 
-    // Keep all uniforms "used" so runtime uniform updates stay stable in test mode.
-    float keep = (
-        uThinWidthPx + uThinBlurPx + uPressGlowWidthPx + uPressGlowBlurPx +
-        uPress + uIntensity + uGlowColor.r + uGlowColor.g + uGlowColor.b + uGlowColor.a
-    ) * 0.0;
+    float idleBand = 0.0;
+    if (d <= coreW) {
+        idleBand = 0.5;
+    } else if (d <= idleFadeEnd) {
+        float t = (d - coreW) / max(idleFadeEnd - coreW, 0.001);
+        idleBand = mix(0.5, 0.0, t);
+    } else {
+        idleBand = 0.0;
+    }
 
-    float a = clamp(0.6 * band + keep, 0.0, 1.0);
-    float3 rgb = float3(1.0, 0.0, 0.0) * a;
-    return half4(half3(rgb), half(a)) + base * 0.0;
+    float pressBand = 0.0;
+    if (d <= pressSolidEnd) {
+        pressBand = 1.0;
+    } else if (d <= pressDropEnd) {
+        float t = (d - pressSolidEnd) / max(pressDropEnd - pressSolidEnd, 0.001);
+        pressBand = mix(1.0, 0.5, t);
+    } else {
+        float t = clamp((d - pressTailStart) / max(pressTailEnd - pressTailStart, 0.001), 0.0, 1.0);
+        pressBand = mix(0.5, 0.0, t);
+    }
+
+    float band = mix(idleBand, pressBand, clamp(uPress, 0.0, 1.0)) * outsideMask;
+    float a = clamp(band, 0.0, 1.0);
+    float3 rgb = uColor.rgb * (a * uIntensity);
+    return half4(half3(rgb), half(a * uColor.a)) + base * 0.0;
 }
 """

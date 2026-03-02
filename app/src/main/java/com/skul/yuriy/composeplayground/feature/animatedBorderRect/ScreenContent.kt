@@ -1,15 +1,11 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.BlurredRectShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.FireShaderDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.MultiLayerRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.RadialLinearDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.ShadowLayerRectShadowBox
@@ -61,7 +56,7 @@ fun ScreenContent(
                 initialBlurRadius = 4.dp,
                 pressedBlurRadius = 16.dp,
                 initialHaloShadowWidth = 4.dp,
-                pressedHaloShadowWidth = 36.dp
+                pressedHaloShadowWidth = 32.dp
             )
         }
 
@@ -100,9 +95,8 @@ fun ScreenContent(
         ) { mod ->
             SimpleAgslBorderRectShadowBox(
                 modifier = mod,
-                cornerRadius = 24.dp,
-                initialHaloBorderWidth = 0.dp,
-                pressedHaloBorderWidth = 36.dp
+                color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
+                maxHaloBorderWidth = 32.dp
             )
         }
 
