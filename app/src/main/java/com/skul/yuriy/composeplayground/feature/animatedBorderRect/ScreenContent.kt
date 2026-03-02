@@ -1,15 +1,24 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.BlurredRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.FireShaderDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.MultiLayerRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.RadialLinearDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.ShadowLayerRectShadowBox
@@ -81,5 +90,35 @@ fun ScreenContent(
                 pressedHaloBorderWidth = 36.dp
             )
         }
+
+        val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+        val sandboxModifier = Modifier
+            .fillMaxWidth()
+            .height(screenWidth)
+            .then(
+                if (isBorderEnabled) {
+                    Modifier.border(1.dp, Color.White)
+                } else {
+                    Modifier
+                }
+            )
+
+        Box(
+            modifier = sandboxModifier,
+            contentAlignment = Alignment.Center
+        ) {
+            FireShaderDraftRectShadowBox(
+                modifier = Modifier.size(width = 340.dp, height = 220.dp),
+                cornerRadius = 24.dp,
+                bandWidth = 14.dp,
+                contourWidth = 220.dp,
+                contourHeight = 120.dp
+            )
+        }
+        Spacer(modifier = Modifier.size(24.dp))
+        Text(
+            text = stringResource(R.string.fire_shader_draft),
+            color = Color.White
+        )
     }
 }
