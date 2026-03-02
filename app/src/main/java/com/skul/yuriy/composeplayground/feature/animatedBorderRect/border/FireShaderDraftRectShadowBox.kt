@@ -46,7 +46,7 @@ fun FireShaderDraftRectShadowBox(
     var activeQuadrant by remember { mutableStateOf<PressQuadrant?>(null) }
 
     val animatedPressBand by animateFloatAsState(
-        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomLeft) 1.75f else 1f,
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomLeft) 2.05f else 1f,
         animationSpec = tween(durationMillis = 220),
         label = ""
     )
@@ -66,7 +66,7 @@ fun FireShaderDraftRectShadowBox(
         label = ""
     )
     val animatedPressBottomRightBandThin by animateFloatAsState(
-        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 0.14f else 1f,
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 1.7f else 1f,
         animationSpec = tween(durationMillis = 220),
         label = ""
     )
@@ -76,17 +76,17 @@ fun FireShaderDraftRectShadowBox(
         label = ""
     )
     val animatedPressBottomRightSmokeTight by animateFloatAsState(
-        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 0.16f else 1f,
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 1.15f else 1f,
         animationSpec = tween(durationMillis = 220),
         label = ""
     )
     val animatedPressBottomRightSmokeOpacity by animateFloatAsState(
-        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 0.12f else 1f,
+        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 1.2f else 1f,
         animationSpec = tween(durationMillis = 220),
         label = ""
     )
     val animatedPressBottomRightThinMode by animateFloatAsState(
-        targetValue = if (isPressed && activeQuadrant == PressQuadrant.BottomRight) 1f else 0f,
+        targetValue = 0f,
         animationSpec = tween(durationMillis = 220),
         label = ""
     )
@@ -94,7 +94,7 @@ fun FireShaderDraftRectShadowBox(
         targetValue = when {
             isPressed && activeQuadrant == PressQuadrant.TopLeft -> 1.55f
             isPressed && activeQuadrant == PressQuadrant.TopRight -> 0.82f
-            isPressed && activeQuadrant == PressQuadrant.BottomRight -> 2.8f
+            isPressed && activeQuadrant == PressQuadrant.BottomRight -> 1.25f
             else -> 1f
         },
         animationSpec = tween(durationMillis = 220),
@@ -103,7 +103,6 @@ fun FireShaderDraftRectShadowBox(
     val animatedPressSmokeBlueTint by animateFloatAsState(
         targetValue = when {
             isPressed && activeQuadrant == PressQuadrant.TopRight -> 0.8f
-            isPressed && activeQuadrant == PressQuadrant.BottomRight -> 0.45f
             else -> 0f
         },
         animationSpec = tween(durationMillis = 220),
