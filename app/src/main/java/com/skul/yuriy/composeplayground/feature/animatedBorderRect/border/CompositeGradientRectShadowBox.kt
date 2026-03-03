@@ -1,12 +1,15 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.Dp
 import kotlin.math.min
 
@@ -15,7 +18,19 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
     color: Color,
     haloBorderWidth: Dp,
     cornerRadius: Dp
-): Modifier = this.drawWithCache {
+): Modifier = composed {
+    val transparentColor = remember(color) { color.copy(alpha = 0f) }
+    val linearStops = remember(color) { listOf(transparentColor, color) }
+    val cornerStops = remember {
+        arrayOf(
+            0f to Color.Transparent,
+            0f to Color.Transparent,
+            0f to Color.Transparent,
+            1f to Color.Transparent
+        )
+    }
+
+    this.drawWithCache {
         val haloPx = haloBorderWidth.toPx()
         if (haloPx < 1f) {
             return@drawWithCache onDrawBehind {}
@@ -31,154 +46,118 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
             return@drawWithCache onDrawBehind {}
         }
 
-        val transparent = color.copy(alpha = 0f)
         val stripWidth = (w - 2f * r).coerceAtLeast(0f)
         val stripHeight = (h - 2f * r).coerceAtLeast(0f)
         val outerRadius = r + haloPx
         val edgeRatio = if (outerRadius > 0f) (r / outerRadius).coerceIn(0f, 1f) else 0f
 
-        val topBrush = Brush.verticalGradient(
-            colors = listOf(transparent, color),
+        val sideBrush = Brush.verticalGradient(
+            colors = linearStops,
             startY = -haloPx,
             endY = 0f
         )
-        val bottomBrush = Brush.verticalGradient(
-            colors = listOf(color, transparent),
-            startY = h,
-            endY = h + haloPx
-        )
-        val leftBrush = Brush.horizontalGradient(
-            colors = listOf(transparent, color),
-            startX = -haloPx,
-            endX = 0f
-        )
-        val rightBrush = Brush.horizontalGradient(
-            colors = listOf(color, transparent),
-            startX = w,
-            endX = w + haloPx
-        )
+
+        // Update reusable corner stops.
+        cornerStops[0] = 0f to transparentColor
+        cornerStops[1] = edgeRatio to transparentColor
+        cornerStops[2] = edgeRatio to color
+        cornerStops[3] = 1f to transparentColor
+
         val topLeftBrush = Brush.radialGradient(
-            colorStops = arrayOf(
-                0f to transparent,
-                edgeRatio to transparent,
-                edgeRatio to color,
-                1f to transparent
-            ),
+            colorStops = cornerStops,
             center = Offset(r, r),
             radius = outerRadius
         )
-        val topRightBrush = Brush.radialGradient(
-            colorStops = arrayOf(
-                0f to transparent,
-                edgeRatio to transparent,
-                edgeRatio to color,
-                1f to transparent
-            ),
-            center = Offset(w - r, r),
-            radius = outerRadius
-        )
-        val bottomRightBrush = Brush.radialGradient(
-            colorStops = arrayOf(
-                0f to transparent,
-                edgeRatio to transparent,
-                edgeRatio to color,
-                1f to transparent
-            ),
-            center = Offset(w - r, h - r),
-            radius = outerRadius
-        )
-        val bottomLeftBrush = Brush.radialGradient(
-            colorStops = arrayOf(
-                0f to transparent,
-                edgeRatio to transparent,
-                edgeRatio to color,
-                1f to transparent
-            ),
-            center = Offset(r, h - r),
-            radius = outerRadius
-        )
-
-
         onDrawBehind {
 
             if (stripWidth > 0f) {
-                drawRect(
-                    brush = topBrush,
-                    topLeft = Offset(r, -haloPx),
-                    size = Size(stripWidth, haloPx)
-                )
-                drawRect(
-                    brush = bottomBrush,
-                    topLeft = Offset(r, h),
-                    size = Size(stripWidth, haloPx)
-                )
+                withTransform({
+                    translate(left = r, top = 0f)
+                }) {
+                    drawRect(
+                        brush = sideBrush,
+                        topLeft = Offset(0f, -haloPx),
+                        size = Size(stripWidth, haloPx)
+                    )
+                }
+                withTransform({
+                    translate(left = r, top = h)
+                    scale(scaleX = 1f, scaleY = -1f, pivot = Offset.Zero)
+                }) {
+                    drawRect(
+                        brush = sideBrush,
+                        topLeft = Offset(0f, -haloPx),
+                        size = Size(stripWidth, haloPx)
+                    )
+                }
             }
 
             if (stripHeight > 0f) {
-                drawRect(
-                    brush = leftBrush,
-                    topLeft = Offset(-haloPx, r),
-                    size = Size(haloPx, stripHeight)
-                )
-                drawRect(
-                    brush = rightBrush,
-                    topLeft = Offset(w, r),
-                    size = Size(haloPx, stripHeight)
-                )
+                withTransform({
+                    translate(left = 0f, top = r + stripHeight)
+                    rotate(degrees = -90f, pivot = Offset.Zero)
+                }) {
+                    drawRect(
+                        brush = sideBrush,
+                        topLeft = Offset(0f, -haloPx),
+                        size = Size(stripHeight, haloPx)
+                    )
+                }
+                withTransform({
+                    translate(left = w, top = r)
+                    rotate(degrees = 90f, pivot = Offset.Zero)
+                }) {
+                    drawRect(
+                        brush = sideBrush,
+                        topLeft = Offset(0f, -haloPx),
+                        size = Size(stripHeight, haloPx)
+                    )
+                }
             }
 
             if (outerRadius > 0f) {
-                clipRect(
-                    left = -haloPx,
-                    top = -haloPx,
-                    right = r,
-                    bottom = r
-                ) {
-                    drawCircle(
-                        brush = topLeftBrush,
-                        radius = outerRadius,
-                        center = Offset(r, r)
-                    )
+                fun drawTopLeftCorner() {
+                    clipRect(
+                        left = -haloPx,
+                        top = -haloPx,
+                        right = r,
+                        bottom = r
+                    ) {
+                        drawCircle(
+                            brush = topLeftBrush,
+                            radius = outerRadius,
+                            center = Offset(r, r)
+                        )
+                    }
                 }
 
-                clipRect(
-                    left = w - r,
-                    top = -haloPx,
-                    right = w + haloPx,
-                    bottom = r
-                ) {
-                    drawCircle(
-                        brush = topRightBrush,
-                        radius = outerRadius,
-                        center = Offset(w - r, r)
-                    )
+                // Top-left (base corner).
+                drawTopLeftCorner()
+
+                // Top-right from base corner: translate + 90deg rotation.
+                withTransform({
+                    translate(left = w - 2f * r, top = 0f)
+                    rotate(degrees = 90f, pivot = Offset(r, r))
+                }) {
+                    drawTopLeftCorner()
                 }
 
-                clipRect(
-                    left = w - r,
-                    top = h - r,
-                    right = w + haloPx,
-                    bottom = h + haloPx
-                ) {
-                    drawCircle(
-                        brush = bottomRightBrush,
-                        radius = outerRadius,
-                        center = Offset(w - r, h - r)
-                    )
+                // Bottom-right from base corner: translate + 180deg rotation.
+                withTransform({
+                    translate(left = w - 2f * r, top = h - 2f * r)
+                    rotate(degrees = 180f, pivot = Offset(r, r))
+                }) {
+                    drawTopLeftCorner()
                 }
 
-                clipRect(
-                    left = -haloPx,
-                    top = h - r,
-                    right = r,
-                    bottom = h + haloPx
-                ) {
-                    drawCircle(
-                        brush = bottomLeftBrush,
-                        radius = outerRadius,
-                        center = Offset(r, h - r)
-                    )
+                // Bottom-left from base corner: translate + 270deg rotation.
+                withTransform({
+                    translate(left = 0f, top = h - 2f * r)
+                    rotate(degrees = 270f, pivot = Offset(r, r))
+                }) {
+                    drawTopLeftCorner()
                 }
             }
         }
     }
+}
