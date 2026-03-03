@@ -177,17 +177,17 @@ fun AnimatedCircularBtnBox(
                     Modifier
                 }
             )
-//            .then(
-//                if (!isPressed && isRunning) {
-//                    Modifier.snakeBorder(
-//                        rotationDegrees = animatedAngle,
-//                        bodyColor = mainColor,
-//                        glowShadowColor = mainColor.copy(alpha = 0.6f),
-//                        bodyStrokeWidth = 2.dp,
-//                        glowingShadowWidth = 12.dp,
-//                    )
-//                } else Modifier
-//            )
+            .then(
+                if (!isPressed && isRunning) {
+                    Modifier.snakeBorder(
+                        rotationDegrees = animatedAngle,
+                        bodyColor = mainColor,
+                        glowShadowColor = mainColor.copy(alpha = 0.6f),
+                        bodyStrokeWidth = 2.dp,
+                        glowingShadowWidth = 12.dp,
+                    )
+                } else Modifier
+            )
 
             .background(
                 color = backgroundColor,

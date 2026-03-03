@@ -2,7 +2,6 @@ package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
@@ -61,9 +60,5 @@ fun ShadowLayerRectShadowBox(
                     isPressed = false
                 }
             }
-            .clickable(
-                indication = null,
-                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-            ) {}
     )
 }
