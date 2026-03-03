@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 fun SimpleAgslBorderRectShadowBox(
     modifier: Modifier = Modifier,
     color: Color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
+    cornerRadius: Dp = 24.dp,
     maxHaloBorderWidth: Dp = 32.dp
 ) {
     var isPressed by remember { mutableStateOf(false) }
@@ -71,7 +72,7 @@ fun SimpleAgslBorderRectShadowBox(
             }
             .simpleAgslRectHaloBorder(
                 color = color,
-                cornerRadius = 24.dp,
+                cornerRadius = cornerRadius,
                 maxHaloBorderWidth = maxHaloBorderWidth,
                 intensity = animatedIntensity,
                 press = animatedPress
@@ -97,7 +98,7 @@ private fun Modifier.simpleAgslRectHaloBorder(
     var widthPx by remember { mutableIntStateOf(0) }
     var heightPx by remember { mutableIntStateOf(0) }
 
-    val runtimeShader = remember { RuntimeShader(SimpleRectHaloAgsl_V2) }
+    val runtimeShader = remember { RuntimeShader(SimpleRectHaloAgsl) }
     val effect = remember(
         widthPx,
         heightPx,
@@ -110,24 +111,25 @@ private fun Modifier.simpleAgslRectHaloBorder(
         color
     ) {
         if (widthPx <= 0 || heightPx <= 0) return@remember null
-        runCatching {
-            runtimeShader.setFloatUniform("uResolution", widthPx.toFloat(), heightPx.toFloat())
-            runtimeShader.setFloatUniform("uCornerPx", cornerPx)
-            runtimeShader.setFloatUniform("uStrokeWidthPx", strokeWidthPx.coerceAtLeast(0.001f))
-            runtimeShader.setFloatUniform("uIdleFadeEndPx", idleFadeEndPx.coerceAtLeast(0.001f))
-            runtimeShader.setFloatUniform("uMaxHaloBorderWidthPx", maxHaloBorderWidthPx.coerceAtLeast(0.001f))
-            runtimeShader.setFloatUniform("uPress", press)
-            runtimeShader.setFloatUniform("uIntensity", intensity)
-            runtimeShader.setFloatUniform(
-                "uColor",
-                color.red,
-                color.green,
-                color.blue,
-                color.alpha
-            )
+        runtimeShader.setFloatUniform("uResolution", widthPx.toFloat(), heightPx.toFloat())
+        runtimeShader.setFloatUniform("uCornerPx", cornerPx)
+        runtimeShader.setFloatUniform("uStrokeWidthPx", strokeWidthPx.coerceAtLeast(0.001f))
+        runtimeShader.setFloatUniform("uIdleFadeEndPx", idleFadeEndPx.coerceAtLeast(0.001f))
+        runtimeShader.setFloatUniform(
+            "uMaxHaloBorderWidthPx",
+            maxHaloBorderWidthPx.coerceAtLeast(0.001f)
+        )
+        runtimeShader.setFloatUniform("uPress", press)
+        runtimeShader.setFloatUniform("uIntensity", intensity)
+        runtimeShader.setFloatUniform(
+            "uColor",
+            color.red,
+            color.green,
+            color.blue,
+            color.alpha
+        )
 
-            RenderEffect.createRuntimeShaderEffect(runtimeShader, "src").asComposeRenderEffect()
-        }.getOrNull()
+        RenderEffect.createRuntimeShaderEffect(runtimeShader, "src").asComposeRenderEffect()
     }
 
     this
@@ -150,7 +152,7 @@ private fun Modifier.simpleAgslRectHaloBorder(
         }
 }
 
-private const val SimpleRectHaloAgsl_V2 = """
+private const val SimpleRectHaloAgsl = """
 uniform shader src;
 uniform float2 uResolution;
 uniform float uCornerPx;

@@ -20,6 +20,8 @@ import com.skul.yuriy.composeplayground.util.regularComponents.LabeledSectionWra
 fun ScreenContent(
     modifier: Modifier = Modifier
 ) {
+    val cornerRadius = 24.dp
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -32,7 +34,7 @@ fun ScreenContent(
             MultiLayerRectShadowBox(
                 modifier = mod,
                 color = Color.Green,
-                cornerRadius = 24.dp,
+                cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
                 pressedHaloBorderWidth = 36.dp
             )
@@ -46,7 +48,7 @@ fun ScreenContent(
             BlurredRectShadowBox(
                 modifier = mod,
                 color = Color.Green,
-                cornerRadius = 24.dp,
+                cornerRadius = cornerRadius,
                 initialBlurRadius = 4.dp,
                 pressedBlurRadius = 16.dp,
                 initialHaloShadowWidth = 4.dp,
@@ -62,7 +64,7 @@ fun ScreenContent(
             ShadowLayerRectShadowBox(
                 modifier = mod,
                 color = Color.Red,
-                cornerRadius = 24.dp,
+                cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
                 pressedHaloBorderWidth = 28.dp
             )
@@ -76,7 +78,7 @@ fun ScreenContent(
             RadialLinearDraftRectShadowBox(
                 modifier = mod,
                 color = Color.Yellow,
-                cornerRadius = 24.dp,
+                cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
                 pressedHaloBorderWidth = 36.dp
             )
@@ -90,6 +92,7 @@ fun ScreenContent(
             SimpleAgslBorderRectShadowBox(
                 modifier = mod,
                 color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
+                cornerRadius = cornerRadius,
                 maxHaloBorderWidth = 32.dp
             )
         }
