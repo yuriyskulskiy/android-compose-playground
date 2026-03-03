@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border
+package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.gradient
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -27,7 +27,7 @@ import kotlin.math.min
  * This lowers allocation pressure, but does not make the animation zero-allocation by design.
  * For fully shader-driven dynamic stops, AGSL/RuntimeShader is a better fit.
  */
-fun Modifier.drawOutlineRectShadowGradient(
+fun Modifier.drawOutlineRectGadientShadow(
     color: Color,
     haloBorderWidth: Dp,
     cornerRadius: Dp

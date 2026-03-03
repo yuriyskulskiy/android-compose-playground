@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.util.shadowborder.rect
+package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask
 
 import android.graphics.BlurMaskFilter
 import androidx.compose.foundation.shape.RoundedCornerShape

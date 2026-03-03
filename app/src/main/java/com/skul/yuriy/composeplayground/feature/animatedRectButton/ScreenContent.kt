@@ -41,7 +41,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
-import com.skul.yuriy.composeplayground.util.shadowborder.rect.drawOutlineBlurMaskShadow
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
 
 @Composable
 fun AnimatedRectButtonScreenContent(

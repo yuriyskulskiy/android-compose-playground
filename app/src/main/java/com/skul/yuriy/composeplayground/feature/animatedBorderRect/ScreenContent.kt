@@ -12,11 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.BlurredRectShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.MultiLayerRectShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.RadialLinearDraftRectShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.ShadowLayerRectShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.SimpleAgslBorderRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.BlurredRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.multilayer.MultiLayerRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.gradient.GradientRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.shadowlayer.ShadowLayerRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agslsimple.SimpleAgslBorderRectShadowBox
 
 @Composable
 fun ScreenContent(
@@ -76,7 +76,7 @@ fun ScreenContent(
             modifier = sectionModifier,
             text = stringResource(R.string.radial_linear_draft)
         ) {
-            RadialLinearDraftRectShadowBox(
+            GradientRectShadowBox(
                 modifier = shadowBoxModifier,
                 color = Color.Yellow,
                 cornerRadius = cornerRadius,

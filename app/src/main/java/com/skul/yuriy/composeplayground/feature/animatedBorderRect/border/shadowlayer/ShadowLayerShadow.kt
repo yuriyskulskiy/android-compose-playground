@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.util.shadowborder.rect
+package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.shadowlayer
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 
 
 // could be applied to any shape
-fun Modifier.drawOutlineShapeShadowByShadowLayer(
+fun Modifier.drawOutlineShadowLayerShadow(
     color: Color,
     haloBorderWidth: Dp,
     cornerRadius: Dp,

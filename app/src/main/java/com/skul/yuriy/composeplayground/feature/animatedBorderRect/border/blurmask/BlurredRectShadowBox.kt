@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border
+package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -16,37 +16,46 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.util.shadowborder.rect.drawOutlineMultiLayerShadow
 
 @Composable
-fun MultiLayerRectShadowBox(
+fun BlurredRectShadowBox(
     modifier: Modifier = Modifier,
     color: Color,
     cornerRadius: Dp,
-    initialHaloBorderWidth: Dp,
-    pressedHaloBorderWidth: Dp
+    initialBlurRadius: Dp,
+    pressedBlurRadius: Dp,
+    initialHaloShadowWidth: Dp,
+    pressedHaloShadowWidth: Dp
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
-    val animatedSpread by animateDpAsState(
-        targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
+    val animatedBlurRadius by animateDpAsState(
+        targetValue = if (isPressed) pressedBlurRadius else initialBlurRadius,
+        animationSpec = tween(durationMillis = 300),
+        label = ""
+    )
+
+    val animatedHaloBorderSize by animateDpAsState(
+        targetValue = if (isPressed) pressedHaloShadowWidth else initialHaloShadowWidth,
         animationSpec = tween(durationMillis = 300),
         label = ""
     )
 
     Box(
         modifier = modifier
-            .drawOutlineMultiLayerShadow(
-                color = color.copy(alpha = 0.6f),
-                haloBorderWidth = animatedSpread,
-                cornerRadius = cornerRadius
+            .drawOutlineBlurMaskShadow(
+                color = color.copy(alpha = 0.7f),
+                haloBorderWidth = animatedHaloBorderSize,
+                cornerRadius = cornerRadius,
+                blurRadius = animatedBlurRadius
             )
             .then(
                 if (isPressed) {
-                    Modifier.drawOutlineMultiLayerShadow(
+                    Modifier.drawOutlineBlurMaskShadow(
                         color = color,
                         haloBorderWidth = 4.dp,
-                        cornerRadius = cornerRadius
+                        cornerRadius = cornerRadius,
+                        blurRadius = 2.dp
                     )
                 } else {
                     Modifier

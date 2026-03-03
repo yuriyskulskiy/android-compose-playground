@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.util.shadowborder.rect
+package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.multilayer
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -29,7 +29,6 @@ fun Modifier.drawOutlineMultiLayerShadow(
             val alpha = (1f - progress) * 0.2f
 
             drawRoundRect(
-//                color = color.copy(alpha = alpha),
                 color = Color(0xFF4DD5FF).copy(alpha = alpha),
                 topLeft = Offset(-expansion, -expansion),
                 size = Size(

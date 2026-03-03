@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border
+package com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.gradient
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RadialLinearDraftRectShadowBox(
+fun GradientRectShadowBox(
     modifier: Modifier = Modifier,
     color: Color,
     cornerRadius: Dp,
@@ -75,12 +75,12 @@ private fun RadialLinearDraftRectShadowBoxContent(
 ) {
     Box(
         modifier = modifier
-            .drawOutlineRectShadowGradient(
+            .drawOutlineRectGadientShadow(
                 color = haloColor,
                 haloBorderWidth = haloBorderWidth,
                 cornerRadius = cornerRadius
             )
-            .drawOutlineRectShadowGradient(
+            .drawOutlineRectGadientShadow(
                 color = strokeColor,
                 haloBorderWidth = 4.dp,
                 cornerRadius = cornerRadius
