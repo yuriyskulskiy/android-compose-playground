@@ -1,7 +1,10 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,25 +17,26 @@ import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.MultiL
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.RadialLinearDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.ShadowLayerRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.SimpleAgslBorderRectShadowBox
-import com.skul.yuriy.composeplayground.util.regularComponents.LabeledSectionWrapper
 
 @Composable
 fun ScreenContent(
     modifier: Modifier = Modifier
 ) {
     val cornerRadius = 24.dp
+    val shadowBoxWidth = 220.dp
+    val sectionModifier = Modifier.fillMaxWidth().height(120.dp)
+    val shadowBoxModifier = Modifier.fillMaxHeight().width(shadowBoxWidth)
 
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LabeledSectionWrapper(
-            modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = false,
+        RectLabeledSectionWrapper(
+            modifier = sectionModifier,
             text = stringResource(R.string.multi_layer_shadow)
-        ) { mod ->
+        ) {
             MultiLayerRectShadowBox(
-                modifier = mod,
+                modifier = shadowBoxModifier,
                 color = Color.Green,
                 cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
@@ -40,13 +44,12 @@ fun ScreenContent(
             )
         }
 
-        LabeledSectionWrapper(
-            modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = false,
+        RectLabeledSectionWrapper(
+            modifier = sectionModifier,
             text = stringResource(R.string.paint_with_blurmaskfilter)
-        ) { mod ->
+        ) {
             BlurredRectShadowBox(
-                modifier = mod,
+                modifier = shadowBoxModifier,
                 color = Color.Green,
                 cornerRadius = cornerRadius,
                 initialBlurRadius = 4.dp,
@@ -56,13 +59,12 @@ fun ScreenContent(
             )
         }
 
-        LabeledSectionWrapper(
-            modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = false,
+        RectLabeledSectionWrapper(
+            modifier = sectionModifier,
             text = stringResource(R.string.outlined_shadow_layer)
-        ) { mod ->
+        ) {
             ShadowLayerRectShadowBox(
-                modifier = mod,
+                modifier = shadowBoxModifier,
                 color = Color.Red,
                 cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
@@ -70,13 +72,12 @@ fun ScreenContent(
             )
         }
 
-        LabeledSectionWrapper(
-            modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = false,
+        RectLabeledSectionWrapper(
+            modifier = sectionModifier,
             text = stringResource(R.string.radial_linear_draft)
-        ) { mod ->
+        ) {
             RadialLinearDraftRectShadowBox(
-                modifier = mod,
+                modifier = shadowBoxModifier,
                 color = Color.Yellow,
                 cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
@@ -84,13 +85,12 @@ fun ScreenContent(
             )
         }
 
-        LabeledSectionWrapper(
-            modifier = Modifier.size(width = 220.dp, height = 120.dp),
-            isBorderEnabled = false,
+        RectLabeledSectionWrapper(
+            modifier = sectionModifier,
             text = stringResource(R.string.simple_agsl_border)
-        ) { mod ->
+        ) {
             SimpleAgslBorderRectShadowBox(
-                modifier = mod,
+                modifier = shadowBoxModifier,
                 color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
                 cornerRadius = cornerRadius,
                 maxHaloBorderWidth = 32.dp
