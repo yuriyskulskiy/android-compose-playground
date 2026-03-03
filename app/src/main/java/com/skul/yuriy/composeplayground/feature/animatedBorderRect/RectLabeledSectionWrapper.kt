@@ -1,6 +1,5 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -17,14 +16,12 @@ fun RectLabeledSectionWrapper(
     text: String,
     shadowBox: @Composable () -> Unit
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Spacer(modifier = Modifier.size(48.dp))
-        Box(
-            modifier = modifier,
-            contentAlignment = Alignment.TopCenter
-        ) {
-            shadowBox()
-        }
+        shadowBox()
         Spacer(modifier = Modifier.size(24.dp))
         Text(text = text, color = Color.White)
     }

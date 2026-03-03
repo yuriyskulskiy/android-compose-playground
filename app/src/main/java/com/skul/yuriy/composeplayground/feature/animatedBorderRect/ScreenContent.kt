@@ -1,7 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -12,11 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.BlurredRectShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.multilayer.MultiLayerRectShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.gradient.GradientRectShadowBox
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.shadowlayer.ShadowLayerRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agslsimple.SimpleAgslBorderRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.BlurredRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.gradient.GradientRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.multilayer.MultiLayerRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.shadowlayer.ShadowLayerRectShadowBox
 
 @Composable
 fun ScreenContent(
@@ -24,8 +24,8 @@ fun ScreenContent(
 ) {
     val cornerRadius = 24.dp
     val shadowBoxWidth = 220.dp
-    val sectionModifier = Modifier.fillMaxWidth().height(120.dp)
-    val shadowBoxModifier = Modifier.fillMaxHeight().width(shadowBoxWidth)
+    val sectionModifier = Modifier.fillMaxWidth()
+    val shadowBoxModifier = Modifier.height(120.dp).width(shadowBoxWidth)
 
     Column(
         modifier = modifier,
@@ -86,7 +86,7 @@ fun ScreenContent(
         }
 
         RectLabeledSectionWrapper(
-            modifier = sectionModifier,
+            modifier = sectionModifier.background(color = Color.White),
             text = stringResource(R.string.simple_agsl_border)
         ) {
             SimpleAgslBorderRectShadowBox(
