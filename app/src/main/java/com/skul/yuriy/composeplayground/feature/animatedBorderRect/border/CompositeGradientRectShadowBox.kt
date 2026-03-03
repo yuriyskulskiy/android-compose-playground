@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import kotlin.math.min
 
 // TODO draft
@@ -16,9 +15,12 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
     color: Color,
     haloBorderWidth: Dp,
     cornerRadius: Dp
-): Modifier = if (haloBorderWidth > 0.dp) {
-    this.drawWithCache {
-        val haloPx = haloBorderWidth.toPx().coerceAtLeast(0.1f)
+): Modifier = this.drawWithCache {
+        val haloPx = haloBorderWidth.toPx()
+        if (haloPx < 1f) {
+            return@drawWithCache onDrawBehind {}
+        }
+
         val radiusPx = cornerRadius.toPx().coerceAtLeast(0f)
         val maxCorner = min(size.width, size.height) / 2f
         val r = min(radiusPx, maxCorner)
@@ -179,6 +181,3 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
             }
         }
     }
-} else {
-    this
-}
