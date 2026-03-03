@@ -54,6 +54,7 @@ fun ScreenContent(
         .height(120.dp)
         .width(shadowBoxWidth)
     var multiLayerCount by remember { mutableIntStateOf(30) }
+    var shadowLayerPasses by remember { mutableIntStateOf(2) }
     var showAdvancedAgsl by remember { mutableStateOf(true) }
 
     Column(
@@ -130,14 +131,37 @@ fun ScreenContent(
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier,
-            text = stringResource(R.string.outlined_shadow_layer)
+            text = stringResource(R.string.outlined_shadow_layer),
+            aboveTitleContent = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    OutlinedLayerStepButton(
+                        imageVector = Icons.Default.Remove,
+                        contentDescription = "Decrease shadow passes",
+                        enabled = shadowLayerPasses > 0,
+                        onClick = { shadowLayerPasses-- }
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = "Shadow Passes $shadowLayerPasses",
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    OutlinedLayerStepButton(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Increase shadow passes",
+                        enabled = shadowLayerPasses < 20,
+                        onClick = { shadowLayerPasses++ }
+                    )
+                }
+            }
         ) {
             ShadowLayerRectShadowBox(
                 modifier = shadowBoxModifier,
                 color = Color.Red,
                 cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
-                pressedHaloBorderWidth = 28.dp
+                pressedHaloBorderWidth = 28.dp,
+                passesCount = shadowLayerPasses
             )
         }
         HorizontalDivider(

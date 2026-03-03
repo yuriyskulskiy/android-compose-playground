@@ -23,7 +23,8 @@ fun ShadowLayerRectShadowBox(
     color: Color,
     cornerRadius: Dp,
     initialHaloBorderWidth: Dp,
-    pressedHaloBorderWidth: Dp
+    pressedHaloBorderWidth: Dp,
+    passesCount: Int
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
@@ -38,14 +39,16 @@ fun ShadowLayerRectShadowBox(
             .drawOutlineShadowLayerShadow(
                 color = color,
                 haloBorderWidth = animatedSpread,
-                cornerRadius = cornerRadius
+                cornerRadius = cornerRadius,
+                passesCount = passesCount
             )
             .then(
                 if (isPressed) {
                     Modifier.drawOutlineShadowLayerShadow(
                         color = color,
                         haloBorderWidth = 4.dp,
-                        cornerRadius = cornerRadius
+                        cornerRadius = cornerRadius,
+                        passesCount = passesCount
                     )
                 } else {
                     Modifier

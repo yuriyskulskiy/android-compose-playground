@@ -21,6 +21,7 @@ fun Modifier.drawOutlineShadowLayerShadow(
     color: Color,
     haloBorderWidth: Dp,
     cornerRadius: Dp,
+    passesCount: Int,
     shadowOffsetX: Dp = 0.dp,
     shadowOffsetY: Dp = 0.dp
 ): Modifier = if (haloBorderWidth > 0.dp) {
@@ -45,12 +46,14 @@ fun Modifier.drawOutlineShadowLayerShadow(
                 )
             }
         }
+        val passes = passesCount.coerceAtLeast(0)
 
         onDrawWithContent {
             clipPath(path, ClipOp.Difference) {
                 drawIntoCanvas { canvas ->
-                    canvas.drawPath(path, shadowPaint)
-                    canvas.drawPath(path, shadowPaint)
+                    repeat(passes) {
+                        canvas.drawPath(path, shadowPaint)
+                    }
                 }
             }
             drawContent()
