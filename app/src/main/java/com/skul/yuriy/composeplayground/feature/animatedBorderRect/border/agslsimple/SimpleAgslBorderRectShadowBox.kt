@@ -17,6 +17,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+enum class SimpleAgslRenderMode {
+    RenderEffect,
+    CanvasPaint
+}
+
 /**
  * Simple AGSL rectangular halo border.
  *
@@ -34,7 +39,8 @@ fun SimpleAgslBorderRectShadowBox(
     modifier: Modifier = Modifier,
     color: Color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
     cornerRadius: Dp = 24.dp,
-    maxHaloBorderWidth: Dp = 32.dp
+    maxHaloBorderWidth: Dp = 32.dp,
+    renderMode: SimpleAgslRenderMode = SimpleAgslRenderMode.RenderEffect
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
@@ -64,7 +70,8 @@ fun SimpleAgslBorderRectShadowBox(
                 cornerRadius = cornerRadius,
                 maxHaloBorderWidth = maxHaloBorderWidth,
                 intensity = animatedIntensity,
-                press = animatedPress
+                press = animatedPress,
+                renderMode = renderMode
             )
     )
 }

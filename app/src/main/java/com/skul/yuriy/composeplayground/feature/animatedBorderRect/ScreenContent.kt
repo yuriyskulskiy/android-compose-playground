@@ -20,6 +20,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agsladvanced.FireShaderDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agslsimple.SimpleAgslBorderRectShadowBox
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agslsimple.SimpleAgslRenderMode
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.BlurredRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.gradient.GradientRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.multilayer.MultiLayerRectShadowBox
@@ -55,7 +58,8 @@ fun ScreenContent(
         .width(shadowBoxWidth)
     var multiLayerCount by remember { mutableIntStateOf(30) }
     var shadowLayerPasses by remember { mutableIntStateOf(2) }
-    var showAdvancedAgsl by remember { mutableStateOf(true) }
+    var showAdvancedAgsl by remember { mutableStateOf(false) }
+    var simpleAgslRenderMode by remember { mutableStateOf(SimpleAgslRenderMode.RenderEffect) }
 
     Column(
         modifier = modifier,
@@ -191,13 +195,29 @@ fun ScreenContent(
         RectLabeledSectionWrapper(
             modifier = sectionModifier
                 .graphicsLayer { clip = true },
-            text = stringResource(R.string.simple_agsl_border)
+            text = stringResource(R.string.simple_agsl_border),
+            aboveTitleContent = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RenderModeRadioOption(
+                        label = "RenderEffect",
+                        selected = simpleAgslRenderMode == SimpleAgslRenderMode.RenderEffect,
+                        onClick = { simpleAgslRenderMode = SimpleAgslRenderMode.RenderEffect }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    RenderModeRadioOption(
+                        label = "Canvas Paint",
+                        selected = simpleAgslRenderMode == SimpleAgslRenderMode.CanvasPaint,
+                        onClick = { simpleAgslRenderMode = SimpleAgslRenderMode.CanvasPaint }
+                    )
+                }
+            }
         ) {
             SimpleAgslBorderRectShadowBox(
                 modifier = shadowBoxModifier,
                 color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
                 cornerRadius = cornerRadius,
-                maxHaloBorderWidth = 32.dp
+                maxHaloBorderWidth = 32.dp,
+                renderMode = simpleAgslRenderMode
             )
         }
         HorizontalDivider(
@@ -244,6 +264,30 @@ fun ScreenContent(
                 }
             } 
         }
+    }
+}
+
+@Composable
+private fun RenderModeRadioOption(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = selected,
+            onClick = onClick,
+            colors = RadioButtonDefaults.colors(
+                selectedColor = Color.White,
+                unselectedColor = Color.White.copy(alpha = 0.55f)
+            )
+        )
+        Text(
+            text = label,
+            color = Color.White
+        )
     }
 }
 
