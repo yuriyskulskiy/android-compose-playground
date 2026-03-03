@@ -29,6 +29,11 @@ fun RadialLinearDraftRectShadowBox(
 ) {
     var isPressed by remember { mutableStateOf(false) }
     val onClickState = rememberUpdatedState(onClick)
+    val animatedSpread by animateDpAsState(
+        targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
+        animationSpec = tween(durationMillis = 300),
+        label = "haloSpread"
+    )
 
     RadialLinearDraftRectShadowBoxContent(
         modifier = modifier.pointerInput(Unit) {
@@ -45,9 +50,7 @@ fun RadialLinearDraftRectShadowBox(
         },
         color = color,
         cornerRadius = cornerRadius,
-        initialHaloBorderWidth = initialHaloBorderWidth,
-        pressedHaloBorderWidth = pressedHaloBorderWidth,
-        isPressed = isPressed
+        haloBorderWidth = animatedSpread
     )
 }
 
@@ -56,28 +59,22 @@ private fun RadialLinearDraftRectShadowBoxContent(
     modifier: Modifier,
     color: Color,
     cornerRadius: Dp,
-    initialHaloBorderWidth: Dp,
-    pressedHaloBorderWidth: Dp,
-    isPressed: Boolean
+    haloBorderWidth: Dp
 ) {
-    val animatedSpread by animateDpAsState(
-        targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
-        animationSpec = tween(durationMillis = 300),
-        label = "haloSpread"
-    )
+    val strokeWidth = if (haloBorderWidth > 4.dp) 4.dp else haloBorderWidth
 
     Box(
         modifier = modifier
             .drawOutlineRoundedRectShadowGradientDraft(
                 color = color.copy(alpha = 0.6f),
-                haloBorderWidth = animatedSpread,
+                haloBorderWidth = haloBorderWidth,
                 cornerRadius = cornerRadius
             )
             .then(
-                if (isPressed) {
+                if (strokeWidth > 0.dp) {
                     Modifier.drawOutlineRoundedRectShadowGradientDraft(
                         color = color,
-                        haloBorderWidth = 4.dp,
+                        haloBorderWidth = strokeWidth,
                         cornerRadius = cornerRadius
                     )
                 } else {
