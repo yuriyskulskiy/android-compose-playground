@@ -1,6 +1,5 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -88,7 +87,6 @@ fun ScreenContent(
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier
-                .background(color = Color.White)
                 .graphicsLayer { clip = true },
             text = stringResource(R.string.simple_agsl_border)
         ) {
