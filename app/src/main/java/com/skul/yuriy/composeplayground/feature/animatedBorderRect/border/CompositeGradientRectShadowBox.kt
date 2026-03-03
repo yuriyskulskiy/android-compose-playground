@@ -38,26 +38,25 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
         val edgeRatio = if (outerRadius > 0f) (r / outerRadius).coerceIn(0f, 1f) else 0f
 
         val topBrush = Brush.verticalGradient(
-            colorStops = arrayOf(0f to transparent, 1f to color),
+            colors = listOf(transparent, color),
             startY = -haloPx,
             endY = 0f
         )
         val bottomBrush = Brush.verticalGradient(
-            colorStops = arrayOf(0f to color, 1f to transparent),
+            colors = listOf(color, transparent),
             startY = h,
             endY = h + haloPx
         )
         val leftBrush = Brush.horizontalGradient(
-            colorStops = arrayOf(0f to transparent, 1f to color),
+            colors = listOf(transparent, color),
             startX = -haloPx,
             endX = 0f
         )
         val rightBrush = Brush.horizontalGradient(
-            colorStops = arrayOf(0f to color, 1f to transparent),
+            colors = listOf(color, transparent),
             startX = w,
             endX = w + haloPx
         )
-
         val topLeftBrush = Brush.radialGradient(
             colorStops = arrayOf(
                 0f to transparent,
@@ -99,7 +98,9 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
             radius = outerRadius
         )
 
+
         onDrawBehind {
+
             if (stripWidth > 0f) {
                 drawRect(
                     brush = topBrush,
