@@ -75,12 +75,12 @@ private fun RadialLinearDraftRectShadowBoxContent(
 ) {
     Box(
         modifier = modifier
-            .drawOutlineRoundedRectShadowGradientDraft(
+            .drawOutlineRectShadowGradient(
                 color = haloColor,
                 haloBorderWidth = haloBorderWidth,
                 cornerRadius = cornerRadius
             )
-            .drawOutlineRoundedRectShadowGradientDraft(
+            .drawOutlineRectShadowGradient(
                 color = strokeColor,
                 haloBorderWidth = 4.dp,
                 cornerRadius = cornerRadius

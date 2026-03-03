@@ -27,7 +27,7 @@ import kotlin.math.min
  * This lowers allocation pressure, but does not make the animation zero-allocation by design.
  * For fully shader-driven dynamic stops, AGSL/RuntimeShader is a better fit.
  */
-fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
+fun Modifier.drawOutlineRectShadowGradient(
     color: Color,
     haloBorderWidth: Dp,
     cornerRadius: Dp
