@@ -30,5 +30,6 @@ fun RectLabeledSectionWrapper(
             Spacer(modifier = Modifier.size(12.dp))
         }
         Text(text = text, color = Color.White)
+        Spacer(modifier = Modifier.size(4.dp))
     }
 }

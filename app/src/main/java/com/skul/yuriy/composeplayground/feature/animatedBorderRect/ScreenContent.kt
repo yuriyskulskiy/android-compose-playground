@@ -203,7 +203,7 @@ fun ScreenContent(
                         contentColor = Color.White
                     )
                 ) {
-                    Text(text = if (showAdvancedAgsl) "Hide" else "Show")
+                    Text(text = if (showAdvancedAgsl) "Stop" else "Start")
                 }
 
                 if (showAdvancedAgsl) {
