@@ -34,6 +34,8 @@ fun RadialLinearDraftRectShadowBox(
         animationSpec = tween(durationMillis = 300),
         label = "haloSpread"
     )
+    val haloColor = color.copy(alpha = 0.6f)
+    val strokeColor = color.copy(alpha = if (isPressed) 1f else 0.5f)
 
     RadialLinearDraftRectShadowBoxContent(
         modifier = modifier.pointerInput(Unit) {
@@ -48,7 +50,8 @@ fun RadialLinearDraftRectShadowBox(
                 }
             }
         },
-        color = color,
+        haloColor = haloColor,
+        strokeColor = strokeColor,
         cornerRadius = cornerRadius,
         haloBorderWidth = animatedSpread
     )
@@ -57,29 +60,22 @@ fun RadialLinearDraftRectShadowBox(
 @Composable
 private fun RadialLinearDraftRectShadowBoxContent(
     modifier: Modifier,
-    color: Color,
+    haloColor: Color,
+    strokeColor: Color,
     cornerRadius: Dp,
     haloBorderWidth: Dp
 ) {
-    val strokeWidth = if (haloBorderWidth > 4.dp) 4.dp else haloBorderWidth
-
     Box(
         modifier = modifier
             .drawOutlineRoundedRectShadowGradientDraft(
-                color = color.copy(alpha = 0.6f),
+                color = haloColor,
                 haloBorderWidth = haloBorderWidth,
                 cornerRadius = cornerRadius
             )
-            .then(
-                if (strokeWidth > 0.dp) {
-                    Modifier.drawOutlineRoundedRectShadowGradientDraft(
-                        color = color,
-                        haloBorderWidth = strokeWidth,
-                        cornerRadius = cornerRadius
-                    )
-                } else {
-                    Modifier
-                }
+            .drawOutlineRoundedRectShadowGradientDraft(
+                color = strokeColor,
+                haloBorderWidth = 4.dp,
+                cornerRadius = cornerRadius
             )
     )
 }
