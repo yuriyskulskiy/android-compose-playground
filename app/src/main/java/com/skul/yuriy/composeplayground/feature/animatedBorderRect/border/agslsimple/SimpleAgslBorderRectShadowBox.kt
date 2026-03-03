@@ -18,21 +18,50 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 enum class SimpleAgslRenderMode {
+    /**
+     * AGSL is applied via [android.graphics.RenderEffect.createRuntimeShaderEffect].
+     */
     RenderEffect,
+
+    /**
+     * AGSL is attached directly to native [android.graphics.Paint.shader] and drawn on canvas.
+     */
     CanvasPaint
 }
 
 /**
- * Simple AGSL rectangular halo border.
+ * Simple AGSL rectangular halo border (single-shader implementation).
  *
- * Inputs are intentionally minimal:
- * - [color] is the single tint used for both idle and pressed halo.
- * - [maxHaloBorderWidth] is the outer halo reach in pressed state.
+ * This box supports two rendering backends controlled by [renderMode]:
+ * 1) [SimpleAgslRenderMode.RenderEffect]
+ * - Uses RuntimeShader + RenderEffect.
+ * - In this demo, RenderEffect is recreated when parameters change (this keeps behavior explicit
+ *   and predictable while tuning visuals).
+ * - Practical note: this mode is usually preferred when you want a pure post-effect pipeline and
+ *   easy composition with other effects.
  *
- * Internal profile (fixed):
- * - Idle: `0..2dp = 0.5 alpha`, `2..8dp -> 0 alpha`.
- * - Pressed: `0..2dp = 1 alpha`, `2..6dp -> 0.5 alpha`, `6..maxHaloBorderWidth -> 0 alpha`.
- * - Transition between idle and pressed is animated with `tween(300ms)`.
+ * 2) [SimpleAgslRenderMode.CanvasPaint]
+ * - Uses RuntimeShader attached to native Paint and drawn via canvas.
+ * - No RenderEffect object recreation is needed in this mode.
+ * - Native Paint is cached with `remember` to avoid reallocation.
+ * - In this screen, a practical workaround is applied: draw rect is expanded by negative offsets
+ *   (`-overflow`) so halo is not visually cut by the shape contour.
+ *
+ * Important visual/perf notes for the article:
+ * - RenderEffect path can more naturally produce a halo that visually extends beyond the inner
+ *   rounded contour (subject to parent clipping rules).
+ * - CanvasPaint path is reflected in HWUI as extra canvas draw work (blue bars), since rendering
+ *   goes through explicit canvas draw calls.
+ * - The border is optimized as a single AGSL script: there is no separate stroke modifier; both
+ *   the thin contour and the halo falloff are generated inside the shader.
+ *
+ * External inputs remain minimal:
+ * - [color]: single tint for both idle and pressed states.
+ * - [maxHaloBorderWidth]: max outer halo reach in pressed state.
+ *
+ * Internal profile:
+ * - Idle: `0..2dp = 0.5 alpha`, `2..8dp -> 0`.
+ * - Pressed: `0..2dp = 1`, `2..6dp -> 0.5`, `6..maxHaloBorderWidth -> 0`.
  */
 @Composable
 fun SimpleAgslBorderRectShadowBox(

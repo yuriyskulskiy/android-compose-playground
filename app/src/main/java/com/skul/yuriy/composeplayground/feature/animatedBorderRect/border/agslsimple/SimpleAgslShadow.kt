@@ -107,12 +107,13 @@ fun Modifier.drawOutlineSimpleAgslShadow(
                     if (widthPx > 0 && heightPx > 0) {
                         applyUniforms(runtimeShaderForCanvas)
                         nativePaint.shader = runtimeShaderForCanvas
+                        val overflow = maxHaloBorderWidthPx
                         drawIntoCanvas { canvas ->
                             canvas.nativeCanvas.drawRect(
-                                0f,
-                                0f,
-                                size.width,
-                                size.height,
+                                -overflow,
+                                -overflow,
+                                size.width + overflow,
+                                size.height + overflow,
                                 nativePaint
                             )
                         }
