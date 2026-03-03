@@ -13,7 +13,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.Dp
 import kotlin.math.min
 
-// TODO draft
+/**
+ * Draft rounded-rect halo border using Compose Brush API.
+ *
+ * Performance notes:
+ * - `drawWithCache` is invalidated while [haloBorderWidth] animates, so gradients are rebuilt
+ *   during animation frames.
+ * - Corner radial stops depend on `edgeRatio = r / (r + haloPx)`, therefore corner gradients
+ *   cannot be static.
+ * - Linear sides use one shared brush; corners use one shared radial brush mirrored to all corners.
+ *   This reduces brush creation from ~8 (naive) to ~2 per cache rebuild.
+ *
+ * This lowers allocation pressure, but does not make the animation zero-allocation by design.
+ * For fully shader-driven dynamic stops, AGSL/RuntimeShader is a better fit.
+ */
 fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
     color: Color,
     haloBorderWidth: Dp,
@@ -21,7 +34,6 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
 ): Modifier = composed {
     val transparentColor = remember(color) { color.copy(alpha = 0f) }
     val linearStops = remember(color) { listOf(transparentColor, color) }
-    val linearStopsRev = remember(color) { listOf(color, transparentColor) }
     val cornerStops = remember {
         arrayOf(
             0f to Color.Transparent,
@@ -57,11 +69,6 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
             startY = -haloPx,
             endY = 0f
         )
-        val sideBrushRev = Brush.verticalGradient(
-            colors = linearStopsRev,
-            startY = h,
-            endY = h + haloPx
-        )
 
         // Update reusable corner stops.
         cornerStops[0] = 0f to transparentColor
@@ -82,11 +89,16 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
                     topLeft = Offset(r, -haloPx),
                     size = Size(stripWidth, haloPx)
                 )
-                drawRect(
-                    brush = sideBrushRev,
-                    topLeft = Offset(r, h),
-                    size = Size(stripWidth, haloPx)
-                )
+                withTransform({
+                    translate(left = r, top = h)
+                    scale(scaleX = 1f, scaleY = -1f, pivot = Offset.Zero)
+                }) {
+                    drawRect(
+                        brush = sideBrush,
+                        topLeft = Offset(0f, -haloPx),
+                        size = Size(stripWidth, haloPx)
+                    )
+                }
             }
 
             if (stripHeight > 0f) {
