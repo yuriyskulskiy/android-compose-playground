@@ -21,6 +21,7 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
 ): Modifier = composed {
     val transparentColor = remember(color) { color.copy(alpha = 0f) }
     val linearStops = remember(color) { listOf(transparentColor, color) }
+    val linearStopsRev = remember(color) { listOf(color, transparentColor) }
     val cornerStops = remember {
         arrayOf(
             0f to Color.Transparent,
@@ -56,6 +57,11 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
             startY = -haloPx,
             endY = 0f
         )
+        val sideBrushRev = Brush.verticalGradient(
+            colors = linearStopsRev,
+            startY = h,
+            endY = h + haloPx
+        )
 
         // Update reusable corner stops.
         cornerStops[0] = 0f to transparentColor
@@ -71,25 +77,16 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
         onDrawBehind {
 
             if (stripWidth > 0f) {
-                withTransform({
-                    translate(left = r, top = 0f)
-                }) {
-                    drawRect(
-                        brush = sideBrush,
-                        topLeft = Offset(0f, -haloPx),
-                        size = Size(stripWidth, haloPx)
-                    )
-                }
-                withTransform({
-                    translate(left = r, top = h)
-                    scale(scaleX = 1f, scaleY = -1f, pivot = Offset.Zero)
-                }) {
-                    drawRect(
-                        brush = sideBrush,
-                        topLeft = Offset(0f, -haloPx),
-                        size = Size(stripWidth, haloPx)
-                    )
-                }
+                drawRect(
+                    brush = sideBrush,
+                    topLeft = Offset(r, -haloPx),
+                    size = Size(stripWidth, haloPx)
+                )
+                drawRect(
+                    brush = sideBrushRev,
+                    topLeft = Offset(r, h),
+                    size = Size(stripWidth, haloPx)
+                )
             }
 
             if (stripHeight > 0f) {
@@ -134,26 +131,26 @@ fun Modifier.drawOutlineRoundedRectShadowGradientDraft(
                 // Top-left (base corner).
                 drawTopLeftCorner()
 
-                // Top-right from base corner: translate + 90deg rotation.
+                // Top-right from base corner: mirror by X.
                 withTransform({
-                    translate(left = w - 2f * r, top = 0f)
-                    rotate(degrees = 90f, pivot = Offset(r, r))
+                    translate(left = w, top = 0f)
+                    scale(scaleX = -1f, scaleY = 1f, pivot = Offset.Zero)
                 }) {
                     drawTopLeftCorner()
                 }
 
-                // Bottom-right from base corner: translate + 180deg rotation.
+                // Bottom-left from base corner: mirror by Y.
                 withTransform({
-                    translate(left = w - 2f * r, top = h - 2f * r)
-                    rotate(degrees = 180f, pivot = Offset(r, r))
+                    translate(left = 0f, top = h)
+                    scale(scaleX = 1f, scaleY = -1f, pivot = Offset.Zero)
                 }) {
                     drawTopLeftCorner()
                 }
 
-                // Bottom-left from base corner: translate + 270deg rotation.
+                // Bottom-right from base corner: mirror by both axes.
                 withTransform({
-                    translate(left = 0f, top = h - 2f * r)
-                    rotate(degrees = 270f, pivot = Offset(r, r))
+                    translate(left = w, top = h)
+                    scale(scaleX = -1f, scaleY = -1f, pivot = Offset.Zero)
                 }) {
                     drawTopLeftCorner()
                 }
