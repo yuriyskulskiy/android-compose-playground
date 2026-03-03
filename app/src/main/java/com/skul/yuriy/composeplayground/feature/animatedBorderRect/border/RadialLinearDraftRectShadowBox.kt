@@ -35,7 +35,15 @@ fun RadialLinearDraftRectShadowBox(
         label = "haloSpread"
     )
     val haloColor = color.copy(alpha = 0.6f)
-    val strokeColor = color.copy(alpha = if (isPressed) 1f else 0.5f)
+    val isHaloExpanded = animatedSpread > initialHaloBorderWidth
+    /**
+     * Performance optimization for tap spam:
+     * we keep the stroke bright while halo is still above its initial width.
+     * Without this guard, rapid press/release toggles would flip stroke alpha
+     * between idle and active states every gesture frame, causing extra stroke
+     * recomposition/invalidation and redundant redraw churn.
+     */
+    val strokeColor = color.copy(alpha = if (isPressed || isHaloExpanded) 1f else 0.5f)
 
     RadialLinearDraftRectShadowBoxContent(
         modifier = modifier.pointerInput(Unit) {
