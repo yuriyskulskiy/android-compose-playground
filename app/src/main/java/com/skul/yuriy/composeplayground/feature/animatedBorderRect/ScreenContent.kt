@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
@@ -86,7 +87,9 @@ fun ScreenContent(
         }
 
         RectLabeledSectionWrapper(
-            modifier = sectionModifier.background(color = Color.White),
+            modifier = sectionModifier
+                .background(color = Color.White)
+                .graphicsLayer { clip = true },
             text = stringResource(R.string.simple_agsl_border)
         ) {
             SimpleAgslBorderRectShadowBox(
