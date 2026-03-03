@@ -14,15 +14,21 @@ import androidx.compose.ui.unit.dp
 fun RectLabeledSectionWrapper(
     modifier: Modifier = Modifier,
     text: String,
+    topSpacerHeight: androidx.compose.ui.unit.Dp = 48.dp,
+    aboveTitleContent: (@Composable () -> Unit)? = null,
     shadowBox: @Composable () -> Unit
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.size(48.dp))
+        Spacer(modifier = Modifier.size(topSpacerHeight))
         shadowBox()
         Spacer(modifier = Modifier.size(24.dp))
+        aboveTitleContent?.invoke()
+        if (aboveTitleContent != null) {
+            Spacer(modifier = Modifier.size(12.dp))
+        }
         Text(text = text, color = Color.White)
     }
 }

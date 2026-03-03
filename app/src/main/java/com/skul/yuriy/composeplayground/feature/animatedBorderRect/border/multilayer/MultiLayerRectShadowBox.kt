@@ -23,7 +23,8 @@ fun MultiLayerRectShadowBox(
     color: Color,
     cornerRadius: Dp,
     initialHaloBorderWidth: Dp,
-    pressedHaloBorderWidth: Dp
+    pressedHaloBorderWidth: Dp,
+    layersCount: Int
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
@@ -38,14 +39,16 @@ fun MultiLayerRectShadowBox(
             .drawOutlineMultiLayerShadow(
                 color = color.copy(alpha = 0.6f),
                 haloBorderWidth = animatedSpread,
-                cornerRadius = cornerRadius
+                cornerRadius = cornerRadius,
+                layersCount = layersCount
             )
             .then(
                 if (isPressed) {
                     Modifier.drawOutlineMultiLayerShadow(
                         color = color,
                         haloBorderWidth = 4.dp,
-                        cornerRadius = cornerRadius
+                        cornerRadius = cornerRadius,
+                        layersCount = layersCount
                     )
                 } else {
                     Modifier

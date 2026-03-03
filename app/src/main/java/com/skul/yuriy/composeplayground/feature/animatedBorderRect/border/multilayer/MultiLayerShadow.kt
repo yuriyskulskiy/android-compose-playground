@@ -15,18 +15,19 @@ import androidx.compose.ui.unit.dp
 fun Modifier.drawOutlineMultiLayerShadow(
     color: Color,
     haloBorderWidth: Dp,
-    cornerRadius: Dp
-): Modifier = if (haloBorderWidth > 0.dp) {
+    cornerRadius: Dp,
+    layersCount: Int
+): Modifier = if (haloBorderWidth > 0.dp && layersCount > 0) {
     this.drawBehind {
-        val layers = 30
+        val layers = layersCount
         val haloBorderWidthPx = haloBorderWidth.toPx()
         val cornerRadiusPx = cornerRadius.toPx()
 
         repeat(layers) { index ->
-            val progress = index / (layers - 1).toFloat()
+            val progress = if (layers == 1) 1f else index / (layers - 1).toFloat()
             val strokeWidth = 1f + progress * haloBorderWidthPx
             val expansion = strokeWidth / 2f
-            val alpha = (1f - progress) * 0.2f
+            val alpha = ((layers - index).toFloat() / layers.toFloat()) * 0.2f
 
             drawRoundRect(
                 color = Color(0xFF4DD5FF).copy(alpha = alpha),

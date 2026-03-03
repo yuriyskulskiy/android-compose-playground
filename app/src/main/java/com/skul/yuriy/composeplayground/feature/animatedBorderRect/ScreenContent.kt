@@ -1,17 +1,42 @@
 package com.skul.yuriy.composeplayground.feature.animatedBorderRect
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agsladvanced.FireShaderDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agslsimple.SimpleAgslBorderRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.BlurredRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.gradient.GradientRectShadowBox
@@ -25,7 +50,11 @@ fun ScreenContent(
     val cornerRadius = 24.dp
     val shadowBoxWidth = 220.dp
     val sectionModifier = Modifier.fillMaxWidth()
-    val shadowBoxModifier = Modifier.height(120.dp).width(shadowBoxWidth)
+    val shadowBoxModifier = Modifier
+        .height(120.dp)
+        .width(shadowBoxWidth)
+    var multiLayerCount by remember { mutableIntStateOf(30) }
+    var showAdvancedAgsl by remember { mutableStateOf(true) }
 
     Column(
         modifier = modifier,
@@ -33,16 +62,51 @@ fun ScreenContent(
     ) {
         RectLabeledSectionWrapper(
             modifier = sectionModifier,
-            text = stringResource(R.string.multi_layer_shadow)
+            text = stringResource(R.string.multi_layer_shadow),
+            aboveTitleContent = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    OutlinedLayerStepButton(
+                        imageVector = Icons.Default.Remove,
+                        contentDescription = "Decrease layers",
+                        enabled = multiLayerCount > 0,
+                        onClick = {
+                            multiLayerCount = prevLayerCount(multiLayerCount)
+                        }
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = "Layers $multiLayerCount",
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    OutlinedLayerStepButton(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Increase layers",
+                        enabled = multiLayerCount < 120,
+                        onClick = {
+                            multiLayerCount = nextLayerCount(
+                                current = multiLayerCount,
+                                max = 120
+                            )
+                        }
+                    )
+                }
+            }
         ) {
             MultiLayerRectShadowBox(
                 modifier = shadowBoxModifier,
                 color = Color.Green,
                 cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
-                pressedHaloBorderWidth = 36.dp
+                pressedHaloBorderWidth = 36.dp,
+                layersCount = multiLayerCount
             )
         }
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 1.dp,
+            color = Color.White.copy(alpha = 0.18f)
+        )
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier,
@@ -58,6 +122,11 @@ fun ScreenContent(
                 pressedHaloShadowWidth = 32.dp
             )
         }
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 1.dp,
+            color = Color.White.copy(alpha = 0.18f)
+        )
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier,
@@ -71,6 +140,11 @@ fun ScreenContent(
                 pressedHaloBorderWidth = 28.dp
             )
         }
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 1.dp,
+            color = Color.White.copy(alpha = 0.18f)
+        )
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier,
@@ -84,6 +158,11 @@ fun ScreenContent(
                 pressedHaloBorderWidth = 36.dp
             )
         }
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 1.dp,
+            color = Color.White.copy(alpha = 0.18f)
+        )
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier
@@ -97,23 +176,109 @@ fun ScreenContent(
                 maxHaloBorderWidth = 32.dp
             )
         }
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 1.dp,
+            color = Color.White.copy(alpha = 0.18f)
+        )
 
-//        Box(
-//            modifier = sandboxModifier,
-//            contentAlignment = Alignment.Center
-//        ) {
-//            FireShaderDraftRectShadowBox(
-//                modifier = Modifier.size(width = 340.dp, height = 220.dp),
-//                cornerRadius = 24.dp,
-//                bandWidth = 14.dp,
-//                contourWidth = 220.dp,
-//                contourHeight = 120.dp
-//            )
-//        }
-//        Spacer(modifier = Modifier.size(24.dp))
-//        Text(
-//            text = stringResource(R.string.fire_shader_draft),
-//            color = Color.White
-//        )
+        RectLabeledSectionWrapper(
+            modifier = sectionModifier,
+            text = stringResource(R.string.fire_shader_draft),
+            topSpacerHeight = 8.dp
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(268.dp)
+            ) {
+                OutlinedButton(
+                    onClick = { showAdvancedAgsl = !showAdvancedAgsl },
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(start = 12.dp, top = 8.dp),
+                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.7f)),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(text = if (showAdvancedAgsl) "Hide" else "Show")
+                }
+
+                if (showAdvancedAgsl) {
+                    FireShaderDraftRectShadowBox(
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .padding(top = 48.dp)
+                            .size(width = 340.dp, height = 220.dp),
+                        cornerRadius = 24.dp,
+                        bandWidth = 14.dp,
+                        contourWidth = 220.dp,
+                        contourHeight = 120.dp
+                    )
+                }
+            } 
+        }
+    }
+}
+
+@Composable
+private fun OutlinedLayerStepButton(
+    imageVector: ImageVector,
+    contentDescription: String,
+    enabled: Boolean,
+    onClick: () -> Unit,
+    size: Dp = 36.dp
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val borderColor = if (isPressed) Color.White else Color.White.copy(alpha = 0.7f)
+
+    OutlinedButton(
+        onClick = onClick,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        contentPadding = PaddingValues(0.dp),
+        modifier = Modifier.size(size),
+        border = BorderStroke(1.dp, borderColor),
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = if (isPressed) Color.White.copy(alpha = 0.16f) else Color.Transparent,
+            contentColor = if (enabled) Color.White else Color.White.copy(alpha = 0.45f),
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = Color.White.copy(alpha = 0.45f)
+        )
+    ) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = contentDescription
+        )
+    }
+}
+
+private fun nextLayerCount(current: Int, max: Int): Int {
+    if (current < 0) return 0
+    if (current >= max) return max
+
+    return when {
+        current < 5 -> (current + 1).coerceAtMost(max)
+        current < 10 -> minOf(current + 2, 10, max)
+        else -> {
+            val next = if (current % 5 == 0) current + 5 else ((current / 5) + 1) * 5
+            next.coerceAtMost(max)
+        }
+    }
+}
+
+private fun prevLayerCount(current: Int): Int {
+    if (current <= 0) return 0
+
+    return when {
+        current <= 5 -> current - 1
+        current <= 10 -> maxOf(current - 2, 5)
+        else -> {
+            val prev = if (current % 5 == 0) current - 5 else (current / 5) * 5
+            prev.coerceAtLeast(10)
+        }
     }
 }

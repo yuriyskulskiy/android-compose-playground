@@ -91,6 +91,8 @@ fun Modifier.fireRectHaloShaderDraft(
             }
         )
         .drawBehind {
-            drawRect(color = Color.White)
+            if (widthPx > 0 && heightPx > 0 && effect != null) {
+                drawRect(color = Color.White.copy(alpha = 0.9f))
+            }
         }
 }
