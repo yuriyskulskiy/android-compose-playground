@@ -43,6 +43,7 @@ import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agsladvanced.FireShaderDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agslsimple.SimpleAgslBorderRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agslsimple.SimpleAgslRenderMode
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurrender.RenderEffectBlurRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.BlurredRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.gradient.GradientRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.multilayer.MultiLayerRectShadowBox
@@ -155,6 +156,26 @@ fun ScreenContent(
                 pressedBlurRadius = blurMaskBlurRadiusDp.dp,
                 initialHaloShadowWidth = 4.dp,
                 pressedHaloShadowWidth = 32.dp
+            )
+        }
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 1.dp,
+            color = Color.White.copy(alpha = 0.18f)
+        )
+
+        RectLabeledSectionWrapper(
+            modifier = sectionModifier,
+            text = stringResource(R.string.render_effect_blur_scaled_glow)
+        ) {
+            RenderEffectBlurRectShadowBox(
+                modifier = shadowBoxModifier,
+                color = Color(0xFFFF6A00),
+                cornerRadius = cornerRadius,
+                initialBlurRadius = 4.dp,
+                pressedBlurRadius = 14.dp,
+                initialHaloShadowWidth = 4.dp,
+                pressedHaloShadowWidth = 24.dp
             )
         }
         HorizontalDivider(
