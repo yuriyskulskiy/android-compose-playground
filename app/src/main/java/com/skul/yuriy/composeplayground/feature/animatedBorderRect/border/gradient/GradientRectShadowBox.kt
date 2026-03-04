@@ -25,6 +25,7 @@ fun GradientRectShadowBox(
     cornerRadius: Dp,
     initialHaloBorderWidth: Dp,
     pressedHaloBorderWidth: Dp,
+    split: Boolean = false,
     onClick: () -> Unit = {}
 ) {
     var isPressed by remember { mutableStateOf(false) }
@@ -61,7 +62,8 @@ fun GradientRectShadowBox(
         haloColor = haloColor,
         strokeColor = strokeColor,
         cornerRadius = cornerRadius,
-        haloBorderWidth = animatedSpread
+        haloBorderWidth = animatedSpread,
+        split = split
     )
 }
 
@@ -71,19 +73,22 @@ private fun RadialLinearDraftRectShadowBoxContent(
     haloColor: Color,
     strokeColor: Color,
     cornerRadius: Dp,
-    haloBorderWidth: Dp
+    haloBorderWidth: Dp,
+    split: Boolean
 ) {
     Box(
         modifier = modifier
             .drawOutlineRectGadientShadow(
                 color = haloColor,
                 haloBorderWidth = haloBorderWidth,
-                cornerRadius = cornerRadius
+                cornerRadius = cornerRadius,
+                split = split
             )
             .drawOutlineRectGadientShadow(
                 color = strokeColor,
                 haloBorderWidth = 4.dp,
-                cornerRadius = cornerRadius
+                cornerRadius = cornerRadius,
+                split = split
             )
     )
 }

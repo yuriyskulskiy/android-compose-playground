@@ -22,6 +22,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,6 +62,7 @@ fun ScreenContent(
     var shadowLayerPasses by remember { mutableIntStateOf(2) }
     var showAdvancedAgsl by remember { mutableStateOf(false) }
     var simpleAgslRenderMode by remember { mutableStateOf(SimpleAgslRenderMode.RenderEffect) }
+    var showBorderParts by remember { mutableStateOf(true) }
 
     Column(
         modifier = modifier,
@@ -176,14 +179,34 @@ fun ScreenContent(
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier,
-            text = stringResource(R.string.radial_linear_gradient_border)
+            text = stringResource(R.string.radial_linear_gradient_border),
+            aboveTitleContent = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.show_border_parts),
+                        color = Color.White.copy(alpha = if (showBorderParts) 1f else 0.55f)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Switch(
+                        checked = showBorderParts,
+                        onCheckedChange = { showBorderParts = it },
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = Color.White.copy(alpha = 0.45f),
+                            uncheckedThumbColor = Color.White,
+                            uncheckedTrackColor = Color.White.copy(alpha = 0.2f)
+                        )
+                    )
+                }
+            }
         ) {
             GradientRectShadowBox(
                 modifier = shadowBoxModifier,
                 color = Color.Yellow,
                 cornerRadius = cornerRadius,
                 initialHaloBorderWidth = 4.dp,
-                pressedHaloBorderWidth = 36.dp
+                pressedHaloBorderWidth = 36.dp,
+                split = showBorderParts
             )
         }
         HorizontalDivider(

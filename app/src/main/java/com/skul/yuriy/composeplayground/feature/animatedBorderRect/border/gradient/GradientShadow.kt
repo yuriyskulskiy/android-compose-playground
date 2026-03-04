@@ -30,7 +30,8 @@ import kotlin.math.min
 fun Modifier.drawOutlineRectGadientShadow(
     color: Color,
     haloBorderWidth: Dp,
-    cornerRadius: Dp
+    cornerRadius: Dp,
+    split: Boolean = false
 ): Modifier = composed {
     val transparentColor = remember(color) { color.copy(alpha = 0f) }
     val linearStops = remember(color) { listOf(transparentColor, color) }
@@ -63,6 +64,7 @@ fun Modifier.drawOutlineRectGadientShadow(
         val stripHeight = (h - 2f * r).coerceAtLeast(0f)
         val outerRadius = r + haloPx
         val edgeRatio = if (outerRadius > 0f) (r / outerRadius).coerceIn(0f, 1f) else 0f
+        val cornerOutsetPx = if (split) 2f.coerceAtMost(r) else 0f
 
         val sideBrush = Brush.verticalGradient(
             colors = linearStops,
@@ -126,16 +128,17 @@ fun Modifier.drawOutlineRectGadientShadow(
 
             if (outerRadius > 0f) {
                 fun drawTopLeftCorner() {
+                    val shiftedCenter = Offset(r - cornerOutsetPx, r - cornerOutsetPx)
                     clipRect(
-                        left = -haloPx,
-                        top = -haloPx,
-                        right = r,
-                        bottom = r
+                        left = -haloPx - cornerOutsetPx,
+                        top = -haloPx - cornerOutsetPx,
+                        right = r - cornerOutsetPx,
+                        bottom = r - cornerOutsetPx
                     ) {
                         drawCircle(
                             brush = topLeftBrush,
                             radius = outerRadius,
-                            center = Offset(r, r)
+                            center = shiftedCenter
                         )
                     }
                 }
