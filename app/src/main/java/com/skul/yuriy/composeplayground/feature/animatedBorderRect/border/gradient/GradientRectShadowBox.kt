@@ -6,12 +6,14 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -26,7 +28,9 @@ fun GradientRectShadowBox(
     initialHaloBorderWidth: Dp,
     pressedHaloBorderWidth: Dp,
     split: Boolean = false,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    contentAlignment: Alignment = Alignment.Center,
+    content: @Composable BoxScope.() -> Unit = {}
 ) {
     var isPressed by remember { mutableStateOf(false) }
     val onClickState = rememberUpdatedState(onClick)
@@ -63,7 +67,9 @@ fun GradientRectShadowBox(
         strokeColor = strokeColor,
         cornerRadius = cornerRadius,
         haloBorderWidth = animatedSpread,
-        split = split
+        split = split,
+        contentAlignment = contentAlignment,
+        content = content
     )
 }
 
@@ -74,7 +80,9 @@ private fun RadialLinearDraftRectShadowBoxContent(
     strokeColor: Color,
     cornerRadius: Dp,
     haloBorderWidth: Dp,
-    split: Boolean
+    split: Boolean,
+    contentAlignment: Alignment,
+    content: @Composable BoxScope.() -> Unit
 ) {
     Box(
         modifier = modifier
@@ -89,6 +97,8 @@ private fun RadialLinearDraftRectShadowBoxContent(
                 haloBorderWidth = 4.dp,
                 cornerRadius = cornerRadius,
                 split = split
-            )
+            ),
+        contentAlignment = contentAlignment,
+        content = content
     )
 }

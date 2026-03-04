@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -37,8 +38,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agsladvanced.FireShaderDraftRectShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.agslsimple.SimpleAgslBorderRectShadowBox
@@ -110,7 +113,9 @@ fun ScreenContent(
                 initialHaloBorderWidth = 4.dp,
                 pressedHaloBorderWidth = 36.dp,
                 layersCount = multiLayerCount
-            )
+            ) {
+                ExampleIndexText(1)
+            }
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
@@ -156,7 +161,9 @@ fun ScreenContent(
                 pressedBlurRadius = blurMaskBlurRadiusDp.dp,
                 initialHaloShadowWidth = 4.dp,
                 pressedHaloShadowWidth = 32.dp
-            )
+            ) {
+                ExampleIndexText(2)
+            }
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
@@ -176,7 +183,9 @@ fun ScreenContent(
                 pressedBlurRadius = 14.dp,
                 initialHaloShadowWidth = 4.dp,
                 pressedHaloShadowWidth = 16.dp
-            )
+            ) {
+                ExampleIndexText(3)
+            }
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
@@ -217,7 +226,9 @@ fun ScreenContent(
                 initialHaloBorderWidth = 4.dp,
                 pressedHaloBorderWidth = 28.dp,
                 passesCount = shadowLayerPasses
-            )
+            ) {
+                ExampleIndexText(4)
+            }
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
@@ -255,7 +266,9 @@ fun ScreenContent(
                 initialHaloBorderWidth = 4.dp,
                 pressedHaloBorderWidth = 36.dp,
                 split = showBorderParts
-            )
+            ) {
+                ExampleIndexText(5)
+            }
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
@@ -289,7 +302,9 @@ fun ScreenContent(
                 cornerRadius = cornerRadius,
                 maxHaloBorderWidth = 32.dp,
                 renderMode = simpleAgslRenderMode
-            )
+            ) {
+                ExampleIndexText(6)
+            }
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
@@ -331,11 +346,23 @@ fun ScreenContent(
                         bandWidth = 14.dp,
                         contourWidth = 220.dp,
                         contourHeight = 120.dp
-                    )
+                    ) {
+                        ExampleIndexText(7)
+                    }
                 }
-            } 
+            }
         }
     }
+}
+
+@Composable
+private fun BoxScope.ExampleIndexText(index: Int) {
+    Text(
+        text = index.toString(),
+        color = Color.White,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 44.sp
+    )
 }
 
 @Composable

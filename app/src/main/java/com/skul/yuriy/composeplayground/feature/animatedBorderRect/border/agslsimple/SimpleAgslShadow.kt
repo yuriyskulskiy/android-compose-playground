@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.asComposeRenderEffect
@@ -41,7 +40,10 @@ fun Modifier.drawOutlineSimpleAgslShadow(
     var widthPx by remember { mutableIntStateOf(0) }
     var heightPx by remember { mutableIntStateOf(0) }
 
-    fun applyUniforms(shader: RuntimeShader) {
+    fun applyUniforms(
+        shader: RuntimeShader,
+        useSrc: Float
+    ) {
         shader.setFloatUniform("uResolution", widthPx.toFloat(), heightPx.toFloat())
         shader.setFloatUniform("uCornerPx", cornerPx)
         shader.setFloatUniform("uStrokeWidthPx", strokeWidthPx.coerceAtLeast(0.001f))
@@ -59,13 +61,14 @@ fun Modifier.drawOutlineSimpleAgslShadow(
             color.blue,
             color.alpha
         )
+        shader.setFloatUniform("uUseSrc", useSrc)
     }
 
     when (renderMode) {
         SimpleAgslRenderMode.RenderEffect -> {
             val runtimeShaderForEffect = remember { RuntimeShader(SimpleRectHaloAgsl) }
             val effect = if (widthPx > 0 && heightPx > 0) {
-                applyUniforms(runtimeShaderForEffect)
+                applyUniforms(runtimeShaderForEffect, useSrc = 1f)
                 RenderEffect
                     .createRuntimeShaderEffect(runtimeShaderForEffect, "src")
                     .asComposeRenderEffect()
@@ -88,12 +91,6 @@ fun Modifier.drawOutlineSimpleAgslShadow(
                         Modifier
                     }
                 )
-                .drawBehind {
-                    if (widthPx > 0 && heightPx > 0 && effect != null) {
-                        // Source input for RuntimeShader effect
-                        drawRect(color = Color.White.copy(alpha = 1f))
-                    }
-                }
         }
         SimpleAgslRenderMode.CanvasPaint -> {
             val runtimeShaderForCanvas = remember { RuntimeShader(SimpleRectHaloAgsl) }
@@ -105,7 +102,7 @@ fun Modifier.drawOutlineSimpleAgslShadow(
                 }
                 .drawWithContent {
                     if (widthPx > 0 && heightPx > 0) {
-                        applyUniforms(runtimeShaderForCanvas)
+                        applyUniforms(runtimeShaderForCanvas, useSrc = 0f)
                         nativePaint.shader = runtimeShaderForCanvas
                         val overflow = maxHaloBorderWidthPx
                         drawIntoCanvas { canvas ->
@@ -134,6 +131,7 @@ uniform float uMaxHaloBorderWidthPx;
 uniform float uPress;
 uniform float uIntensity;
 uniform float4 uColor;
+uniform float uUseSrc;
 
 float sdRoundBox(float2 p, float2 b, float r) {
     float2 q = abs(p) - b + float2(r);
@@ -141,7 +139,7 @@ float sdRoundBox(float2 p, float2 b, float r) {
 }
 
 half4 main(float2 fragCoord) {
-//    half4 base = src.eval(fragCoord);
+    half4 base = (uUseSrc > 0.5) ? src.eval(fragCoord) : half4(0.0);
 
     float2 center = uResolution * 0.5;
     float2 p = fragCoord - center;
@@ -188,6 +186,11 @@ half4 main(float2 fragCoord) {
     float band = mix(idleBand, pressBand, clamp(uPress, 0.0, 1.0)) * outsideMask;
     float a = clamp(band, 0.0, 1.0);
     float3 rgb = uColor.rgb * (a * uIntensity);
-    return half4(half3(rgb), half(a * uColor.a)) ;
+    half4 halo = half4(half3(rgb), half(a * uColor.a));
+
+    // Preserve source content (text/body) and place halo behind it.
+    half outA = base.a + halo.a * (1.0 - base.a);
+    half3 outRgb = base.rgb + halo.rgb * (1.0 - base.a);
+    return half4(outRgb, outA);
 }
 """

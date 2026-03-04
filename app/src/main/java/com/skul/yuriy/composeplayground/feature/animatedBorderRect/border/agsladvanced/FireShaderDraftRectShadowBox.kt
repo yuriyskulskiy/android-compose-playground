@@ -10,11 +10,13 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
@@ -29,7 +31,9 @@ fun FireShaderDraftRectShadowBox(
     contourHeight: Dp = 120.dp,
     bandScale: Float = 1f,
     smokeScale: Float = 1f,
-    intensity: Float = 1f
+    intensity: Float = 1f,
+    contentAlignment: Alignment = Alignment.Center,
+    content: @Composable BoxScope.() -> Unit = {}
 ) {
     var isPressed by remember { mutableStateOf(false) }
     var activeQuadrant by remember { mutableStateOf<PressQuadrant?>(null) }
@@ -149,7 +153,9 @@ fun FireShaderDraftRectShadowBox(
                 coreScale = animatedPressCoreScale,
                 smokeBlueTint = animatedPressSmokeBlueTint,
                 thinMode = animatedPressBottomRightThinMode
-            )
+            ),
+        contentAlignment = contentAlignment,
+        content = content
     )
 }
 

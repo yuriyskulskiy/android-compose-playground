@@ -6,11 +6,13 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -24,7 +26,9 @@ fun ShadowLayerRectShadowBox(
     cornerRadius: Dp,
     initialHaloBorderWidth: Dp,
     pressedHaloBorderWidth: Dp,
-    passesCount: Int
+    passesCount: Int,
+    contentAlignment: Alignment = Alignment.Center,
+    content: @Composable BoxScope.() -> Unit = {}
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
@@ -61,6 +65,8 @@ fun ShadowLayerRectShadowBox(
                     waitForUpOrCancellation()
                     isPressed = false
                 }
-            }
+            },
+        contentAlignment = contentAlignment,
+        content = content
     )
 }

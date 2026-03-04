@@ -10,6 +10,7 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
@@ -71,14 +73,17 @@ fun RenderEffectBlurRectShadowBox(
     initialBlurRadius: Dp,
     pressedBlurRadius: Dp,
     initialHaloShadowWidth: Dp,
-    pressedHaloShadowWidth: Dp
+    pressedHaloShadowWidth: Dp,
+    contentAlignment: Alignment = Alignment.Center,
+    content: @Composable BoxScope.() -> Unit = {}
 ) {
     var isPressed by remember { mutableStateOf(false) }
     var contentSize by remember { mutableStateOf(IntSize.Zero) }
 
     Box(
         modifier = modifier
-            .onSizeChanged { contentSize = it }
+            .onSizeChanged { contentSize = it },
+        contentAlignment = contentAlignment
     ) {
         AnimatedBlurLayer(
             modifier = Modifier.fillMaxSize(),
@@ -97,6 +102,7 @@ fun RenderEffectBlurRectShadowBox(
             cornerRadius = cornerRadius,
             onPressedChanged = { isPressed = it }
         )
+        content()
     }
 }
 

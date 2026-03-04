@@ -6,11 +6,13 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -69,7 +71,9 @@ fun SimpleAgslBorderRectShadowBox(
     color: Color = Color(red = 0.10f, green = 0.30f, blue = 1.00f, alpha = 1f),
     cornerRadius: Dp = 24.dp,
     maxHaloBorderWidth: Dp = 32.dp,
-    renderMode: SimpleAgslRenderMode = SimpleAgslRenderMode.RenderEffect
+    renderMode: SimpleAgslRenderMode = SimpleAgslRenderMode.RenderEffect,
+    contentAlignment: Alignment = Alignment.Center,
+    content: @Composable BoxScope.() -> Unit = {}
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
@@ -101,6 +105,8 @@ fun SimpleAgslBorderRectShadowBox(
                 intensity = animatedIntensity,
                 press = animatedPress,
                 renderMode = renderMode
-            )
+            ),
+        contentAlignment = contentAlignment,
+        content = content
     )
 }
