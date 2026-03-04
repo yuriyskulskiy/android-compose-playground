@@ -175,7 +175,7 @@ fun ScreenContent(
                 initialBlurRadius = 4.dp,
                 pressedBlurRadius = 14.dp,
                 initialHaloShadowWidth = 4.dp,
-                pressedHaloShadowWidth = 24.dp
+                pressedHaloShadowWidth = 16.dp
             )
         }
         HorizontalDivider(
