@@ -176,7 +176,7 @@ fun ScreenContent(
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier,
-            text = stringResource(R.string.radial_linear_draft)
+            text = stringResource(R.string.radial_linear_gradient_border)
         ) {
             GradientRectShadowBox(
                 modifier = shadowBoxModifier,
