@@ -134,6 +134,7 @@ float perimeterS(float2 p, float2 halfSize, float r) {
 }
 
 half4 main(float2 fragCoord) {
+    half4 base = src.eval(fragCoord);
     float2 res = max(uResolution, float2(1.0));
     float t = uTime * 60.0;
     float2 p = fragCoord - 0.5 * res;
@@ -200,6 +201,11 @@ half4 main(float2 fragCoord) {
 
     float a = clamp(max(max(col.r, col.g), col.b), 0.0, 1.0);
     a = max(a * 0.95, coreMask * 0.35);
-    return half4(col, a);
+    half4 halo = half4(col, a);
+
+    // Keep source content (e.g., debug index text) and place halo behind it.
+    half outA = base.a + halo.a * (1.0 - base.a);
+    half3 outRgb = base.rgb + halo.rgb * (1.0 - base.a);
+    return half4(outRgb, outA);
 }
 """

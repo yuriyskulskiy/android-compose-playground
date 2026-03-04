@@ -9,8 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
@@ -90,9 +88,4 @@ fun Modifier.fireRectHaloShaderDraft(
                 Modifier
             }
         )
-        .drawBehind {
-            if (widthPx > 0 && heightPx > 0 && effect != null) {
-                drawRect(color = Color.White.copy(alpha = 0.9f))
-            }
-        }
 }
