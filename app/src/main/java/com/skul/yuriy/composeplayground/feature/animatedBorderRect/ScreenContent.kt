@@ -60,6 +60,7 @@ fun ScreenContent(
         .width(shadowBoxWidth)
     var multiLayerCount by remember { mutableIntStateOf(30) }
     var shadowLayerPasses by remember { mutableIntStateOf(2) }
+    var blurMaskBlurRadiusDp by remember { mutableIntStateOf(16) }
     var showAdvancedAgsl by remember { mutableStateOf(false) }
     var simpleAgslRenderMode by remember { mutableStateOf(SimpleAgslRenderMode.RenderEffect) }
     var showBorderParts by remember { mutableStateOf(true) }
@@ -118,14 +119,40 @@ fun ScreenContent(
 
         RectLabeledSectionWrapper(
             modifier = sectionModifier,
-            text = stringResource(R.string.paint_with_blurmaskfilter)
+            text = stringResource(R.string.paint_with_blurmaskfilter),
+            aboveTitleContent = {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        OutlinedLayerStepButton(
+                            imageVector = Icons.Default.Remove,
+                            contentDescription = "Decrease blur radius",
+                            enabled = blurMaskBlurRadiusDp > 2,
+                            onClick = { blurMaskBlurRadiusDp = (blurMaskBlurRadiusDp - 2).coerceAtLeast(2) }
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "Blur ${blurMaskBlurRadiusDp}dp",
+                            color = Color.White
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        OutlinedLayerStepButton(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Increase blur radius",
+                            enabled = blurMaskBlurRadiusDp < 48,
+                            onClick = { blurMaskBlurRadiusDp = (blurMaskBlurRadiusDp + 2).coerceAtMost(48) }
+                        )
+                    }
+                }
+            }
         ) {
             BlurredRectShadowBox(
                 modifier = shadowBoxModifier,
                 color = Color.Green,
                 cornerRadius = cornerRadius,
                 initialBlurRadius = 4.dp,
-                pressedBlurRadius = 16.dp,
+                pressedBlurRadius = blurMaskBlurRadiusDp.dp,
                 initialHaloShadowWidth = 4.dp,
                 pressedHaloShadowWidth = 32.dp
             )
