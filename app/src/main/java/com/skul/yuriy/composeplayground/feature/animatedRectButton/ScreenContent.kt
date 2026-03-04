@@ -42,6 +42,8 @@ import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
+import com.skul.yuriy.composeplayground.util.shadowborder.pathSnakeBorder
+import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
 
 @Composable
 fun AnimatedRectButtonScreenContent(
@@ -157,41 +159,21 @@ fun AnimatedRectBtnBox(
 
     Box(
         modifier = modifier
-//            .drawOutlineRoundedRectShadowGradient(
-//                color = mainColor.copy(alpha = 0.6f),
+//            .drawOutlineBlurMaskShadow(
+//                color = mainColor.copy(alpha = 0.8f),
 //                haloBorderWidth = animatedSpread,
 //                cornerRadius = cornerRadius
 //            )
-//
-//             Toggle option C:
-            .drawOutlineBlurMaskShadow(
-                color = mainColor.copy(alpha = 0.8f),
-                haloBorderWidth = animatedSpread,
-                cornerRadius = cornerRadius
-            )
-            .then(
-                if (isPressed) {
-//                    Modifier.drawOutlineRoundedRectShadowGradient(
-//                        color = mainColor,
-//                        haloBorderWidth = 4.dp,
-//                        cornerRadius = cornerRadius
-//                    )
-                    Modifier
-                } else {
-                    Modifier
-                }
-            )
             .then(
                 if (!isPressed && isRunning) {
-//                    Modifier.pathSnakeBorder(
-//                        progress = normalizedProgress,
-//                        bodyColor = mainColor,
-//                        glowShadowColor = mainColor.copy(alpha = 0.6f),
-//                        cornerRadius = cornerRadius,
-//                        bodyStrokeWidth = 2.dp,
-//                        glowingShadowWidth = 12.dp
-//                    )
-                    Modifier
+                    Modifier.rectSnakeBorder(
+                        progress = normalizedProgress,
+                        bodyColor = mainColor,
+                        glowShadowColor = mainColor.copy(alpha = 0.65f),
+                        cornerRadius = cornerRadius,
+                        bodyStrokeWidth = 2.dp,
+                        glowingShadowWidth = 12.dp
+                    )
                 } else {
                     Modifier
                 }
@@ -235,12 +217,10 @@ private fun GlowingText(
             .offset(
                 x = if (isPressed) 0.dp else shadowOffset.first,
                 y = if (isPressed) 0.dp else shadowOffset.second
-            )
-            .blur(blurRadius),
+            ).blur(blurRadius),
         color = textColor.copy(alpha = 0.8f),
         fontSize = textSizeSp.sp
     )
-
     Text(
         text = text,
         color = textColor,
