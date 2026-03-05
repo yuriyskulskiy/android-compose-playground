@@ -8,6 +8,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -40,14 +41,15 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
-import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
-import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
-import com.skul.yuriy.composeplayground.util.shadowborder.pathSnakeBorder
 import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
+import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
+import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
 
 @Composable
 fun AnimatedRectButtonScreenContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showDebugTrack: Boolean = true,
+    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -61,7 +63,9 @@ fun AnimatedRectButtonScreenContent(
             mainColor = BrightNeonBlue,
             blurRadius = 4.dp,
             shadowOffsetSize = 8.dp,
-            text = "TEST"
+            text = "TEST",
+            showDebugTrack = showDebugTrack,
+            trackPlacement = trackPlacement
         )
 
         Text(
@@ -83,7 +87,9 @@ fun AnimatedRectBtnBox(
     mainColor: Color,
     textPressedColor: Color = Color.Black,
     correctionOffsetForTextPhase: Int = 120,
-    cornerRadius: Dp = 24.dp
+    cornerRadius: Dp = 24.dp,
+    showDebugTrack: Boolean = true,
+    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
     val shape = RoundedCornerShape(cornerRadius)
 
@@ -135,7 +141,7 @@ fun AnimatedRectBtnBox(
             initialValue = lastSavedProgress,
             targetValue = lastSavedProgress + 1f,
             animationSpec = infiniteRepeatable(
-                animation = tween(20000, easing = LinearEasing),
+                animation = tween(3500, easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
             ),
             label = ""
@@ -159,11 +165,17 @@ fun AnimatedRectBtnBox(
 
     Box(
         modifier = modifier
-//            .drawOutlineBlurMaskShadow(
-//                color = mainColor.copy(alpha = 0.8f),
-//                haloBorderWidth = animatedSpread,
-//                cornerRadius = cornerRadius
-//            )
+            .background(
+                color = backgroundColor,
+                shape = shape
+            )
+            .then(
+                if (showDebugTrack) {
+                    Modifier.border(width = 1.dp, color = Color.White, shape = shape)
+                } else {
+                    Modifier
+                }
+            )
             .then(
                 if (!isPressed && isRunning) {
                     Modifier.rectSnakeBorder(
@@ -172,15 +184,12 @@ fun AnimatedRectBtnBox(
                         glowShadowColor = mainColor.copy(alpha = 0.65f),
                         cornerRadius = cornerRadius,
                         bodyStrokeWidth = 2.dp,
-                        glowingShadowWidth = 12.dp
+                        glowingShadowWidth = 12.dp,
+                        trackPlacement = trackPlacement
                     )
                 } else {
                     Modifier
                 }
-            )
-            .background(
-                color = backgroundColor,
-                shape = shape
             )
             .clip(shape)
             .clickable(
