@@ -60,12 +60,11 @@ fun NavigationContent(modifier: Modifier) {
     ) {
         val localNavBackStack = LocalNavBackStack.current
         NavigationItem(
-            text = stringResource(R.string.animated_border_rect),
-            onClick = { localNavBackStack.navigateToAnimatedBorderRect() })
-
-        NavigationItem(
             text = stringResource(R.string.animated_rect_button),
             onClick = { localNavBackStack.navigateToAnimatedRectBtn() })
+        NavigationItem(
+            text = stringResource(R.string.animated_border_rect),
+            onClick = { localNavBackStack.navigateToAnimatedBorderRect() })
 
         NavigationItem(
             text = stringResource(R.string.liquid_bar),

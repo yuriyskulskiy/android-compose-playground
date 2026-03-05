@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -40,7 +41,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
 import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
+import com.skul.yuriy.composeplayground.ui.theme.Purple80
 import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
 import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
@@ -60,7 +63,7 @@ fun AnimatedRectButtonScreenContent(
             modifier = Modifier
                 .size(width = 188.dp, height = 96.dp),
             onClick = {},
-            mainColor = BrightNeonBlue,
+            mainColor = Color.Green,
             blurRadius = 4.dp,
             shadowOffsetSize = 8.dp,
             text = "TEST",
@@ -69,7 +72,7 @@ fun AnimatedRectButtonScreenContent(
         )
 
         Text(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier.padding(top = 40.dp, start = 24.dp, end = 24.dp),
             color = Color.White,
             text = stringResource(R.string.effects_description_rect)
         )
@@ -97,7 +100,8 @@ fun AnimatedRectBtnBox(
     val isPressed by interactionSource.collectIsPressedAsState()
 
     val textColor = if (isPressed) textPressedColor else mainColor
-    val backgroundColor = if (isPressed) mainColor else Color.Transparent
+    val pressedBackgroundColor = remember(mainColor) { lerp(mainColor, Color.Black, 0.18f) }
+    val backgroundColor = if (isPressed) pressedBackgroundColor else Color.Transparent
 
     val initialHaloBorderWidth = 0.dp
     val pressedHaloBorderWidth = 42.dp
@@ -165,6 +169,12 @@ fun AnimatedRectBtnBox(
 
     Box(
         modifier = modifier
+            .drawOutlineBlurMaskShadow(
+                color = mainColor.copy(alpha = 0.5f),
+                haloBorderWidth = animatedSpread,
+                cornerRadius = cornerRadius,
+                blurRadius = 16.dp
+            )
             .background(
                 color = backgroundColor,
                 shape = shape
