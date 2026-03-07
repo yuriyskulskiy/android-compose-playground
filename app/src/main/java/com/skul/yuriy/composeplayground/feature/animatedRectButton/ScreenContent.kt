@@ -42,11 +42,9 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
-import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
-import com.skul.yuriy.composeplayground.ui.theme.Purple80
-import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
-import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
+import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
+import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
 
 @Composable
 fun AnimatedRectButtonScreenContent(
