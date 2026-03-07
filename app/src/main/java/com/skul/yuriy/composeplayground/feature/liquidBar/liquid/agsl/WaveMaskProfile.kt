@@ -2,7 +2,7 @@ package com.skul.yuriy.composeplayground.feature.liquidBar.liquid.agsl
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.Wave_1D
+import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.Wave1D
 
 /**
  * Builds a 1-row ARGB profile where each pixel stores the wave Y for one X column.
@@ -24,7 +24,7 @@ internal fun rememberWaveProfileArgb16(
     height: Int,
     scale: Float,
     yGain: Float,
-    sim: Wave_1D,
+    sim: Wave1D,
 ): IntArray {
     val profile = remember(width) { IntArray(width.coerceAtLeast(0)) }
     if (width <= 0 || height <= 0) return profile

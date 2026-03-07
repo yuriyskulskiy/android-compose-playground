@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.unit.IntSize
 import androidx.core.graphics.createBitmap
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.InteractiveContentPosition
-import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.Wave_1D
+import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.Wave1D
 
 private const val LiquidWaveRenderAglsl = """
 uniform shader src;
@@ -66,7 +66,7 @@ internal fun rememberLiquidWaveRenderEffectOrNull(
     plotWidth: Float,
     scale: Float,
     yGain: Float,
-    sim: Wave_1D,
+    sim: Wave1D,
 ): ComposeRenderEffect? {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return null
 

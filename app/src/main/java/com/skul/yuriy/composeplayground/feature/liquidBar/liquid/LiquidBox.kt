@@ -81,7 +81,7 @@ fun LiquidBox(
     var isSimulationRunning by remember { mutableStateOf(false) }
 
     val sim = remember {
-        Wave_1D(samples).apply {
+        Wave1D(samples).apply {
             this.damping = damping
             this.amp = amp
             this.pulseWidthNorm = pulseWidthNorm
