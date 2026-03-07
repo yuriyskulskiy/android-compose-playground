@@ -102,7 +102,7 @@ fun LiquidBarScreen(
                 .fillMaxWidth()
                 .height(liquidContainerHeight),
             bg = Color.Transparent,
-            plotWidth = 1f,
+            plotWidth = 0f,
             renderType = renderType,
             waveColor = Color.Black,
             hitHeight = navBarHeight + bottomInset,
