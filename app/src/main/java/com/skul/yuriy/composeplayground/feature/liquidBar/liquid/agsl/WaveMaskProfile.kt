@@ -20,21 +20,19 @@ import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.Wave1D
  */
 @Composable
 internal fun rememberWaveProfileArgb16(
-    width: Int,
+    profileWidth: Int,
     height: Int,
     scale: Float,
     yGain: Float,
     sim: Wave1D,
 ): IntArray {
-    val profile = remember(width) { IntArray(width.coerceAtLeast(0)) }
-    if (width <= 0 || height <= 0) return profile
+    val profile = remember(profileWidth) { IntArray(profileWidth.coerceAtLeast(0)) }
+    if (profileWidth <= 0 || height <= 0) return profile
 
     val safeScale = if (scale == 0f) 1f else scale
-    val widthF = width.toFloat()
     val heightF = height.toFloat()
-    for (x in 0 until width) {
-        val xNorm = x.toFloat() / widthF
-        val scaled = sim.sampleCurr(xNorm.coerceIn(0f, 1f)) * yGain
+    for (x in 0 until profileWidth) {
+        val scaled = sim.sampleCurrAt(x) * yGain
         val yPx = (0.5f - (scaled / safeScale)) * heightF
         val yNorm = (yPx / heightF).coerceIn(0f, 1f)
 

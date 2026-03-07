@@ -61,7 +61,7 @@ fun LiquidBox(
     contentAlignment: Alignment = Alignment.TopStart,
     modifier: Modifier = Modifier,
 //    samples: Int = 1024,
-    samples: Int = 126,
+    samples: Int = 18,
     damping: Float = 0.97f,
     amp: Float = 0.5f,
     pulseWidthNorm: Float = 0.18f,

@@ -18,6 +18,8 @@ import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.Wave1D
 private const val LiquidWaveRenderAglsl = """
 uniform shader src;
 uniform shader waveProfile; // R+G store normalized wave Y with 16-bit precision
+uniform float uContainerWidthPx;
+uniform float uProfileWidthPx;
 uniform float uContainerHeightPx;
 uniform float uBandPx;
 uniform float uIsTop;
@@ -25,7 +27,8 @@ uniform float4 uWaveColor;
 
 half4 main(float2 p) {
     half4 c = src.eval(p);
-    half4 waveData = waveProfile.eval(float2(p.x, 0.5));
+    float profileX = (p.x / max(1.0, uContainerWidthPx)) * max(0.0, uProfileWidthPx - 1.0);
+    half4 waveData = waveProfile.eval(float2(profileX, 0.5));
     float hi = floor(float(waveData.r) * 255.0 + 0.5);
     float lo = floor(float(waveData.g) * 255.0 + 0.5);
     float yWaveNorm = (hi * 256.0 + lo) / 65535.0;
@@ -73,9 +76,10 @@ internal fun rememberLiquidWaveRenderEffectOrNull(
     val width = containerSize.width
     val height = containerSize.height
     if (width <= 0 || height <= 0) return null
+    val profileWidth = sim.n
 
     val waveProfileArgb = rememberWaveProfileArgb16(
-        width = width,
+        profileWidth = profileWidth,
         height = height,
         scale = scale,
         yGain = yGain,
@@ -85,14 +89,16 @@ internal fun rememberLiquidWaveRenderEffectOrNull(
     val safeScale = if (scale == 0f) 1f else scale
     val bandPx = ((plotWidth / safeScale) * height.toFloat()).coerceAtLeast(0f)
 
-    val profileBitmap = remember(width) { createBitmap(width, 1) }
+    val profileBitmap = remember(profileWidth) { createBitmap(profileWidth, 1) }
     val runtimeShader = remember { RuntimeShader(LiquidWaveRenderAglsl) }
-    profileBitmap.setPixels(waveProfileArgb, 0, width, 0, 0, width, 1)
+    profileBitmap.setPixels(waveProfileArgb, 0, profileWidth, 0, 0, profileWidth, 1)
     val profileShader = remember(profileBitmap) {
         BitmapShader(profileBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
     }
 
     runtimeShader.setInputShader("waveProfile", profileShader)
+    runtimeShader.setFloatUniform("uContainerWidthPx", width.toFloat())
+    runtimeShader.setFloatUniform("uProfileWidthPx", profileWidth.toFloat())
     runtimeShader.setFloatUniform("uContainerHeightPx", height.toFloat())
     runtimeShader.setFloatUniform("uBandPx", bandPx)
     runtimeShader.setFloatUniform(
@@ -107,7 +113,7 @@ internal fun rememberLiquidWaveRenderEffectOrNull(
         waveColor.alpha
     )
 
-    return remember(runtimeShader, frameTick, width, height, bandPx, waveColor) {
+    return remember(runtimeShader, frameTick, width, height, profileWidth, bandPx, waveColor) {
         RenderEffect
             .createRuntimeShaderEffect(runtimeShader, "src")
             .asComposeRenderEffect()

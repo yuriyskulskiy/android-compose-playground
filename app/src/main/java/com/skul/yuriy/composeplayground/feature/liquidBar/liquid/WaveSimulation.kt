@@ -114,4 +114,8 @@ internal class Wave1D(samples: Int) {
         val t = fx - i0
         return curr[i0] * (1f - t) + curr[i1] * t
     }
+
+    fun sampleCurrAt(index: Int): Float {
+        return curr[index.coerceIn(0, n - 1)]
+    }
 }
