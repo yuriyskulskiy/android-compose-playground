@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedArk
+import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorderRect
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedCircularBtn
+import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedRectBtn
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEdge
 import com.skul.yuriy.composeplayground.navigation.navigateToBottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
@@ -57,6 +59,13 @@ fun NavigationContent(modifier: Modifier) {
         horizontalAlignment = Alignment.Start
     ) {
         val localNavBackStack = LocalNavBackStack.current
+        NavigationItem(
+            text = stringResource(R.string.animated_rect_button),
+            onClick = { localNavBackStack.navigateToAnimatedRectBtn() })
+        NavigationItem(
+            text = stringResource(R.string.animated_border_rect),
+            onClick = { localNavBackStack.navigateToAnimatedBorderRect() })
+
         NavigationItem(
             text = stringResource(R.string.liquid_bar),
             onClick = { localNavBackStack.navigateToLiquidBar() })

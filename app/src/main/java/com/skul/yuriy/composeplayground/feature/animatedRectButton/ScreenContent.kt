@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.animatedCircularButton
+package com.skul.yuriy.composeplayground.feature.animatedRectButton
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -8,6 +8,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -17,10 +18,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -33,80 +31,88 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
-import com.skul.yuriy.composeplayground.ui.theme.BrightNeonBlue
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
-import com.skul.yuriy.composeplayground.util.shadowborder.snakeBorder
-import com.skul.yuriy.composeplayground.util.shadowborder.drawOutlineCircularShadowGradient
+import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
+import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
 
 @Composable
-fun AnimatedCircleButtonScreenContent(
-    modifier: Modifier = Modifier
+fun AnimatedRectButtonScreenContent(
+    modifier: Modifier = Modifier,
+    showDebugTrack: Boolean = true,
+    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
-        AnimatedCircularBtnBox(
+        AnimatedRectBtnBox(
             modifier = Modifier
-                .size(112.dp),
+                .size(width = 188.dp, height = 96.dp),
             onClick = {},
-            mainColor = BrightNeonBlue,
-            imageVector = Icons.Default.Add
+            mainColor = Color.Red,
+            blurRadius = 4.dp,
+            shadowOffsetSize = 8.dp,
+            text = "TEST",
+            showDebugTrack = showDebugTrack,
+            trackPlacement = trackPlacement
         )
 
         Text(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier.padding(top = 40.dp, start = 24.dp, end = 24.dp),
             color = Color.White,
-            text = stringResource(R.string.effects_description)
-
+            text = stringResource(R.string.effects_description_rect)
         )
     }
 }
 
 @Composable
-fun AnimatedCircularBtnBox(
-    imageVector: ImageVector,
+fun AnimatedRectBtnBox(
+    text: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    iconSize: Dp = 56.dp,
+    textSizeSp: Int = 34,
     shadowOffsetSize: Dp = 4.dp,
     blurRadius: Dp = 8.dp,
     mainColor: Color,
-    iconPressedColor: Color = Color.Black,
-    correctionOffsetForVectorIconAngel: Int = 120,
+    textPressedColor: Color = Color.Black,
+    correctionOffsetForTextPhase: Int = 120,
+    cornerRadius: Dp = 24.dp,
+    showDebugTrack: Boolean = true,
+    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
-
+    val shape = RoundedCornerShape(cornerRadius)
 
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    val iconTintColor = if (isPressed) (iconPressedColor) else (mainColor)
-    val backgroundColor = if (isPressed) mainColor else Color.Transparent
+    val textColor = if (isPressed) textPressedColor else mainColor
+    val pressedBackgroundColor = remember(mainColor) { lerp(mainColor, Color.Black, 0.18f) }
+    val backgroundColor = if (isPressed) pressedBackgroundColor else Color.Transparent
 
-    // glowing shadow
     val initialHaloBorderWidth = 0.dp
-    val pressedHaloBorderWidth = 48.dp
+    val pressedHaloBorderWidth = 42.dp
 
     val animatedSpread by animateDpAsState(
         targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
-        animationSpec = tween(durationMillis = 300)
+        animationSpec = tween(durationMillis = 300),
+        label = ""
     )
 
-    //rotation arc
     var isRunning by remember { mutableStateOf(true) }
-    var lastSavedAngle by remember { mutableStateOf(0f) }
-    var animatedAngle by remember { mutableStateOf(0f) }
+    var lastSavedProgress by remember { mutableStateOf(0f) }
+    var animatedProgress by remember { mutableStateOf(0f) }
     val lifecycleOwner = LocalLifecycleOwner.current
 
     DisposableEffect(lifecycleOwner) {
@@ -114,7 +120,7 @@ fun AnimatedCircularBtnBox(
             when (event) {
                 Lifecycle.Event.ON_PAUSE, Lifecycle.Event.ON_STOP -> {
                     isRunning = false
-                    lastSavedAngle = animatedAngle
+                    lastSavedProgress = animatedProgress
                 }
 
                 Lifecycle.Event.ON_RESUME -> {
@@ -130,98 +136,115 @@ fun AnimatedCircularBtnBox(
         }
     }
 
-    // Rotation animation only when the app is active and the button is not pressed
     val infiniteTransition = if (isRunning && !isPressed) rememberInfiniteTransition() else null
 
-    // If animation is active - perform rotation angel state updates
     if (infiniteTransition != null) {
-        val animatedAngleValue by infiniteTransition.animateFloat(
-            initialValue = lastSavedAngle,
-            targetValue = lastSavedAngle + 360f,
+        val animatedProgressValue by infiniteTransition.animateFloat(
+            initialValue = lastSavedProgress,
+            targetValue = lastSavedProgress + 1f,
             animationSpec = infiniteRepeatable(
-                animation = tween(2000, easing = LinearEasing),
+                animation = tween(3500, easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
-            ), label = ""
+            ),
+            label = ""
         )
-        animatedAngle = animatedAngleValue
+        animatedProgress = animatedProgressValue
     }
 
-    //icon animated offset based on rotation angle
-    val shadowOffset = remember(animatedAngle, shadowOffsetSize) {
-        val correctedAngle = correctionOffsetForVectorIconAngel - animatedAngle
+    val normalizedProgress = ((animatedProgress % 1f) + 1f) % 1f
+    val progressDegrees = normalizedProgress * 360f
+
+    val shadowOffset = remember(progressDegrees, shadowOffsetSize) {
+        val correctedAngle = correctionOffsetForTextPhase - progressDegrees
         computeShadowOffset(angleDegrees = correctedAngle, radius = shadowOffsetSize)
     }
 
-
-    //Store the rotation angle when press
     LaunchedEffect(isPressed) {
         if (isPressed) {
-            lastSavedAngle = animatedAngle
+            lastSavedProgress = normalizedProgress
         }
     }
 
     Box(
         modifier = modifier
-            .drawOutlineCircularShadowGradient(
-                color = mainColor.copy(alpha = 0.6f),
+            .drawOutlineBlurMaskShadow(
+                color = mainColor.copy(alpha = 0.5f),
                 haloBorderWidth = animatedSpread,
+                cornerRadius = cornerRadius,
+                blurRadius = 16.dp
+            )
+            .background(
+                color = backgroundColor,
+                shape = shape
             )
             .then(
-                if (isPressed) {
-                    //add optionally small lighting ring
-                    Modifier.drawOutlineCircularShadowGradient(
-                        color = mainColor,
-                        haloBorderWidth = 8.dp,
-                    )
+                if (showDebugTrack) {
+                    Modifier.border(width = 1.dp, color = Color.White, shape = shape)
                 } else {
                     Modifier
                 }
             )
             .then(
                 if (!isPressed && isRunning) {
-                    Modifier.snakeBorder(
-                        rotationDegrees = animatedAngle,
+                    Modifier.rectSnakeBorder(
+                        progress = normalizedProgress,
                         bodyColor = mainColor,
-                        glowShadowColor = mainColor.copy(alpha = 0.6f),
+                        glowShadowColor = mainColor.copy(alpha = 0.65f),
+                        cornerRadius = cornerRadius,
                         bodyStrokeWidth = 2.dp,
                         glowingShadowWidth = 12.dp,
+                        trackPlacement = trackPlacement
                     )
-                } else Modifier
+                } else {
+                    Modifier
+                }
             )
-
-            .background(
-                color = backgroundColor,
-                shape = CircleShape
-            )
-            .clip(CircleShape)
+            .clip(shape)
             .clickable(
                 interactionSource = interactionSource,
-                indication = null // Remove the ripple effect
+                indication = null
             ) {
                 onClick()
             },
         contentAlignment = Alignment.Center
     ) {
-
-        Icon(
-            imageVector = imageVector,
-            contentDescription = null,
-            modifier = Modifier
-                .size(iconSize)
-                .scale(1.2f)
-                .offset(
-                    x = if (isPressed) 0.dp else shadowOffset.first,
-                    y = if (isPressed) 0.dp else shadowOffset.second
-                )
-                .blur(blurRadius),
-            tint = iconTintColor.copy(alpha = 0.8f),
-        )
-
-        Icon(
-            modifier = Modifier.size(iconSize),
-            imageVector = imageVector,
-            contentDescription = "Add",
-            tint = iconTintColor
+        GlowingText(
+            text = text,
+            textColor = textColor,
+            textSizeSp = textSizeSp,
+            isPressed = isPressed,
+            shadowOffset = shadowOffset,
+            blurRadius = blurRadius
         )
     }
+}
+
+@Composable
+private fun GlowingText(
+    text: String,
+    textColor: Color,
+    textSizeSp: Int,
+    isPressed: Boolean,
+    shadowOffset: Pair<Dp, Dp>,
+    blurRadius: Dp
+) {
+    if (!isPressed) {
+        Text(
+            text = text,
+            modifier = Modifier
+                .offset(
+                    x = shadowOffset.first,
+                    y = shadowOffset.second
+                )
+                .blur(blurRadius),
+            color = textColor.copy(alpha = 0.8f),
+            fontSize = textSizeSp.sp
+        )
+    }
+
+    Text(
+        text = text,
+        color = textColor,
+        fontSize = textSizeSp.sp
+    )
 }

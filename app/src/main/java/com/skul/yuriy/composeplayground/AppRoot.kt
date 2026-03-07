@@ -15,7 +15,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.skul.yuriy.composeplayground.feature.animatedBorder.CircularHaloShadowScreen
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.AnimatedBorderRectScreen
 import com.skul.yuriy.composeplayground.feature.animatedCircularButton.AnimatedCircularBtnScreen
+import com.skul.yuriy.composeplayground.feature.animatedRectButton.AnimatedRectBtnScreen
 import com.skul.yuriy.composeplayground.feature.bottomEdge.BottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.feature.customAlphaBlur.CustomBlurScreen
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
@@ -68,11 +70,13 @@ internal fun AppRoot(
                     entry<Screens.AnimatedElevationEdge> { AnimatedElevationRoute() }
                     entry<Screens.FadingEdgesScreen> { FadingEdgesRoute() }
                     entry<Screens.CircularHaloShadow> { CircularHaloShadowScreen() }
+                    entry<Screens.AnimatedBorderRect> { AnimatedBorderRectScreen() }
                     entry<Screens.VectorDrawableShadow> { VectorDrawableShadowScreen() }
                     entry<Screens.TransparentShadowBox> { OutlineShadowBoxRoute() }
                     entry<Screens.AnimatedArk> { AnimatedArkScreen() }
                     entry<Screens.BottomEdgeShadow> { BottomEdgeShadowScreen() }
                     entry<Screens.AnimateCircularButton> { AnimatedCircularBtnScreen() }
+                    entry<Screens.AnimateRectButton> { AnimatedRectBtnScreen() }
                     entry<Screens.GooeyEffect> { GooeyBasicScreen() }
                     entry<Screens.MetaballClassicMath> { MetaballClassicScreen() }
                     entry<Screens.MetaballTextEdges> { MetaballEdgeRegularScreen() }

@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorder.border.BlurredCircularShadowBox
 import com.skul.yuriy.composeplayground.feature.animatedBorder.border.GradientCircularShadowBox
+import com.skul.yuriy.composeplayground.util.regularComponents.LabeledSectionWrapper
 
 @Composable
 fun ColumnScope.ScreenContent(
