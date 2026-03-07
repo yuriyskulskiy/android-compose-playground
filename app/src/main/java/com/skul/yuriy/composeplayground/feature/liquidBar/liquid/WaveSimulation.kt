@@ -4,7 +4,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-private fun cubicPulse(center: Float, halfWidth: Float, x: Float): Float {
+private fun touchPulseInfluence(center: Float, halfWidth: Float, x: Float): Float {
     var d = abs(x - center)
     if (d > halfWidth) return 0f
     d /= halfWidth
@@ -21,9 +21,9 @@ private fun cubicPulse(center: Float, halfWidth: Float, x: Float): Float {
  *   next *= damping
  *
  * Mouse/Touch injection (continuous):
- *   curr[i] += cubicPulse(clickX, width, x) * (1 - clickY) * amp
+ *   curr[i] += touchPulseInfluence(clickX, width, x) * (1 - clickY) * amp
  */
-internal class Wave_1D(samples: Int) {
+internal class Wave1D(samples: Int) {
     private companion object {
         private const val RestEpsilon = 0.005f
         private const val RestStableFrames = 3
@@ -100,7 +100,7 @@ internal class Wave_1D(samples: Int) {
 
         for (i in 0 until n) {
             val x = i.toFloat() / (n - 1).toFloat()
-            val p = cubicPulse(cx, w, x)
+            val p = touchPulseInfluence(cx, w, x)
             if (p != 0f) curr[i] -= p * strength
         }
         nearRestFrameCount = 0
@@ -113,5 +113,9 @@ internal class Wave_1D(samples: Int) {
         val i1 = min(i0 + 1, n - 1)
         val t = fx - i0
         return curr[i0] * (1f - t) + curr[i1] * t
+    }
+
+    fun sampleCurrAt(index: Int): Float {
+        return curr[index.coerceIn(0, n - 1)]
     }
 }

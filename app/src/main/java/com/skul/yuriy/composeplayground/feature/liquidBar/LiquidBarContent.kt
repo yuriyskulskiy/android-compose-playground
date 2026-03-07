@@ -10,10 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 
@@ -31,10 +28,11 @@ fun LiquidBarContent(
                 when (screenMode) {
                     ScreenMode.Canvas -> Modifier
                         .zIndex(10f)
-                        .invertOverBackground()
+                        .invertByDifferenceBlend()
                         .padding(paddingValues)
 
-                    ScreenMode.Agsl -> Modifier
+                    ScreenMode.Agsl,
+                    ScreenMode.AgslCanvas -> Modifier
                 }
             )
             .verticalScroll(rememberScrollState())
@@ -44,7 +42,8 @@ fun LiquidBarContent(
                 .then(
                     when (screenMode) {
                         ScreenMode.Canvas -> Modifier
-                        ScreenMode.Agsl -> Modifier.padding(paddingValues)
+                        ScreenMode.Agsl,
+                        ScreenMode.AgslCanvas -> Modifier.padding(paddingValues)
                     }
                 )
                 .padding(horizontal = 16.dp, vertical = 12.dp),
@@ -52,15 +51,9 @@ fun LiquidBarContent(
             text = contentText,
             color = when (screenMode) {
                 ScreenMode.Canvas -> Color.White
-                ScreenMode.Agsl -> Color.Black
+                ScreenMode.Agsl,
+                ScreenMode.AgslCanvas -> Color.Black
             }
         )
     }
-}
-
-
-
-fun Modifier.invertOverBackground(): Modifier = graphicsLayer {
-    compositingStrategy = CompositingStrategy.Offscreen
-    blendMode = BlendMode.Difference
 }

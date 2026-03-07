@@ -10,7 +10,7 @@ internal fun injectWaveAt(
     containerSize: IntSize,
     hitZoneSize: IntSize,
     interactiveContentPosition: InteractiveContentPosition,
-    sim: Wave_1D,
+    sim: Wave1D,
 ): Boolean {
     if (containerSize.width <= 0 || containerSize.height <= 0) return false
     if (hitZoneSize.width <= 0 || hitZoneSize.height <= 0) return false
@@ -38,7 +38,7 @@ internal suspend fun AwaitPointerEventScope.listenWaveDragEvents(
     containerSizeProvider: () -> IntSize,
     hitZoneSizeProvider: () -> IntSize,
     interactiveContentPosition: InteractiveContentPosition,
-    sim: Wave_1D,
+    sim: Wave1D,
     onWaveInjected: () -> Unit,
 ) {
     var lastInjectMs = 0L

@@ -1,22 +1,23 @@
 package com.skul.yuriy.composeplayground.feature.liquidBar.liquid.agsl
 
 import android.graphics.BitmapShader
-import android.graphics.RenderEffect
+import android.graphics.Paint
 import android.graphics.RuntimeShader
 import android.graphics.Shader
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RenderEffect as ComposeRenderEffect
-import androidx.compose.ui.graphics.asComposeRenderEffect
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.IntSize
 import androidx.core.graphics.createBitmap
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.InteractiveContentPosition
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.Wave1D
 
-private const val LiquidWaveRenderAglsl = """
-uniform shader src;
+private const val LiquidWaveCanvasAglsl = """
 uniform shader waveProfile; // R+G store normalized wave Y with 16-bit precision
 uniform float uContainerWidthPx;
 uniform float uProfileWidthPx;
@@ -34,7 +35,6 @@ float decodeWaveYNormAt(float sampleIndex) {
 }
 
 half4 main(float2 p) {
-    half4 c = src.eval(p);
     float profileX = (p.x / max(1.0, uContainerWidthPx)) * max(0.0, uProfileWidthPx - 1.0);
     float i0 = floor(profileX);
     float i1 = min(i0 + 1.0, max(0.0, uProfileWidthPx - 1.0));
@@ -42,6 +42,7 @@ half4 main(float2 p) {
     float y0 = decodeWaveYNormAt(i0);
     float y1 = decodeWaveYNormAt(i1);
     float yWaveNorm = mix(y0, y1, t);
+
     float yNorm = clamp(p.y / max(1.0, uContainerHeightPx), 0.0, 1.0);
     float bandNorm = clamp(uBandPx / max(1.0, uContainerHeightPx), 0.0, 1.0);
 
@@ -62,16 +63,12 @@ half4 main(float2 p) {
     m = clamp(m, 0.0, 1.0);
 
     half mask = half(m);
-    half4 wave = half4(uWaveColor.rgb * mask, uWaveColor.a * mask);
-    half4 srcMasked = half4(c.rgb * mask, c.a * mask);
-
-    // Premultiplied source-over: masked src over liquid.
-    return srcMasked + wave * (half(1.0) - srcMasked.a);
+    return half4(uWaveColor.rgb * mask, uWaveColor.a * mask);
 }
 """
 
 @Composable
-internal fun rememberLiquidWaveRenderEffectOrNull(
+internal fun Modifier.liquidWaveCanvasShader(
     frameTick: Int,
     containerSize: IntSize,
     interactiveContentPosition: InteractiveContentPosition,
@@ -80,12 +77,13 @@ internal fun rememberLiquidWaveRenderEffectOrNull(
     scale: Float,
     yGain: Float,
     sim: Wave1D,
-): ComposeRenderEffect? {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return null
+    bg: Color,
+): Modifier {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return this
 
     val width = containerSize.width
     val height = containerSize.height
-    if (width <= 0 || height <= 0) return null
+    if (width <= 0 || height <= 0) return this
     val profileWidth = sim.n
 
     val waveProfileArgb = rememberWaveProfileArgb16(
@@ -100,7 +98,9 @@ internal fun rememberLiquidWaveRenderEffectOrNull(
     val bandPx = ((plotWidth / safeScale) * height.toFloat()).coerceAtLeast(0f)
 
     val profileBitmap = remember(profileWidth) { createBitmap(profileWidth, 1) }
-    val runtimeShader = remember { RuntimeShader(LiquidWaveRenderAglsl) }
+    val runtimeShader = remember { RuntimeShader(LiquidWaveCanvasAglsl) }
+    val shaderPaint = remember { Paint() }
+
     profileBitmap.setPixels(waveProfileArgb, 0, profileWidth, 0, 0, profileWidth, 1)
     val profileShader = remember(profileBitmap) {
         BitmapShader(profileBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
@@ -123,9 +123,25 @@ internal fun rememberLiquidWaveRenderEffectOrNull(
         waveColor.alpha
     )
 
-    return remember(runtimeShader, frameTick, width, height, profileWidth, bandPx, waveColor) {
-        RenderEffect
-            .createRuntimeShaderEffect(runtimeShader, "src")
-            .asComposeRenderEffect()
+    shaderPaint.shader = runtimeShader
+
+    val drawModifier = remember(
+        runtimeShader,
+        shaderPaint,
+        frameTick,
+        width,
+        height,
+        profileWidth,
+        bandPx,
+        waveColor,
+        bg
+    ) {
+        Modifier.drawBehind {
+            if (frameTick < 0) return@drawBehind
+            drawIntoCanvas { canvas ->
+                canvas.nativeCanvas.drawRect(0f, 0f, size.width, size.height, shaderPaint)
+            }
+        }
     }
+    return this.then(drawModifier)
 }
