@@ -31,7 +31,8 @@ fun LiquidBarContent(
                         .invertByDifferenceBlend()
                         .padding(paddingValues)
 
-                    ScreenMode.Agsl -> Modifier
+                    ScreenMode.Agsl,
+                    ScreenMode.AgslCanvas -> Modifier
                 }
             )
             .verticalScroll(rememberScrollState())
@@ -41,7 +42,8 @@ fun LiquidBarContent(
                 .then(
                     when (screenMode) {
                         ScreenMode.Canvas -> Modifier
-                        ScreenMode.Agsl -> Modifier.padding(paddingValues)
+                        ScreenMode.Agsl,
+                        ScreenMode.AgslCanvas -> Modifier.padding(paddingValues)
                     }
                 )
                 .padding(horizontal = 16.dp, vertical = 12.dp),
@@ -49,7 +51,8 @@ fun LiquidBarContent(
             text = contentText,
             color = when (screenMode) {
                 ScreenMode.Canvas -> Color.White
-                ScreenMode.Agsl -> Color.Black
+                ScreenMode.Agsl,
+                ScreenMode.AgslCanvas -> Color.Black
             }
         )
     }

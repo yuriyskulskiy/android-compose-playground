@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.liquidBar.liquid
 
+import android.os.Build
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.agsl.liquidWaveCanvasShader
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.agsl.rememberLiquidWaveRenderEffectOrNull
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.canvas.drawLiquidWave
 import kotlinx.coroutines.isActive
@@ -144,6 +146,36 @@ fun LiquidBox(
                     compositingStrategy = CompositingStrategy.Offscreen
                     renderEffect = effect
                 }
+            }
+        }
+
+        RenderType.AGSL_CANVAS -> {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                Modifier.drawBehind {
+                    drawLiquidWave(
+                        frameTick = frameTick,
+                        containerSize = containerSize,
+                        interactiveContentPosition = interactiveContentPosition,
+                        bg = bg,
+                        waveColor = waveColor,
+                        plotWidth = plotWidth,
+                        scale = scale,
+                        yGain = yGain,
+                        sampleWave = { xNorm -> sim.sampleCurr(xNorm) }
+                    )
+                }
+            } else {
+                Modifier.liquidWaveCanvasShader(
+                    frameTick = frameTick,
+                    containerSize = containerSize,
+                    interactiveContentPosition = interactiveContentPosition,
+                    waveColor = waveColor,
+                    plotWidth = plotWidth,
+                    scale = scale,
+                    yGain = yGain,
+                    sim = sim,
+                    bg = bg
+                )
             }
         }
     }
