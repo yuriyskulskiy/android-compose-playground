@@ -47,11 +47,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
@@ -132,7 +129,7 @@ fun LiquidBarScreen(
                     val itemColor = if (isSelected) Color.Red else Color.White
                     val itemModifier = if (isCanvasMode && !isSelected) {
                         Modifier
-                            .invertOverBackgroundInLiquidBar()
+                            .invertByDifferenceBlend()
                     } else {
                         Modifier
                     }
@@ -206,7 +203,7 @@ fun LiquidBarScreen(
             interactiveContentPosition = InteractiveContentPosition.Top,
         ) {
             val topBarContentModifier = when (screenMode) {
-                ScreenMode.Canvas -> Modifier.invertOverBackgroundInLiquidBar()
+                ScreenMode.Canvas -> Modifier.invertByDifferenceBlend()
                 ScreenMode.Agsl -> Modifier
             }
 
@@ -315,7 +312,7 @@ private fun TopModeChip(
 ) {
     val textColor = if (selected) Color.Red else Color.White.copy(alpha = 0.65f)
     val textModifier = if (!selected && applyDifference) {
-        Modifier.invertOverBackgroundInLiquidBar()
+        Modifier.invertByDifferenceBlend()
     } else {
         Modifier
     }
@@ -336,11 +333,6 @@ private fun TopModeChip(
             )
             .clickable(onClick = onClick)
     )
-}
-
-private fun Modifier.invertOverBackgroundInLiquidBar(): Modifier = graphicsLayer {
-    compositingStrategy = CompositingStrategy.Offscreen
-    blendMode = BlendMode.Difference
 }
 
 private fun ScreenMode.toRenderType(): RenderType = when (this) {

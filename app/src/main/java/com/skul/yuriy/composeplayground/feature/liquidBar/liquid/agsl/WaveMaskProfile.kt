@@ -4,33 +4,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.Wave_1D
 
-@Composable
-internal fun rememberWaveProfileArgb(
-    containerWidthPx: Int,
-    containerHeightPx: Int,
-    scale: Float,
-    yGain: Float,
-    sim: Wave_1D,
-): IntArray {
-    val width = containerWidthPx.coerceAtLeast(0)
-    val height = containerHeightPx.coerceAtLeast(0)
-    val profile = remember(width) { IntArray(width) }
-    if (width <= 0 || height <= 0) return profile
-
-    val safeScale = if (scale == 0f) 1f else scale
-    val widthF = width.toFloat()
-    val heightF = height.toFloat()
-    for (x in 0 until width) {
-        val xNorm = x.toFloat() / widthF
-        val scaled = sim.sampleCurr(xNorm.coerceIn(0f, 1f)) * yGain
-        val yPx = (0.5f - (scaled / safeScale)) * heightF
-        val yNorm = (yPx / heightF).coerceIn(0f, 1f)
-        val alpha = (yNorm * 255f).toInt().coerceIn(0, 255)
-        profile[x] = (alpha shl 24) or 0x00FFFFFF
-    }
-    return profile
-}
-
+/**
+ * Builds a 1-row ARGB profile where each pixel stores the wave Y for one X column.
+ *
+ * Encoding:
+ * - `yNorm` (normalized wave height in `[0..1]`) is quantized to 16-bit: `y16 = round(yNorm * 65535)`.
+ * - High byte is stored in `R`, low byte in `G`.
+ * - `A` is forced to `255` to avoid premultiplied alpha altering RGB payload.
+ * - `B` is unused.
+ *
+ * Decoding in AGSL (see `LiquidWaveRenderEffect`):
+ * - `hi = round(R * 255)`, `lo = round(G * 255)`.
+ * - `y16 = hi * 256 + lo`.
+ * - `yNorm = y16 / 65535`.
+ */
 @Composable
 internal fun rememberWaveProfileArgb16(
     width: Int,
