@@ -25,13 +25,23 @@ uniform float uBandPx;
 uniform float uIsTop;
 uniform float4 uWaveColor;
 
+float decodeWaveYNormAt(float sampleIndex) {
+    // Sample texel center to avoid accidental filtering of packed RG16 payload.
+    half4 waveData = waveProfile.eval(float2(sampleIndex + 0.5, 0.5));
+    float hi = floor(float(waveData.r) * 255.0 + 0.5);
+    float lo = floor(float(waveData.g) * 255.0 + 0.5);
+    return (hi * 256.0 + lo) / 65535.0;
+}
+
 half4 main(float2 p) {
     half4 c = src.eval(p);
     float profileX = (p.x / max(1.0, uContainerWidthPx)) * max(0.0, uProfileWidthPx - 1.0);
-    half4 waveData = waveProfile.eval(float2(profileX, 0.5));
-    float hi = floor(float(waveData.r) * 255.0 + 0.5);
-    float lo = floor(float(waveData.g) * 255.0 + 0.5);
-    float yWaveNorm = (hi * 256.0 + lo) / 65535.0;
+    float i0 = floor(profileX);
+    float i1 = min(i0 + 1.0, max(0.0, uProfileWidthPx - 1.0));
+    float t = profileX - i0;
+    float y0 = decodeWaveYNormAt(i0);
+    float y1 = decodeWaveYNormAt(i1);
+    float yWaveNorm = mix(y0, y1, t);
     float yNorm = clamp(p.y / max(1.0, uContainerHeightPx), 0.0, 1.0);
     float bandNorm = clamp(uBandPx / max(1.0, uContainerHeightPx), 0.0, 1.0);
 
