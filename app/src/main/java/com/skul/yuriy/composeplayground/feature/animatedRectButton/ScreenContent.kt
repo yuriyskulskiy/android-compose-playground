@@ -63,7 +63,7 @@ fun AnimatedRectButtonScreenContent(
             modifier = Modifier
                 .size(width = 188.dp, height = 96.dp),
             onClick = {},
-            mainColor = Color.Green,
+            mainColor = Color.Red,
             blurRadius = 4.dp,
             shadowOffsetSize = 8.dp,
             text = "TEST",
@@ -230,16 +230,20 @@ private fun GlowingText(
     shadowOffset: Pair<Dp, Dp>,
     blurRadius: Dp
 ) {
-    Text(
-        text = text,
-        modifier = Modifier
-            .offset(
-                x = if (isPressed) 0.dp else shadowOffset.first,
-                y = if (isPressed) 0.dp else shadowOffset.second
-            ).blur(blurRadius),
-        color = textColor.copy(alpha = 0.8f),
-        fontSize = textSizeSp.sp
-    )
+    if (!isPressed) {
+        Text(
+            text = text,
+            modifier = Modifier
+                .offset(
+                    x = shadowOffset.first,
+                    y = shadowOffset.second
+                )
+                .blur(blurRadius),
+            color = textColor.copy(alpha = 0.8f),
+            fontSize = textSizeSp.sp
+        )
+    }
+
     Text(
         text = text,
         color = textColor,

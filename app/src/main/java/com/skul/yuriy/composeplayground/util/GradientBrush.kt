@@ -43,6 +43,27 @@ private val gradientColorStops2 = listOf(
     1.0f to Color(0xFF4B0000)   // Darker red at the end
 )
 
+fun cornerDarkRedLinearGradient2(): Brush = Brush.linearGradient(
+    colorStops = gradientColorStopsDarkRed2.toTypedArray(),
+    start = Offset(0f, 0f),
+    end = Offset(
+        Float.POSITIVE_INFINITY,
+        Float.POSITIVE_INFINITY
+    )
+)
+
+private val gradientColorStopsDarkRed2 = listOf(
+    0.0f to Color(0xFF000000),
+    0.15f to Color(0xFF320000),
+    0.35f to Color(0xFF000000),
+    0.63f to Color(0xFF000000),
+    0.73f to Color(0xFF320000),
+    0.80f to Color(0xFF320000),
+    0.90f to Color(0xFF320000),
+    0.95f to Color(0xFF000000),
+    1.0f to Color(0xFF000000)
+)
+
 
 val zebraWhiteBrush = Brush.linearGradient(
     colorStops = arrayOf(

@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.navigation.navigateUp
-import com.skul.yuriy.composeplayground.util.cornerRedLinearGradient2
+import com.skul.yuriy.composeplayground.util.cornerDarkRedLinearGradient2
 import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
 import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
 
@@ -40,7 +40,7 @@ fun AnimatedRectBtnScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = cornerRedLinearGradient2())
+            .background(brush = cornerDarkRedLinearGradient2())
             .navigationBarsPadding()
     ) {
 
