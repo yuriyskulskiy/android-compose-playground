@@ -23,6 +23,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -124,12 +125,11 @@ private fun RenderTypeSwitch(
     applyDifference: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val tabs = listOf(
-        ScreenMode.Canvas to "CNVS",
-        ScreenMode.Agsl to "AGSL",
-        ScreenMode.AgslCanvas to "A-CNVS"
-    )
-    val selectedIndex = tabs.indexOfFirst { it.first == selectedMode }.coerceAtLeast(0)
+    val selectedIndex = when (selectedMode) {
+        ScreenMode.Canvas -> 0
+        ScreenMode.Agsl -> 1
+        ScreenMode.AgslCanvas -> 2
+    }
 
     CompositionLocalProvider(LocalRippleConfiguration provides null) {
         PrimaryTabRow(
@@ -152,20 +152,23 @@ private fun RenderTypeSwitch(
                 )
             }
         ) {
-            tabs.forEachIndexed { index, (_, label) ->
+            renderTabs.forEachIndexed { index, tab ->
                 val isSelected = index == selectedIndex
                 val tabTextModifier = if (!isSelected && applyDifference) {
                     Modifier.invertByDifferenceBlend()
                 } else {
                     Modifier
                 }
+                val onClick = remember(tab.mode, onModeSelected) {
+                    { onModeSelected(tab.mode) }
+                }
 
                 Tab(
                     selected = isSelected,
-                    onClick = { onModeSelected(tabs[index].first) },
+                    onClick = onClick,
                     text = {
                         Text(
-                            text = label,
+                            text = tab.label,
                             color = if (isSelected) Color.Red else Color.Gray,
                             modifier = tabTextModifier
                         )
@@ -175,3 +178,14 @@ private fun RenderTypeSwitch(
         }
     }
 }
+
+private data class RenderTab(
+    val mode: ScreenMode,
+    val label: String,
+)
+
+private val renderTabs = listOf(
+    RenderTab(mode = ScreenMode.Canvas, label = "CNVS"),
+    RenderTab(mode = ScreenMode.Agsl, label = "AGSL"),
+    RenderTab(mode = ScreenMode.AgslCanvas, label = "A-CNVS")
+)

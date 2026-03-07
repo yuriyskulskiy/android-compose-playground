@@ -60,6 +60,9 @@ internal fun LiquidBottomBar(
                 val isSelected = selectedIndex == index
                 val isCanvasMode = screenMode == ScreenMode.Canvas
                 val interactionSource = remember { MutableInteractionSource() }
+                val onClick = remember(index, onSelectedIndexChange) {
+                    { onSelectedIndexChange(index) }
+                }
                 val isPressed by interactionSource.collectIsPressedAsState()
                 val pressedBgAlpha by animateFloatAsState(
                     targetValue = if (!isCanvasMode && isPressed) 0.15f else 0f,
@@ -91,11 +94,14 @@ internal fun LiquidBottomBar(
                 } else {
                     Modifier
                 }
-                val navItemContent: @Composable () -> Unit = {
+
+                CompositionLocalProvider(
+                    LocalRippleConfiguration provides null
+                ) {
                     NavigationBarItem(
                         modifier = navItemModifier,
                         selected = isSelected,
-                        onClick = { onSelectedIndexChange(index) },
+                        onClick = onClick,
                         interactionSource = interactionSource,
                         icon = {
                             androidx.compose.material3.Icon(
@@ -120,12 +126,6 @@ internal fun LiquidBottomBar(
                             indicatorColor = Color.Transparent
                         )
                     )
-                }
-
-                CompositionLocalProvider(
-                    LocalRippleConfiguration provides null
-                ) {
-                    navItemContent()
                 }
             }
         }

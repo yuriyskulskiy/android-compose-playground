@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -24,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
@@ -38,7 +38,7 @@ fun LiquidBarScreen(
     modifier: Modifier = Modifier
 ) {
     val navBackStack = LocalNavBackStack.current
-    val destinations = liquidBarDestinations()
+    val destinations = rememberLiquidBarDestinations()
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
     var screenMode by rememberSaveable { mutableStateOf(ScreenMode.Canvas) }
     val renderType = screenMode.toRenderType()
@@ -100,31 +100,23 @@ fun LiquidBarScreen(
     }
 }
 
-
 @Composable
-private fun liquidBarDestinations(): List<LiquidBarDestination> {
-    return listOf(
-        LiquidBarDestination(
-            label = stringResource(R.string.home),
-            icon = Icons.Filled.Home
-        ),
-        LiquidBarDestination(
-            label = stringResource(R.string.shopping_cart),
-            icon = Icons.Filled.ShoppingCart
-        ),
-        LiquidBarDestination(
-            label = stringResource(R.string.search),
-            icon = Icons.Filled.Search
-        ),
-        LiquidBarDestination(
-            label = stringResource(R.string.profile),
-            icon = Icons.Filled.Person
-        ),
-        LiquidBarDestination(
-            label = stringResource(R.string.settings),
-            icon = Icons.Filled.Settings
+private fun rememberLiquidBarDestinations(): List<LiquidBarDestination> {
+    val home = stringResource(R.string.home)
+    val shoppingCart = stringResource(R.string.shopping_cart)
+    val search = stringResource(R.string.search)
+    val profile = stringResource(R.string.profile)
+    val settings = stringResource(R.string.settings)
+
+    return remember(home, shoppingCart, search, profile, settings) {
+        listOf(
+            LiquidBarDestination(label = home, icon = Icons.Filled.Home),
+            LiquidBarDestination(label = shoppingCart, icon = Icons.Filled.ShoppingCart),
+            LiquidBarDestination(label = search, icon = Icons.Filled.Search),
+            LiquidBarDestination(label = profile, icon = Icons.Filled.Person),
+            LiquidBarDestination(label = settings, icon = Icons.Filled.Settings),
         )
-    )
+    }
 }
 
 private fun ScreenMode.toRenderType(): RenderType = when (this) {
