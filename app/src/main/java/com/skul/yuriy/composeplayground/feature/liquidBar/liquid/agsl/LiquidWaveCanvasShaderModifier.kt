@@ -8,7 +8,7 @@ import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
@@ -77,7 +77,6 @@ internal fun Modifier.liquidWaveCanvasShader(
     scale: Float,
     yGain: Float,
     sim: Wave1D,
-    bg: Color,
 ): Modifier {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return this
 
@@ -101,47 +100,37 @@ internal fun Modifier.liquidWaveCanvasShader(
     val runtimeShader = remember { RuntimeShader(LiquidWaveCanvasAglsl) }
     val shaderPaint = remember { Paint() }
 
-    profileBitmap.setPixels(waveProfileArgb, 0, profileWidth, 0, 0, profileWidth, 1)
     val profileShader = remember(profileBitmap) {
         BitmapShader(profileBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
     }
 
-    runtimeShader.setInputShader("waveProfile", profileShader)
-    runtimeShader.setFloatUniform("uContainerWidthPx", width.toFloat())
-    runtimeShader.setFloatUniform("uProfileWidthPx", profileWidth.toFloat())
-    runtimeShader.setFloatUniform("uContainerHeightPx", height.toFloat())
-    runtimeShader.setFloatUniform("uBandPx", bandPx)
-    runtimeShader.setFloatUniform(
-        "uIsTop",
-        if (interactiveContentPosition == InteractiveContentPosition.Top) 1f else 0f
-    )
-    runtimeShader.setFloatUniform(
-        "uWaveColor",
-        waveColor.red,
-        waveColor.green,
-        waveColor.blue,
-        waveColor.alpha
-    )
+    return this.then(
+        Modifier.drawWithCache {
+            shaderPaint.shader = runtimeShader
+            runtimeShader.setInputShader("waveProfile", profileShader)
+            runtimeShader.setFloatUniform("uContainerWidthPx", width.toFloat())
+            runtimeShader.setFloatUniform("uProfileWidthPx", profileWidth.toFloat())
+            runtimeShader.setFloatUniform("uContainerHeightPx", height.toFloat())
+            runtimeShader.setFloatUniform("uBandPx", bandPx)
+            runtimeShader.setFloatUniform(
+                "uIsTop",
+                if (interactiveContentPosition == InteractiveContentPosition.Top) 1f else 0f
+            )
+            runtimeShader.setFloatUniform(
+                "uWaveColor",
+                waveColor.red,
+                waveColor.green,
+                waveColor.blue,
+                waveColor.alpha
+            )
 
-    shaderPaint.shader = runtimeShader
-
-    val drawModifier = remember(
-        runtimeShader,
-        shaderPaint,
-        frameTick,
-        width,
-        height,
-        profileWidth,
-        bandPx,
-        waveColor,
-        bg
-    ) {
-        Modifier.drawBehind {
-            if (frameTick < 0) return@drawBehind
-            drawIntoCanvas { canvas ->
-                canvas.nativeCanvas.drawRect(0f, 0f, size.width, size.height, shaderPaint)
+            onDrawBehind {
+                if (frameTick < 0) return@onDrawBehind
+                profileBitmap.setPixels(waveProfileArgb, 0, profileWidth, 0, 0, profileWidth, 1)
+                drawIntoCanvas { canvas ->
+                    canvas.nativeCanvas.drawRect(0f, 0f, size.width, size.height, shaderPaint)
+                }
             }
         }
-    }
-    return this.then(drawModifier)
+    )
 }

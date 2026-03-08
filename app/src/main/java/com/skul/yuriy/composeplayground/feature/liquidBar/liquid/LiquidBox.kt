@@ -174,7 +174,6 @@ fun LiquidBox(
                     scale = scale,
                     yGain = yGain,
                     sim = sim,
-                    bg = bg
                 )
             }
         }
