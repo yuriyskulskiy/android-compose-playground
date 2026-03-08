@@ -80,7 +80,7 @@ fun LiquidBarScreen(
             onSelectedIndexChange = { selectedIndex = it },
             screenMode = screenMode,
             renderType = renderType,
-            clipContentByWavePath = clipContentByWavePath,
+            clipContentByWavePath = screenMode == ScreenMode.Canvas && clipContentByWavePath,
             liquidContainerHeight = liquidContainerHeight,
             navBarHeight = navBarHeight,
             bottomInset = bottomInset
@@ -92,14 +92,19 @@ fun LiquidBarScreen(
                 .align(Alignment.TopCenter),
             screenMode = screenMode,
             renderType = renderType,
-            clipContentByWavePath = clipContentByWavePath,
+            clipContentByWavePath = screenMode == ScreenMode.Canvas && clipContentByWavePath,
             topLiquidContainerHeight = topLiquidContainerHeight,
             topBarHitHeight = topBarHitHeight,
             topInset = topInset,
             onePixelDp = onePixelDp,
             topSwitchRowHeight = topSwitchRowHeight,
             onNavUp = { navBackStack.navigateUp() },
-            onModeSelected = { screenMode = it },
+            onModeSelected = {
+                screenMode = it
+                if (it != ScreenMode.Canvas) {
+                    clipContentByWavePath = false
+                }
+            },
             onClipToggle = { clipContentByWavePath = !clipContentByWavePath }
         )
     }
