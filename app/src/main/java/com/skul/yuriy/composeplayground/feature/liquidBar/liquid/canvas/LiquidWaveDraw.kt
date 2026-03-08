@@ -21,19 +21,38 @@ internal fun DrawScope.drawLiquidWave(
     sim: Wave1D,
 ) {
     if (frameTick < 0) return
+    if (bg.alpha > 0f) {
+        drawRect(bg)
+    }
 
+    val wavePath = buildLiquidWavePath(
+        containerSize = containerSize,
+        interactiveContentPosition = interactiveContentPosition,
+        plotWidth = plotWidth,
+        scale = scale,
+        yGain = yGain,
+        sim = sim
+    ) ?: return
+
+    drawPath(path = wavePath, color = waveColor)
+}
+
+internal fun buildLiquidWavePath(
+    containerSize: IntSize,
+    interactiveContentPosition: InteractiveContentPosition,
+    plotWidth: Float,
+    scale: Float,
+    yGain: Float,
+    sim: Wave1D,
+): Path? {
     val isTopInteractive = interactiveContentPosition == InteractiveContentPosition.Top
 
     val w = containerSize.width
     val h = containerSize.height
-    if (w <= 0 || h <= 0) return
+    if (w <= 0 || h <= 0) return null
 
     val wf = w.toFloat()
     val hf = h.toFloat()
-
-    if (bg.alpha > 0f) {
-        drawRect(bg)
-    }
 
     // Keep signature stable while hard-cut mode is active.
     plotWidth
@@ -60,7 +79,7 @@ internal fun DrawScope.drawLiquidWave(
         solidPath.lineTo(wf, hf)
         solidPath.close()
     }
-    drawPath(path = solidPath, color = waveColor)
+    return solidPath
 }
 
 private fun Path.addSmoothedWaveCurve(points: List<Offset>) {
