@@ -124,7 +124,7 @@ fun LiquidBox(
                 plotWidth = plotWidth,
                 scale = scale,
                 yGain = yGain,
-                sampleWave = { xNorm -> sim.sampleCurr(xNorm) }
+                sim = sim,
             )
         }
 
@@ -161,7 +161,7 @@ fun LiquidBox(
                         plotWidth = plotWidth,
                         scale = scale,
                         yGain = yGain,
-                        sampleWave = { xNorm -> sim.sampleCurr(xNorm) }
+                        sim = sim,
                     )
                 }
             } else {
