@@ -17,22 +17,24 @@ import androidx.compose.ui.zIndex
 @Composable
 fun LiquidBarContent(
     screenMode: ScreenMode,
+    clipContentByWavePath: Boolean,
     paddingValues: PaddingValues,
     contentText: String,
     modifier: Modifier = Modifier,
 ) {
+    val useCanvasDifference = screenMode == ScreenMode.Canvas && !clipContentByWavePath
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .then(
-                when (screenMode) {
-                    ScreenMode.Canvas -> Modifier
+                if (useCanvasDifference) {
+                    Modifier
                         .zIndex(10f)
                         .invertByDifferenceBlend()
                         .padding(paddingValues)
-
-                    ScreenMode.Agsl,
-                    ScreenMode.AgslCanvas -> Modifier
+                } else {
+                    Modifier
                 }
             )
             .verticalScroll(rememberScrollState())
@@ -40,20 +42,16 @@ fun LiquidBarContent(
         Text(
             modifier = Modifier
                 .then(
-                    when (screenMode) {
-                        ScreenMode.Canvas -> Modifier
-                        ScreenMode.Agsl,
-                        ScreenMode.AgslCanvas -> Modifier.padding(paddingValues)
+                    if (useCanvasDifference) {
+                        Modifier
+                    } else {
+                        Modifier.padding(paddingValues)
                     }
                 )
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             style = MaterialTheme.typography.bodyLarge,
             text = contentText,
-            color = when (screenMode) {
-                ScreenMode.Canvas -> Color.White
-                ScreenMode.Agsl,
-                ScreenMode.AgslCanvas -> Color.Black
-            }
+            color = if (useCanvasDifference) Color.White else Color.Black
         )
     }
 }

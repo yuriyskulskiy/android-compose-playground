@@ -36,6 +36,7 @@ internal fun LiquidBottomBar(
     onSelectedIndexChange: (Int) -> Unit,
     screenMode: ScreenMode,
     renderType: RenderType,
+    clipContentByWavePath: Boolean,
     liquidContainerHeight: Dp,
     navBarHeight: Dp,
     bottomInset: Dp,
@@ -49,38 +50,40 @@ internal fun LiquidBottomBar(
         bg = Color.Transparent,
         plotWidth = 0f,
         renderType = renderType,
+        clipContentByWavePath = clipContentByWavePath,
         waveColor = Color.Black,
         hitHeight = navBarHeight + bottomInset,
         interactiveContentPosition = InteractiveContentPosition.Bottom,
     ) {
+        val useCanvasDifference = screenMode == ScreenMode.Canvas && !clipContentByWavePath
+
         NavigationBar(
             containerColor = Color.Transparent
         ) {
             destinations.forEachIndexed { index, destination ->
                 val isSelected = selectedIndex == index
-                val isCanvasMode = screenMode == ScreenMode.Canvas
                 val interactionSource = remember { MutableInteractionSource() }
                 val onClick = remember(index, onSelectedIndexChange) {
                     { onSelectedIndexChange(index) }
                 }
                 val isPressed by interactionSource.collectIsPressedAsState()
                 val pressedBgAlpha by animateFloatAsState(
-                    targetValue = if (!isCanvasMode && isPressed) 0.15f else 0f,
+                    targetValue = if (!useCanvasDifference && isPressed) 0.15f else 0f,
                     animationSpec = tween(durationMillis = 180),
                     label = "BottomBarPressedBgAlpha"
                 )
                 val pressedBorderAlpha by animateFloatAsState(
-                    targetValue = if (!isCanvasMode && isPressed) 1f else 0f,
+                    targetValue = if (!useCanvasDifference && isPressed) 1f else 0f,
                     animationSpec = tween(durationMillis = 180),
                     label = "BottomBarPressedBorderAlpha"
                 )
                 val itemColor = if (isSelected) Color.Red else Color.White
-                val itemModifier = if (isCanvasMode && !isSelected) {
+                val itemModifier = if (useCanvasDifference && !isSelected) {
                     Modifier.invertByDifferenceBlend()
                 } else {
                     Modifier
                 }
-                val navItemModifier = if (!isCanvasMode) {
+                val navItemModifier = if (!useCanvasDifference) {
                     Modifier
                         .background(
                             color = Color.White.copy(alpha = pressedBgAlpha),

@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.liquidBar
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ContentCut
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,6 +42,7 @@ import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.RenderType
 internal fun LiquidTopBar(
     screenMode: ScreenMode,
     renderType: RenderType,
+    clipContentByWavePath: Boolean,
     topLiquidContainerHeight: Dp,
     topBarHitHeight: Dp,
     topInset: Dp,
@@ -47,8 +50,11 @@ internal fun LiquidTopBar(
     topSwitchRowHeight: Dp,
     onNavUp: () -> Unit,
     onModeSelected: (ScreenMode) -> Unit,
+    onClipToggle: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val useCanvasDifference = screenMode == ScreenMode.Canvas && !clipContentByWavePath
+
     LiquidBox(
         modifier = modifier
             .fillMaxWidth()
@@ -58,13 +64,14 @@ internal fun LiquidTopBar(
         plotWidth = 0f,
         bg = Color.Transparent,
         renderType = renderType,
+        clipContentByWavePath = clipContentByWavePath,
         hitHeight = topBarHitHeight,
         interactiveContentPosition = InteractiveContentPosition.Top,
     ) {
-        val topBarContentModifier = when (screenMode) {
-            ScreenMode.Canvas -> Modifier.invertByDifferenceBlend()
-            ScreenMode.Agsl -> Modifier
-            ScreenMode.AgslCanvas -> Modifier
+        val topBarContentModifier = if (useCanvasDifference) {
+            Modifier.invertByDifferenceBlend()
+        } else {
+            Modifier
         }
 
         Column(
@@ -96,6 +103,21 @@ internal fun LiquidTopBar(
                             modifier = topBarContentModifier
                         )
                     }
+                },
+                actions = {
+                    AnimatedVisibility(visible = screenMode == ScreenMode.Canvas) {
+                        IconButton(onClick = onClipToggle) {
+                            Icon(
+                                imageVector = Icons.Filled.ContentCut,
+                                contentDescription = if (clipContentByWavePath) {
+                                    stringResource(R.string.clip_wave_on)
+                                } else {
+                                    stringResource(R.string.clip_wave_off)
+                                },
+                                tint = if (clipContentByWavePath) Color.Red else Color.Gray
+                            )
+                        }
+                    }
                 }
             )
             Box(
@@ -107,7 +129,7 @@ internal fun LiquidTopBar(
             RenderTypeSwitch(
                 selectedMode = screenMode,
                 onModeSelected = onModeSelected,
-                applyDifference = screenMode == ScreenMode.Canvas,
+                applyDifference = useCanvasDifference,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(topSwitchRowHeight)

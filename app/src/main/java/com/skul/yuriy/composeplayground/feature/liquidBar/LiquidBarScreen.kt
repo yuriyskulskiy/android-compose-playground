@@ -41,6 +41,7 @@ fun LiquidBarScreen(
     val destinations = rememberLiquidBarDestinations()
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
     var screenMode by rememberSaveable { mutableStateOf(ScreenMode.Canvas) }
+    var clipContentByWavePath by rememberSaveable { mutableStateOf(false) }
     val renderType = screenMode.toRenderType()
     val baseText = stringResource(R.string.very_long_mock_text).trimIndent()
     val contentText = "$baseText\n\n$baseText"
@@ -64,6 +65,7 @@ fun LiquidBarScreen(
     ) {
         LiquidBarContent(
             screenMode = screenMode,
+            clipContentByWavePath = clipContentByWavePath,
             paddingValues = contentPadding,
             contentText = contentText,
             modifier = Modifier
@@ -78,6 +80,7 @@ fun LiquidBarScreen(
             onSelectedIndexChange = { selectedIndex = it },
             screenMode = screenMode,
             renderType = renderType,
+            clipContentByWavePath = screenMode == ScreenMode.Canvas && clipContentByWavePath,
             liquidContainerHeight = liquidContainerHeight,
             navBarHeight = navBarHeight,
             bottomInset = bottomInset
@@ -89,13 +92,20 @@ fun LiquidBarScreen(
                 .align(Alignment.TopCenter),
             screenMode = screenMode,
             renderType = renderType,
+            clipContentByWavePath = screenMode == ScreenMode.Canvas && clipContentByWavePath,
             topLiquidContainerHeight = topLiquidContainerHeight,
             topBarHitHeight = topBarHitHeight,
             topInset = topInset,
             onePixelDp = onePixelDp,
             topSwitchRowHeight = topSwitchRowHeight,
             onNavUp = { navBackStack.navigateUp() },
-            onModeSelected = { screenMode = it }
+            onModeSelected = {
+                screenMode = it
+                if (it != ScreenMode.Canvas) {
+                    clipContentByWavePath = false
+                }
+            },
+            onClipToggle = { clipContentByWavePath = !clipContentByWavePath }
         )
     }
 }

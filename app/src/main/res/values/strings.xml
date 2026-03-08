@@ -49,6 +49,8 @@
     <string name="render_effect_blur_scaled_glow">RenderEffect Blur + Scaled Glow</string>
     <string name="clipped_default_android_shadow">Clipped Default Android Shadow</string>
     <string name="go_back">Go Back</string>
+    <string name="clip_wave_on">Wave clip enabled</string>
+    <string name="clip_wave_off">Wave clip disabled</string>
     <string name="halo">Halo</string>
     <string name="pressed">Pressed</string>
     <string name="body">Body</string>

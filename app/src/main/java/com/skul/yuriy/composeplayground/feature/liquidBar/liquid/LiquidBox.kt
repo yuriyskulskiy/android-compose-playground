@@ -17,15 +17,18 @@ import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.agsl.liquidWaveCanvasShader
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.agsl.rememberLiquidWaveRenderEffectOrNull
+import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.canvas.buildLiquidWavePath
 import com.skul.yuriy.composeplayground.feature.liquidBar.liquid.canvas.drawLiquidWave
 import kotlinx.coroutines.isActive
 
@@ -54,6 +57,7 @@ enum class InteractiveContentPosition {
  * @param waveColor Foreground liquid color.
  * @param dragThrottleMs Min time between touch injections while dragging.
  * @param renderType Render pipeline mode.
+ * @param clipContentByWavePath If true, content is clipped by wave path in Canvas rendering mode.
  * @param hitHeight Interactive zone height. If null, full container is interactive.
  * @param interactiveContentPosition Interactive zone position inside container.
  * @param content Bottom-zone content (typically navigation bar items).
@@ -74,6 +78,7 @@ fun LiquidBox(
     waveColor: Color = Color.White,
     dragThrottleMs: Long = 12L, // inject at most ~83 Hz while dragging
     renderType: RenderType = RenderType.CANVAS,
+    clipContentByWavePath: Boolean = false,
     hitHeight: Dp? = null,
     interactiveContentPosition: InteractiveContentPosition = InteractiveContentPosition.Bottom,
     content: @Composable () -> Unit
@@ -114,18 +119,45 @@ fun LiquidBox(
     var hitZoneSize by remember { mutableStateOf(IntSize.Zero) }
 
     val renderModifier = when (renderType) {
-        RenderType.CANVAS -> Modifier.drawBehind {
-            drawLiquidWave(
-                frameTick = frameTick,
-                containerSize = containerSize,
-                interactiveContentPosition = interactiveContentPosition,
-                bg = bg,
-                waveColor = waveColor,
-                plotWidth = plotWidth,
-                scale = scale,
-                yGain = yGain,
-                sampleWave = { xNorm -> sim.sampleCurr(xNorm) }
-            )
+        RenderType.CANVAS -> {
+            if (clipContentByWavePath) {
+                Modifier.drawWithContent {
+                    if (frameTick < 0) return@drawWithContent
+                    if (bg.alpha > 0f) {
+                        drawRect(bg)
+                    }
+                    val wavePath = buildLiquidWavePath(
+                        containerSize = containerSize,
+                        interactiveContentPosition = interactiveContentPosition,
+                        plotWidth = plotWidth,
+                        scale = scale,
+                        yGain = yGain,
+                        sim = sim
+                    )
+                    if (wavePath != null) {
+                        drawPath(path = wavePath, color = waveColor)
+                        clipPath(wavePath) {
+                            this@drawWithContent.drawContent()
+                        }
+                    } else {
+                        drawContent()
+                    }
+                }
+            } else {
+                Modifier.drawBehind {
+                    drawLiquidWave(
+                        frameTick = frameTick,
+                        containerSize = containerSize,
+                        interactiveContentPosition = interactiveContentPosition,
+                        bg = bg,
+                        waveColor = waveColor,
+                        plotWidth = plotWidth,
+                        scale = scale,
+                        yGain = yGain,
+                        sim = sim,
+                    )
+                }
+            }
         }
 
         RenderType.AGSL -> {
@@ -151,18 +183,43 @@ fun LiquidBox(
 
         RenderType.AGSL_CANVAS -> {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                Modifier.drawBehind {
-                    drawLiquidWave(
-                        frameTick = frameTick,
-                        containerSize = containerSize,
-                        interactiveContentPosition = interactiveContentPosition,
-                        bg = bg,
-                        waveColor = waveColor,
-                        plotWidth = plotWidth,
-                        scale = scale,
-                        yGain = yGain,
-                        sampleWave = { xNorm -> sim.sampleCurr(xNorm) }
-                    )
+                if (clipContentByWavePath) {
+                    Modifier.drawWithContent {
+                        if (frameTick < 0) return@drawWithContent
+                        if (bg.alpha > 0f) {
+                            drawRect(bg)
+                        }
+                        val wavePath = buildLiquidWavePath(
+                            containerSize = containerSize,
+                            interactiveContentPosition = interactiveContentPosition,
+                            plotWidth = plotWidth,
+                            scale = scale,
+                            yGain = yGain,
+                            sim = sim
+                        )
+                        if (wavePath != null) {
+                            drawPath(path = wavePath, color = waveColor)
+                            clipPath(wavePath) {
+                                this@drawWithContent.drawContent()
+                            }
+                        } else {
+                            drawContent()
+                        }
+                    }
+                } else {
+                    Modifier.drawBehind {
+                        drawLiquidWave(
+                            frameTick = frameTick,
+                            containerSize = containerSize,
+                            interactiveContentPosition = interactiveContentPosition,
+                            bg = bg,
+                            waveColor = waveColor,
+                            plotWidth = plotWidth,
+                            scale = scale,
+                            yGain = yGain,
+                            sim = sim,
+                        )
+                    }
                 }
             } else {
                 Modifier.liquidWaveCanvasShader(
@@ -174,7 +231,6 @@ fun LiquidBox(
                     scale = scale,
                     yGain = yGain,
                     sim = sim,
-                    bg = bg
                 )
             }
         }
