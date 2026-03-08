@@ -30,7 +30,9 @@ internal fun DrawScope.drawLiquidWave(
     val wf = w.toFloat()
     val hf = h.toFloat()
 
-    drawRect(bg)
+    if (bg.alpha > 0f) {
+        drawRect(bg)
+    }
 
     // Convert plotWidth in "scaled space" into pixels.
     val bandPx = (plotWidth / scale) * hf
