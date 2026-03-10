@@ -19,6 +19,7 @@
     <string name="metaball_basics_next">Next</string>
     <string name="metaball_edge_advanced">Metaball Edge Advanced</string>
     <string name="custom_alpha_blur">Custom Blur</string>
+    <string name="custom_alpha_blur_radial">Custom Blur Radial</string>
     <string name="liquid_bar">Liquid Bar</string>
     <string name="pde_liquid_bar_title">PDE Liquid Bar</string>
     <string name="sticky_header_state_tracker">Sticky header state tracker</string>

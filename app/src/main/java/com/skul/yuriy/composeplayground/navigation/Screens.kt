@@ -64,6 +64,9 @@ sealed interface Screens : NavKey {
     data object CustomBlur : Screens
 
     @Serializable
+    data object CustomBlurRadial : Screens
+
+    @Serializable
     data object MetaballEdgeAdvanced : Screens
 
     @Serializable

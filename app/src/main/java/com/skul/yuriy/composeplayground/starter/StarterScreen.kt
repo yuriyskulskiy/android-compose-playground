@@ -22,6 +22,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedElevationEd
 import com.skul.yuriy.composeplayground.navigation.navigateToBottomEdgeShadowScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToCircularHaloBorder
 import com.skul.yuriy.composeplayground.navigation.navigateToCustomAlphaBlur
+import com.skul.yuriy.composeplayground.navigation.navigateToCustomAlphaBlurRadial
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToLiquidBar
@@ -69,6 +70,10 @@ fun NavigationContent(modifier: Modifier) {
         NavigationItem(
             text = stringResource(R.string.liquid_bar),
             onClick = { localNavBackStack.navigateToLiquidBar() })
+
+        NavigationItem(
+            text = stringResource(R.string.custom_alpha_blur_radial),
+            onClick = { localNavBackStack.navigateToCustomAlphaBlurRadial() })
 
         //todo soon
 //        NavigationItem(
