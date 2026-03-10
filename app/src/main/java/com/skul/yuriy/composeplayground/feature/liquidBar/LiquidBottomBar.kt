@@ -1,15 +1,9 @@
 package com.skul.yuriy.composeplayground.feature.liquidBar
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -17,7 +11,6 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,34 +59,9 @@ internal fun LiquidBottomBar(
                 val onClick = remember(index, onSelectedIndexChange) {
                     { onSelectedIndexChange(index) }
                 }
-                val isPressed by interactionSource.collectIsPressedAsState()
-                val pressedBgAlpha by animateFloatAsState(
-                    targetValue = if (!useCanvasDifference && isPressed) 0.15f else 0f,
-                    animationSpec = tween(durationMillis = 180),
-                    label = "BottomBarPressedBgAlpha"
-                )
-                val pressedBorderAlpha by animateFloatAsState(
-                    targetValue = if (!useCanvasDifference && isPressed) 1f else 0f,
-                    animationSpec = tween(durationMillis = 180),
-                    label = "BottomBarPressedBorderAlpha"
-                )
                 val itemColor = if (isSelected) Color.Red else Color.White
                 val itemModifier = if (useCanvasDifference && !isSelected) {
                     Modifier.invertByDifferenceBlend()
-                } else {
-                    Modifier
-                }
-                val navItemModifier = if (!useCanvasDifference) {
-                    Modifier
-                        .background(
-                            color = Color.White.copy(alpha = pressedBgAlpha),
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .border(
-                            width = 1.dp,
-                            color = Color.White.copy(alpha = pressedBorderAlpha),
-                            shape = RoundedCornerShape(16.dp)
-                        )
                 } else {
                     Modifier
                 }
@@ -102,7 +70,7 @@ internal fun LiquidBottomBar(
                     LocalRippleConfiguration provides null
                 ) {
                     NavigationBarItem(
-                        modifier = navItemModifier,
+                        modifier = Modifier,
                         selected = isSelected,
                         onClick = onClick,
                         interactionSource = interactionSource,
