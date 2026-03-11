@@ -35,7 +35,7 @@ internal fun FireShaderDraftExampleItem(
 
     RectLabeledSectionWrapper(
         modifier = modifier.fillMaxWidth(),
-        text = stringResource(R.string.fire_shader_draft),
+        text = stringResource(R.string.fire_shader),
         topSpacerHeight = 8.dp
     ) {
         Box(
