@@ -10,6 +10,7 @@ import com.skul.yuriy.composeplayground.feature.animatedBorderRect.items.BlurMas
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.items.FireShaderDraftExampleItem
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.items.GradientExampleItem
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.items.MultiLayerExampleItem
+import com.skul.yuriy.composeplayground.feature.animatedBorderRect.items.PngAssetExampleItem
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.items.RenderEffectBlurExampleItem
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.items.ShadowLayerExampleItem
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.items.SimpleAgslExampleItem
@@ -28,6 +29,7 @@ fun ScreenContent(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        PngAssetExampleItem(common = commonSpec)
         MultiLayerExampleItem(common = commonSpec)
         BlurMaskExampleItem(common = commonSpec)
         RenderEffectBlurExampleItem(common = commonSpec)
