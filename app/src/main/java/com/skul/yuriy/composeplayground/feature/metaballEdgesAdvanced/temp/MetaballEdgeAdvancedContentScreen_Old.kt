@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.metaballEdgesAdvanced
+package com.skul.yuriy.composeplayground.feature.metaballEdgesAdvanced.temp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -30,7 +30,7 @@ import com.skul.yuriy.composeplayground.feature.customAlphaBlur.effects.complex.
 import com.skul.yuriy.composeplayground.util.renderEffect.alphaThreshold20PercentEffect
 
 @Composable
-fun MetaballEdgeAdvancedContent(
+fun MetaballEdgeAdvancedContentScreen_old(
     modifier: Modifier = Modifier,
     blurRadius: Dp,
     blurMode: MetaballEdgeAdvancedMode,
