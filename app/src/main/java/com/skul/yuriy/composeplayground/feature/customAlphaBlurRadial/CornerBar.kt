@@ -3,8 +3,8 @@ package com.skul.yuriy.composeplayground.feature.customAlphaBlurRadial
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Switch
@@ -27,20 +27,21 @@ internal fun BoxScope.CornerBar(
     Box(
         modifier = modifier
             .align(Alignment.BottomEnd)
+            .navigationBarsPadding()
             .size(cornerRadius * 2)
             .offset(x = cornerRadius, y = cornerRadius)
             .clip(CircleShape)
             .background(Color.Black)
-    ) {
-        Switch(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = Color.Red
-            ),
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(6.dp)
-        )
-    }
+    )
+
+    Switch(
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        colors = SwitchDefaults.colors(
+            checkedTrackColor = Color.Red
+        ),
+        modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .navigationBarsPadding()
+    )
 }
