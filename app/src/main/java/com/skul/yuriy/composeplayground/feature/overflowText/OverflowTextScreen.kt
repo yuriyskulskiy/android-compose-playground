@@ -76,7 +76,7 @@ fun OverflowTextScreen(
 
                 HorizontalDivider(
                     thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.outlineVariant,
                 )
             }
         },
