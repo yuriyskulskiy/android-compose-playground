@@ -26,6 +26,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToCustomAlphaBlurRadi
 import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToLiquidBar
+import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdgeAdvanced
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballPrimer
@@ -60,6 +61,7 @@ fun NavigationContent(modifier: Modifier) {
         horizontalAlignment = Alignment.Start
     ) {
         val localNavBackStack = LocalNavBackStack.current
+
         NavigationItem(
             text = stringResource(R.string.animated_rect_button),
             onClick = { localNavBackStack.navigateToAnimatedRectBtn() })
@@ -75,15 +77,13 @@ fun NavigationContent(modifier: Modifier) {
             text = stringResource(R.string.custom_alpha_blur_radial),
             onClick = { localNavBackStack.navigateToCustomAlphaBlurRadial() })
 
-        //todo soon
-//        NavigationItem(
-//            text = stringResource(R.string.metaball_edge_advanced),
-//            onClick = { localNavBackStack.navigateToMetaballEdgeAdvanced() })
-
         NavigationItem(
             text = stringResource(R.string.custom_alpha_blur),
             onClick = { localNavBackStack.navigateToCustomAlphaBlur() })
 
+        NavigationItem(
+            text = stringResource(R.string.metaball_edge_advanced),
+            onClick = { localNavBackStack.navigateToMetaballEdgeAdvanced() })
 
         NavigationItem(
             text = stringResource(R.string.metaball_edge),
