@@ -29,6 +29,7 @@ import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.textScreen.
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
 import com.skul.yuriy.composeplayground.feature.metaballClassic.MetaballClassicScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesRegular.MetaballEdgeRegularScreen
+import com.skul.yuriy.composeplayground.feature.overflowText.OverflowTextScreen
 import com.skul.yuriy.composeplayground.feature.parallax.ParallaxRoute
 import com.skul.yuriy.composeplayground.feature.rotationArk.AnimatedArkScreen
 import com.skul.yuriy.composeplayground.feature.scrollEdge.animatedElevation.AnimatedElevationRoute
@@ -84,6 +85,7 @@ internal fun AppRoot(
                     entry<Screens.CustomBlur> { CustomBlurScreen() }
                     entry<Screens.CustomBlurRadial> { CustomBlurRadialScreen() }
                     entry<Screens.MetaballEdgeAdvanced> { MetaballEdgeAdvancedScreen() }
+                    entry<Screens.OverflowText> { OverflowTextScreen() }
                     entry<Screens.MetaballBasicTextAndEdge> { MetaballEdgeTextScreen() }
                     entry<Screens.TextMetaballConcept> { TextMetaballConceptScreen() }
                     //todo rename last 4 screens according to feature screen names

@@ -31,6 +31,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballPrimer
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballsScreen
+import com.skul.yuriy.composeplayground.navigation.navigateToOverflowText
 import com.skul.yuriy.composeplayground.navigation.navigateToParallax
 import com.skul.yuriy.composeplayground.navigation.navigateToShadowBox
 import com.skul.yuriy.composeplayground.navigation.navigateToStickyHeaderStateTracker
@@ -62,6 +63,9 @@ fun NavigationContent(modifier: Modifier) {
     ) {
         val localNavBackStack = LocalNavBackStack.current
 
+        NavigationItem(
+            text = stringResource(R.string.overflow_text),
+            onClick = { localNavBackStack.navigateToOverflowText() })
         NavigationItem(
             text = stringResource(R.string.animated_rect_button),
             onClick = { localNavBackStack.navigateToAnimatedRectBtn() })

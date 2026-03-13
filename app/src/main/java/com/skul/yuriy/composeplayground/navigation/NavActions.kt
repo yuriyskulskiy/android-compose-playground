@@ -94,6 +94,9 @@ fun NavBackStack<NavKey>.navigateToCustomAlphaBlurRadial() =
 fun NavBackStack<NavKey>.navigateToMetaballEdgeAdvanced() =
     navigate(Screens.MetaballEdgeAdvanced)
 
+fun NavBackStack<NavKey>.navigateToOverflowText() =
+    navigate(Screens.OverflowText)
+
 fun NavBackStack<NavKey>.navigateToMetaballPrimer() =
     navigate(Screens.MetaballBasicTextAndEdge)
 
