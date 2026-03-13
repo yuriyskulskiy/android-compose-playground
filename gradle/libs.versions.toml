@@ -3,6 +3,7 @@ agp = "9.0.0"
 coilCompose = "2.7.0"
 kotlin = "2.3.10"
 coreKtx = "1.17.0"
+coreSplashscreen = "1.0.1"
 lifecycleVer = "2.10.0"
 ksp = "2.3.4"
 
@@ -22,6 +23,7 @@ lifecycleViewmodelNav3 = "2.10.0"
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleVer" }
