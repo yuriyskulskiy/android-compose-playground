@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 
 @Composable
@@ -17,5 +18,10 @@ internal fun FlowText_try2(
         text = "$text\n\n$text",
         modifier = modifier.fillMaxWidth(),
         style = MaterialTheme.typography.bodyMedium,
+        config = FloatingBoxConfig(
+            width = 100.dp,
+            height = 135.dp,
+            gap = 16.dp,
+        ),
     )
 }

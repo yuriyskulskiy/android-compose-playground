@@ -28,6 +28,7 @@ internal class MyParagraphLayoutCache(
     private var text: String,
     private var style: TextStyle,
     private var fontFamilyResolver: FontFamily.Resolver,
+    private var config: FloatingBoxConfig? = null,
     private var overflow: TextOverflow = TextOverflow.Clip,
     private var softWrap: Boolean = true,
     private var maxLines: Int = Int.MAX_VALUE,
@@ -35,7 +36,7 @@ internal class MyParagraphLayoutCache(
 ) {
     var density: Density? = null
 
-    var paragraph: Paragraph? = null
+    var fragments: List<FlowTextFragment> = emptyList()
         private set
 
     var didOverflow: Boolean = false
@@ -46,6 +47,7 @@ internal class MyParagraphLayoutCache(
 
     private var paragraphIntrinsics: ParagraphIntrinsics? = null
     private var intrinsicsLayoutDirection: LayoutDirection? = null
+    private var previousConfig: FloatingBoxConfig? = null
     private var prevConstraints: Constraints = Constraints.fixed(0, 0)
     private var cachedIntrinsicHeightInputWidth: Int = -1
     private var cachedIntrinsicHeight: Int = -1
@@ -54,6 +56,7 @@ internal class MyParagraphLayoutCache(
         text: String,
         style: TextStyle,
         fontFamilyResolver: FontFamily.Resolver,
+        config: FloatingBoxConfig?,
         overflow: TextOverflow,
         softWrap: Boolean,
         maxLines: Int,
@@ -62,6 +65,7 @@ internal class MyParagraphLayoutCache(
         this.text = text
         this.style = style
         this.fontFamilyResolver = fontFamilyResolver
+        this.config = config
         this.overflow = overflow
         this.softWrap = softWrap
         this.maxLines = maxLines
@@ -70,53 +74,46 @@ internal class MyParagraphLayoutCache(
     }
 
     fun layoutWithConstraints(constraints: Constraints, layoutDirection: LayoutDirection): Boolean {
-        // TODO MODIFY: flow-around support needs layout that depends on obstacle geometry per line.
+        // TODO MODIFY: this is only the first fragment-based path for the top-end floating box.
         val finalConstraints = constraints
         if (!newLayoutWillBeDifferent(finalConstraints, layoutDirection)) {
             if (finalConstraints != prevConstraints) {
-                val localParagraph = paragraph!!
-                val layoutWidth = min(localParagraph.maxIntrinsicWidth, localParagraph.width)
-                val localSize =
-                    finalConstraints.constrain(
-                        IntSize(layoutWidth.ceilToIntPx(), localParagraph.height.ceilToIntPx()),
-                    )
-                layoutSize = localSize
+                val naturalSize = calculateNaturalSize(fragments)
+                layoutSize = finalConstraints.constrain(naturalSize)
                 didOverflow =
                     overflow != TextOverflow.Visible &&
-                        (localSize.width < localParagraph.width ||
-                            localSize.height < localParagraph.height)
+                        (layoutSize.width < naturalSize.width ||
+                            layoutSize.height < naturalSize.height ||
+                            fragments.any { it.paragraph.didExceedMaxLines })
                 prevConstraints = finalConstraints
             }
             return false
         }
 
-        paragraph =
-            layoutText(finalConstraints, layoutDirection).also {
-                prevConstraints = finalConstraints
-                val localSize =
-                    finalConstraints.constrain(
-                        IntSize(it.width.ceilToIntPx(), it.height.ceilToIntPx()),
-                    )
-                layoutSize = localSize
-                didOverflow =
-                    overflow != TextOverflow.Visible &&
-                        (localSize.width < it.width || localSize.height < it.height)
-            }
+        fragments = layoutFragments(finalConstraints, layoutDirection)
+        prevConstraints = finalConstraints
+        previousConfig = config
+        val naturalSize = calculateNaturalSize(fragments)
+        layoutSize = finalConstraints.constrain(naturalSize)
+        didOverflow =
+            overflow != TextOverflow.Visible &&
+                (layoutSize.width < naturalSize.width ||
+                    layoutSize.height < naturalSize.height ||
+                    fragments.any { it.paragraph.didExceedMaxLines })
 
         return true
     }
 
     fun intrinsicHeight(width: Int, layoutDirection: LayoutDirection): Int {
-        // TODO MODIFY: intrinsic height will need flow-aware line computation.
+        // TODO MODIFY: this now uses fragments, but still only for the first simplified flow path.
         if (width == cachedIntrinsicHeightInputWidth && cachedIntrinsicHeightInputWidth != -1) {
             return cachedIntrinsicHeight
         }
 
         val constraints = Constraints(0, width, 0, Constraints.Infinity)
         val result =
-            layoutText(constraints, layoutDirection)
+            calculateNaturalSize(layoutFragments(constraints, layoutDirection))
                 .height
-                .ceilToIntPx()
                 .coerceAtLeast(constraints.minHeight)
 
         cachedIntrinsicHeightInputWidth = width
@@ -196,17 +193,133 @@ internal class MyParagraphLayoutCache(
         return intrinsics
     }
 
-    private fun layoutText(constraints: Constraints, layoutDirection: LayoutDirection): Paragraph {
-        // TODO MODIFY: this currently computes one regular Paragraph with one effective width.
-        val localParagraphIntrinsics = setLayoutDirection(layoutDirection)
+    private fun layoutFragments(
+        constraints: Constraints,
+        layoutDirection: LayoutDirection,
+    ): List<FlowTextFragment> {
+        intrinsicsLayoutDirection = layoutDirection
+        val localConfig = config
+        if (
+            localConfig == null ||
+                !softWrap ||
+                !constraints.hasBoundedWidth ||
+                constraints.maxWidth == Constraints.Infinity
+        ) {
+            return listOf(
+                FlowTextFragment(
+                    paragraph = layoutText(text = text, constraints = constraints, layoutDirection = layoutDirection),
+                    offsetX = 0,
+                    offsetY = 0,
+                ),
+            )
+        }
+
+        val localDensity = checkNotNull(density) { "Density must be set before layout." }
+        val topFragmentWidth = max(1, constraints.maxWidth - localDensity.run { localConfig.width.roundToPx() + localConfig.gap.roundToPx() })
+        val topFragmentHeight = max(0, localDensity.run { localConfig.height.roundToPx() })
+        val fullWidth = max(1, constraints.maxWidth)
+        val finalMaxLines = finalMaxLines(softWrap = softWrap, overflow = overflow, maxLinesIn = maxLines)
+
+        if (topFragmentHeight == 0 || topFragmentWidth >= fullWidth || text.isEmpty()) {
+            return listOf(
+                FlowTextFragment(
+                    paragraph = layoutText(text = text, constraints = constraints, layoutDirection = layoutDirection),
+                    offsetX = 0,
+                    offsetY = 0,
+                ),
+            )
+        }
+
+        val topMeasurement = layoutText(
+            text = text,
+            constraints = Constraints(0, topFragmentWidth, 0, topFragmentHeight),
+            layoutDirection = layoutDirection,
+            maxLines = finalMaxLines,
+            overflow = TextOverflow.Clip,
+        )
+        val consumedCharacterCount =
+            consumedCharacterCountForHeight(
+                paragraph = topMeasurement,
+                text = text,
+                availableHeight = topFragmentHeight,
+            )
+        if (consumedCharacterCount <= 0) {
+            return listOf(
+                FlowTextFragment(
+                    paragraph = layoutText(text = text, constraints = constraints, layoutDirection = layoutDirection),
+                    offsetX = 0,
+                    offsetY = 0,
+                ),
+            )
+        }
+        if (consumedCharacterCount >= text.length) {
+            return listOf(
+                FlowTextFragment(
+                    paragraph = topMeasurement,
+                    offsetX = 0,
+                    offsetY = 0,
+                ),
+            )
+        }
+
+        val topText = text.substring(0, consumedCharacterCount)
+        val remainingText = text.substring(consumedCharacterCount)
+        val topParagraph = layoutText(
+            text = topText,
+            constraints = Constraints(0, topFragmentWidth, 0, Constraints.Infinity),
+            layoutDirection = layoutDirection,
+            maxLines = finalMaxLines,
+            overflow = TextOverflow.Clip,
+        )
+        val remainingLines = (finalMaxLines - topParagraph.lineCount).coerceAtLeast(1)
+        val bottomParagraph = layoutText(
+            text = remainingText,
+            constraints = Constraints(0, fullWidth, 0, constraints.maxHeight),
+            layoutDirection = layoutDirection,
+            maxLines = remainingLines,
+            overflow = overflow,
+        )
+
+        return listOf(
+            FlowTextFragment(
+                paragraph = topParagraph,
+                offsetX = 0,
+                offsetY = 0,
+            ),
+            FlowTextFragment(
+                paragraph = bottomParagraph,
+                offsetX = 0,
+                offsetY = topParagraph.height.ceilToIntPx(),
+            ),
+        )
+    }
+
+    private fun layoutText(
+        text: String,
+        constraints: Constraints,
+        layoutDirection: LayoutDirection,
+        maxLines: Int = this.maxLines,
+        overflow: TextOverflow = this.overflow,
+    ): Paragraph {
+        // TODO MODIFY: this helper still creates one rectangular Paragraph per fragment.
+        val resolvedStyle = resolveDefaults(style, layoutDirection)
+        val paragraphIntrinsics =
+            ParagraphIntrinsics(
+                text = text,
+                style = resolvedStyle,
+                annotations = listOf(),
+                density = checkNotNull(density) { "Density must be set before layout." },
+                fontFamilyResolver = fontFamilyResolver,
+                placeholders = listOf(),
+            )
         return Paragraph(
-            paragraphIntrinsics = localParagraphIntrinsics,
+            paragraphIntrinsics = paragraphIntrinsics,
             constraints =
                 finalConstraints(
                     constraints = constraints,
                     softWrap = softWrap,
                     overflow = overflow,
-                    maxIntrinsicWidth = localParagraphIntrinsics.maxIntrinsicWidth,
+                    maxIntrinsicWidth = paragraphIntrinsics.maxIntrinsicWidth,
                 ),
             maxLines = finalMaxLines(softWrap = softWrap, overflow = overflow, maxLinesIn = maxLines),
             overflow = overflow,
@@ -218,27 +331,71 @@ internal class MyParagraphLayoutCache(
         layoutDirection: LayoutDirection,
     ): Boolean {
         // TODO MODIFY: cache invalidation will also need to depend on floating box geometry.
-        val localParagraph = paragraph ?: return true
+        if (fragments.isEmpty()) return true
         val localParagraphIntrinsics = paragraphIntrinsics ?: return true
         if (localParagraphIntrinsics.hasStaleResolvedFonts) return true
         if (layoutDirection != intrinsicsLayoutDirection) return true
+        if (config != previousConfig) return true
         if (constraints == prevConstraints) return false
         if (constraints.maxWidth != prevConstraints.maxWidth) return true
         if (constraints.minWidth != prevConstraints.minWidth) return true
-        if (constraints.maxHeight < localParagraph.height || localParagraph.didExceedMaxLines) return true
+        if (constraints.maxHeight < layoutSize.height || fragments.any { it.paragraph.didExceedMaxLines }) {
+            return true
+        }
         return false
     }
 
     private fun markDirty() {
-        paragraph = null
+        fragments = emptyList()
         paragraphIntrinsics = null
         intrinsicsLayoutDirection = null
+        previousConfig = null
         cachedIntrinsicHeightInputWidth = -1
         cachedIntrinsicHeight = -1
         prevConstraints = Constraints.fixed(0, 0)
         layoutSize = IntSize.Zero
         didOverflow = false
     }
+}
+
+internal data class FlowTextFragment(
+    val paragraph: Paragraph,
+    val offsetX: Int,
+    val offsetY: Int,
+)
+
+private fun calculateNaturalSize(fragments: List<FlowTextFragment>): IntSize {
+    if (fragments.isEmpty()) return IntSize.Zero
+    val width =
+        fragments.maxOf { fragment ->
+            fragment.offsetX + fragment.paragraph.width.ceilToIntPx()
+        }
+    val height =
+        fragments.maxOf { fragment ->
+            fragment.offsetY + fragment.paragraph.height.ceilToIntPx()
+        }
+    return IntSize(width = width, height = height)
+}
+
+private fun consumedCharacterCountForHeight(
+    paragraph: Paragraph,
+    text: String,
+    availableHeight: Int,
+): Int {
+    if (text.isEmpty()) return 0
+    if (availableHeight <= 0) return 0
+
+    var lastVisibleLineIndex = -1
+    for (lineIndex in 0 until paragraph.lineCount) {
+        if (paragraph.getLineBottom(lineIndex) <= availableHeight) {
+            lastVisibleLineIndex = lineIndex
+        } else {
+            break
+        }
+    }
+
+    if (lastVisibleLineIndex < 0) return 0
+    return paragraph.getLineEnd(lastVisibleLineIndex, visibleEnd = false).coerceIn(0, text.length)
 }
 
 private fun finalConstraints(

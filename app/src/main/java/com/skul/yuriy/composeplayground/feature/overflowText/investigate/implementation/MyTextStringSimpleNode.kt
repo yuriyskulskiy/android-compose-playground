@@ -38,6 +38,7 @@ internal class MyTextStringSimpleNode(
     private var text: String,
     private var style: TextStyle,
     private var fontFamilyResolver: FontFamily.Resolver,
+    private var config: FloatingBoxConfig? = null,
     private var overflow: TextOverflow = TextOverflow.Clip,
     private var softWrap: Boolean = true,
     private var maxLines: Int = Int.MAX_VALUE,
@@ -56,6 +57,7 @@ internal class MyTextStringSimpleNode(
             text = text,
             style = style,
             fontFamilyResolver = fontFamilyResolver,
+            config = config,
             overflow = overflow,
             softWrap = softWrap,
             maxLines = maxLines,
@@ -67,6 +69,7 @@ internal class MyTextStringSimpleNode(
         text: String,
         style: TextStyle,
         fontFamilyResolver: FontFamily.Resolver,
+        config: FloatingBoxConfig?,
         overflow: TextOverflow,
         softWrap: Boolean,
         maxLines: Int,
@@ -78,6 +81,7 @@ internal class MyTextStringSimpleNode(
         val layoutChanged =
             this.style != style ||
                 this.fontFamilyResolver != fontFamilyResolver ||
+                this.config != config ||
                 this.overflow != overflow ||
                 this.softWrap != softWrap ||
                 this.maxLines != maxLines ||
@@ -88,6 +92,7 @@ internal class MyTextStringSimpleNode(
         this.text = text
         this.style = style
         this.fontFamilyResolver = fontFamilyResolver
+        this.config = config
         this.overflow = overflow
         this.softWrap = softWrap
         this.maxLines = maxLines
@@ -100,6 +105,7 @@ internal class MyTextStringSimpleNode(
                 text = text,
                 style = style,
                 fontFamilyResolver = fontFamilyResolver,
+                config = config,
                 overflow = overflow,
                 softWrap = softWrap,
                 maxLines = maxLines,
@@ -121,7 +127,8 @@ internal class MyTextStringSimpleNode(
         // TODO MODIFY: flow-around support will need a different layout engine entry point here.
         layoutCache.density = this
         val didChangeLayout = layoutCache.layoutWithConstraints(constraints, layoutDirection)
-        val paragraph = layoutCache.paragraph!!
+        val firstFragment = layoutCache.fragments.first()
+        val paragraph = firstFragment.paragraph
         val layoutSize = layoutCache.layoutSize
 
         if (didChangeLayout) {
@@ -187,7 +194,8 @@ internal class MyTextStringSimpleNode(
         if (!isAttached) return
 
         // TODO MODIFY: drawing may need to switch from one Paragraph to multiple flow fragments.
-        val localParagraph = layoutCache.paragraph ?: return
+        val fragments = layoutCache.fragments
+        if (fragments.isEmpty()) return
         drawIntoCanvas { canvas ->
             if (layoutCache.didOverflow) {
                 val size = layoutCache.layoutSize
@@ -199,29 +207,34 @@ internal class MyTextStringSimpleNode(
                 val shadow = style.shadow ?: Shadow.None
                 val drawStyle = style.drawStyle ?: Fill
                 val brush = style.brush
-                if (brush != null) {
-                    localParagraph.paint(
-                        canvas = canvas,
-                        brush = brush,
-                        alpha = style.alpha,
-                        shadow = shadow,
-                        drawStyle = drawStyle,
-                        textDecoration = textDecoration,
-                    )
-                } else {
-                    val color =
-                        when {
-                            overrideColor.isSpecified -> overrideColor
-                            style.color.isSpecified -> style.color
-                            else -> Color.Black
-                        }
-                    localParagraph.paint(
-                        canvas = canvas,
-                        color = color,
-                        shadow = shadow,
-                        drawStyle = drawStyle,
-                        textDecoration = textDecoration,
-                    )
+                val color =
+                    when {
+                        overrideColor.isSpecified -> overrideColor
+                        style.color.isSpecified -> style.color
+                        else -> Color.Black
+                    }
+                fragments.forEach { fragment ->
+                    canvas.save()
+                    canvas.translate(fragment.offsetX.toFloat(), fragment.offsetY.toFloat())
+                    if (brush != null) {
+                        fragment.paragraph.paint(
+                            canvas = canvas,
+                            brush = brush,
+                            alpha = style.alpha,
+                            shadow = shadow,
+                            drawStyle = drawStyle,
+                            textDecoration = textDecoration,
+                        )
+                    } else {
+                        fragment.paragraph.paint(
+                            canvas = canvas,
+                            color = color,
+                            shadow = shadow,
+                            drawStyle = drawStyle,
+                            textDecoration = textDecoration,
+                        )
+                    }
+                    canvas.restore()
                 }
             } finally {
                 if (layoutCache.didOverflow) {

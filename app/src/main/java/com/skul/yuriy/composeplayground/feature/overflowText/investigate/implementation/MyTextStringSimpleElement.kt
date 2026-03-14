@@ -12,6 +12,7 @@ internal class MyTextStringSimpleElement(
     private val text: String,
     private val style: TextStyle,
     private val fontFamilyResolver: FontFamily.Resolver,
+    private val config: FloatingBoxConfig? = null,
     private val overflow: TextOverflow = TextOverflow.Clip,
     private val softWrap: Boolean = true,
     private val maxLines: Int = Int.MAX_VALUE,
@@ -25,6 +26,7 @@ internal class MyTextStringSimpleElement(
             text = text,
             style = style,
             fontFamilyResolver = fontFamilyResolver,
+            config = config,
             overflow = overflow,
             softWrap = softWrap,
             maxLines = maxLines,
@@ -38,6 +40,7 @@ internal class MyTextStringSimpleElement(
             text = text,
             style = style,
             fontFamilyResolver = fontFamilyResolver,
+            config = config,
             overflow = overflow,
             softWrap = softWrap,
             maxLines = maxLines,
@@ -58,6 +61,7 @@ internal class MyTextStringSimpleElement(
         return text == other.text &&
                 style == other.style &&
                 fontFamilyResolver == other.fontFamilyResolver &&
+                config == other.config &&
                 overflow == other.overflow &&
                 softWrap == other.softWrap &&
                 maxLines == other.maxLines &&
@@ -70,6 +74,7 @@ internal class MyTextStringSimpleElement(
         var result = text.hashCode()
         result = 31 * result + style.hashCode()
         result = 31 * result + fontFamilyResolver.hashCode()
+        result = 31 * result + (config?.hashCode() ?: 0)
         result = 31 * result + overflow.hashCode()
         result = 31 * result + softWrap.hashCode()
         result = 31 * result + maxLines
