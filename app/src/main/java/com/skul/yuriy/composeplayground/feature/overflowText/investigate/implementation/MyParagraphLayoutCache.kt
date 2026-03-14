@@ -70,6 +70,7 @@ internal class MyParagraphLayoutCache(
     }
 
     fun layoutWithConstraints(constraints: Constraints, layoutDirection: LayoutDirection): Boolean {
+        // TODO MODIFY: flow-around support needs layout that depends on obstacle geometry per line.
         val finalConstraints = constraints
         if (!newLayoutWillBeDifferent(finalConstraints, layoutDirection)) {
             if (finalConstraints != prevConstraints) {
@@ -106,6 +107,7 @@ internal class MyParagraphLayoutCache(
     }
 
     fun intrinsicHeight(width: Int, layoutDirection: LayoutDirection): Int {
+        // TODO MODIFY: intrinsic height will need flow-aware line computation.
         if (width == cachedIntrinsicHeightInputWidth && cachedIntrinsicHeightInputWidth != -1) {
             return cachedIntrinsicHeight
         }
@@ -131,6 +133,7 @@ internal class MyParagraphLayoutCache(
     }
 
     fun createTextLayoutResult(): TextLayoutResult {
+        // TODO MODIFY: this assumes one MultiParagraph result instead of flow fragments.
         val localDensity = checkNotNull(density) { "Density must be set before layout result creation." }
         val localLayoutDirection =
             checkNotNull(intrinsicsLayoutDirection) { "LayoutDirection must be known before layout result creation." }
@@ -194,6 +197,7 @@ internal class MyParagraphLayoutCache(
     }
 
     private fun layoutText(constraints: Constraints, layoutDirection: LayoutDirection): Paragraph {
+        // TODO MODIFY: this currently computes one regular Paragraph with one effective width.
         val localParagraphIntrinsics = setLayoutDirection(layoutDirection)
         return Paragraph(
             paragraphIntrinsics = localParagraphIntrinsics,
@@ -213,6 +217,7 @@ internal class MyParagraphLayoutCache(
         constraints: Constraints,
         layoutDirection: LayoutDirection,
     ): Boolean {
+        // TODO MODIFY: cache invalidation will also need to depend on floating box geometry.
         val localParagraph = paragraph ?: return true
         val localParagraphIntrinsics = paragraphIntrinsics ?: return true
         if (localParagraphIntrinsics.hasStaleResolvedFonts) return true

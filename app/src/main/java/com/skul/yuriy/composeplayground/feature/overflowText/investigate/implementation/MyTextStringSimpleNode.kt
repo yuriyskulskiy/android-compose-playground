@@ -118,6 +118,7 @@ internal class MyTextStringSimpleNode(
         measurable: Measurable,
         constraints: Constraints,
     ): MeasureResult {
+        // TODO MODIFY: flow-around support will need a different layout engine entry point here.
         layoutCache.density = this
         val didChangeLayout = layoutCache.layoutWithConstraints(constraints, layoutDirection)
         val paragraph = layoutCache.paragraph!!
@@ -185,6 +186,7 @@ internal class MyTextStringSimpleNode(
     override fun ContentDrawScope.draw() {
         if (!isAttached) return
 
+        // TODO MODIFY: drawing may need to switch from one Paragraph to multiple flow fragments.
         val localParagraph = layoutCache.paragraph ?: return
         drawIntoCanvas { canvas ->
             if (layoutCache.didOverflow) {
