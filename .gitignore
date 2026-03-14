@@ -15,6 +15,12 @@ out/
 
 # ===== Local config =====
 local.properties
+Local_TODO_*
+**/Local_TODO_*
+Local_*
+**/Local_*
+Loal_*
+**/Loal_*
 
 # ===== Android tooling =====
 captures/
