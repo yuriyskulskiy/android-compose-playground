@@ -2,6 +2,7 @@ package com.skul.yuriy.composeplayground.feature.overflowText.investigate.implem
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
@@ -18,6 +19,7 @@ internal fun FlowText(
     config: FloatingBoxConfig,
     modifier: Modifier = Modifier,
     style: TextStyle = TextStyle.Default,
+    flowBox: @Composable BoxScope.() -> Unit,
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         MyBasicText(
@@ -32,11 +34,8 @@ internal fun FlowText(
                 Modifier
                     .align(Alignment.TopEnd)
                     .offset(y = config.topOffset)
-                    .size(width = config.width, height = config.height)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outline,
-                    ),
+                    .size(width = config.width, height = config.height),
+            content = flowBox,
         )
     }
 }
