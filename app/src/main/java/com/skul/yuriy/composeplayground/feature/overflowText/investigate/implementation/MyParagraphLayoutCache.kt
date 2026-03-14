@@ -215,12 +215,18 @@ internal class MyParagraphLayoutCache(
         }
 
         val localDensity = checkNotNull(density) { "Density must be set before layout." }
-        val topFragmentWidth = max(1, constraints.maxWidth - localDensity.run { localConfig.width.roundToPx() + localConfig.gap.roundToPx() })
-        val topFragmentHeight = max(0, localDensity.run { localConfig.height.roundToPx() })
+        val topFragmentWidth =
+            max(
+                1,
+                constraints.maxWidth - localDensity.run { localConfig.width.roundToPx() + localConfig.gap.roundToPx() },
+            )
+        val boxTop = max(0, localDensity.run { localConfig.topOffset.roundToPx() })
+        val boxHeight = max(0, localDensity.run { localConfig.height.roundToPx() })
+        val boxBottom = boxTop + boxHeight
         val fullWidth = max(1, constraints.maxWidth)
         val finalMaxLines = finalMaxLines(softWrap = softWrap, overflow = overflow, maxLinesIn = maxLines)
 
-        if (topFragmentHeight == 0 || topFragmentWidth >= fullWidth || text.isEmpty()) {
+        if (boxHeight == 0 || topFragmentWidth >= fullWidth || text.isEmpty()) {
             return listOf(
                 FlowTextFragment(
                     paragraph = layoutText(text = text, constraints = constraints, layoutDirection = layoutDirection),
@@ -230,68 +236,142 @@ internal class MyParagraphLayoutCache(
             )
         }
 
-        val topMeasurement = layoutText(
+        val topFullWidthMeasurement = layoutText(
             text = text,
-            constraints = Constraints(0, topFragmentWidth, 0, topFragmentHeight),
+            constraints = Constraints(0, fullWidth, 0, Constraints.Infinity),
             layoutDirection = layoutDirection,
             maxLines = finalMaxLines,
             overflow = TextOverflow.Clip,
         )
-        val consumedCharacterCount =
-            consumedCharacterCountForHeight(
-                paragraph = topMeasurement,
+        val topConsumedCharacterCount =
+            consumedCharacterCountBeforeHeight(
+                paragraph = topFullWidthMeasurement,
                 text = text,
-                availableHeight = topFragmentHeight,
+                availableHeight = boxTop,
             )
-        if (consumedCharacterCount <= 0) {
+        if (topConsumedCharacterCount >= text.length) {
             return listOf(
                 FlowTextFragment(
-                    paragraph = layoutText(text = text, constraints = constraints, layoutDirection = layoutDirection),
-                    offsetX = 0,
-                    offsetY = 0,
-                ),
-            )
-        }
-        if (consumedCharacterCount >= text.length) {
-            return listOf(
-                FlowTextFragment(
-                    paragraph = topMeasurement,
+                    paragraph = topFullWidthMeasurement,
                     offsetX = 0,
                     offsetY = 0,
                 ),
             )
         }
 
-        val topText = text.substring(0, consumedCharacterCount)
-        val remainingText = text.substring(consumedCharacterCount)
-        val topParagraph = layoutText(
-            text = topText,
+        val fragments = mutableListOf<FlowTextFragment>()
+        var consumedCharacterCount = 0
+        var consumedLineCount = 0
+        var currentYOffset = 0
+
+        if (topConsumedCharacterCount > 0) {
+            val topText = text.substring(0, topConsumedCharacterCount)
+            val topParagraph = layoutText(
+                text = topText,
+                constraints = Constraints(0, fullWidth, 0, Constraints.Infinity),
+                layoutDirection = layoutDirection,
+                maxLines = finalMaxLines,
+                overflow = TextOverflow.Clip,
+            )
+            fragments +=
+                FlowTextFragment(
+                    paragraph = topParagraph,
+                    offsetX = 0,
+                    offsetY = 0,
+                )
+            consumedCharacterCount = topConsumedCharacterCount
+            consumedLineCount = topParagraph.lineCount
+            currentYOffset = topParagraph.height.ceilToIntPx()
+        }
+
+        val remainingTextAfterTop = text.substring(consumedCharacterCount)
+        val remainingLinesAfterTop = (finalMaxLines - consumedLineCount).coerceAtLeast(0)
+        if (remainingTextAfterTop.isEmpty() || remainingLinesAfterTop == 0) {
+            return fragments.ifEmpty {
+                listOf(
+                    FlowTextFragment(
+                        paragraph = layoutText(text = text, constraints = constraints, layoutDirection = layoutDirection),
+                        offsetX = 0,
+                        offsetY = 0,
+                    ),
+                )
+            }
+        }
+
+        val narrowMeasurement = layoutText(
+            text = remainingTextAfterTop,
             constraints = Constraints(0, topFragmentWidth, 0, Constraints.Infinity),
             layoutDirection = layoutDirection,
-            maxLines = finalMaxLines,
+            maxLines = remainingLinesAfterTop,
             overflow = TextOverflow.Clip,
         )
-        val remainingLines = (finalMaxLines - topParagraph.lineCount).coerceAtLeast(1)
+        val relativeBoxTop = max(0, boxTop - currentYOffset)
+        val relativeBoxBottom = max(relativeBoxTop, boxBottom - currentYOffset)
+        val narrowConsumedCharacterCount =
+            consumedCharacterCountIntersectingHeightRange(
+                paragraph = narrowMeasurement,
+                text = remainingTextAfterTop,
+                startHeight = relativeBoxTop,
+                endHeight = relativeBoxBottom,
+            )
+
+        if (narrowConsumedCharacterCount > 0) {
+            val narrowText = remainingTextAfterTop.substring(0, narrowConsumedCharacterCount)
+            val narrowParagraph = layoutText(
+                text = narrowText,
+                constraints = Constraints(0, topFragmentWidth, 0, Constraints.Infinity),
+                layoutDirection = layoutDirection,
+                maxLines = remainingLinesAfterTop,
+                overflow = TextOverflow.Clip,
+            )
+            fragments +=
+                FlowTextFragment(
+                    paragraph = narrowParagraph,
+                    offsetX = 0,
+                    offsetY = currentYOffset,
+                )
+            consumedCharacterCount += narrowConsumedCharacterCount
+            consumedLineCount += narrowParagraph.lineCount
+            currentYOffset += narrowParagraph.height.ceilToIntPx()
+        }
+
+        val remainingTextAfterNarrow = text.substring(consumedCharacterCount)
+        val remainingLinesAfterNarrow = (finalMaxLines - consumedLineCount).coerceAtLeast(0)
+        if (remainingTextAfterNarrow.isEmpty() || remainingLinesAfterNarrow == 0) {
+            return fragments.ifEmpty {
+                listOf(
+                    FlowTextFragment(
+                        paragraph = layoutText(text = text, constraints = constraints, layoutDirection = layoutDirection),
+                        offsetX = 0,
+                        offsetY = 0,
+                    ),
+                )
+            }
+        }
+
         val bottomParagraph = layoutText(
-            text = remainingText,
+            text = remainingTextAfterNarrow,
             constraints = Constraints(0, fullWidth, 0, constraints.maxHeight),
             layoutDirection = layoutDirection,
-            maxLines = remainingLines,
+            maxLines = remainingLinesAfterNarrow,
             overflow = overflow,
         )
-
-        return listOf(
-            FlowTextFragment(
-                paragraph = topParagraph,
-                offsetX = 0,
-                offsetY = 0,
-            ),
+        fragments +=
             FlowTextFragment(
                 paragraph = bottomParagraph,
                 offsetX = 0,
-                offsetY = topParagraph.height.ceilToIntPx(),
-            ),
-        )
+                offsetY = currentYOffset,
+            )
+
+        return fragments.ifEmpty {
+            listOf(
+                FlowTextFragment(
+                    paragraph = layoutText(text = text, constraints = constraints, layoutDirection = layoutDirection),
+                    offsetX = 0,
+                    offsetY = 0,
+                ),
+            )
+        }
     }
 
     private fun layoutText(
@@ -377,7 +457,7 @@ private fun calculateNaturalSize(fragments: List<FlowTextFragment>): IntSize {
     return IntSize(width = width, height = height)
 }
 
-private fun consumedCharacterCountForHeight(
+private fun consumedCharacterCountBeforeHeight(
     paragraph: Paragraph,
     text: String,
     availableHeight: Int,
@@ -396,6 +476,31 @@ private fun consumedCharacterCountForHeight(
 
     if (lastVisibleLineIndex < 0) return 0
     return paragraph.getLineEnd(lastVisibleLineIndex, visibleEnd = false).coerceIn(0, text.length)
+}
+
+private fun consumedCharacterCountIntersectingHeightRange(
+    paragraph: Paragraph,
+    text: String,
+    startHeight: Int,
+    endHeight: Int,
+): Int {
+    if (text.isEmpty()) return 0
+    if (endHeight <= startHeight) return 0
+
+    var lastIntersectingLineIndex = -1
+    for (lineIndex in 0 until paragraph.lineCount) {
+        val lineTop = paragraph.getLineTop(lineIndex).ceilToIntPx()
+        val lineBottom = paragraph.getLineBottom(lineIndex).ceilToIntPx()
+        val intersectsBox = lineBottom > startHeight && lineTop < endHeight
+        if (intersectsBox) {
+            lastIntersectingLineIndex = lineIndex
+        } else if (lastIntersectingLineIndex >= 0 && lineTop >= endHeight) {
+            break
+        }
+    }
+
+    if (lastIntersectingLineIndex < 0) return 0
+    return paragraph.getLineEnd(lastIntersectingLineIndex, visibleEnd = false).coerceIn(0, text.length)
 }
 
 private fun finalConstraints(

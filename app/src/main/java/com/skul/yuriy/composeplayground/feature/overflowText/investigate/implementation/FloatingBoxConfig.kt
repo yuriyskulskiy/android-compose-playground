@@ -6,5 +6,6 @@ import androidx.compose.ui.unit.dp
 internal data class FloatingBoxConfig(
     val width: Dp,
     val height: Dp,
+    val topOffset: Dp = 0.dp,
     val gap: Dp = 0.dp,
 )

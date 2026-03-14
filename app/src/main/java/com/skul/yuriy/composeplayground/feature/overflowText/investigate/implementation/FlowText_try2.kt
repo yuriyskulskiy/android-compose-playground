@@ -13,15 +13,18 @@ internal fun FlowText_try2(
     modifier: Modifier = Modifier,
 ) {
     val text = stringResource(R.string.very_long_mock_text_paragraphs)
-
-    MyBasicText(
-        text = "$text\n\n$text",
-        modifier = modifier.fillMaxWidth(),
-        style = MaterialTheme.typography.bodyMedium,
-        config = FloatingBoxConfig(
+    val config =
+        FloatingBoxConfig(
             width = 100.dp,
             height = 135.dp,
+            topOffset = 56.dp,
             gap = 16.dp,
-        ),
+        )
+
+    FlowText(
+        text = "$text\n\n$text",
+        config = config,
+        modifier = modifier.fillMaxWidth(),
+        style = MaterialTheme.typography.bodyMedium,
     )
 }
