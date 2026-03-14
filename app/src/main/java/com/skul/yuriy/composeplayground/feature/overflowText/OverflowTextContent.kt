@@ -12,7 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.feature.overflowText.investigate.prototype.FlowText_try1
+import com.skul.yuriy.composeplayground.feature.overflowText.investigate.implementation.FlowText_try2
 
 @Composable
 internal fun OverflowTextContent(
@@ -25,7 +25,7 @@ internal fun OverflowTextContent(
             .padding(horizontal = 16.dp, vertical = 16.dp),
     ) {
         Spacer(Modifier.size(20.dp))
-        FlowText_try1(
+        FlowText_try2(
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(40.dp))
