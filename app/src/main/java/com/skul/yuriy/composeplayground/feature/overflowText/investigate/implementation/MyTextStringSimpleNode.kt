@@ -128,7 +128,7 @@ internal class MyTextStringSimpleNode(
         layoutCache.density = this
         val didChangeLayout = layoutCache.layoutWithConstraints(constraints, layoutDirection)
         val firstFragment = layoutCache.fragments.first()
-        val paragraph = firstFragment.paragraph
+        val lastFragment = layoutCache.fragments.last()
         val layoutSize = layoutCache.layoutSize
 
         if (didChangeLayout) {
@@ -138,8 +138,10 @@ internal class MyTextStringSimpleNode(
                 cache = HashMap(2)
                 baselineCache = cache
             }
-            cache[FirstBaseline] = paragraph.firstBaseline.fastRoundToInt()
-            cache[LastBaseline] = paragraph.lastBaseline.fastRoundToInt()
+            cache[FirstBaseline] =
+                (firstFragment.offsetY + firstFragment.paragraph.firstBaseline.fastRoundToInt())
+            cache[LastBaseline] =
+                (lastFragment.offsetY + lastFragment.paragraph.lastBaseline.fastRoundToInt())
             onTextLayout?.invoke(layoutCache.createTextLayoutResult())
         }
 

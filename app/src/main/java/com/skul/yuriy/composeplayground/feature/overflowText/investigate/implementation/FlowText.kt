@@ -33,7 +33,7 @@ internal fun FlowText(
             modifier =
                 Modifier
                     .align(Alignment.TopEnd)
-                    .offset(y = config.topOffset)
+                    .offset(x = -config.endOffset, y = config.topOffset)
                     .size(width = config.width, height = config.height),
             content = flowBox,
         )

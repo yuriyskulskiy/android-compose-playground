@@ -7,5 +7,6 @@ internal data class FloatingBoxConfig(
     val width: Dp,
     val height: Dp,
     val topOffset: Dp = 0.dp,
+    val endOffset: Dp = 0.dp,
     val gap: Dp = 0.dp,
 )
