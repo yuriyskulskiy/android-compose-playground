@@ -1,5 +1,7 @@
 # Compose Playground
 
+Medium profile: https://medium.com/@yuriyskul
+
 This repository is a collection of non-trivial Jetpack Compose UI/graphics experiments.
 
 Each feature is centered around a specific Compose problem and an implementation built to solve or explore it.
