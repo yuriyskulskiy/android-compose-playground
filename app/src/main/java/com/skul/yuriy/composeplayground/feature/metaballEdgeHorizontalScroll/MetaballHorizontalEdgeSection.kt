@@ -77,6 +77,7 @@ fun MetaballHorizontalEdgeSection(
         Row(
             modifier = Modifier
                 .align(Alignment.CenterStart)
+                .fillMaxHeight()
                 .alphaGaussianBlurByWidth(
                     leftRadius = leftBlurRadius,
                     rightRadius = rightBlurRadius,
@@ -85,6 +86,7 @@ fun MetaballHorizontalEdgeSection(
                 )
                 .horizontalScroll(scrollState)
                 .padding(horizontal = contentHorizontalPadding),
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(itemSpacing),
             content = content
         )
