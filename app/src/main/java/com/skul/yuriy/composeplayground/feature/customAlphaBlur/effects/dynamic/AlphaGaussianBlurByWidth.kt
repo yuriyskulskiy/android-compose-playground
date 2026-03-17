@@ -52,6 +52,8 @@ fun Modifier.alphaGaussianBlurByWidth(
     this
         .onSizeChanged { widthPx = it.width }
         .graphicsLayer {
+            //without clipping custom AGSL works really wierd
+            clip = true
             compositingStrategy = CompositingStrategy.Offscreen
             effect?.let { renderEffect = it.asComposeRenderEffect() }
         }

@@ -17,7 +17,7 @@
     <string name="metaball_primer_tab_text_melt">Text Melt</string>
     <string name="metaball_basics_prev">Previous</string>
     <string name="metaball_basics_next">Next</string>
-    <string name="metaball_edge_horizontal_scroll">Metaball Edge Horizontal Scroll</string>
+    <string name="metaball_edge_horizontal_scroll">Metaball Edge Row</string>
     <string name="metaball_edge_advanced">Metaball Edge Advanced</string>
     <string name="custom_alpha_blur">Custom Blur</string>
     <string name="custom_alpha_blur_radial">Custom Blur Radial</string>
