@@ -27,6 +27,7 @@ import com.skul.yuriy.composeplayground.navigation.navigateToFadingEdgesScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToGooeyScreen
 import com.skul.yuriy.composeplayground.navigation.navigateToLiquidBar
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdgeAdvanced
+import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdgeHorizontalScroll
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballEdges
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballMath
 import com.skul.yuriy.composeplayground.navigation.navigateToMetaballPrimer
@@ -80,6 +81,10 @@ fun NavigationContent(modifier: Modifier) {
         NavigationItem(
             text = stringResource(R.string.custom_alpha_blur),
             onClick = { localNavBackStack.navigateToCustomAlphaBlur() })
+
+        NavigationItem(
+            text = stringResource(R.string.metaball_edge_horizontal_scroll),
+            onClick = { localNavBackStack.navigateToMetaballEdgeHorizontalScroll() })
 
         NavigationItem(
             text = stringResource(R.string.metaball_edge_advanced),
