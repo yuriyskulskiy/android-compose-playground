@@ -70,6 +70,9 @@ sealed interface Screens : NavKey {
     data object MetaballEdgeAdvanced : Screens
 
     @Serializable
+    data object MetaballEdgeHorizontalScroll : Screens
+
+    @Serializable
     data object MetaballBasicTextAndEdge : Screens
 
     @Serializable

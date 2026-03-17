@@ -24,6 +24,7 @@ import com.skul.yuriy.composeplayground.feature.customAlphaBlurRadial.CustomBlur
 import com.skul.yuriy.composeplayground.feature.gooey.blurConcept.GooeyBasicScreen
 import com.skul.yuriy.composeplayground.feature.liquidBar.LiquidBarScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAdvanced.MetaballEdgeAdvancedScreen
+import com.skul.yuriy.composeplayground.feature.metaballEdgeHorizontalScroll.MetaballEdgeHorizontalScrollScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.MetaballEdgeTextScreen
 import com.skul.yuriy.composeplayground.feature.metaballEdgesAndText.textScreen.TextMetaballConceptScreen
 import com.skul.yuriy.composeplayground.feature.metaballBlur.MetaballsScreen
@@ -84,6 +85,7 @@ internal fun AppRoot(
                     entry<Screens.CustomBlur> { CustomBlurScreen() }
                     entry<Screens.CustomBlurRadial> { CustomBlurRadialScreen() }
                     entry<Screens.MetaballEdgeAdvanced> { MetaballEdgeAdvancedScreen() }
+                    entry<Screens.MetaballEdgeHorizontalScroll> { MetaballEdgeHorizontalScrollScreen() }
                     entry<Screens.MetaballBasicTextAndEdge> { MetaballEdgeTextScreen() }
                     entry<Screens.TextMetaballConcept> { TextMetaballConceptScreen() }
                     //todo rename last 4 screens according to feature screen names
