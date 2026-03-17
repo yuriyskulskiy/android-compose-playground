@@ -64,7 +64,6 @@ fun MetaballEdgeAdvancedContent(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
             .graphicsLayer {
                 compositingStrategy = CompositingStrategy.Offscreen
                 clip = false
@@ -81,7 +80,8 @@ fun MetaballEdgeAdvancedContent(
         MetaballEdgeAdvancedTextContent(
             modifier = Modifier
                 .fillMaxSize()
-                .then(blurModifier),
+                .then(blurModifier)
+                .padding(horizontal = 16.dp),
             text = text,
             textSize = settings.textSize,
             lineHeightMultiplier = settings.lineHeightMultiplier,
