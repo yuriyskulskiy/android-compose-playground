@@ -32,28 +32,28 @@ fun MetaballEdgeHorizontalScrollContent(
             .padding(contentPadding)
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         CircularItemsSection()
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp),
+                .padding(top = 12.dp, bottom = 12.dp),
             thickness = 1.dp,
             color = Color.Black
         )
-        Spacer(modifier = Modifier.height(24.dp))
         PlainIconsSection()
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp),
+                .padding(top = 12.dp, bottom = 12.dp),
             thickness = 1.dp,
             color = Color.Black
         )
-        Spacer(modifier = Modifier.height(24.dp))
         HorizontalTextSection()
         HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
             thickness = 1.dp,
             color = Color.Black
         )
