@@ -187,12 +187,13 @@ fun AnimatedRectBtnBox(
             .then(
                 if (!isPressed && isRunning) {
                     Modifier.rectSnakeBorder(
+                        snakeLengthFraction = 0.45f,
                         progress = normalizedProgress,
                         bodyColor = mainColor,
-                        glowShadowColor = mainColor.copy(alpha = 0.65f),
+                        glowShadowColor = mainColor.copy(alpha = 0.8f),
                         cornerRadius = cornerRadius,
                         bodyStrokeWidth = 2.dp,
-                        glowingShadowWidth = 12.dp,
+                        glowingShadowWidth = 16.dp,
                         trackPlacement = trackPlacement
                     )
                 } else {
