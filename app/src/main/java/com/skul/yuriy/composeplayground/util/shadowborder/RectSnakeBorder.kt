@@ -29,22 +29,43 @@ enum class RectSnakeTrackPlacement {
     OUTSIDE
 }
 
-fun Modifier.rectSnakeBorder(
-    bodyColor: Color = Color.Green,
-    glowShadowColor: Color = Color.Green.copy(alpha = 0.8f),
-    progress: Float = 0f,
-    cornerRadius: Dp = 28.dp,
-    snakeLengthFraction: Float = 0.28f,
-    bodyStrokeWidth: Dp = 2.dp,
-    glowingShadowWidth: Dp = 12.dp,
-    glowingBlurRadius: Dp = glowingShadowWidth / 2,
-    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
-): Modifier = this.drawWithCache {
-    val bodyStrokeWidthPx = bodyStrokeWidth.toPx()
-    val glowingStrokeWidthPx = glowingShadowWidth.toPx()
-    val glowingBlurRadiusPx = glowingBlurRadius.toPx()
-    val cornerRadiusPx = cornerRadius.toPx()
+/**
+ * Internal geometry snapshot for [rectSnakeBorder].
+ *
+ * This is a cache-scoped helper container used only to group precomputed track values for the
+ * current draw pass. It is intentionally a regular class, not a data class:
+ * the instance is not used for value-based comparisons, and it stores [FloatArray] fields whose
+ * default data-class equality/hashCode semantics would be misleading here.
+ */
+private class RectSnakeTrackGeometry(
+    val bodyStrokeWidthPx: Float,
+    val glowingStrokeWidthPx: Float,
+    val glowingBlurRadiusPx: Float,
+    val left: Float,
+    val top: Float,
+    val right: Float,
+    val bottom: Float,
+    val radius: Float,
+    val topLen: Float,
+    val rightLen: Float,
+    val arcQuarterLen: Float,
+    val segmentLengths: FloatArray,
+    val segmentStarts: FloatArray,
+    val totalLen: Float,
+    val topRightCenter: Offset,
+    val bottomRightCenter: Offset,
+    val bottomLeftCenter: Offset,
+    val topLeftCenter: Offset
+)
 
+private fun buildRectSnakeTrackGeometry(
+    size: androidx.compose.ui.geometry.Size,
+    bodyStrokeWidthPx: Float,
+    glowingStrokeWidthPx: Float,
+    glowingBlurRadiusPx: Float,
+    cornerRadiusPx: Float,
+    trackPlacement: RectSnakeTrackPlacement
+): RectSnakeTrackGeometry? {
     val maxHalfStroke = max(bodyStrokeWidthPx, glowingStrokeWidthPx) / 2f
     val borderInset = when (trackPlacement) {
         RectSnakeTrackPlacement.INSIDE -> maxHalfStroke
@@ -58,15 +79,13 @@ fun Modifier.rectSnakeBorder(
 
     val trackWidth = right - left
     val trackHeight = bottom - top
-    if (trackWidth <= 0f || trackHeight <= 0f) {
-        return@drawWithCache onDrawBehind {}
-    }
+    if (trackWidth <= 0f || trackHeight <= 0f) return null
 
     val rawTrackRadius = (cornerRadiusPx - borderInset).coerceAtLeast(0f)
-    val r = min(rawTrackRadius, min(trackWidth, trackHeight) / 2f)
-    val topLen = (trackWidth - 2f * r).coerceAtLeast(0f)
-    val rightLen = (trackHeight - 2f * r).coerceAtLeast(0f)
-    val arcQuarterLen = (PI.toFloat() * r / 2f).coerceAtLeast(0f)
+    val radius = min(rawTrackRadius, min(trackWidth, trackHeight) / 2f)
+    val topLen = (trackWidth - 2f * radius).coerceAtLeast(0f)
+    val rightLen = (trackHeight - 2f * radius).coerceAtLeast(0f)
+    val arcQuarterLen = (PI.toFloat() * radius / 2f).coerceAtLeast(0f)
     val segmentLengths = floatArrayOf(
         topLen,
         arcQuarterLen,
@@ -77,20 +96,73 @@ fun Modifier.rectSnakeBorder(
         rightLen,
         arcQuarterLen
     )
-    val segmentStarts = FloatArray(8)
+    val segmentStarts = FloatArray(segmentLengths.size)
     var totalLen = 0f
     for (index in segmentLengths.indices) {
         segmentStarts[index] = totalLen
         totalLen += segmentLengths[index]
     }
-    if (totalLen <= 0f) {
+    if (totalLen <= 0f) return null
+
+    return RectSnakeTrackGeometry(
+        bodyStrokeWidthPx = bodyStrokeWidthPx,
+        glowingStrokeWidthPx = glowingStrokeWidthPx,
+        glowingBlurRadiusPx = glowingBlurRadiusPx,
+        left = left,
+        top = top,
+        right = right,
+        bottom = bottom,
+        radius = radius,
+        topLen = topLen,
+        rightLen = rightLen,
+        arcQuarterLen = arcQuarterLen,
+        segmentLengths = segmentLengths,
+        segmentStarts = segmentStarts,
+        totalLen = totalLen,
+        topRightCenter = Offset(right - radius, top + radius),
+        bottomRightCenter = Offset(right - radius, bottom - radius),
+        bottomLeftCenter = Offset(left + radius, bottom - radius),
+        topLeftCenter = Offset(left + radius, top + radius)
+    )
+}
+
+fun Modifier.rectSnakeBorder(
+    bodyColor: Color = Color.Green,
+    glowShadowColor: Color = Color.Green.copy(alpha = 0.8f),
+    progress: Float = 0f,
+    cornerRadius: Dp = 28.dp,
+    snakeLengthFraction: Float = 0.28f,
+    bodyStrokeWidth: Dp = 2.dp,
+    glowingShadowWidth: Dp = 12.dp,
+    glowingBlurRadius: Dp = glowingShadowWidth / 2,
+    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
+): Modifier = this.drawWithCache {
+    val geometry = buildRectSnakeTrackGeometry(
+        size = size,
+        bodyStrokeWidthPx = bodyStrokeWidth.toPx(),
+        glowingStrokeWidthPx = glowingShadowWidth.toPx(),
+        glowingBlurRadiusPx = glowingBlurRadius.toPx(),
+        cornerRadiusPx = cornerRadius.toPx(),
+        trackPlacement = trackPlacement
+    )
+    if (geometry == null) {
         return@drawWithCache onDrawBehind {}
     }
-
-    val trCenter = Offset(right - r, top + r)
-    val brCenter = Offset(right - r, bottom - r)
-    val blCenter = Offset(left + r, bottom - r)
-    val tlCenter = Offset(left + r, top + r)
+    val bodyStrokeWidthPx = geometry.bodyStrokeWidthPx
+    val glowingStrokeWidthPx = geometry.glowingStrokeWidthPx
+    val glowingBlurRadiusPx = geometry.glowingBlurRadiusPx
+    val left = geometry.left
+    val top = geometry.top
+    val right = geometry.right
+    val bottom = geometry.bottom
+    val r = geometry.radius
+    val segmentLengths = geometry.segmentLengths
+    val segmentStarts = geometry.segmentStarts
+    val totalLen = geometry.totalLen
+    val trCenter = geometry.topRightCenter
+    val brCenter = geometry.bottomRightCenter
+    val blCenter = geometry.bottomLeftCenter
+    val tlCenter = geometry.topLeftCenter
 
     fun anglePoint(center: Offset, angleRadians: Float): Offset = Offset(
             x = center.x + r * cos(angleRadians),

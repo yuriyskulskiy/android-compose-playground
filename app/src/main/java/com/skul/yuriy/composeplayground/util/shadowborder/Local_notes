@@ -1,0 +1,50 @@
+RectSnakeBorder local notes
+
+- Current refactor goal: separate geometry calculation from draw logic without changing behavior.
+- Keep CPU/GPU profile stable while refactoring.
+- Geometry has been moved into RectSnakeTrackGeometry/buildRectSnakeTrackGeometry.
+- Circular version can use arc primitives directly because the path is a single circle.
+- Rect version is a mixed path: lines + quarter arcs, so segment-aware logic still matters.
+- If arc rendering changes later, prefer changing only the arc branch after helper extraction.
+- Current rounded-corner arc rendering is sample-based: split the arc into small line segments and
+  draw each segment with its own local linear gradient.
+
+Current sample-based arc drawing reference:
+
+```kotlin
+fun DrawScope.drawArcSegmentGradient(
+    center: Offset,
+    startAngleDegrees: Float,
+    sweepDegrees: Float,
+    startColor: Color,
+    endColor: Color,
+    strokeWidth: Float
+) {
+    if (r <= 0f || sweepDegrees <= 0f || strokeWidth <= 0f) return
+    val steps = max(1, ceil((sweepDegrees / 10f).toDouble()).toInt())
+    for (step in 0 until steps) {
+        val t0 = step / steps.toFloat()
+        val t1 = (step + 1) / steps.toFloat()
+        val angle0 = startAngleDegrees + sweepDegrees * t0
+        val angle1 = startAngleDegrees + sweepDegrees * t1
+        val p0 = pointOnArc(center, angle0)
+        val p1 = pointOnArc(center, angle1)
+        val c0 = colorLerp(startColor, endColor, t0)
+        val c1 = colorLerp(startColor, endColor, t1)
+        drawLine(
+            brush = Brush.linearGradient(
+                colors = listOf(c0, c1),
+                start = p0,
+                end = p1
+            ),
+            start = p0,
+            end = p1,
+            strokeWidth = strokeWidth,
+            cap = StrokeCap.Butt
+        )
+    }
+}
+```
+
+- Planned direction: replace this sample-based arc drawing with `drawArc` / native `drawArc`
+  driven by a sweep gradient, after the refactor is complete.
