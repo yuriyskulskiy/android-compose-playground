@@ -15,7 +15,6 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,14 +28,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -218,34 +215,4 @@ fun AnimatedRectBtnBox(
             blurRadius = blurRadius
         )
     }
-}
-
-@Composable
-private fun GlowingText(
-    text: String,
-    textColor: Color,
-    textSizeSp: Int,
-    isPressed: Boolean,
-    shadowOffset: Pair<Dp, Dp>,
-    blurRadius: Dp
-) {
-    if (!isPressed) {
-        Text(
-            text = text,
-            modifier = Modifier
-                .offset(
-                    x = shadowOffset.first,
-                    y = shadowOffset.second
-                )
-                .blur(blurRadius),
-            color = textColor.copy(alpha = 0.8f),
-            fontSize = textSizeSp.sp
-        )
-    }
-
-    Text(
-        text = text,
-        color = textColor,
-        fontSize = textSizeSp.sp
-    )
 }
