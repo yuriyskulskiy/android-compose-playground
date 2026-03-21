@@ -58,6 +58,14 @@ private class RectSnakeTrackGeometry(
     val topLeftCenter: Offset
 )
 
+private class RectSnakeProgressState(
+    val normalizedProgress: Float,
+    val headDistance: Float,
+    val snakeLength: Float,
+    val tailDistance: Float,
+    val alphaAtDistance: (Float) -> Float
+)
+
 private fun buildRectSnakeTrackGeometry(
     size: androidx.compose.ui.geometry.Size,
     bodyStrokeWidthPx: Float,
@@ -126,6 +134,120 @@ private fun buildRectSnakeTrackGeometry(
     )
 }
 
+private fun pointAtDistance(
+    geometry: RectSnakeTrackGeometry,
+    rawDistance: Float
+): Offset {
+    val segmentStarts = geometry.segmentStarts
+    val segmentLengths = geometry.segmentLengths
+    val totalLen = geometry.totalLen
+    val distance = ((rawDistance % totalLen) + totalLen) % totalLen
+    var segmentIndex = 0
+    for (index in segmentStarts.indices) {
+        val segmentEnd = segmentStarts[index] + segmentLengths[index]
+        if (distance <= segmentEnd || index == segmentStarts.lastIndex) {
+            segmentIndex = index
+            break
+        }
+    }
+    val local = (distance - segmentStarts[segmentIndex]).coerceAtLeast(0f)
+    val radius = geometry.radius
+    return when (segmentIndex) {
+        0 -> Offset(geometry.left + radius + local, geometry.top)
+        1 -> {
+            if (radius <= 0f) {
+                Offset(geometry.right, geometry.top)
+            } else {
+                val angle = (-PI / 2f + local / radius).toFloat()
+                pointOnCircle(geometry.topRightCenter, radius, angle)
+            }
+        }
+
+        2 -> Offset(geometry.right, geometry.top + radius + local)
+        3 -> {
+            if (radius <= 0f) {
+                Offset(geometry.right, geometry.bottom)
+            } else {
+                val angle = local / radius
+                pointOnCircle(geometry.bottomRightCenter, radius, angle)
+            }
+        }
+
+        4 -> Offset(geometry.right - radius - local, geometry.bottom)
+        5 -> {
+            if (radius <= 0f) {
+                Offset(geometry.left, geometry.bottom)
+            } else {
+                val angle = ((PI / 2f) + local / radius).toFloat()
+                pointOnCircle(geometry.bottomLeftCenter, radius, angle)
+            }
+        }
+
+        6 -> Offset(geometry.left, geometry.bottom - radius - local)
+        else -> {
+            if (radius <= 0f) {
+                Offset(geometry.left, geometry.top)
+            } else {
+                val angle = (PI + local / radius).toFloat()
+                pointOnCircle(geometry.topLeftCenter, radius, angle)
+            }
+        }
+    }
+}
+
+private fun pointOnCircle(center: Offset, radius: Float, angleRadians: Float): Offset = Offset(
+    x = center.x + radius * cos(angleRadians),
+    y = center.y + radius * sin(angleRadians)
+)
+
+private fun pointOnArc(center: Offset, radius: Float, angleDegrees: Float): Offset {
+    val angleRadians = Math.toRadians(angleDegrees.toDouble()).toFloat()
+    return pointOnCircle(center, radius, angleRadians)
+}
+
+private fun colorLerp(start: Color, end: Color, fraction: Float): Color {
+    val t = fraction.coerceIn(0f, 1f)
+    return Color(
+        red = start.red + (end.red - start.red) * t,
+        green = start.green + (end.green - start.green) * t,
+        blue = start.blue + (end.blue - start.blue) * t,
+        alpha = start.alpha + (end.alpha - start.alpha) * t
+    )
+}
+
+private fun buildRectSnakeProgressState(
+    progress: Float,
+    snakeLengthFraction: Float,
+    totalLen: Float
+): RectSnakeProgressState {
+    val normalizedProgress = ((progress % 1f) + 1f) % 1f
+    val headDistance = normalizedProgress * totalLen
+    val snakeLength = (snakeLengthFraction.coerceIn(0f, 1f) * totalLen).coerceAtLeast(0f)
+    val tailDistance = if (snakeLength >= totalLen) 0f else headDistance - snakeLength
+    val alphaAtDistance: (Float) -> Float = { distance ->
+        if (snakeLength <= 0f) {
+            0f
+        } else if (tailDistance >= 0f) {
+            ((distance - tailDistance) / snakeLength).coerceIn(0f, 1f)
+        } else {
+            val tailWrapped = tailDistance + totalLen
+            val distanceFromTail = if (distance >= tailWrapped) {
+                distance - tailWrapped
+            } else {
+                (totalLen - tailWrapped) + distance
+            }
+            (distanceFromTail / snakeLength).coerceIn(0f, 1f)
+        }
+    }
+    return RectSnakeProgressState(
+        normalizedProgress = normalizedProgress,
+        headDistance = headDistance,
+        snakeLength = snakeLength,
+        tailDistance = tailDistance,
+        alphaAtDistance = alphaAtDistance
+    )
+}
+
 fun Modifier.rectSnakeBorder(
     bodyColor: Color = Color.Green,
     glowShadowColor: Color = Color.Green.copy(alpha = 0.8f),
@@ -163,72 +285,11 @@ fun Modifier.rectSnakeBorder(
     val brCenter = geometry.bottomRightCenter
     val blCenter = geometry.bottomLeftCenter
     val tlCenter = geometry.topLeftCenter
-
-    fun anglePoint(center: Offset, angleRadians: Float): Offset = Offset(
-            x = center.x + r * cos(angleRadians),
-            y = center.y + r * sin(angleRadians)
-        )
-
-    fun pointAt(rawDistance: Float): Offset {
-        var distance = ((rawDistance % totalLen) + totalLen) % totalLen
-        var segmentIndex = 0
-        for (index in segmentStarts.indices) {
-            val segmentEnd = segmentStarts[index] + segmentLengths[index]
-            if (distance <= segmentEnd || index == segmentStarts.lastIndex) {
-                segmentIndex = index
-                break
-            }
-        }
-        val local = (distance - segmentStarts[segmentIndex]).coerceAtLeast(0f)
-        return when (segmentIndex) {
-            0 -> Offset(left + r + local, top)
-            1 -> {
-                if (r <= 0f) Offset(right, top) else {
-                    val angle = (-PI / 2f + local / r).toFloat()
-                    anglePoint(trCenter, angle)
-                }
-            }
-            2 -> Offset(right, top + r + local)
-            3 -> {
-                if (r <= 0f) Offset(right, bottom) else {
-                    val angle = local / r
-                    anglePoint(brCenter, angle)
-                }
-            }
-            4 -> Offset(right - r - local, bottom)
-            5 -> {
-                if (r <= 0f) Offset(left, bottom) else {
-                    val angle = ((PI / 2f) + local / r).toFloat()
-                    anglePoint(blCenter, angle)
-                }
-            }
-            6 -> Offset(left, bottom - r - local)
-            else -> {
-                if (r <= 0f) Offset(left, top) else {
-                    val angle = (PI + local / r).toFloat()
-                    anglePoint(tlCenter, angle)
-                }
-            }
-        }
-    }
-
-    fun colorLerp(start: Color, end: Color, fraction: Float): Color {
-        val t = fraction.coerceIn(0f, 1f)
-        return Color(
-            red = start.red + (end.red - start.red) * t,
-            green = start.green + (end.green - start.green) * t,
-            blue = start.blue + (end.blue - start.blue) * t,
-            alpha = start.alpha + (end.alpha - start.alpha) * t
-        )
-    }
-
-    fun pointOnArc(center: Offset, angleDegrees: Float): Offset {
-        val angleRad = Math.toRadians(angleDegrees.toDouble())
-        return Offset(
-            x = center.x + r * cos(angleRad).toFloat(),
-            y = center.y + r * sin(angleRad).toFloat()
-        )
-    }
+    val snakeState = buildRectSnakeProgressState(
+        progress = progress,
+        snakeLengthFraction = snakeLengthFraction,
+        totalLen = totalLen
+    )
 
     fun DrawScope.drawArcSegmentGradient(
         center: Offset,
@@ -245,8 +306,8 @@ fun Modifier.rectSnakeBorder(
             val t1 = (step + 1) / steps.toFloat()
             val angle0 = startAngleDegrees + sweepDegrees * t0
             val angle1 = startAngleDegrees + sweepDegrees * t1
-            val p0 = pointOnArc(center, angle0)
-            val p1 = pointOnArc(center, angle1)
+            val p0 = pointOnArc(center, r, angle0)
+            val p1 = pointOnArc(center, r, angle1)
             val c0 = colorLerp(startColor, endColor, t0)
             val c1 = colorLerp(startColor, endColor, t1)
             drawLine(
@@ -279,8 +340,8 @@ fun Modifier.rectSnakeBorder(
             val t1 = (step + 1) / steps.toFloat()
             val angle0 = startAngleDegrees + sweepDegrees * t0
             val angle1 = startAngleDegrees + sweepDegrees * t1
-            val p0 = pointOnArc(center, angle0)
-            val p1 = pointOnArc(center, angle1)
+            val p0 = pointOnArc(center, r, angle0)
+            val p1 = pointOnArc(center, r, angle1)
             val c0 = colorLerp(startColor, endColor, t0)
             val c1 = colorLerp(startColor, endColor, t1)
             paint.shader = LinearGradient(
@@ -614,26 +675,7 @@ fun Modifier.rectSnakeBorder(
         }
     }
 
-    val normalizedProgress = ((progress % 1f) + 1f) % 1f
-    val headDistance = normalizedProgress * totalLen
-    val snakeLength = (snakeLengthFraction.coerceIn(0f, 1f) * totalLen).coerceAtLeast(0f)
-    val head = pointAt(headDistance)
-    val tailDistance = if (snakeLength >= totalLen) 0f else headDistance - snakeLength
-    val alphaAtDistance: (Float) -> Float = { distance ->
-        if (snakeLength <= 0f) {
-            0f
-        } else if (tailDistance >= 0f) {
-            ((distance - tailDistance) / snakeLength).coerceIn(0f, 1f)
-        } else {
-            val tailWrapped = tailDistance + totalLen
-            val distanceFromTail = if (distance >= tailWrapped) {
-                distance - tailWrapped
-            } else {
-                (totalLen - tailWrapped) + distance
-            }
-            (distanceFromTail / snakeLength).coerceIn(0f, 1f)
-        }
-    }
+    val head = pointAtDistance(geometry, snakeState.headDistance)
     val glowStrokePaint = Paint().apply {
         isAntiAlias = true
         color = glowShadowColor.toArgb()
@@ -651,10 +693,10 @@ fun Modifier.rectSnakeBorder(
     }
 
     onDrawBehind {
-        if (snakeLength > 0f) {
+        if (snakeState.snakeLength > 0f) {
             drawIntoCanvas { canvas ->
                 val nativeCanvas = canvas.nativeCanvas
-                if (snakeLength >= totalLen) {
+                if (snakeState.snakeLength >= totalLen) {
                     drawDistanceIntervalNative(
                         canvas = nativeCanvas,
                         startDistance = 0f,
@@ -662,33 +704,33 @@ fun Modifier.rectSnakeBorder(
                         baseColor = glowShadowColor,
                         paint = glowStrokePaint
                         ,
-                        alphaAtDistance = alphaAtDistance
+                        alphaAtDistance = snakeState.alphaAtDistance
                     )
-                } else if (tailDistance >= 0f) {
+                } else if (snakeState.tailDistance >= 0f) {
                     drawDistanceIntervalNative(
                         canvas = nativeCanvas,
-                        startDistance = tailDistance,
-                        endDistance = headDistance,
+                        startDistance = snakeState.tailDistance,
+                        endDistance = snakeState.headDistance,
                         baseColor = glowShadowColor,
                         paint = glowStrokePaint,
-                        alphaAtDistance = alphaAtDistance
+                        alphaAtDistance = snakeState.alphaAtDistance
                     )
                 } else {
                     drawDistanceIntervalNative(
                         canvas = nativeCanvas,
-                        startDistance = tailDistance + totalLen,
+                        startDistance = snakeState.tailDistance + totalLen,
                         endDistance = totalLen,
                         baseColor = glowShadowColor,
                         paint = glowStrokePaint,
-                        alphaAtDistance = alphaAtDistance
+                        alphaAtDistance = snakeState.alphaAtDistance
                     )
                     drawDistanceIntervalNative(
                         canvas = nativeCanvas,
                         startDistance = 0f,
-                        endDistance = headDistance,
+                        endDistance = snakeState.headDistance,
                         baseColor = glowShadowColor,
                         paint = glowStrokePaint,
-                        alphaAtDistance = alphaAtDistance
+                        alphaAtDistance = snakeState.alphaAtDistance
                     )
                 }
                 nativeCanvas.drawCircle(
@@ -699,37 +741,37 @@ fun Modifier.rectSnakeBorder(
                 )
             }
 
-            if (snakeLength >= totalLen) {
+            if (snakeState.snakeLength >= totalLen) {
                 drawDistanceInterval(
                     startDistance = 0f,
                     endDistance = totalLen,
                     baseColor = bodyColor,
                     strokeWidth = bodyStrokeWidthPx,
-                    alphaAtDistance = alphaAtDistance
+                    alphaAtDistance = snakeState.alphaAtDistance
                 )
             } else {
-                if (tailDistance >= 0f) {
+                if (snakeState.tailDistance >= 0f) {
                     drawDistanceInterval(
-                        startDistance = tailDistance,
-                        endDistance = headDistance,
+                        startDistance = snakeState.tailDistance,
+                        endDistance = snakeState.headDistance,
                         baseColor = bodyColor,
                         strokeWidth = bodyStrokeWidthPx,
-                        alphaAtDistance = alphaAtDistance
+                        alphaAtDistance = snakeState.alphaAtDistance
                     )
                 } else {
                     drawDistanceInterval(
-                        startDistance = tailDistance + totalLen,
+                        startDistance = snakeState.tailDistance + totalLen,
                         endDistance = totalLen,
                         baseColor = bodyColor,
                         strokeWidth = bodyStrokeWidthPx,
-                        alphaAtDistance = alphaAtDistance
+                        alphaAtDistance = snakeState.alphaAtDistance
                     )
                     drawDistanceInterval(
                         startDistance = 0f,
-                        endDistance = headDistance,
+                        endDistance = snakeState.headDistance,
                         baseColor = bodyColor,
                         strokeWidth = bodyStrokeWidthPx,
-                        alphaAtDistance = alphaAtDistance
+                        alphaAtDistance = snakeState.alphaAtDistance
                     )
                 }
             }
