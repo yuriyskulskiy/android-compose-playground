@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -69,6 +70,12 @@ fun AnimatedRectButtonScreenContent(
                 .size(width = 188.dp, height = 96.dp),
             onClick = {},
             mainColor = Color.Red,
+            shape = RoundedCornerShape(
+                topStart = 24.dp,
+                topEnd = 8.dp,
+                bottomEnd = 28.dp,
+                bottomStart = 0.dp
+            ),
             blurRadius = 4.dp,
             shadowOffsetSize = 8.dp,
             text = "TEST",
@@ -96,10 +103,11 @@ fun AnimatedRectBtnBox(
     textPressedColor: Color = Color.Black,
     correctionOffsetForTextPhase: Int = 120,
     cornerRadius: Dp = 8.dp,
+    shape: Shape? = null,
     showDebugTrack: Boolean = true,
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
-    val shape = RoundedCornerShape(cornerRadius)
+    val resolvedShape = shape ?: RoundedCornerShape(cornerRadius)
 
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -182,11 +190,11 @@ fun AnimatedRectBtnBox(
             )
             .background(
                 color = backgroundColor,
-                shape = shape
+                shape = resolvedShape
             )
             .then(
                 if (showDebugTrack) {
-                    Modifier.border(width = 1.dp, color = Color.White, shape = shape)
+                    Modifier.border(width = 1.dp, color = Color.White, shape = resolvedShape)
                 } else {
                     Modifier
                 }
@@ -201,6 +209,7 @@ fun AnimatedRectBtnBox(
                         glowColorFrom = mainColor.copy(alpha = 0f),
                         glowColorTo = mainColor.copy(alpha = 0.9f),
                         cornerRadius = cornerRadius,
+                        shape = resolvedShape,
                         bodyStrokeWidth = 2.dp,
                         glowingShadowWidth = 8.dp,
                         trackPlacement = trackPlacement
@@ -209,7 +218,7 @@ fun AnimatedRectBtnBox(
                     Modifier
                 }
             )
-            .clip(shape)
+            .clip(resolvedShape)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null

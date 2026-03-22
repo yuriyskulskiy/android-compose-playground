@@ -6,17 +6,24 @@ import android.graphics.Matrix
 import android.graphics.RectF
 import android.graphics.Paint
 import android.graphics.Shader
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlin.math.PI
 import kotlin.math.cos
@@ -48,18 +55,22 @@ fun Modifier.rectSnakeBorder(
     glowColorTo: Color = Color.Green.copy(alpha = 0.8f),
     progress: Float = 0f,
     cornerRadius: Dp = 28.dp,
+    shape: Shape? = null,
     snakeLengthFraction: Float = 0.28f,
     bodyStrokeWidth: Dp = 2.dp,
     glowingShadowWidth: Dp = 12.dp,
     glowingBlurRadius: Dp = glowingShadowWidth / 2,
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ): Modifier = this.drawWithCache {
+    val resolvedShape = shape ?: RoundedCornerShape(cornerRadius)
     val geometry = buildRectSnakeTrackGeometry(
         size = size,
         bodyStrokeWidthPx = bodyStrokeWidth.toPx(),
         glowingStrokeWidthPx = glowingShadowWidth.toPx(),
         glowingBlurRadiusPx = glowingBlurRadius.toPx(),
-        cornerRadiusPx = cornerRadius.toPx(),
+        shape = resolvedShape,
+        layoutDirection = layoutDirection,
+        density = this,
         trackPlacement = trackPlacement
     )
     if (geometry == null) {
@@ -155,10 +166,10 @@ private class RectSnakeTrackGeometry(
     val top: Float,
     val right: Float,
     val bottom: Float,
-    val radius: Float,
-    val topLen: Float,
-    val rightLen: Float,
-    val arcQuarterLen: Float,
+    val topLeftRadius: Float,
+    val topRightRadius: Float,
+    val bottomRightRadius: Float,
+    val bottomLeftRadius: Float,
     val segmentLengths: FloatArray,
     val segmentStarts: FloatArray,
     val totalLen: Float,
@@ -180,7 +191,9 @@ private fun buildRectSnakeTrackGeometry(
     bodyStrokeWidthPx: Float,
     glowingStrokeWidthPx: Float,
     glowingBlurRadiusPx: Float,
-    cornerRadiusPx: Float,
+    shape: Shape,
+    layoutDirection: LayoutDirection,
+    density: Density,
     trackPlacement: RectSnakeTrackPlacement
 ): RectSnakeTrackGeometry? {
     val maxHalfStroke = max(bodyStrokeWidthPx, glowingStrokeWidthPx) / 2f
@@ -198,20 +211,32 @@ private fun buildRectSnakeTrackGeometry(
     val trackHeight = bottom - top
     if (trackWidth <= 0f || trackHeight <= 0f) return null
 
-    val rawTrackRadius = (cornerRadiusPx - borderInset).coerceAtLeast(0f)
-    val radius = min(rawTrackRadius, min(trackWidth, trackHeight) / 2f)
-    val topLen = (trackWidth - 2f * radius).coerceAtLeast(0f)
-    val rightLen = (trackHeight - 2f * radius).coerceAtLeast(0f)
-    val arcQuarterLen = (PI.toFloat() * radius / 2f).coerceAtLeast(0f)
+    val radii = resolveTrackCornerRadii(
+        size = size,
+        shape = shape,
+        layoutDirection = layoutDirection,
+        density = density,
+        borderInset = borderInset,
+        trackWidth = trackWidth,
+        trackHeight = trackHeight
+    )
+    val topLen = (trackWidth - radii.topLeft - radii.topRight).coerceAtLeast(0f)
+    val rightLen = (trackHeight - radii.topRight - radii.bottomRight).coerceAtLeast(0f)
+    val bottomLen = (trackWidth - radii.bottomRight - radii.bottomLeft).coerceAtLeast(0f)
+    val leftLen = (trackHeight - radii.bottomLeft - radii.topLeft).coerceAtLeast(0f)
+    val topRightArcLen = (PI.toFloat() * radii.topRight / 2f).coerceAtLeast(0f)
+    val bottomRightArcLen = (PI.toFloat() * radii.bottomRight / 2f).coerceAtLeast(0f)
+    val bottomLeftArcLen = (PI.toFloat() * radii.bottomLeft / 2f).coerceAtLeast(0f)
+    val topLeftArcLen = (PI.toFloat() * radii.topLeft / 2f).coerceAtLeast(0f)
     val segmentLengths = floatArrayOf(
         topLen,
-        arcQuarterLen,
+        topRightArcLen,
         rightLen,
-        arcQuarterLen,
-        topLen,
-        arcQuarterLen,
-        rightLen,
-        arcQuarterLen
+        bottomRightArcLen,
+        bottomLen,
+        bottomLeftArcLen,
+        leftLen,
+        topLeftArcLen
     )
     val segmentStarts = FloatArray(segmentLengths.size)
     var totalLen = 0f
@@ -229,17 +254,17 @@ private fun buildRectSnakeTrackGeometry(
         top = top,
         right = right,
         bottom = bottom,
-        radius = radius,
-        topLen = topLen,
-        rightLen = rightLen,
-        arcQuarterLen = arcQuarterLen,
+        topLeftRadius = radii.topLeft,
+        topRightRadius = radii.topRight,
+        bottomRightRadius = radii.bottomRight,
+        bottomLeftRadius = radii.bottomLeft,
         segmentLengths = segmentLengths,
         segmentStarts = segmentStarts,
         totalLen = totalLen,
-        topRightCenter = Offset(right - radius, top + radius),
-        bottomRightCenter = Offset(right - radius, bottom - radius),
-        bottomLeftCenter = Offset(left + radius, bottom - radius),
-        topLeftCenter = Offset(left + radius, top + radius)
+        topRightCenter = Offset(right - radii.topRight, top + radii.topRight),
+        bottomRightCenter = Offset(right - radii.bottomRight, bottom - radii.bottomRight),
+        bottomLeftCenter = Offset(left + radii.bottomLeft, bottom - radii.bottomLeft),
+        topLeftCenter = Offset(left + radii.topLeft, top + radii.topLeft)
     )
 }
 
@@ -260,10 +285,13 @@ private fun pointAtDistance(
         }
     }
     val local = (distance - segmentStarts[segmentIndex]).coerceAtLeast(0f)
-    val radius = geometry.radius
-    return when (segmentIndex) {
-        0 -> Offset(geometry.left + radius + local, geometry.top)
-        1 -> {
+    return when (segmentAt(segmentIndex)) {
+        RectSnakeSegment.TopEdge -> Offset(
+            geometry.left + geometry.topLeftRadius + local,
+            geometry.top
+        )
+        RectSnakeSegment.TopRightArc -> {
+            val radius = geometry.topRightRadius
             if (radius <= 0f) {
                 Offset(geometry.right, geometry.top)
             } else {
@@ -271,9 +299,12 @@ private fun pointAtDistance(
                 pointOnCircle(geometry.topRightCenter, radius, angle)
             }
         }
-
-        2 -> Offset(geometry.right, geometry.top + radius + local)
-        3 -> {
+        RectSnakeSegment.RightEdge -> Offset(
+            geometry.right,
+            geometry.top + geometry.topRightRadius + local
+        )
+        RectSnakeSegment.BottomRightArc -> {
+            val radius = geometry.bottomRightRadius
             if (radius <= 0f) {
                 Offset(geometry.right, geometry.bottom)
             } else {
@@ -281,9 +312,12 @@ private fun pointAtDistance(
                 pointOnCircle(geometry.bottomRightCenter, radius, angle)
             }
         }
-
-        4 -> Offset(geometry.right - radius - local, geometry.bottom)
-        5 -> {
+        RectSnakeSegment.BottomEdge -> Offset(
+            geometry.right - geometry.bottomRightRadius - local,
+            geometry.bottom
+        )
+        RectSnakeSegment.BottomLeftArc -> {
+            val radius = geometry.bottomLeftRadius
             if (radius <= 0f) {
                 Offset(geometry.left, geometry.bottom)
             } else {
@@ -291,9 +325,12 @@ private fun pointAtDistance(
                 pointOnCircle(geometry.bottomLeftCenter, radius, angle)
             }
         }
-
-        6 -> Offset(geometry.left, geometry.bottom - radius - local)
-        else -> {
+        RectSnakeSegment.LeftEdge -> Offset(
+            geometry.left,
+            geometry.bottom - geometry.bottomLeftRadius - local
+        )
+        RectSnakeSegment.TopLeftArc -> {
+            val radius = geometry.topLeftRadius
             if (radius <= 0f) {
                 Offset(geometry.left, geometry.top)
             } else {
@@ -308,6 +345,80 @@ private fun pointOnCircle(center: Offset, radius: Float, angleRadians: Float): O
     x = center.x + radius * cos(angleRadians),
     y = center.y + radius * sin(angleRadians)
 )
+
+private class RectSnakeCornerRadii(
+    val topLeft: Float,
+    val topRight: Float,
+    val bottomRight: Float,
+    val bottomLeft: Float
+)
+
+private fun resolveTrackCornerRadii(
+    size: androidx.compose.ui.geometry.Size,
+    shape: Shape,
+    layoutDirection: LayoutDirection,
+    density: Density,
+    borderInset: Float,
+    trackWidth: Float,
+    trackHeight: Float,
+): RectSnakeCornerRadii {
+    val shapeRadii = when (shape) {
+        is RoundedCornerShape -> {
+            val outline = shape.createOutline(size, layoutDirection, density)
+            when (outline) {
+                is Outline.Rounded -> RectSnakeCornerRadii(
+                    topLeft = outline.roundRect.topLeftCornerRadius.x,
+                    topRight = outline.roundRect.topRightCornerRadius.x,
+                    bottomRight = outline.roundRect.bottomRightCornerRadius.x,
+                    bottomLeft = outline.roundRect.bottomLeftCornerRadius.x
+                )
+                else -> RectSnakeCornerRadii(0f, 0f, 0f, 0f)
+            }
+        }
+        RectangleShape -> RectSnakeCornerRadii(0f, 0f, 0f, 0f)
+        CircleShape -> {
+            val radius = min(size.width, size.height) / 2f
+            RectSnakeCornerRadii(radius, radius, radius, radius)
+        }
+        else -> error(
+            "rectSnakeBorder supports only RoundedCornerShape, RectangleShape, and CircleShape"
+        )
+    }
+    return normalizeCornerRadii(
+        topLeft = (shapeRadii.topLeft - borderInset).coerceAtLeast(0f),
+        topRight = (shapeRadii.topRight - borderInset).coerceAtLeast(0f),
+        bottomRight = (shapeRadii.bottomRight - borderInset).coerceAtLeast(0f),
+        bottomLeft = (shapeRadii.bottomLeft - borderInset).coerceAtLeast(0f),
+        width = trackWidth,
+        height = trackHeight
+    )
+}
+
+private fun normalizeCornerRadii(
+    topLeft: Float,
+    topRight: Float,
+    bottomRight: Float,
+    bottomLeft: Float,
+    width: Float,
+    height: Float,
+): RectSnakeCornerRadii {
+    val widthTopScale = scaleToFit(width, topLeft + topRight)
+    val widthBottomScale = scaleToFit(width, bottomLeft + bottomRight)
+    val heightLeftScale = scaleToFit(height, topLeft + bottomLeft)
+    val heightRightScale = scaleToFit(height, topRight + bottomRight)
+    val scale = min(min(widthTopScale, widthBottomScale), min(heightLeftScale, heightRightScale))
+    return RectSnakeCornerRadii(
+        topLeft = topLeft * scale,
+        topRight = topRight * scale,
+        bottomRight = bottomRight * scale,
+        bottomLeft = bottomLeft * scale
+    )
+}
+
+private fun scaleToFit(limit: Float, sum: Float): Float {
+    if (sum <= 0f || sum <= limit) return 1f
+    return limit / sum
+}
 
 private fun segmentAt(index: Int): RectSnakeSegment = RectSnakeSegment.entries[index]
 
@@ -452,12 +563,11 @@ private fun drawSegmentPartNative(
     val top = geometry.top
     val right = geometry.right
     val bottom = geometry.bottom
-    val radius = geometry.radius
     when (segment) {
         RectSnakeSegment.TopEdge -> {
-            val x0 = left + radius + localStart
+            val x0 = left + geometry.topLeftRadius + localStart
             val y0 = top
-            val x1 = left + radius + localEnd
+            val x1 = left + geometry.topLeftRadius + localEnd
             val y1 = top
             paint.shader = LinearGradient(
                 x0,
@@ -470,7 +580,8 @@ private fun drawSegmentPartNative(
             )
             canvas.drawLine(x0, y0, x1, y1, paint)
         }
-        RectSnakeSegment.TopRightArc -> if (radius > 0f) {
+        RectSnakeSegment.TopRightArc -> if (geometry.topRightRadius > 0f) {
+            val radius = geometry.topRightRadius
             val startAngle = -90f + (localStart / radius) * 180f / PI.toFloat()
             val sweep = ((localEnd - localStart) / radius) * 180f / PI.toFloat()
             drawArcSegmentNative(
@@ -486,9 +597,9 @@ private fun drawSegmentPartNative(
         }
         RectSnakeSegment.RightEdge -> {
             val x0 = right
-            val y0 = top + radius + localStart
+            val y0 = top + geometry.topRightRadius + localStart
             val x1 = right
-            val y1 = top + radius + localEnd
+            val y1 = top + geometry.topRightRadius + localEnd
             paint.shader = LinearGradient(
                 x0,
                 y0,
@@ -500,7 +611,8 @@ private fun drawSegmentPartNative(
             )
             canvas.drawLine(x0, y0, x1, y1, paint)
         }
-        RectSnakeSegment.BottomRightArc -> if (radius > 0f) {
+        RectSnakeSegment.BottomRightArc -> if (geometry.bottomRightRadius > 0f) {
+            val radius = geometry.bottomRightRadius
             val startAngle = (localStart / radius) * 180f / PI.toFloat()
             val sweep = ((localEnd - localStart) / radius) * 180f / PI.toFloat()
             drawArcSegmentNative(
@@ -515,9 +627,9 @@ private fun drawSegmentPartNative(
             )
         }
         RectSnakeSegment.BottomEdge -> {
-            val x0 = right - radius - localStart
+            val x0 = right - geometry.bottomRightRadius - localStart
             val y0 = bottom
-            val x1 = right - radius - localEnd
+            val x1 = right - geometry.bottomRightRadius - localEnd
             val y1 = bottom
             paint.shader = LinearGradient(
                 x0,
@@ -530,7 +642,8 @@ private fun drawSegmentPartNative(
             )
             canvas.drawLine(x0, y0, x1, y1, paint)
         }
-        RectSnakeSegment.BottomLeftArc -> if (radius > 0f) {
+        RectSnakeSegment.BottomLeftArc -> if (geometry.bottomLeftRadius > 0f) {
+            val radius = geometry.bottomLeftRadius
             val startAngle = 90f + (localStart / radius) * 180f / PI.toFloat()
             val sweep = ((localEnd - localStart) / radius) * 180f / PI.toFloat()
             drawArcSegmentNative(
@@ -546,9 +659,9 @@ private fun drawSegmentPartNative(
         }
         RectSnakeSegment.LeftEdge -> {
             val x0 = left
-            val y0 = bottom - radius - localStart
+            val y0 = bottom - geometry.bottomLeftRadius - localStart
             val x1 = left
-            val y1 = bottom - radius - localEnd
+            val y1 = bottom - geometry.bottomLeftRadius - localEnd
             paint.shader = LinearGradient(
                 x0,
                 y0,
@@ -560,7 +673,8 @@ private fun drawSegmentPartNative(
             )
             canvas.drawLine(x0, y0, x1, y1, paint)
         }
-        RectSnakeSegment.TopLeftArc -> if (radius > 0f) {
+        RectSnakeSegment.TopLeftArc -> if (geometry.topLeftRadius > 0f) {
+            val radius = geometry.topLeftRadius
             val startAngle = 180f + (localStart / radius) * 180f / PI.toFloat()
             val sweep = ((localEnd - localStart) / radius) * 180f / PI.toFloat()
             drawArcSegmentNative(
