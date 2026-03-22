@@ -164,7 +164,7 @@ fun AnimatedRectButtonScreenContent(
         }
 
         Text(
-            modifier = Modifier.padding(top = 40.dp, start = 24.dp, end = 24.dp),
+            modifier = Modifier.padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
             color = Color.White,
             text = stringResource(R.string.effects_description_rect)
         )
