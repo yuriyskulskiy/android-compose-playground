@@ -12,39 +12,57 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
-import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
-import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
+import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.RectSnakeTrackPlacement
+import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.rectSnakeBorder
+
+/**
+ * Wraps any progress value into the stable [0, 1) interval.
+ *
+ * The double modulo form is intentional: a plain `% 1f` can stay negative for negative inputs,
+ * while this version normalizes both positive overflow and negative values into the same cyclic
+ * progress range used by the snake animation.
+ */
+private fun normalizeProgress(progress: Float): Float =
+    ((progress % 1f) + 1f) % 1f
+
+private const val HaloSpreadAnimationDurationMs = 300
+private const val SnakeLoopAnimationDurationMs = 3500
 
 @Composable
 fun AnimatedRectButtonScreenContent(
@@ -52,16 +70,61 @@ fun AnimatedRectButtonScreenContent(
     showDebugTrack: Boolean = true,
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
+    val scrollState = rememberScrollState()
+    val maxCornerRadius = 48.dp
+    var topStartCornerFraction by remember { mutableFloatStateOf(24f / 48f) }
+    var topEndCornerFraction by remember { mutableFloatStateOf(8f / 48f) }
+    var bottomEndCornerFraction by remember { mutableFloatStateOf(28f / 48f) }
+    var bottomStartCornerFraction by remember { mutableFloatStateOf(0f) }
+    val animatedRectShape = RoundedCornerShape(
+        topStart = maxCornerRadius * topStartCornerFraction,
+        topEnd = maxCornerRadius * topEndCornerFraction,
+        bottomEnd = maxCornerRadius * bottomEndCornerFraction,
+        bottomStart = maxCornerRadius * bottomStartCornerFraction
+    )
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier
+        modifier = modifier.verticalScroll(scrollState)
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                QuarterArcSlider(
+                    corner = CornerSliderCorner.TopStart,
+                    value = topStartCornerFraction,
+                    onValueChange = { topStartCornerFraction = it },
+                    maxValue = maxCornerRadius
+                )
+            }
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                QuarterArcSlider(
+                    corner = CornerSliderCorner.TopEnd,
+                    value = topEndCornerFraction,
+                    onValueChange = { topEndCornerFraction = it },
+                    maxValue = maxCornerRadius
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         AnimatedRectBtnBox(
             modifier = Modifier
                 .size(width = 188.dp, height = 96.dp),
             onClick = {},
             mainColor = Color.Red,
+            shape = animatedRectShape,
             blurRadius = 4.dp,
             shadowOffsetSize = 8.dp,
             text = "TEST",
@@ -69,8 +132,39 @@ fun AnimatedRectButtonScreenContent(
             trackPlacement = trackPlacement
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                QuarterArcSlider(
+                    corner = CornerSliderCorner.BottomStart,
+                    value = bottomStartCornerFraction,
+                    onValueChange = { bottomStartCornerFraction = it },
+                    maxValue = maxCornerRadius
+                )
+            }
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                QuarterArcSlider(
+                    corner = CornerSliderCorner.BottomEnd,
+                    value = bottomEndCornerFraction,
+                    onValueChange = { bottomEndCornerFraction = it },
+                    maxValue = maxCornerRadius
+                )
+            }
+        }
+
         Text(
-            modifier = Modifier.padding(top = 40.dp, start = 24.dp, end = 24.dp),
+            modifier = Modifier.padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
             color = Color.White,
             text = stringResource(R.string.effects_description_rect)
         )
@@ -88,11 +182,12 @@ fun AnimatedRectBtnBox(
     mainColor: Color,
     textPressedColor: Color = Color.Black,
     correctionOffsetForTextPhase: Int = 120,
-    cornerRadius: Dp = 24.dp,
+    cornerRadius: Dp = 8.dp,
+    shape: Shape? = null,
     showDebugTrack: Boolean = true,
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
-    val shape = RoundedCornerShape(cornerRadius)
+    val resolvedShape = shape ?: RoundedCornerShape(cornerRadius)
 
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -106,7 +201,7 @@ fun AnimatedRectBtnBox(
 
     val animatedSpread by animateDpAsState(
         targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
-        animationSpec = tween(durationMillis = 300),
+        animationSpec = tween(durationMillis = HaloSpreadAnimationDurationMs),
         label = ""
     )
 
@@ -143,7 +238,7 @@ fun AnimatedRectBtnBox(
             initialValue = lastSavedProgress,
             targetValue = lastSavedProgress + 1f,
             animationSpec = infiniteRepeatable(
-                animation = tween(3500, easing = LinearEasing),
+                animation = tween(SnakeLoopAnimationDurationMs, easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
             ),
             label = ""
@@ -151,7 +246,7 @@ fun AnimatedRectBtnBox(
         animatedProgress = animatedProgressValue
     }
 
-    val normalizedProgress = ((animatedProgress % 1f) + 1f) % 1f
+    val normalizedProgress = normalizeProgress(animatedProgress)
     val progressDegrees = normalizedProgress * 360f
 
     val shadowOffset = remember(progressDegrees, shadowOffsetSize) {
@@ -171,15 +266,16 @@ fun AnimatedRectBtnBox(
                 color = mainColor.copy(alpha = 0.5f),
                 haloBorderWidth = animatedSpread,
                 cornerRadius = cornerRadius,
+                shape = resolvedShape,
                 blurRadius = 16.dp
             )
             .background(
                 color = backgroundColor,
-                shape = shape
+                shape = resolvedShape
             )
             .then(
                 if (showDebugTrack) {
-                    Modifier.border(width = 1.dp, color = Color.White, shape = shape)
+                    Modifier.border(width = 1.dp, color = Color.White, shape = resolvedShape)
                 } else {
                     Modifier
                 }
@@ -187,19 +283,23 @@ fun AnimatedRectBtnBox(
             .then(
                 if (!isPressed && isRunning) {
                     Modifier.rectSnakeBorder(
+                        snakeLengthFraction = 0.75f,
                         progress = normalizedProgress,
-                        bodyColor = mainColor,
-                        glowShadowColor = mainColor.copy(alpha = 0.65f),
+                        bodyColorFrom = mainColor.copy(alpha = 0f),
+                        bodyColorTo = mainColor,
+                        glowColorFrom = mainColor.copy(alpha = 0f),
+                        glowColorTo = mainColor.copy(alpha = 0.9f),
                         cornerRadius = cornerRadius,
+                        shape = resolvedShape,
                         bodyStrokeWidth = 2.dp,
-                        glowingShadowWidth = 12.dp,
+                        glowingShadowWidth = 8.dp,
                         trackPlacement = trackPlacement
                     )
                 } else {
                     Modifier
                 }
             )
-            .clip(shape)
+            .clip(resolvedShape)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null
@@ -217,34 +317,4 @@ fun AnimatedRectBtnBox(
             blurRadius = blurRadius
         )
     }
-}
-
-@Composable
-private fun GlowingText(
-    text: String,
-    textColor: Color,
-    textSizeSp: Int,
-    isPressed: Boolean,
-    shadowOffset: Pair<Dp, Dp>,
-    blurRadius: Dp
-) {
-    if (!isPressed) {
-        Text(
-            text = text,
-            modifier = Modifier
-                .offset(
-                    x = shadowOffset.first,
-                    y = shadowOffset.second
-                )
-                .blur(blurRadius),
-            color = textColor.copy(alpha = 0.8f),
-            fontSize = textSizeSp.sp
-        )
-    }
-
-    Text(
-        text = text,
-        color = textColor,
-        fontSize = textSizeSp.sp
-    )
 }
