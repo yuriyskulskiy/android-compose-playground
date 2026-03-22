@@ -338,216 +338,36 @@ fun Modifier.rectSnakeBorder(
         snakeLengthFraction = snakeLengthFraction,
         totalLen = totalLen
     )
-    val segmentOverlapPx = 4f
+    val straightSegmentOverlapPx = 0f
     fun colorAtDistance(distance: Float, from: Color, to: Color): Color {
         return colorLerp(from, to, snakeState.alphaAtDistance(distance))
     }
-
-    fun DrawScope.drawSegmentPart(
-        segmentIndex: Int,
-        localStart: Float,
-        localEnd: Float,
-        startColor: Color,
-        endColor: Color,
-        strokeWidth: Float
-    ) {
-        if (localEnd <= localStart || strokeWidth <= 0f) return
-
-        when (segmentIndex) {
-            0 -> {
-                val start = Offset(left + r + localStart, top)
-                val end = Offset(left + r + localEnd, top)
-                drawLine(
-                    brush = Brush.linearGradient(
-                        colors = listOf(startColor, endColor),
-                        start = start,
-                        end = end
-                    ),
-                    start = start,
-                    end = end,
-                    strokeWidth = strokeWidth,
-                    cap = StrokeCap.Butt
-                )
-            }
-            1 -> if (r > 0f) {
-                val startAngle = (-90f + (localStart / r) * 180f / PI.toFloat())
-                val sweep = ((localEnd - localStart) / r) * 180f / PI.toFloat()
-                drawIntoCanvas { canvas ->
-                    canvas.nativeCanvas.let { nativeCanvas ->
-                        val bodyArcPaint = Paint().apply {
-                            isAntiAlias = true
-                            style = Paint.Style.STROKE
-                            this.strokeWidth = strokeWidth
-                            strokeCap = Paint.Cap.BUTT
-                            strokeJoin = Paint.Join.ROUND
-                        }
-                        drawArcSegmentNative(
-                            canvas = nativeCanvas,
-                            center = trCenter,
-                            radius = r,
-                            startAngleDegrees = startAngle,
-                            sweepDegrees = sweep,
-                            startColor = startColor,
-                            endColor = endColor,
-                            paint = bodyArcPaint
-                        )
-                    }
-                }
-            }
-            2 -> {
-                val start = Offset(right, top + r + localStart)
-                val end = Offset(right, top + r + localEnd)
-                drawLine(
-                    brush = Brush.linearGradient(
-                        colors = listOf(startColor, endColor),
-                        start = start,
-                        end = end
-                    ),
-                    start = start,
-                    end = end,
-                    strokeWidth = strokeWidth,
-                    cap = StrokeCap.Butt
-                )
-            }
-            3 -> if (r > 0f) {
-                val startAngle = (localStart / r) * 180f / PI.toFloat()
-                val sweep = ((localEnd - localStart) / r) * 180f / PI.toFloat()
-                drawIntoCanvas { canvas ->
-                    canvas.nativeCanvas.let { nativeCanvas ->
-                        val bodyArcPaint = Paint().apply {
-                            isAntiAlias = true
-                            style = Paint.Style.STROKE
-                            this.strokeWidth = strokeWidth
-                            strokeCap = Paint.Cap.BUTT
-                            strokeJoin = Paint.Join.ROUND
-                        }
-                        drawArcSegmentNative(
-                            canvas = nativeCanvas,
-                            center = brCenter,
-                            radius = r,
-                            startAngleDegrees = startAngle,
-                            sweepDegrees = sweep,
-                            startColor = startColor,
-                            endColor = endColor,
-                            paint = bodyArcPaint
-                        )
-                    }
-                }
-            }
-            4 -> {
-                val start = Offset(right - r - localStart, bottom)
-                val end = Offset(right - r - localEnd, bottom)
-                drawLine(
-                    brush = Brush.linearGradient(
-                        colors = listOf(startColor, endColor),
-                        start = start,
-                        end = end
-                    ),
-                    start = start,
-                    end = end,
-                    strokeWidth = strokeWidth,
-                    cap = StrokeCap.Butt
-                )
-            }
-            5 -> if (r > 0f) {
-                val startAngle = 90f + (localStart / r) * 180f / PI.toFloat()
-                val sweep = ((localEnd - localStart) / r) * 180f / PI.toFloat()
-                drawIntoCanvas { canvas ->
-                    canvas.nativeCanvas.let { nativeCanvas ->
-                        val bodyArcPaint = Paint().apply {
-                            isAntiAlias = true
-                            style = Paint.Style.STROKE
-                            this.strokeWidth = strokeWidth
-                            strokeCap = Paint.Cap.BUTT
-                            strokeJoin = Paint.Join.ROUND
-                        }
-                        drawArcSegmentNative(
-                            canvas = nativeCanvas,
-                            center = blCenter,
-                            radius = r,
-                            startAngleDegrees = startAngle,
-                            sweepDegrees = sweep,
-                            startColor = startColor,
-                            endColor = endColor,
-                            paint = bodyArcPaint
-                        )
-                    }
-                }
-            }
-            6 -> {
-                val start = Offset(left, bottom - r - localStart)
-                val end = Offset(left, bottom - r - localEnd)
-                drawLine(
-                    brush = Brush.linearGradient(
-                        colors = listOf(startColor, endColor),
-                        start = start,
-                        end = end
-                    ),
-                    start = start,
-                    end = end,
-                    strokeWidth = strokeWidth,
-                    cap = StrokeCap.Butt
-                )
-            }
-            else -> if (r > 0f) {
-                val startAngle = 180f + (localStart / r) * 180f / PI.toFloat()
-                val sweep = ((localEnd - localStart) / r) * 180f / PI.toFloat()
-                drawIntoCanvas { canvas ->
-                    canvas.nativeCanvas.let { nativeCanvas ->
-                        val bodyArcPaint = Paint().apply {
-                            isAntiAlias = true
-                            style = Paint.Style.STROKE
-                            this.strokeWidth = strokeWidth
-                            strokeCap = Paint.Cap.BUTT
-                            strokeJoin = Paint.Join.ROUND
-                        }
-                        drawArcSegmentNative(
-                            canvas = nativeCanvas,
-                            center = tlCenter,
-                            radius = r,
-                            startAngleDegrees = startAngle,
-                            sweepDegrees = sweep,
-                            startColor = startColor,
-                            endColor = endColor,
-                            paint = bodyArcPaint
-                        )
-                    }
-                }
-            }
-        }
+    fun overlapForSegment(segmentIndex: Int): Float = when (segmentIndex) {
+        0, 2, 4, 6 -> straightSegmentOverlapPx
+        else -> 0f
     }
-
-    fun DrawScope.drawDistanceInterval(
-        startDistance: Float,
-        endDistance: Float,
-        colorFrom: Color,
-        colorTo: Color,
-        strokeWidth: Float,
-    ) {
-        if (endDistance <= startDistance) return
-        for (segmentIndex in segmentStarts.indices) {
-            val segmentStart = segmentStarts[segmentIndex]
-            val segmentEnd = segmentStart + segmentLengths[segmentIndex]
-            if (segmentEnd <= segmentStart) continue
-
-            val overlapStart = max(startDistance, segmentStart)
-            val overlapEnd = min(endDistance, segmentEnd)
-            if (overlapEnd <= overlapStart) continue
-
-            val localStart = (overlapStart - segmentStart - segmentOverlapPx).coerceAtLeast(0f)
-            val localEnd = (overlapEnd - segmentStart + segmentOverlapPx)
-                .coerceAtMost(segmentLengths[segmentIndex])
-            val startColor = colorAtDistance(overlapStart, colorFrom, colorTo)
-            val endColor = colorAtDistance(overlapEnd, colorFrom, colorTo)
-            drawSegmentPart(
-                segmentIndex = segmentIndex,
-                localStart = localStart,
-                localEnd = localEnd,
-                startColor = startColor,
-                endColor = endColor,
-                strokeWidth = strokeWidth
-            )
-        }
+    val bodyStrokePaint = Paint().apply {
+        isAntiAlias = true
+        color = bodyColorTo.toArgb()
+        style = Paint.Style.STROKE
+        strokeWidth = bodyStrokeWidthPx
+        strokeCap = Paint.Cap.BUTT
+        strokeJoin = Paint.Join.ROUND
+    }
+    val glowStrokePaint = Paint().apply {
+        isAntiAlias = true
+        color = glowColorTo.toArgb()
+        style = Paint.Style.STROKE
+        strokeWidth = glowingStrokeWidthPx
+        strokeCap = Paint.Cap.BUTT
+        strokeJoin = Paint.Join.ROUND
+        maskFilter = BlurMaskFilter(glowingBlurRadiusPx, BlurMaskFilter.Blur.NORMAL)
+    }
+    val glowHeadPaint = Paint().apply {
+        isAntiAlias = true
+        color = glowColorTo.toArgb()
+        style = Paint.Style.FILL
+        maskFilter = BlurMaskFilter(glowingBlurRadiusPx, BlurMaskFilter.Blur.NORMAL)
     }
 
     fun drawSegmentPartNative(
@@ -702,6 +522,7 @@ fun Modifier.rectSnakeBorder(
             val overlapEnd = min(endDistance, segmentEnd)
             if (overlapEnd <= overlapStart) continue
 
+            val segmentOverlapPx = overlapForSegment(segmentIndex)
             val localStart = (overlapStart - segmentStart - segmentOverlapPx).coerceAtLeast(0f)
             val localEnd = (overlapEnd - segmentStart + segmentOverlapPx)
                 .coerceAtMost(segmentLengths[segmentIndex])
@@ -720,21 +541,6 @@ fun Modifier.rectSnakeBorder(
     }
 
     val head = pointAtDistance(geometry, snakeState.headDistance)
-    val glowStrokePaint = Paint().apply {
-        isAntiAlias = true
-        color = glowColorTo.toArgb()
-        style = Paint.Style.STROKE
-        strokeWidth = glowingStrokeWidthPx
-        strokeCap = Paint.Cap.BUTT
-        strokeJoin = Paint.Join.ROUND
-        maskFilter = BlurMaskFilter(glowingBlurRadiusPx, BlurMaskFilter.Blur.NORMAL)
-    }
-    val glowHeadPaint = Paint().apply {
-        isAntiAlias = true
-        color = glowColorTo.toArgb()
-        style = Paint.Style.FILL
-        maskFilter = BlurMaskFilter(glowingBlurRadiusPx, BlurMaskFilter.Blur.NORMAL)
-    }
     onDrawBehind {
         if (snakeState.snakeLength > 0f) {
             drawIntoCanvas { canvas ->
@@ -781,39 +587,40 @@ fun Modifier.rectSnakeBorder(
                     glowingStrokeWidthPx / 2f,
                     glowHeadPaint
                 )
-            }
-
-            if (snakeState.snakeLength >= totalLen) {
-                drawDistanceInterval(
-                    startDistance = 0f,
-                    endDistance = totalLen,
-                    colorFrom = bodyColorFrom,
-                    colorTo = bodyColorTo,
-                    strokeWidth = bodyStrokeWidthPx,
-                )
-            } else {
-                if (snakeState.tailDistance >= 0f) {
-                    drawDistanceInterval(
+                if (snakeState.snakeLength >= totalLen) {
+                    drawDistanceIntervalNative(
+                        canvas = nativeCanvas,
+                        startDistance = 0f,
+                        endDistance = totalLen,
+                        colorFrom = bodyColorFrom,
+                        colorTo = bodyColorTo,
+                        paint = bodyStrokePaint
+                    )
+                } else if (snakeState.tailDistance >= 0f) {
+                    drawDistanceIntervalNative(
+                        canvas = nativeCanvas,
                         startDistance = snakeState.tailDistance,
                         endDistance = snakeState.headDistance,
                         colorFrom = bodyColorFrom,
                         colorTo = bodyColorTo,
-                        strokeWidth = bodyStrokeWidthPx,
+                        paint = bodyStrokePaint
                     )
                 } else {
-                    drawDistanceInterval(
+                    drawDistanceIntervalNative(
+                        canvas = nativeCanvas,
                         startDistance = snakeState.tailDistance + totalLen,
                         endDistance = totalLen,
                         colorFrom = bodyColorFrom,
                         colorTo = bodyColorTo,
-                        strokeWidth = bodyStrokeWidthPx,
+                        paint = bodyStrokePaint
                     )
-                    drawDistanceInterval(
+                    drawDistanceIntervalNative(
+                        canvas = nativeCanvas,
                         startDistance = 0f,
                         endDistance = snakeState.headDistance,
                         colorFrom = bodyColorFrom,
                         colorTo = bodyColorTo,
-                        strokeWidth = bodyStrokeWidthPx,
+                        paint = bodyStrokePaint
                     )
                 }
             }
