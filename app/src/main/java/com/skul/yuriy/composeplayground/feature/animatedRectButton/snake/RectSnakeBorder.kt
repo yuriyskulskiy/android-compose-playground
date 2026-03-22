@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.util.shadowborder
+package com.skul.yuriy.composeplayground.feature.animatedRectButton.snake
 
 import android.graphics.BlurMaskFilter
 import android.graphics.LinearGradient
@@ -68,29 +68,14 @@ fun Modifier.rectSnakeBorder(
     val bodyStrokeWidthPx = geometry.bodyStrokeWidthPx
     val glowingStrokeWidthPx = geometry.glowingStrokeWidthPx
     val glowingBlurRadiusPx = geometry.glowingBlurRadiusPx
-    val left = geometry.left
-    val top = geometry.top
-    val right = geometry.right
-    val bottom = geometry.bottom
-    val r = geometry.radius
     val segmentLengths = geometry.segmentLengths
     val segmentStarts = geometry.segmentStarts
     val totalLen = geometry.totalLen
-    val trCenter = geometry.topRightCenter
-    val brCenter = geometry.bottomRightCenter
-    val blCenter = geometry.bottomLeftCenter
-    val tlCenter = geometry.topLeftCenter
     val snakeState = buildRectSnakeProgressState(
         progress = progress,
         snakeLengthFraction = snakeLengthFraction,
         totalLen = totalLen
     )
-    fun colorAtDistance(distance: Float, from: Color, to: Color): Color {
-        return colorLerp(from, to, snakeState.alphaAtDistance(distance))
-    }
-
-    fun segmentAt(index: Int): RectSnakeSegment = RectSnakeSegment.entries[index]
-
     val bodyStrokePaint = Paint().apply {
         isAntiAlias = true
         color = bodyColorTo.toArgb()
@@ -115,257 +100,34 @@ fun Modifier.rectSnakeBorder(
         maskFilter = BlurMaskFilter(glowingBlurRadiusPx, BlurMaskFilter.Blur.NORMAL)
     }
 
-    fun drawSegmentPartNative(
-        canvas: android.graphics.Canvas,
-        segmentIndex: Int,
-        localStart: Float,
-        localEnd: Float,
-        startColor: Color,
-        endColor: Color,
-        paint: Paint
-    ) {
-        if (localEnd <= localStart || paint.strokeWidth <= 0f) return
-        when (segmentAt(segmentIndex)) {
-            RectSnakeSegment.TopEdge -> {
-                val x0 = left + r + localStart
-                val y0 = top
-                val x1 = left + r + localEnd
-                val y1 = top
-                paint.shader = LinearGradient(
-                    x0,
-                    y0,
-                    x1,
-                    y1,
-                    startColor.toArgb(),
-                    endColor.toArgb(),
-                    Shader.TileMode.CLAMP
-                )
-                canvas.drawLine(x0, y0, x1, y1, paint)
-            }
-            RectSnakeSegment.TopRightArc -> if (r > 0f) {
-                val startAngle = (-90f + (localStart / r) * 180f / PI.toFloat())
-                val sweep = ((localEnd - localStart) / r) * 180f / PI.toFloat()
-                drawArcSegmentNative(
-                    canvas = canvas,
-                    center = trCenter,
-                    radius = r,
-                    startAngleDegrees = startAngle,
-                    sweepDegrees = sweep,
-                    startColor = startColor,
-                    endColor = endColor,
-                    paint = paint
-                )
-            }
-            RectSnakeSegment.RightEdge -> {
-                val x0 = right
-                val y0 = top + r + localStart
-                val x1 = right
-                val y1 = top + r + localEnd
-                paint.shader = LinearGradient(
-                    x0,
-                    y0,
-                    x1,
-                    y1,
-                    startColor.toArgb(),
-                    endColor.toArgb(),
-                    Shader.TileMode.CLAMP
-                )
-                canvas.drawLine(x0, y0, x1, y1, paint)
-            }
-            RectSnakeSegment.BottomRightArc -> if (r > 0f) {
-                val startAngle = (localStart / r) * 180f / PI.toFloat()
-                val sweep = ((localEnd - localStart) / r) * 180f / PI.toFloat()
-                drawArcSegmentNative(
-                    canvas = canvas,
-                    center = brCenter,
-                    radius = r,
-                    startAngleDegrees = startAngle,
-                    sweepDegrees = sweep,
-                    startColor = startColor,
-                    endColor = endColor,
-                    paint = paint
-                )
-            }
-            RectSnakeSegment.BottomEdge -> {
-                val x0 = right - r - localStart
-                val y0 = bottom
-                val x1 = right - r - localEnd
-                val y1 = bottom
-                paint.shader = LinearGradient(
-                    x0,
-                    y0,
-                    x1,
-                    y1,
-                    startColor.toArgb(),
-                    endColor.toArgb(),
-                    Shader.TileMode.CLAMP
-                )
-                canvas.drawLine(x0, y0, x1, y1, paint)
-            }
-            RectSnakeSegment.BottomLeftArc -> if (r > 0f) {
-                val startAngle = 90f + (localStart / r) * 180f / PI.toFloat()
-                val sweep = ((localEnd - localStart) / r) * 180f / PI.toFloat()
-                drawArcSegmentNative(
-                    canvas = canvas,
-                    center = blCenter,
-                    radius = r,
-                    startAngleDegrees = startAngle,
-                    sweepDegrees = sweep,
-                    startColor = startColor,
-                    endColor = endColor,
-                    paint = paint
-                )
-            }
-            RectSnakeSegment.LeftEdge -> {
-                val x0 = left
-                val y0 = bottom - r - localStart
-                val x1 = left
-                val y1 = bottom - r - localEnd
-                paint.shader = LinearGradient(
-                    x0,
-                    y0,
-                    x1,
-                    y1,
-                    startColor.toArgb(),
-                    endColor.toArgb(),
-                    Shader.TileMode.CLAMP
-                )
-                canvas.drawLine(x0, y0, x1, y1, paint)
-            }
-            RectSnakeSegment.TopLeftArc -> if (r > 0f) {
-                val startAngle = 180f + (localStart / r) * 180f / PI.toFloat()
-                val sweep = ((localEnd - localStart) / r) * 180f / PI.toFloat()
-                drawArcSegmentNative(
-                    canvas = canvas,
-                    center = tlCenter,
-                    radius = r,
-                    startAngleDegrees = startAngle,
-                    sweepDegrees = sweep,
-                    startColor = startColor,
-                    endColor = endColor,
-                    paint = paint
-                )
-            }
-        }
-    }
-
-    fun drawDistanceIntervalNative(
-        canvas: android.graphics.Canvas,
-        startDistance: Float,
-        endDistance: Float,
-        colorFrom: Color,
-        colorTo: Color,
-        paint: Paint,
-    ) {
-        if (endDistance <= startDistance) return
-        for (segmentIndex in segmentStarts.indices) {
-            val segmentStart = segmentStarts[segmentIndex]
-            val segmentEnd = segmentStart + segmentLengths[segmentIndex]
-            if (segmentEnd <= segmentStart) continue
-
-            val overlapStart = max(startDistance, segmentStart)
-            val overlapEnd = min(endDistance, segmentEnd)
-            if (overlapEnd <= overlapStart) continue
-
-            val localStart = overlapStart - segmentStart
-            val localEnd = overlapEnd - segmentStart
-            val startColor = colorAtDistance(overlapStart, colorFrom, colorTo)
-            val endColor = colorAtDistance(overlapEnd, colorFrom, colorTo)
-            drawSegmentPartNative(
-                canvas = canvas,
-                segmentIndex = segmentIndex,
-                localStart = localStart,
-                localEnd = localEnd,
-                startColor = startColor,
-                endColor = endColor,
-                paint = paint
-            )
-        }
-    }
-
     val head = pointAtDistance(geometry, snakeState.headDistance)
     onDrawBehind {
         if (snakeState.snakeLength > 0f) {
             drawIntoCanvas { canvas ->
                 val nativeCanvas = canvas.nativeCanvas
-                if (snakeState.snakeLength >= totalLen) {
-                    drawDistanceIntervalNative(
-                        canvas = nativeCanvas,
-                        startDistance = 0f,
-                        endDistance = totalLen,
-                        colorFrom = glowColorFrom,
-                        colorTo = glowColorTo,
-                        paint = glowStrokePaint
-                    )
-                } else if (snakeState.tailDistance >= 0f) {
-                    drawDistanceIntervalNative(
-                        canvas = nativeCanvas,
-                        startDistance = snakeState.tailDistance,
-                        endDistance = snakeState.headDistance,
-                        colorFrom = glowColorFrom,
-                        colorTo = glowColorTo,
-                        paint = glowStrokePaint
-                    )
-                } else {
-                    drawDistanceIntervalNative(
-                        canvas = nativeCanvas,
-                        startDistance = snakeState.tailDistance + totalLen,
-                        endDistance = totalLen,
-                        colorFrom = glowColorFrom,
-                        colorTo = glowColorTo,
-                        paint = glowStrokePaint
-                    )
-                    drawDistanceIntervalNative(
-                        canvas = nativeCanvas,
-                        startDistance = 0f,
-                        endDistance = snakeState.headDistance,
-                        colorFrom = glowColorFrom,
-                        colorTo = glowColorTo,
-                        paint = glowStrokePaint
-                    )
-                }
+                // Render the wider glow layer first, then draw the thin body snake on top of it.
+                drawSnakeLayerNative(
+                    canvas = nativeCanvas,
+                    geometry = geometry,
+                    snakeState = snakeState,
+                    colorFrom = glowColorFrom,
+                    colorTo = glowColorTo,
+                    paint = glowStrokePaint
+                )
                 nativeCanvas.drawCircle(
                     head.x,
                     head.y,
                     glowingStrokeWidthPx / 2f,
                     glowHeadPaint
                 )
-                if (snakeState.snakeLength >= totalLen) {
-                    drawDistanceIntervalNative(
-                        canvas = nativeCanvas,
-                        startDistance = 0f,
-                        endDistance = totalLen,
-                        colorFrom = bodyColorFrom,
-                        colorTo = bodyColorTo,
-                        paint = bodyStrokePaint
-                    )
-                } else if (snakeState.tailDistance >= 0f) {
-                    drawDistanceIntervalNative(
-                        canvas = nativeCanvas,
-                        startDistance = snakeState.tailDistance,
-                        endDistance = snakeState.headDistance,
-                        colorFrom = bodyColorFrom,
-                        colorTo = bodyColorTo,
-                        paint = bodyStrokePaint
-                    )
-                } else {
-                    drawDistanceIntervalNative(
-                        canvas = nativeCanvas,
-                        startDistance = snakeState.tailDistance + totalLen,
-                        endDistance = totalLen,
-                        colorFrom = bodyColorFrom,
-                        colorTo = bodyColorTo,
-                        paint = bodyStrokePaint
-                    )
-                    drawDistanceIntervalNative(
-                        canvas = nativeCanvas,
-                        startDistance = 0f,
-                        endDistance = snakeState.headDistance,
-                        colorFrom = bodyColorFrom,
-                        colorTo = bodyColorTo,
-                        paint = bodyStrokePaint
-                    )
-                }
+                drawSnakeLayerNative(
+                    canvas = nativeCanvas,
+                    geometry = geometry,
+                    snakeState = snakeState,
+                    colorFrom = bodyColorFrom,
+                    colorTo = bodyColorTo,
+                    paint = bodyStrokePaint
+                )
             }
 
             drawCircle(
@@ -547,6 +309,15 @@ private fun pointOnCircle(center: Offset, radius: Float, angleRadians: Float): O
     y = center.y + radius * sin(angleRadians)
 )
 
+private fun segmentAt(index: Int): RectSnakeSegment = RectSnakeSegment.entries[index]
+
+private fun colorAtDistance(
+    distance: Float,
+    from: Color,
+    to: Color,
+    snakeState: RectSnakeProgressState,
+): Color = colorLerp(from, to, snakeState.alphaAtDistance(distance))
+
 private fun buildNativeSweepShader(
     center: Offset,
     startAngleDegrees: Float,
@@ -568,6 +339,241 @@ private fun buildNativeSweepShader(
         val shaderMatrix = Matrix()
         shaderMatrix.setRotate(startAngleDegrees, center.x, center.y)
         shader.setLocalMatrix(shaderMatrix)
+    }
+}
+
+private fun drawSnakeLayerNative(
+    canvas: android.graphics.Canvas,
+    geometry: RectSnakeTrackGeometry,
+    snakeState: RectSnakeProgressState,
+    colorFrom: Color,
+    colorTo: Color,
+    paint: Paint,
+) {
+    when {
+        snakeState.snakeLength >= geometry.totalLen -> {
+            drawDistanceIntervalNative(
+                canvas = canvas,
+                geometry = geometry,
+                snakeState = snakeState,
+                startDistance = 0f,
+                endDistance = geometry.totalLen,
+                colorFrom = colorFrom,
+                colorTo = colorTo,
+                paint = paint
+            )
+        }
+        snakeState.tailDistance >= 0f -> {
+            drawDistanceIntervalNative(
+                canvas = canvas,
+                geometry = geometry,
+                snakeState = snakeState,
+                startDistance = snakeState.tailDistance,
+                endDistance = snakeState.headDistance,
+                colorFrom = colorFrom,
+                colorTo = colorTo,
+                paint = paint
+            )
+        }
+        else -> {
+            drawDistanceIntervalNative(
+                canvas = canvas,
+                geometry = geometry,
+                snakeState = snakeState,
+                startDistance = snakeState.tailDistance + geometry.totalLen,
+                endDistance = geometry.totalLen,
+                colorFrom = colorFrom,
+                colorTo = colorTo,
+                paint = paint
+            )
+            drawDistanceIntervalNative(
+                canvas = canvas,
+                geometry = geometry,
+                snakeState = snakeState,
+                startDistance = 0f,
+                endDistance = snakeState.headDistance,
+                colorFrom = colorFrom,
+                colorTo = colorTo,
+                paint = paint
+            )
+        }
+    }
+}
+
+private fun drawDistanceIntervalNative(
+    canvas: android.graphics.Canvas,
+    geometry: RectSnakeTrackGeometry,
+    snakeState: RectSnakeProgressState,
+    startDistance: Float,
+    endDistance: Float,
+    colorFrom: Color,
+    colorTo: Color,
+    paint: Paint,
+) {
+    if (endDistance <= startDistance) return
+    for (segmentIndex in geometry.segmentStarts.indices) {
+        val segmentStart = geometry.segmentStarts[segmentIndex]
+        val segmentEnd = segmentStart + geometry.segmentLengths[segmentIndex]
+        if (segmentEnd <= segmentStart) continue
+
+        val overlapStart = max(startDistance, segmentStart)
+        val overlapEnd = min(endDistance, segmentEnd)
+        if (overlapEnd <= overlapStart) continue
+
+        val localStart = overlapStart - segmentStart
+        val localEnd = overlapEnd - segmentStart
+        val startColor = colorAtDistance(overlapStart, colorFrom, colorTo, snakeState)
+        val endColor = colorAtDistance(overlapEnd, colorFrom, colorTo, snakeState)
+        drawSegmentPartNative(
+            canvas = canvas,
+            segment = segmentAt(segmentIndex),
+            geometry = geometry,
+            localStart = localStart,
+            localEnd = localEnd,
+            startColor = startColor,
+            endColor = endColor,
+            paint = paint
+        )
+    }
+}
+
+private fun drawSegmentPartNative(
+    canvas: android.graphics.Canvas,
+    segment: RectSnakeSegment,
+    geometry: RectSnakeTrackGeometry,
+    localStart: Float,
+    localEnd: Float,
+    startColor: Color,
+    endColor: Color,
+    paint: Paint
+) {
+    if (localEnd <= localStart || paint.strokeWidth <= 0f) return
+    val left = geometry.left
+    val top = geometry.top
+    val right = geometry.right
+    val bottom = geometry.bottom
+    val radius = geometry.radius
+    when (segment) {
+        RectSnakeSegment.TopEdge -> {
+            val x0 = left + radius + localStart
+            val y0 = top
+            val x1 = left + radius + localEnd
+            val y1 = top
+            paint.shader = LinearGradient(
+                x0,
+                y0,
+                x1,
+                y1,
+                startColor.toArgb(),
+                endColor.toArgb(),
+                Shader.TileMode.CLAMP
+            )
+            canvas.drawLine(x0, y0, x1, y1, paint)
+        }
+        RectSnakeSegment.TopRightArc -> if (radius > 0f) {
+            val startAngle = -90f + (localStart / radius) * 180f / PI.toFloat()
+            val sweep = ((localEnd - localStart) / radius) * 180f / PI.toFloat()
+            drawArcSegmentNative(
+                canvas = canvas,
+                center = geometry.topRightCenter,
+                radius = radius,
+                startAngleDegrees = startAngle,
+                sweepDegrees = sweep,
+                startColor = startColor,
+                endColor = endColor,
+                paint = paint
+            )
+        }
+        RectSnakeSegment.RightEdge -> {
+            val x0 = right
+            val y0 = top + radius + localStart
+            val x1 = right
+            val y1 = top + radius + localEnd
+            paint.shader = LinearGradient(
+                x0,
+                y0,
+                x1,
+                y1,
+                startColor.toArgb(),
+                endColor.toArgb(),
+                Shader.TileMode.CLAMP
+            )
+            canvas.drawLine(x0, y0, x1, y1, paint)
+        }
+        RectSnakeSegment.BottomRightArc -> if (radius > 0f) {
+            val startAngle = (localStart / radius) * 180f / PI.toFloat()
+            val sweep = ((localEnd - localStart) / radius) * 180f / PI.toFloat()
+            drawArcSegmentNative(
+                canvas = canvas,
+                center = geometry.bottomRightCenter,
+                radius = radius,
+                startAngleDegrees = startAngle,
+                sweepDegrees = sweep,
+                startColor = startColor,
+                endColor = endColor,
+                paint = paint
+            )
+        }
+        RectSnakeSegment.BottomEdge -> {
+            val x0 = right - radius - localStart
+            val y0 = bottom
+            val x1 = right - radius - localEnd
+            val y1 = bottom
+            paint.shader = LinearGradient(
+                x0,
+                y0,
+                x1,
+                y1,
+                startColor.toArgb(),
+                endColor.toArgb(),
+                Shader.TileMode.CLAMP
+            )
+            canvas.drawLine(x0, y0, x1, y1, paint)
+        }
+        RectSnakeSegment.BottomLeftArc -> if (radius > 0f) {
+            val startAngle = 90f + (localStart / radius) * 180f / PI.toFloat()
+            val sweep = ((localEnd - localStart) / radius) * 180f / PI.toFloat()
+            drawArcSegmentNative(
+                canvas = canvas,
+                center = geometry.bottomLeftCenter,
+                radius = radius,
+                startAngleDegrees = startAngle,
+                sweepDegrees = sweep,
+                startColor = startColor,
+                endColor = endColor,
+                paint = paint
+            )
+        }
+        RectSnakeSegment.LeftEdge -> {
+            val x0 = left
+            val y0 = bottom - radius - localStart
+            val x1 = left
+            val y1 = bottom - radius - localEnd
+            paint.shader = LinearGradient(
+                x0,
+                y0,
+                x1,
+                y1,
+                startColor.toArgb(),
+                endColor.toArgb(),
+                Shader.TileMode.CLAMP
+            )
+            canvas.drawLine(x0, y0, x1, y1, paint)
+        }
+        RectSnakeSegment.TopLeftArc -> if (radius > 0f) {
+            val startAngle = 180f + (localStart / radius) * 180f / PI.toFloat()
+            val sweep = ((localEnd - localStart) / radius) * 180f / PI.toFloat()
+            drawArcSegmentNative(
+                canvas = canvas,
+                center = geometry.topLeftCenter,
+                radius = radius,
+                startAngleDegrees = startAngle,
+                sweepDegrees = sweep,
+                startColor = startColor,
+                endColor = endColor,
+                paint = paint
+            )
+        }
     }
 }
 

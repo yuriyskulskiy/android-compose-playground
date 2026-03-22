@@ -40,8 +40,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
-import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
-import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
+import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.RectSnakeTrackPlacement
+import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.rectSnakeBorder
 
 /**
  * Wraps any progress value into the stable [0, 1) interval.
@@ -96,7 +96,6 @@ fun AnimatedRectBtnBox(
     textPressedColor: Color = Color.Black,
     correctionOffsetForTextPhase: Int = 120,
     cornerRadius: Dp = 8.dp,
-//    cornerRadius: Dp = 0.dp,
     showDebugTrack: Boolean = true,
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {

@@ -71,6 +71,11 @@
     <string name="animated_sticky_header">Animated sticky header</string>
     <string name="animated_circular_button">Animated Circular Button</string>
     <string name="animated_rect_button">Animated Rect Button</string>
+    <string name="rect_snake_border_on">Border ON</string>
+    <string name="rect_snake_border_off">Border OFF</string>
+    <string name="rect_snake_track_inside">Inside</string>
+    <string name="rect_snake_track_on_edge">On edge</string>
+    <string name="rect_snake_track_outside">Outside</string>
     <string name="alpha">Alpha:</string>
     <string name="scale_factor">Scale Factor:</string>
     <string name="blur_radius_dp">Blur Radius (Dp):</string>
