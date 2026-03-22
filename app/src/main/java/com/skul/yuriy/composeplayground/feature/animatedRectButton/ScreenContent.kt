@@ -43,6 +43,16 @@ import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
 import com.skul.yuriy.composeplayground.util.shadowborder.RectSnakeTrackPlacement
 import com.skul.yuriy.composeplayground.util.shadowborder.rectSnakeBorder
 
+/**
+ * Wraps any progress value into the stable [0, 1) interval.
+ *
+ * The double modulo form is intentional: a plain `% 1f` can stay negative for negative inputs,
+ * while this version normalizes both positive overflow and negative values into the same cyclic
+ * progress range used by the snake animation.
+ */
+private fun normalizeProgress(progress: Float): Float =
+    ((progress % 1f) + 1f) % 1f
+
 @Composable
 fun AnimatedRectButtonScreenContent(
     modifier: Modifier = Modifier,
@@ -85,7 +95,8 @@ fun AnimatedRectBtnBox(
     mainColor: Color,
     textPressedColor: Color = Color.Black,
     correctionOffsetForTextPhase: Int = 120,
-    cornerRadius: Dp = 24.dp,
+    cornerRadius: Dp = 8.dp,
+//    cornerRadius: Dp = 0.dp,
     showDebugTrack: Boolean = true,
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
@@ -148,7 +159,7 @@ fun AnimatedRectBtnBox(
         animatedProgress = animatedProgressValue
     }
 
-    val normalizedProgress = ((animatedProgress % 1f) + 1f) % 1f
+    val normalizedProgress = normalizeProgress(animatedProgress)
     val progressDegrees = normalizedProgress * 360f
 
     val shadowOffset = remember(progressDegrees, shadowOffsetSize) {
@@ -184,15 +195,15 @@ fun AnimatedRectBtnBox(
             .then(
                 if (!isPressed && isRunning) {
                     Modifier.rectSnakeBorder(
-                        snakeLengthFraction = 0.80f,
+                        snakeLengthFraction = 0.5f,
                         progress = normalizedProgress,
-                        bodyColorFrom = mainColor.copy(alpha = 1f),
+                        bodyColorFrom = mainColor.copy(alpha = 0f),
                         bodyColorTo = mainColor,
-                        glowColorFrom = mainColor.copy(alpha = 1f),
+                        glowColorFrom = mainColor.copy(alpha = 0f),
                         glowColorTo = mainColor.copy(alpha = 0.9f),
                         cornerRadius = cornerRadius,
                         bodyStrokeWidth = 2.dp,
-                        glowingShadowWidth = 14.dp,
+                        glowingShadowWidth = 8.dp,
                         trackPlacement = trackPlacement
                     )
                 } else {
