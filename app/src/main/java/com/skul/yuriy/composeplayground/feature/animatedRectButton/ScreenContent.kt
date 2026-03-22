@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -58,12 +59,27 @@ import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.rectSna
 private fun normalizeProgress(progress: Float): Float =
     ((progress % 1f) + 1f) % 1f
 
+private const val HaloSpreadAnimationDurationMs = 300
+private const val SnakeLoopAnimationDurationMs = 3500
+
 @Composable
 fun AnimatedRectButtonScreenContent(
     modifier: Modifier = Modifier,
     showDebugTrack: Boolean = true,
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
+    val maxCornerRadius = 48.dp
+    var topStartCornerFraction by remember { mutableFloatStateOf(24f / 48f) }
+    var topEndCornerFraction by remember { mutableFloatStateOf(8f / 48f) }
+    var bottomEndCornerFraction by remember { mutableFloatStateOf(28f / 48f) }
+    var bottomStartCornerFraction by remember { mutableFloatStateOf(0f) }
+    val animatedRectShape = RoundedCornerShape(
+        topStart = maxCornerRadius * topStartCornerFraction,
+        topEnd = maxCornerRadius * topEndCornerFraction,
+        bottomEnd = maxCornerRadius * bottomEndCornerFraction,
+        bottomStart = maxCornerRadius * bottomStartCornerFraction
+    )
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -78,13 +94,23 @@ fun AnimatedRectButtonScreenContent(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.CenterStart
             ) {
-                CornerSliderPlaceholder()
+                QuarterArcSlider(
+                    corner = CornerSliderCorner.TopStart,
+                    value = topStartCornerFraction,
+                    onValueChange = { topStartCornerFraction = it },
+                    maxValue = maxCornerRadius
+                )
             }
             Box(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.CenterEnd
             ) {
-                CornerSliderPlaceholder()
+                QuarterArcSlider(
+                    corner = CornerSliderCorner.TopEnd,
+                    value = topEndCornerFraction,
+                    onValueChange = { topEndCornerFraction = it },
+                    maxValue = maxCornerRadius
+                )
             }
         }
 
@@ -95,12 +121,7 @@ fun AnimatedRectButtonScreenContent(
                 .size(width = 188.dp, height = 96.dp),
             onClick = {},
             mainColor = Color.Red,
-            shape = RoundedCornerShape(
-                topStart = 24.dp,
-                topEnd = 8.dp,
-                bottomEnd = 28.dp,
-                bottomStart = 0.dp
-            ),
+            shape = animatedRectShape,
             blurRadius = 4.dp,
             shadowOffsetSize = 8.dp,
             text = "TEST",
@@ -119,13 +140,23 @@ fun AnimatedRectButtonScreenContent(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.CenterStart
             ) {
-                CornerSliderPlaceholder()
+                QuarterArcSlider(
+                    corner = CornerSliderCorner.BottomStart,
+                    value = bottomStartCornerFraction,
+                    onValueChange = { bottomStartCornerFraction = it },
+                    maxValue = maxCornerRadius
+                )
             }
             Box(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.CenterEnd
             ) {
-                CornerSliderPlaceholder()
+                QuarterArcSlider(
+                    corner = CornerSliderCorner.BottomEnd,
+                    value = bottomEndCornerFraction,
+                    onValueChange = { bottomEndCornerFraction = it },
+                    maxValue = maxCornerRadius
+                )
             }
         }
 
@@ -135,15 +166,6 @@ fun AnimatedRectButtonScreenContent(
             text = stringResource(R.string.effects_description_rect)
         )
     }
-}
-
-@Composable
-private fun CornerSliderPlaceholder(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .size(100.dp)
-            .border(width = 1.dp, color = Color.White)
-    )
 }
 
 @Composable
@@ -176,7 +198,7 @@ fun AnimatedRectBtnBox(
 
     val animatedSpread by animateDpAsState(
         targetValue = if (isPressed) pressedHaloBorderWidth else initialHaloBorderWidth,
-        animationSpec = tween(durationMillis = 300),
+        animationSpec = tween(durationMillis = HaloSpreadAnimationDurationMs),
         label = ""
     )
 
@@ -213,7 +235,7 @@ fun AnimatedRectBtnBox(
             initialValue = lastSavedProgress,
             targetValue = lastSavedProgress + 1f,
             animationSpec = infiniteRepeatable(
-                animation = tween(3500, easing = LinearEasing),
+                animation = tween(SnakeLoopAnimationDurationMs, easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
             ),
             label = ""
@@ -257,7 +279,7 @@ fun AnimatedRectBtnBox(
             .then(
                 if (!isPressed && isRunning) {
                     Modifier.rectSnakeBorder(
-                        snakeLengthFraction = 0.5f,
+                        snakeLengthFraction = 0.75f,
                         progress = normalizedProgress,
                         bodyColorFrom = mainColor.copy(alpha = 0f),
                         bodyColorTo = mainColor,
