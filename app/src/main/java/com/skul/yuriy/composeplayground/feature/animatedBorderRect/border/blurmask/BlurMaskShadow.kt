@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.addOutline
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -20,11 +21,12 @@ fun Modifier.drawOutlineBlurMaskShadow(
     color: Color,
     haloBorderWidth: Dp,
     cornerRadius: Dp,
+    shape: Shape? = null,
     blurRadius: Dp = haloBorderWidth
 ): Modifier = if (haloBorderWidth > 0.dp) {
-    val shape = RoundedCornerShape(cornerRadius)
+    val resolvedShape = shape ?: RoundedCornerShape(cornerRadius)
     this.drawWithCache {
-        val outline = shape.createOutline(size, layoutDirection, this)
+        val outline = resolvedShape.createOutline(size, layoutDirection, this)
         val path = Path().apply { addOutline(outline) }
 
         val haloBorderWidthPx = haloBorderWidth.toPx()

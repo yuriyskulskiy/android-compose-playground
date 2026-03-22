@@ -12,6 +12,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -68,6 +70,7 @@ fun AnimatedRectButtonScreenContent(
     showDebugTrack: Boolean = true,
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
 ) {
+    val scrollState = rememberScrollState()
     val maxCornerRadius = 48.dp
     var topStartCornerFraction by remember { mutableFloatStateOf(24f / 48f) }
     var topEndCornerFraction by remember { mutableFloatStateOf(8f / 48f) }
@@ -83,7 +86,7 @@ fun AnimatedRectButtonScreenContent(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier
+        modifier = modifier.verticalScroll(scrollState)
     ) {
         Row(
             modifier = Modifier
@@ -263,6 +266,7 @@ fun AnimatedRectBtnBox(
                 color = mainColor.copy(alpha = 0.5f),
                 haloBorderWidth = animatedSpread,
                 cornerRadius = cornerRadius,
+                shape = resolvedShape,
                 blurRadius = 16.dp
             )
             .background(
