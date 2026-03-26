@@ -15,9 +15,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,7 +26,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -137,34 +134,15 @@ fun AnimatedRectButtonScreenContent(
             }
         )
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                QuarterArcSlider(
-                    corner = CornerSliderCorner.TopStart,
-                    value = topStartCornerFraction,
-                    onValueChange = { topStartCornerFraction = it },
-                    maxValue = maxCornerRadius
-                )
-            }
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                QuarterArcSlider(
-                    corner = CornerSliderCorner.TopEnd,
-                    value = topEndCornerFraction,
-                    onValueChange = { topEndCornerFraction = it },
-                    maxValue = maxCornerRadius
-                )
-            }
-        }
+        CornerSliderPairRow(
+            startCorner = CornerSliderCorner.TopStart,
+            startValue = topStartCornerFraction,
+            onStartValueChange = { topStartCornerFraction = it },
+            endCorner = CornerSliderCorner.TopEnd,
+            endValue = topEndCornerFraction,
+            onEndValueChange = { topEndCornerFraction = it },
+            maxValue = maxCornerRadius
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -183,34 +161,15 @@ fun AnimatedRectButtonScreenContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                QuarterArcSlider(
-                    corner = CornerSliderCorner.BottomStart,
-                    value = bottomStartCornerFraction,
-                    onValueChange = { bottomStartCornerFraction = it },
-                    maxValue = maxCornerRadius
-                )
-            }
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                QuarterArcSlider(
-                    corner = CornerSliderCorner.BottomEnd,
-                    value = bottomEndCornerFraction,
-                    onValueChange = { bottomEndCornerFraction = it },
-                    maxValue = maxCornerRadius
-                )
-            }
-        }
+        CornerSliderPairRow(
+            startCorner = CornerSliderCorner.BottomStart,
+            startValue = bottomStartCornerFraction,
+            onStartValueChange = { bottomStartCornerFraction = it },
+            endCorner = CornerSliderCorner.BottomEnd,
+            endValue = bottomEndCornerFraction,
+            onEndValueChange = { bottomEndCornerFraction = it },
+            maxValue = maxCornerRadius
+        )
 
         Text(
             modifier = Modifier.padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
