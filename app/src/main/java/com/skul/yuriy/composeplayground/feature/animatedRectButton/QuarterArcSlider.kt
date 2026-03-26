@@ -327,5 +327,3 @@ private fun labelOffsetPx(
         CornerSliderCorner.BottomStart -> Offset(thumbCenter.x - labelWidth, thumbCenter.y + dy)
     }
 }
-
-private fun Dp.toPx(density: Density): Float = with(density) { this@toPx.toPx() }
