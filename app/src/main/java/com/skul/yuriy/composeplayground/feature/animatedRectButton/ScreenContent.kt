@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.animatedRectButton
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
@@ -39,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -63,30 +65,77 @@ private fun normalizeProgress(progress: Float): Float =
 
 private const val HaloSpreadAnimationDurationMs = 300
 private const val SnakeLoopAnimationDurationMs = 3500
+private const val ShapeMorphAnimationDurationMs = 360
 
 @Composable
 fun AnimatedRectButtonScreenContent(
     modifier: Modifier = Modifier,
     showDebugTrack: Boolean = true,
-    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
+    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE,
+    shapeMode: RectButtonShapeMode = RectButtonShapeMode.ROUNDED_RECTANGLE
 ) {
+    val circleButtonSize = 96.dp
+    val rectangularButtonWidth = 188.dp
+    val buttonHeight = 96.dp
     val scrollState = rememberScrollState()
-    val maxCornerRadius = 48.dp
-    var topStartCornerFraction by remember { mutableFloatStateOf(24f / 48f) }
-    var topEndCornerFraction by remember { mutableFloatStateOf(8f / 48f) }
-    var bottomEndCornerFraction by remember { mutableFloatStateOf(28f / 48f) }
-    var bottomStartCornerFraction by remember { mutableFloatStateOf(0f) }
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+    val maxCornerRadius = buttonHeight / 2
+    val defaultCornerFraction = 0f
+    var topStartCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    var topEndCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    var bottomEndCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    var bottomStartCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    val isCircleShape = shapeMode == RectButtonShapeMode.CIRCLE
+    val topStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topStartCornerFraction
+    val topEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topEndCornerFraction
+    val bottomEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomEndCornerFraction
+    val bottomStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomStartCornerFraction
+    val animatedTopStartCorner by animateDpAsState(
+        targetValue = topStartCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_top_start_corner"
+    )
+    val animatedTopEndCorner by animateDpAsState(
+        targetValue = topEndCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_top_end_corner"
+    )
+    val animatedBottomEndCorner by animateDpAsState(
+        targetValue = bottomEndCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_bottom_end_corner"
+    )
+    val animatedBottomStartCorner by animateDpAsState(
+        targetValue = bottomStartCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_bottom_start_corner"
+    )
     val animatedRectShape = RoundedCornerShape(
-        topStart = maxCornerRadius * topStartCornerFraction,
-        topEnd = maxCornerRadius * topEndCornerFraction,
-        bottomEnd = maxCornerRadius * bottomEndCornerFraction,
-        bottomStart = maxCornerRadius * bottomStartCornerFraction
+        topStart = animatedTopStartCorner,
+        topEnd = animatedTopEndCorner,
+        bottomEnd = animatedBottomEndCorner,
+        bottomStart = animatedBottomStartCorner
+    )
+    val animatedButtonWidth by animateDpAsState(
+        targetValue = if (isCircleShape) circleButtonSize else rectangularButtonWidth,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_rect_button_width"
     )
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier.verticalScroll(scrollState)
+        modifier = modifier.then(
+            if (isPortrait) {
+                // Keep portrait non-scrollable: the scroll container noticeably degrades the tap
+                // animation response because press handling via InteractionSource gets delayed
+                // inside vertically scrollable content.
+                Modifier
+            } else {
+                Modifier.verticalScroll(scrollState)
+            }
+        )
     ) {
         Row(
             modifier = Modifier
@@ -121,7 +170,7 @@ fun AnimatedRectButtonScreenContent(
 
         AnimatedRectBtnBox(
             modifier = Modifier
-                .size(width = 188.dp, height = 96.dp),
+                .size(width = animatedButtonWidth, height = buttonHeight),
             onClick = {},
             mainColor = Color.Red,
             shape = animatedRectShape,

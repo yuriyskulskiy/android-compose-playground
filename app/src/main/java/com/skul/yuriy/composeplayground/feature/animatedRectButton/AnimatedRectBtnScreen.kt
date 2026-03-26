@@ -1,8 +1,9 @@
 package com.skul.yuriy.composeplayground.feature.animatedRectButton
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -29,6 +30,7 @@ fun AnimatedRectBtnScreen() {
     val navBackStack = LocalNavBackStack.current
     var showDebugTrack by remember { mutableStateOf(false) }
     var trackPlacement by remember { mutableStateOf(RectSnakeTrackPlacement.OUTSIDE) }
+    var shapeMode by remember { mutableStateOf(RectButtonShapeMode.CIRCLE) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,28 +45,33 @@ fun AnimatedRectBtnScreen() {
             title = stringResource(R.string.animated_rect_button)
         )
 
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
         ) {
             BorderToggleButton(
                 checked = showDebugTrack,
-                onToggle = { showDebugTrack = !showDebugTrack },
-                modifier = Modifier.align(Alignment.TopStart)
+                onToggle = { showDebugTrack = !showDebugTrack }
+            )
+
+            ShapeModeToggleButton(
+                shapeMode = shapeMode,
+                onToggle = { shapeMode = shapeMode.toggle() }
             )
 
             SnakePlacementCycleButton(
                 placement = trackPlacement,
-                onNext = { trackPlacement = trackPlacement.next() },
-                modifier = Modifier.align(Alignment.TopEnd)
+                onNext = { trackPlacement = trackPlacement.next() }
             )
         }
 
         AnimatedRectButtonScreenContent(
             modifier = Modifier.fillMaxSize(),
             showDebugTrack = showDebugTrack,
-            trackPlacement = trackPlacement
+            trackPlacement = trackPlacement,
+            shapeMode = shapeMode
         )
     }
 }
