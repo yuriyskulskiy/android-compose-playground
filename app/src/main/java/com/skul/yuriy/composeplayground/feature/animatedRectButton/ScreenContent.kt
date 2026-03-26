@@ -48,9 +48,10 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
-import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
 import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.RectSnakeTrackPlacement
 import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.rectSnakeBorder
+import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
+import kotlinx.coroutines.delay
 
 /**
  * Wraps any progress value into the stable [0, 1) interval.
@@ -65,6 +66,7 @@ private fun normalizeProgress(progress: Float): Float =
 private const val HaloSpreadAnimationDurationMs = 300
 private const val SnakeLoopAnimationDurationMs = 3500
 private const val ShapeMorphAnimationDurationMs = 360
+private const val TextMorphLongPressDelayMs = 500L
 
 private class AnimatedRectButtonShapeState(
     val buttonHeight: Dp,
@@ -263,6 +265,7 @@ fun AnimatedRectBtnBox(
     )
 
     var isRunning by remember { mutableStateOf(true) }
+    var isTextMorphActive by remember { mutableStateOf(false) }
     var lastSavedProgress by remember { mutableStateOf(0f) }
     var animatedProgress by remember { mutableStateOf(0f) }
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -314,6 +317,10 @@ fun AnimatedRectBtnBox(
     LaunchedEffect(isPressed) {
         if (isPressed) {
             lastSavedProgress = normalizedProgress
+            delay(TextMorphLongPressDelayMs)
+            isTextMorphActive = true
+        } else {
+            isTextMorphActive = false
         }
     }
 
@@ -370,6 +377,7 @@ fun AnimatedRectBtnBox(
             textColor = textColor,
             textSizeSp = textSizeSp,
             isPressed = isPressed,
+            isMorphActive = isTextMorphActive,
             shadowOffset = shadowOffset,
             blurRadius = blurRadius
         )
