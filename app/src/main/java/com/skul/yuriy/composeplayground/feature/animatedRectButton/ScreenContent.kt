@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.animatedRectButton
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
@@ -14,7 +15,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -47,9 +48,10 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
-import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
 import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.RectSnakeTrackPlacement
 import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.rectSnakeBorder
+import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
+import kotlinx.coroutines.delay
 
 /**
  * Wraps any progress value into the stable [0, 1) interval.
@@ -63,105 +65,82 @@ private fun normalizeProgress(progress: Float): Float =
 
 private const val HaloSpreadAnimationDurationMs = 300
 private const val SnakeLoopAnimationDurationMs = 3500
+private const val ShapeMorphAnimationDurationMs = 360
+private const val TextMorphLongPressDelayMs = 500L
+
+private class AnimatedRectButtonShapeState(
+    val buttonHeight: Dp,
+    val maxCornerRadius: Dp,
+    val animatedButtonWidth: Dp,
+    val animatedRectShape: RoundedCornerShape
+)
 
 @Composable
 fun AnimatedRectButtonScreenContent(
     modifier: Modifier = Modifier,
     showDebugTrack: Boolean = true,
-    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE
+    trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE,
+    shapeMode: RectButtonShapeMode = RectButtonShapeMode.ROUNDED_RECTANGLE
 ) {
     val scrollState = rememberScrollState()
-    val maxCornerRadius = 48.dp
-    var topStartCornerFraction by remember { mutableFloatStateOf(24f / 48f) }
-    var topEndCornerFraction by remember { mutableFloatStateOf(8f / 48f) }
-    var bottomEndCornerFraction by remember { mutableFloatStateOf(28f / 48f) }
-    var bottomStartCornerFraction by remember { mutableFloatStateOf(0f) }
-    val animatedRectShape = RoundedCornerShape(
-        topStart = maxCornerRadius * topStartCornerFraction,
-        topEnd = maxCornerRadius * topEndCornerFraction,
-        bottomEnd = maxCornerRadius * bottomEndCornerFraction,
-        bottomStart = maxCornerRadius * bottomStartCornerFraction
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+    val defaultCornerFraction = 0f
+    var topStartCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    var topEndCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    var bottomEndCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    var bottomStartCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    val shapeState = rememberAnimatedRectButtonShape(
+        shapeMode = shapeMode,
+        topStartCornerFraction = topStartCornerFraction,
+        topEndCornerFraction = topEndCornerFraction,
+        bottomEndCornerFraction = bottomEndCornerFraction,
+        bottomStartCornerFraction = bottomStartCornerFraction
     )
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier.verticalScroll(scrollState)
+        modifier = modifier.then(
+            if (isPortrait) {
+                // Keep portrait non-scrollable: the scroll container noticeably degrades the tap
+                // animation response because press handling via InteractionSource gets delayed
+                // inside vertically scrollable content.
+                Modifier
+            } else {
+                Modifier.verticalScroll(scrollState)
+            }
+        )
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                QuarterArcSlider(
-                    corner = CornerSliderCorner.TopStart,
-                    value = topStartCornerFraction,
-                    onValueChange = { topStartCornerFraction = it },
-                    maxValue = maxCornerRadius
-                )
-            }
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                QuarterArcSlider(
-                    corner = CornerSliderCorner.TopEnd,
-                    value = topEndCornerFraction,
-                    onValueChange = { topEndCornerFraction = it },
-                    maxValue = maxCornerRadius
-                )
-            }
-        }
+        CornerSliderPairRow(
+            startCorner = CornerSliderCorner.TopStart,
+            startValue = topStartCornerFraction,
+            onStartValueChange = { topStartCornerFraction = it },
+            endCorner = CornerSliderCorner.TopEnd,
+            endValue = topEndCornerFraction,
+            onEndValueChange = { topEndCornerFraction = it },
+            maxValue = shapeState.maxCornerRadius
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedRectBtnBox(
-            modifier = Modifier
-                .size(width = 188.dp, height = 96.dp),
-            onClick = {},
-            mainColor = Color.Red,
-            shape = animatedRectShape,
-            blurRadius = 4.dp,
-            shadowOffsetSize = 8.dp,
-            text = "TEST",
+        AnimatedRectButtonDemo(
+            shapeState = shapeState,
             showDebugTrack = showDebugTrack,
             trackPlacement = trackPlacement
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                QuarterArcSlider(
-                    corner = CornerSliderCorner.BottomStart,
-                    value = bottomStartCornerFraction,
-                    onValueChange = { bottomStartCornerFraction = it },
-                    maxValue = maxCornerRadius
-                )
-            }
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                QuarterArcSlider(
-                    corner = CornerSliderCorner.BottomEnd,
-                    value = bottomEndCornerFraction,
-                    onValueChange = { bottomEndCornerFraction = it },
-                    maxValue = maxCornerRadius
-                )
-            }
-        }
+        CornerSliderPairRow(
+            startCorner = CornerSliderCorner.BottomStart,
+            startValue = bottomStartCornerFraction,
+            onStartValueChange = { bottomStartCornerFraction = it },
+            endCorner = CornerSliderCorner.BottomEnd,
+            endValue = bottomEndCornerFraction,
+            onEndValueChange = { bottomEndCornerFraction = it },
+            maxValue = shapeState.maxCornerRadius
+        )
 
         Text(
             modifier = Modifier.padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
@@ -169,6 +148,86 @@ fun AnimatedRectButtonScreenContent(
             text = stringResource(R.string.effects_description_rect)
         )
     }
+}
+
+@Composable
+private fun AnimatedRectButtonDemo(
+    shapeState: AnimatedRectButtonShapeState,
+    showDebugTrack: Boolean,
+    trackPlacement: RectSnakeTrackPlacement,
+    modifier: Modifier = Modifier
+) {
+    AnimatedRectBtnBox(
+        modifier = modifier.size(
+            width = shapeState.animatedButtonWidth,
+            height = shapeState.buttonHeight
+        ),
+        onClick = {},
+        mainColor = Color.Red,
+        shape = shapeState.animatedRectShape,
+        blurRadius = 4.dp,
+        shadowOffsetSize = 8.dp,
+        text = "TEST",
+        showDebugTrack = showDebugTrack,
+        trackPlacement = trackPlacement
+    )
+}
+
+@Composable
+private fun rememberAnimatedRectButtonShape(
+    shapeMode: RectButtonShapeMode,
+    topStartCornerFraction: Float,
+    topEndCornerFraction: Float,
+    bottomEndCornerFraction: Float,
+    bottomStartCornerFraction: Float,
+): AnimatedRectButtonShapeState {
+    val circleButtonSize = 96.dp
+    val rectangularButtonWidth = 188.dp
+    val buttonHeight = 96.dp
+    val maxCornerRadius = buttonHeight / 2
+    val isCircleShape = shapeMode == RectButtonShapeMode.CIRCLE
+    val topStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topStartCornerFraction
+    val topEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topEndCornerFraction
+    val bottomEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomEndCornerFraction
+    val bottomStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomStartCornerFraction
+
+    val animatedTopStartCorner by animateDpAsState(
+        targetValue = topStartCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_top_start_corner"
+    )
+    val animatedTopEndCorner by animateDpAsState(
+        targetValue = topEndCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_top_end_corner"
+    )
+    val animatedBottomEndCorner by animateDpAsState(
+        targetValue = bottomEndCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_bottom_end_corner"
+    )
+    val animatedBottomStartCorner by animateDpAsState(
+        targetValue = bottomStartCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_bottom_start_corner"
+    )
+    val animatedButtonWidth by animateDpAsState(
+        targetValue = if (isCircleShape) circleButtonSize else rectangularButtonWidth,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_rect_button_width"
+    )
+
+    return AnimatedRectButtonShapeState(
+        buttonHeight = buttonHeight,
+        maxCornerRadius = maxCornerRadius,
+        animatedButtonWidth = animatedButtonWidth,
+        animatedRectShape = RoundedCornerShape(
+            topStart = animatedTopStartCorner,
+            topEnd = animatedTopEndCorner,
+            bottomEnd = animatedBottomEndCorner,
+            bottomStart = animatedBottomStartCorner
+        )
+    )
 }
 
 @Composable
@@ -206,6 +265,7 @@ fun AnimatedRectBtnBox(
     )
 
     var isRunning by remember { mutableStateOf(true) }
+    var isTextMorphActive by remember { mutableStateOf(false) }
     var lastSavedProgress by remember { mutableStateOf(0f) }
     var animatedProgress by remember { mutableStateOf(0f) }
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -257,6 +317,10 @@ fun AnimatedRectBtnBox(
     LaunchedEffect(isPressed) {
         if (isPressed) {
             lastSavedProgress = normalizedProgress
+            delay(TextMorphLongPressDelayMs)
+            isTextMorphActive = true
+        } else {
+            isTextMorphActive = false
         }
     }
 
@@ -313,6 +377,7 @@ fun AnimatedRectBtnBox(
             textColor = textColor,
             textSizeSp = textSizeSp,
             isPressed = isPressed,
+            isMorphActive = isTextMorphActive,
             shadowOffset = shadowOffset,
             blurRadius = blurRadius
         )
