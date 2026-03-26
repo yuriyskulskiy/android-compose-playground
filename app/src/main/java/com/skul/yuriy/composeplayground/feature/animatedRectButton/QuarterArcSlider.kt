@@ -19,6 +19,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -74,37 +75,15 @@ internal fun QuarterArcSlider(
         modifier = modifier
             .size(touchTargetSize)
             .pointerInput(corner, maxValue, density) {
-                awaitEachGesture {
-                    val down = awaitFirstDown(requireUnconsumed = false)
-                    isDragging = true
-                    onValueChange(
-                        valueFromTouch(
-                            touch = down.position - Offset(touchPaddingPx, touchPaddingPx),
-                            corner = corner,
-                            sizePx = sliderSizePx,
-                            paddingPx = arcPaddingPx
-                        )
-                    )
-                    down.consume()
-
-                    do {
-                        val event = awaitPointerEvent()
-                        val change = event.changes.firstOrNull() ?: break
-                        if (change.pressed) {
-                            onValueChange(
-                                valueFromTouch(
-                                    touch = change.position - Offset(touchPaddingPx, touchPaddingPx),
-                                    corner = corner,
-                                    sizePx = sliderSizePx,
-                                    paddingPx = arcPaddingPx
-                                )
-                            )
-                            change.consume()
-                        }
-                    } while (event.changes.any { it.pressed })
-
-                    isDragging = false
-                }
+                handleQuarterArcSliderGestures(
+                    corner = corner,
+                    sliderSizePx = sliderSizePx,
+                    touchPaddingPx = touchPaddingPx,
+                    arcPaddingPx = arcPaddingPx,
+                    onDragStart = { isDragging = true },
+                    onDragEnd = { isDragging = false },
+                    onValueChange = onValueChange
+                )
             }
     ) {
         Box(
@@ -152,6 +131,66 @@ internal fun QuarterArcSlider(
             }
         }
     }
+}
+
+private suspend fun PointerInputScope.handleQuarterArcSliderGestures(
+    corner: CornerSliderCorner,
+    sliderSizePx: Float,
+    touchPaddingPx: Float,
+    arcPaddingPx: Float,
+    onDragStart: () -> Unit,
+    onDragEnd: () -> Unit,
+    onValueChange: (Float) -> Unit,
+) {
+    awaitEachGesture {
+        val down = awaitFirstDown(requireUnconsumed = false)
+        onDragStart()
+        updateQuarterArcSliderValueFromTouch(
+            touch = down.position,
+            corner = corner,
+            sliderSizePx = sliderSizePx,
+            touchPaddingPx = touchPaddingPx,
+            arcPaddingPx = arcPaddingPx,
+            onValueChange = onValueChange
+        )
+        down.consume()
+
+        do {
+            val event = awaitPointerEvent()
+            val change = event.changes.firstOrNull() ?: break
+            if (change.pressed) {
+                updateQuarterArcSliderValueFromTouch(
+                    touch = change.position,
+                    corner = corner,
+                    sliderSizePx = sliderSizePx,
+                    touchPaddingPx = touchPaddingPx,
+                    arcPaddingPx = arcPaddingPx,
+                    onValueChange = onValueChange
+                )
+                change.consume()
+            }
+        } while (event.changes.any { it.pressed })
+
+        onDragEnd()
+    }
+}
+
+private fun updateQuarterArcSliderValueFromTouch(
+    touch: Offset,
+    corner: CornerSliderCorner,
+    sliderSizePx: Float,
+    touchPaddingPx: Float,
+    arcPaddingPx: Float,
+    onValueChange: (Float) -> Unit,
+) {
+    onValueChange(
+        valueFromTouch(
+            touch = touch - Offset(touchPaddingPx, touchPaddingPx),
+            corner = corner,
+            sizePx = sliderSizePx,
+            paddingPx = arcPaddingPx
+        )
+    )
 }
 
 private class CornerArcSpec(
