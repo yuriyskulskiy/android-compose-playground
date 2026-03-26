@@ -165,7 +165,7 @@ internal fun ShapeModeToggleButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Shape",
+                text = stringResource(R.string.rect_button_shape),
                 color = Color.White
             )
             Box(

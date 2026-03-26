@@ -76,6 +76,7 @@
     <string name="rect_snake_track_inside">Inside</string>
     <string name="rect_snake_track_on_edge">On edge</string>
     <string name="rect_snake_track_outside">Outside</string>
+    <string name="rect_button_shape">Shape</string>
     <string name="alpha">Alpha:</string>
     <string name="scale_factor">Scale Factor:</string>
     <string name="blur_radius_dp">Blur Radius (Dp):</string>

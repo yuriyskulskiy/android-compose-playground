@@ -66,6 +66,13 @@ private const val HaloSpreadAnimationDurationMs = 300
 private const val SnakeLoopAnimationDurationMs = 3500
 private const val ShapeMorphAnimationDurationMs = 360
 
+private class AnimatedRectButtonShapeState(
+    val buttonHeight: Dp,
+    val maxCornerRadius: Dp,
+    val animatedButtonWidth: Dp,
+    val animatedRectShape: RoundedCornerShape
+)
+
 @Composable
 fun AnimatedRectButtonScreenContent(
     modifier: Modifier = Modifier,
@@ -73,53 +80,20 @@ fun AnimatedRectButtonScreenContent(
     trackPlacement: RectSnakeTrackPlacement = RectSnakeTrackPlacement.CENTER_ON_EDGE,
     shapeMode: RectButtonShapeMode = RectButtonShapeMode.ROUNDED_RECTANGLE
 ) {
-    val circleButtonSize = 96.dp
-    val rectangularButtonWidth = 188.dp
-    val buttonHeight = 96.dp
     val scrollState = rememberScrollState()
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-    val maxCornerRadius = buttonHeight / 2
     val defaultCornerFraction = 0f
     var topStartCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
     var topEndCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
     var bottomEndCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
     var bottomStartCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
-    val isCircleShape = shapeMode == RectButtonShapeMode.CIRCLE
-    val topStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topStartCornerFraction
-    val topEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topEndCornerFraction
-    val bottomEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomEndCornerFraction
-    val bottomStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomStartCornerFraction
-    val animatedTopStartCorner by animateDpAsState(
-        targetValue = topStartCornerTarget,
-        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
-        label = "animated_top_start_corner"
-    )
-    val animatedTopEndCorner by animateDpAsState(
-        targetValue = topEndCornerTarget,
-        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
-        label = "animated_top_end_corner"
-    )
-    val animatedBottomEndCorner by animateDpAsState(
-        targetValue = bottomEndCornerTarget,
-        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
-        label = "animated_bottom_end_corner"
-    )
-    val animatedBottomStartCorner by animateDpAsState(
-        targetValue = bottomStartCornerTarget,
-        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
-        label = "animated_bottom_start_corner"
-    )
-    val animatedRectShape = RoundedCornerShape(
-        topStart = animatedTopStartCorner,
-        topEnd = animatedTopEndCorner,
-        bottomEnd = animatedBottomEndCorner,
-        bottomStart = animatedBottomStartCorner
-    )
-    val animatedButtonWidth by animateDpAsState(
-        targetValue = if (isCircleShape) circleButtonSize else rectangularButtonWidth,
-        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
-        label = "animated_rect_button_width"
+    val shapeState = rememberAnimatedRectButtonShape(
+        shapeMode = shapeMode,
+        topStartCornerFraction = topStartCornerFraction,
+        topEndCornerFraction = topEndCornerFraction,
+        bottomEndCornerFraction = bottomEndCornerFraction,
+        bottomStartCornerFraction = bottomStartCornerFraction
     )
 
     Column(
@@ -143,20 +117,13 @@ fun AnimatedRectButtonScreenContent(
             endCorner = CornerSliderCorner.TopEnd,
             endValue = topEndCornerFraction,
             onEndValueChange = { topEndCornerFraction = it },
-            maxValue = maxCornerRadius
+            maxValue = shapeState.maxCornerRadius
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedRectBtnBox(
-            modifier = Modifier
-                .size(width = animatedButtonWidth, height = buttonHeight),
-            onClick = {},
-            mainColor = Color.Red,
-            shape = animatedRectShape,
-            blurRadius = 4.dp,
-            shadowOffsetSize = 8.dp,
-            text = "TEST",
+        AnimatedRectButtonDemo(
+            shapeState = shapeState,
             showDebugTrack = showDebugTrack,
             trackPlacement = trackPlacement
         )
@@ -170,7 +137,7 @@ fun AnimatedRectButtonScreenContent(
             endCorner = CornerSliderCorner.BottomEnd,
             endValue = bottomEndCornerFraction,
             onEndValueChange = { bottomEndCornerFraction = it },
-            maxValue = maxCornerRadius
+            maxValue = shapeState.maxCornerRadius
         )
 
         Text(
@@ -179,6 +146,86 @@ fun AnimatedRectButtonScreenContent(
             text = stringResource(R.string.effects_description_rect)
         )
     }
+}
+
+@Composable
+private fun AnimatedRectButtonDemo(
+    shapeState: AnimatedRectButtonShapeState,
+    showDebugTrack: Boolean,
+    trackPlacement: RectSnakeTrackPlacement,
+    modifier: Modifier = Modifier
+) {
+    AnimatedRectBtnBox(
+        modifier = modifier.size(
+            width = shapeState.animatedButtonWidth,
+            height = shapeState.buttonHeight
+        ),
+        onClick = {},
+        mainColor = Color.Red,
+        shape = shapeState.animatedRectShape,
+        blurRadius = 4.dp,
+        shadowOffsetSize = 8.dp,
+        text = "TEST",
+        showDebugTrack = showDebugTrack,
+        trackPlacement = trackPlacement
+    )
+}
+
+@Composable
+private fun rememberAnimatedRectButtonShape(
+    shapeMode: RectButtonShapeMode,
+    topStartCornerFraction: Float,
+    topEndCornerFraction: Float,
+    bottomEndCornerFraction: Float,
+    bottomStartCornerFraction: Float,
+): AnimatedRectButtonShapeState {
+    val circleButtonSize = 96.dp
+    val rectangularButtonWidth = 188.dp
+    val buttonHeight = 96.dp
+    val maxCornerRadius = buttonHeight / 2
+    val isCircleShape = shapeMode == RectButtonShapeMode.CIRCLE
+    val topStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topStartCornerFraction
+    val topEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topEndCornerFraction
+    val bottomEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomEndCornerFraction
+    val bottomStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomStartCornerFraction
+
+    val animatedTopStartCorner by animateDpAsState(
+        targetValue = topStartCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_top_start_corner"
+    )
+    val animatedTopEndCorner by animateDpAsState(
+        targetValue = topEndCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_top_end_corner"
+    )
+    val animatedBottomEndCorner by animateDpAsState(
+        targetValue = bottomEndCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_bottom_end_corner"
+    )
+    val animatedBottomStartCorner by animateDpAsState(
+        targetValue = bottomStartCornerTarget,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_bottom_start_corner"
+    )
+    val animatedButtonWidth by animateDpAsState(
+        targetValue = if (isCircleShape) circleButtonSize else rectangularButtonWidth,
+        animationSpec = tween(durationMillis = ShapeMorphAnimationDurationMs),
+        label = "animated_rect_button_width"
+    )
+
+    return AnimatedRectButtonShapeState(
+        buttonHeight = buttonHeight,
+        maxCornerRadius = maxCornerRadius,
+        animatedButtonWidth = animatedButtonWidth,
+        animatedRectShape = RoundedCornerShape(
+            topStart = animatedTopStartCorner,
+            topEnd = animatedTopEndCorner,
+            bottomEnd = animatedBottomEndCorner,
+            bottomStart = animatedBottomStartCorner
+        )
+    )
 }
 
 @Composable
