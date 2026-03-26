@@ -1,9 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.animatedRectButton
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -13,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -45,27 +42,17 @@ fun AnimatedRectBtnScreen() {
             title = stringResource(R.string.animated_rect_button)
         )
 
-        Row(
+        AnimatedRectButtonSettingsBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
-        ) {
-            BorderToggleButton(
-                checked = showDebugTrack,
-                onToggle = { showDebugTrack = !showDebugTrack }
-            )
-
-            ShapeModeToggleButton(
-                shapeMode = shapeMode,
-                onToggle = { shapeMode = shapeMode.toggle() }
-            )
-
-            SnakePlacementCycleButton(
-                placement = trackPlacement,
-                onNext = { trackPlacement = trackPlacement.next() }
-            )
-        }
+            showDebugTrack = showDebugTrack,
+            onToggleDebugTrack = { showDebugTrack = !showDebugTrack },
+            shapeMode = shapeMode,
+            onToggleShapeMode = { shapeMode = shapeMode.toggle() },
+            trackPlacement = trackPlacement,
+            onCycleTrackPlacement = { trackPlacement = trackPlacement.next() }
+        )
 
         AnimatedRectButtonScreenContent(
             modifier = Modifier.fillMaxSize(),

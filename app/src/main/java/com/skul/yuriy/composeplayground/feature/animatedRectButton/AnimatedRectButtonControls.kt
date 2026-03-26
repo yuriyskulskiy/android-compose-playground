@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -28,36 +29,94 @@ import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.RectSnakeTrackPlacement
 
 @Composable
-internal fun BorderToggleButton(
-    checked: Boolean,
-    onToggle: () -> Unit,
-    modifier: Modifier = Modifier
+private fun AnimatedRectControlChip(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isActive: Boolean = false,
+    animateSize: Boolean = false,
+    horizontalPadding: androidx.compose.ui.unit.Dp = 12.dp,
+    verticalPadding: androidx.compose.ui.unit.Dp = 8.dp,
+    contentAlignment: Alignment = Alignment.Center,
+    content: @Composable () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val isActive = checked || isPressed
     val shape = RoundedCornerShape(10.dp)
 
     Box(
         modifier = modifier
+            .clip(shape)
             .border(
                 width = 1.dp,
-                color = if (isActive) Color.White else Color.Gray,
+                color = if (isActive || isPressed) Color.White else Color.Gray,
                 shape = shape
             )
             .background(
-                color = when {
-                    isPressed -> Color.White.copy(alpha = 0.15f)
-                    else -> Color.Transparent
-                },
+                color = if (isPressed) Color.White.copy(alpha = 0.15f) else Color.Transparent,
                 shape = shape
             )
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
-                onClick = onToggle
+                onClick = onClick
             )
-            .padding(horizontal = 14.dp, vertical = 8.dp)
+            .then(
+                if (animateSize) {
+                    Modifier.animateContentSize()
+                } else {
+                    Modifier
+                }
+            )
+            .padding(horizontal = horizontalPadding, vertical = verticalPadding),
+        contentAlignment = contentAlignment
+    ) {
+        content()
+    }
+}
+
+@Composable
+internal fun AnimatedRectButtonSettingsBar(
+    showDebugTrack: Boolean,
+    onToggleDebugTrack: () -> Unit,
+    shapeMode: RectButtonShapeMode,
+    onToggleShapeMode: () -> Unit,
+    trackPlacement: RectSnakeTrackPlacement,
+    onCycleTrackPlacement: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(12.dp, androidx.compose.ui.Alignment.CenterHorizontally)
+    ) {
+        BorderToggleButton(
+            checked = showDebugTrack,
+            onToggle = onToggleDebugTrack
+        )
+
+        ShapeModeToggleButton(
+            shapeMode = shapeMode,
+            onToggle = onToggleShapeMode
+        )
+
+        SnakePlacementCycleButton(
+            placement = trackPlacement,
+            onNext = onCycleTrackPlacement
+        )
+    }
+}
+
+@Composable
+internal fun BorderToggleButton(
+    checked: Boolean,
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AnimatedRectControlChip(
+        onClick = onToggle,
+        modifier = modifier,
+        isActive = checked,
+        horizontalPadding = 14.dp,
+        verticalPadding = 8.dp
     ) {
         Text(
             text = stringResource(
@@ -74,29 +133,12 @@ internal fun SnakePlacementCycleButton(
     onNext: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val shape = RoundedCornerShape(10.dp)
-
-    Box(
-        modifier = modifier
-            .clip(shape)
-            .border(
-                width = 1.dp,
-                color = if (isPressed) Color.White else Color.Gray,
-                shape = shape
-            )
-            .background(
-                color = if (isPressed) Color.White.copy(alpha = 0.15f) else Color.Transparent,
-                shape = shape
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onNext
-            )
-            .animateContentSize()
-            .padding(horizontal = 12.dp, vertical = 8.dp)
+    AnimatedRectControlChip(
+        onClick = onNext,
+        modifier = modifier,
+        animateSize = true,
+        horizontalPadding = 12.dp,
+        verticalPadding = 8.dp
     ) {
         Text(
             text = stringResource(placement.toUiLabelRes()),
@@ -111,33 +153,16 @@ internal fun ShapeModeToggleButton(
     onToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val shape = RoundedCornerShape(10.dp)
-
-    Box(
-        modifier = modifier
-            .clip(shape)
-            .border(
-                width = 1.dp,
-                color = if (isPressed) Color.White else Color.Gray,
-                shape = shape
-            )
-            .background(
-                color = if (isPressed) Color.White.copy(alpha = 0.15f) else Color.Transparent,
-                shape = shape
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onToggle
-            )
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        contentAlignment = androidx.compose.ui.Alignment.Center
+    AnimatedRectControlChip(
+        onClick = onToggle,
+        modifier = modifier,
+        horizontalPadding = 12.dp,
+        verticalPadding = 8.dp,
+        contentAlignment = Alignment.Center
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Shape",
