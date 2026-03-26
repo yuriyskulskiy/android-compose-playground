@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -124,7 +125,10 @@ fun GlowingText(
                         )
                         .blur(blurRadius),
                     color = textColor.copy(alpha = 0.99f),
-                    fontSize = textSizeSp.sp
+                    fontSize = textSizeSp.sp,
+                    maxLines = 1,
+                    softWrap = false,
+                    overflow = TextOverflow.Clip
                 )
             }
         }
@@ -140,7 +144,10 @@ fun GlowingText(
             Text(
                 text = animatedText,
                 color = textColor,
-                fontSize = textSizeSp.sp
+                fontSize = textSizeSp.sp,
+                maxLines = 1,
+                softWrap = false,
+                overflow = TextOverflow.Clip
             )
         }
     }
