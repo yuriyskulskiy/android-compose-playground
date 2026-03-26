@@ -87,29 +87,19 @@ fun Modifier.rectSnakeBorder(
         snakeLengthFraction = snakeLengthFraction,
         totalLen = totalLen
     )
-    val bodyStrokePaint = Paint().apply {
-        isAntiAlias = true
-        color = bodyColorTo.toArgb()
-        style = Paint.Style.STROKE
-        strokeWidth = bodyStrokeWidthPx
-        strokeCap = Paint.Cap.BUTT
-        strokeJoin = Paint.Join.ROUND
-    }
-    val glowStrokePaint = Paint().apply {
-        isAntiAlias = true
-        color = glowColorTo.toArgb()
-        style = Paint.Style.STROKE
-        strokeWidth = glowingStrokeWidthPx
-        strokeCap = Paint.Cap.BUTT
-        strokeJoin = Paint.Join.ROUND
-        maskFilter = BlurMaskFilter(glowingBlurRadiusPx, BlurMaskFilter.Blur.NORMAL)
-    }
-    val glowHeadPaint = Paint().apply {
-        isAntiAlias = true
-        color = glowColorTo.toArgb()
-        style = Paint.Style.FILL
-        maskFilter = BlurMaskFilter(glowingBlurRadiusPx, BlurMaskFilter.Blur.NORMAL)
-    }
+    val bodyStrokePaint = createBodyStrokePaint(
+        color = bodyColorTo,
+        strokeWidthPx = bodyStrokeWidthPx
+    )
+    val glowStrokePaint = createGlowStrokePaint(
+        color = glowColorTo,
+        strokeWidthPx = glowingStrokeWidthPx,
+        blurRadiusPx = glowingBlurRadiusPx
+    )
+    val glowHeadPaint = createGlowHeadPaint(
+        color = glowColorTo,
+        blurRadiusPx = glowingBlurRadiusPx
+    )
 
     val head = pointAtDistance(geometry, snakeState.headDistance)
     onDrawBehind {
@@ -345,6 +335,42 @@ private fun pointOnCircle(center: Offset, radius: Float, angleRadians: Float): O
     x = center.x + radius * cos(angleRadians),
     y = center.y + radius * sin(angleRadians)
 )
+
+private fun createBodyStrokePaint(
+    color: Color,
+    strokeWidthPx: Float
+): Paint = Paint().apply {
+    isAntiAlias = true
+    this.color = color.toArgb()
+    style = Paint.Style.STROKE
+    strokeWidth = strokeWidthPx
+    strokeCap = Paint.Cap.BUTT
+    strokeJoin = Paint.Join.ROUND
+}
+
+private fun createGlowStrokePaint(
+    color: Color,
+    strokeWidthPx: Float,
+    blurRadiusPx: Float
+): Paint = Paint().apply {
+    isAntiAlias = true
+    this.color = color.toArgb()
+    style = Paint.Style.STROKE
+    strokeWidth = strokeWidthPx
+    strokeCap = Paint.Cap.BUTT
+    strokeJoin = Paint.Join.ROUND
+    maskFilter = BlurMaskFilter(blurRadiusPx, BlurMaskFilter.Blur.NORMAL)
+}
+
+private fun createGlowHeadPaint(
+    color: Color,
+    blurRadiusPx: Float
+): Paint = Paint().apply {
+    isAntiAlias = true
+    this.color = color.toArgb()
+    style = Paint.Style.FILL
+    maskFilter = BlurMaskFilter(blurRadiusPx, BlurMaskFilter.Blur.NORMAL)
+}
 
 private class RectSnakeCornerRadii(
     val topLeft: Float,
