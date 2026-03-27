@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,9 +25,9 @@ import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.RectSna
 @Composable
 fun AnimatedRectBtnScreen() {
     val navBackStack = LocalNavBackStack.current
-    var showDebugTrack by remember { mutableStateOf(false) }
-    var trackPlacement by remember { mutableStateOf(RectSnakeTrackPlacement.OUTSIDE) }
-    var shapeMode by remember { mutableStateOf(RectButtonShapeMode.CIRCLE) }
+    var showDebugTrack by rememberSaveable { mutableStateOf(false) }
+    var trackPlacement by rememberSaveable { mutableStateOf(RectSnakeTrackPlacement.OUTSIDE) }
+    var shapeMode by rememberSaveable { mutableStateOf(RectButtonShapeMode.CIRCLE) }
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -53,7 +53,7 @@ fun Modifier.rectSnakeBorder(
     bodyColorTo: Color = Color.Green,
     glowColorFrom: Color = Color.Green.copy(alpha = 0f),
     glowColorTo: Color = Color.Green.copy(alpha = 0.8f),
-    progress: Float = 0f,
+    state: RectSnakeState,
     cornerRadius: Dp = 28.dp,
     shape: Shape? = null,
     snakeLengthFraction: Float = 0.28f,
@@ -83,7 +83,7 @@ fun Modifier.rectSnakeBorder(
     val segmentStarts = geometry.segmentStarts
     val totalLen = geometry.totalLen
     val snakeState = buildRectSnakeProgressState(
-        progress = progress,
+        progress = state.progress,
         snakeLengthFraction = snakeLengthFraction,
         totalLen = totalLen
     )

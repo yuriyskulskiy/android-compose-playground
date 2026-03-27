@@ -1,12 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.animatedRectButton
 
 import android.content.res.Configuration
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.Spacer
@@ -26,12 +20,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,28 +37,15 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.animatedBorderRect.border.blurmask.drawOutlineBlurMaskShadow
 import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.RectSnakeTrackPlacement
+import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.rememberRectSnakeState
 import com.skul.yuriy.composeplayground.feature.animatedRectButton.snake.rectSnakeBorder
 import com.skul.yuriy.composeplayground.util.math.computeShadowOffset
 import kotlinx.coroutines.delay
 
-/**
- * Wraps any progress value into the stable [0, 1) interval.
- *
- * The double modulo form is intentional: a plain `% 1f` can stay negative for negative inputs,
- * while this version normalizes both positive overflow and negative values into the same cyclic
- * progress range used by the snake animation.
- */
-private fun normalizeProgress(progress: Float): Float =
-    ((progress % 1f) + 1f) % 1f
-
 private const val HaloSpreadAnimationDurationMs = 300
-private const val SnakeLoopAnimationDurationMs = 3500
 private const val ShapeMorphAnimationDurationMs = 360
 private const val TextMorphLongPressDelayMs = 500L
 
@@ -86,10 +67,10 @@ fun AnimatedRectButtonScreenContent(
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
     val defaultCornerFraction = 0f
-    var topStartCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
-    var topEndCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
-    var bottomEndCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
-    var bottomStartCornerFraction by remember { mutableFloatStateOf(defaultCornerFraction) }
+    var topStartCornerFraction by rememberSaveable { mutableFloatStateOf(defaultCornerFraction) }
+    var topEndCornerFraction by rememberSaveable { mutableFloatStateOf(defaultCornerFraction) }
+    var bottomEndCornerFraction by rememberSaveable { mutableFloatStateOf(defaultCornerFraction) }
+    var bottomStartCornerFraction by rememberSaveable { mutableFloatStateOf(defaultCornerFraction) }
     val shapeState = rememberAnimatedRectButtonShape(
         shapeMode = shapeMode,
         topStartCornerFraction = topStartCornerFraction,
@@ -264,50 +245,9 @@ fun AnimatedRectBtnBox(
         label = ""
     )
 
-    var isRunning by remember { mutableStateOf(true) }
     var isTextMorphActive by remember { mutableStateOf(false) }
-    var lastSavedProgress by remember { mutableStateOf(0f) }
-    var animatedProgress by remember { mutableStateOf(0f) }
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_PAUSE, Lifecycle.Event.ON_STOP -> {
-                    isRunning = false
-                    lastSavedProgress = animatedProgress
-                }
-
-                Lifecycle.Event.ON_RESUME -> {
-                    isRunning = true
-                }
-
-                else -> {}
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
-    val infiniteTransition = if (isRunning && !isPressed) rememberInfiniteTransition() else null
-
-    if (infiniteTransition != null) {
-        val animatedProgressValue by infiniteTransition.animateFloat(
-            initialValue = lastSavedProgress,
-            targetValue = lastSavedProgress + 1f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(SnakeLoopAnimationDurationMs, easing = LinearEasing),
-                repeatMode = RepeatMode.Restart
-            ),
-            label = ""
-        )
-        animatedProgress = animatedProgressValue
-    }
-
-    val normalizedProgress = normalizeProgress(animatedProgress)
-    val progressDegrees = normalizedProgress * 360f
+    val snakeState = rememberRectSnakeState(enabled = !isPressed)
+    val progressDegrees = snakeState.progress * 360f
 
     val shadowOffset = remember(progressDegrees, shadowOffsetSize) {
         val correctedAngle = correctionOffsetForTextPhase - progressDegrees
@@ -316,7 +256,6 @@ fun AnimatedRectBtnBox(
 
     LaunchedEffect(isPressed) {
         if (isPressed) {
-            lastSavedProgress = normalizedProgress
             delay(TextMorphLongPressDelayMs)
             isTextMorphActive = true
         } else {
@@ -345,10 +284,10 @@ fun AnimatedRectBtnBox(
                 }
             )
             .then(
-                if (!isPressed && isRunning) {
+                if (!isPressed && snakeState.isRunning) {
                     Modifier.rectSnakeBorder(
+                        state = snakeState,
                         snakeLengthFraction = 0.75f,
-                        progress = normalizedProgress,
                         bodyColorFrom = mainColor.copy(alpha = 0f),
                         bodyColorTo = mainColor,
                         glowColorFrom = mainColor.copy(alpha = 0f),
