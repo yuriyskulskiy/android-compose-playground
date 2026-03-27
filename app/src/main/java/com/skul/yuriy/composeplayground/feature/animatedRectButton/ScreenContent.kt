@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,7 +54,7 @@ private class AnimatedRectButtonShapeState(
     val buttonHeight: Dp,
     val maxCornerRadius: Dp,
     val animatedButtonWidth: Dp,
-    val animatedRectShape: RoundedCornerShape
+    val buttonShape: Shape
 )
 
 @Composable
@@ -145,7 +146,7 @@ private fun AnimatedRectButtonDemo(
         ),
         onClick = {},
         mainColor = Color.Red,
-        shape = shapeState.animatedRectShape,
+        shape = shapeState.buttonShape,
         blurRadius = 4.dp,
         shadowOffsetSize = 8.dp,
         text = "TEST",
@@ -167,10 +168,14 @@ private fun rememberAnimatedRectButtonShape(
     val buttonHeight = 96.dp
     val maxCornerRadius = buttonHeight / 2
     val isCircleShape = shapeMode == RectButtonShapeMode.CIRCLE
-    val topStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topStartCornerFraction
-    val topEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * topEndCornerFraction
-    val bottomEndCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomEndCornerFraction
-    val bottomStartCornerTarget = if (isCircleShape) buttonHeight else maxCornerRadius * bottomStartCornerFraction
+    val topStartCornerTarget =
+        if (isCircleShape) buttonHeight else maxCornerRadius * topStartCornerFraction
+    val topEndCornerTarget =
+        if (isCircleShape) buttonHeight else maxCornerRadius * topEndCornerFraction
+    val bottomEndCornerTarget =
+        if (isCircleShape) buttonHeight else maxCornerRadius * bottomEndCornerFraction
+    val bottomStartCornerTarget =
+        if (isCircleShape) buttonHeight else maxCornerRadius * bottomStartCornerFraction
 
     val animatedTopStartCorner by animateDpAsState(
         targetValue = topStartCornerTarget,
@@ -202,12 +207,15 @@ private fun rememberAnimatedRectButtonShape(
         buttonHeight = buttonHeight,
         maxCornerRadius = maxCornerRadius,
         animatedButtonWidth = animatedButtonWidth,
-        animatedRectShape = RoundedCornerShape(
-            topStart = animatedTopStartCorner,
-            topEnd = animatedTopEndCorner,
-            bottomEnd = animatedBottomEndCorner,
-            bottomStart = animatedBottomStartCorner
-        )
+        buttonShape = when (shapeMode) {
+            RectButtonShapeMode.CIRCLE -> CircleShape
+            RectButtonShapeMode.ROUNDED_RECTANGLE -> RoundedCornerShape(
+                topStart = animatedTopStartCorner,
+                topEnd = animatedTopEndCorner,
+                bottomEnd = animatedBottomEndCorner,
+                bottomStart = animatedBottomStartCorner
+            )
+        }
     )
 }
 
