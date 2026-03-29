@@ -1,0 +1,675 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="sequentially">
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z"
+        android:valueTo="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z"
+        android:valueTo="M11.97985,8 A255.47287,255.47287 0 0 0 12.02015,8 A4,4 0 0 0 12.02015,16 A255.47287,255.47287 0 0 0 11.97985,16 A4,4 0 0 0 11.97985,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.97985,8 A255.47287,255.47287 0 0 0 12.02015,8 A4,4 0 0 0 12.02015,16 A255.47287,255.47287 0 0 0 11.97985,16 A4,4 0 0 0 11.97985,8 Z"
+        android:valueTo="M11.95256,8 A254.32832,254.32832 0 0 0 12.04744,8 A4,4 0 0 0 12.04744,16 A254.32832,254.32832 0 0 0 11.95256,16 A4,4 0 0 0 11.95256,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.95256,8 A254.32832,254.32832 0 0 0 12.04744,8 A4,4 0 0 0 12.04744,16 A254.32832,254.32832 0 0 0 11.95256,16 A4,4 0 0 0 11.95256,8 Z"
+        android:valueTo="M11.9116,8 A252.1379,252.1379 0 0 0 12.0884,8 A4,4 0 0 0 12.0884,16 A252.1379,252.1379 0 0 0 11.9116,16 A4,4 0 0 0 11.9116,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.9116,8 A252.1379,252.1379 0 0 0 12.0884,8 A4,4 0 0 0 12.0884,16 A252.1379,252.1379 0 0 0 11.9116,16 A4,4 0 0 0 11.9116,8 Z"
+        android:valueTo="M11.85494,8 A248.4988,248.4988 0 0 0 12.14506,8 A4,4 0 0 0 12.14506,16 A248.4988,248.4988 0 0 0 11.85494,16 A4,4 0 0 0 11.85494,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.85494,8 A248.4988,248.4988 0 0 0 12.14506,8 A4,4 0 0 0 12.14506,16 A248.4988,248.4988 0 0 0 11.85494,16 A4,4 0 0 0 11.85494,8 Z"
+        android:valueTo="M11.78018,8 A242.95181,242.95181 0 0 0 12.21982,8 A4,4 0 0 0 12.21982,16 A242.95181,242.95181 0 0 0 11.78018,16 A4,4 0 0 0 11.78018,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.78018,8 A242.95181,242.95181 0 0 0 12.21982,8 A4,4 0 0 0 12.21982,16 A242.95181,242.95181 0 0 0 11.78018,16 A4,4 0 0 0 11.78018,8 Z"
+        android:valueTo="M11.68461,8 A234.98959,234.98959 0 0 0 12.31539,8 A4,4 0 0 0 12.31539,16 A234.98959,234.98959 0 0 0 11.68461,16 A4,4 0 0 0 11.68461,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.68461,8 A234.98959,234.98959 0 0 0 12.31539,8 A4,4 0 0 0 12.31539,16 A234.98959,234.98959 0 0 0 11.68461,16 A4,4 0 0 0 11.68461,8 Z"
+        android:valueTo="M11.56521,8.00001 A224.08888,224.08888 0 0 0 12.43479,8.00001 A4,4 0 0 0 12.43479,15.99999 A224.08888,224.08888 0 0 0 11.56521,15.99999 A4,4 0 0 0 11.56521,8.00001 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.56521,8.00001 A224.08888,224.08888 0 0 0 12.43479,8.00001 A4,4 0 0 0 12.43479,15.99999 A224.08888,224.08888 0 0 0 11.56521,15.99999 A4,4 0 0 0 11.56521,8.00001 Z"
+        android:valueTo="M11.41894,8.00002 A209.78349,209.78349 0 0 0 12.58106,8.00002 A4,4 0 0 0 12.58106,15.99998 A209.78349,209.78349 0 0 0 11.41894,15.99998 A4,4 0 0 0 11.41894,8.00002 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.41894,8.00002 A209.78349,209.78349 0 0 0 12.58106,8.00002 A4,4 0 0 0 12.58106,15.99998 A209.78349,209.78349 0 0 0 11.41894,15.99998 A4,4 0 0 0 11.41894,8.00002 Z"
+        android:valueTo="M11.24325,8.00003 A191.79873,191.79873 0 0 0 12.75675,8.00003 A4,4 0 0 0 12.75675,15.99997 A191.79873,191.79873 0 0 0 11.24325,15.99997 A4,4 0 0 0 11.24325,8.00003 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.24325,8.00003 A191.79873,191.79873 0 0 0 12.75675,8.00003 A4,4 0 0 0 12.75675,15.99997 A191.79873,191.79873 0 0 0 11.24325,15.99997 A4,4 0 0 0 11.24325,8.00003 Z"
+        android:valueTo="M11.03712,8.00006 A170.25404,170.25404 0 0 0 12.96288,8.00006 A4,4 0 0 0 12.96288,15.99994 A170.25404,170.25404 0 0 0 11.03712,15.99994 A4,4 0 0 0 11.03712,8.00006 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.03712,8.00006 A170.25404,170.25404 0 0 0 12.96288,8.00006 A4,4 0 0 0 12.96288,15.99994 A170.25404,170.25404 0 0 0 11.03712,15.99994 A4,4 0 0 0 11.03712,8.00006 Z"
+        android:valueTo="M10.80258,8.00013 A145.88596,145.88596 0 0 0 13.19742,8.00013 A4,4 0 0 0 13.19742,15.99987 A145.88596,145.88596 0 0 0 10.80258,15.99987 A4,4 0 0 0 10.80258,8.00013 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.80258,8.00013 A145.88596,145.88596 0 0 0 13.19742,8.00013 A4,4 0 0 0 13.19742,15.99987 A145.88596,145.88596 0 0 0 10.80258,15.99987 A4,4 0 0 0 10.80258,8.00013 Z"
+        android:valueTo="M10.54639,8.00029 A120.1436,120.1436 0 0 0 13.45361,8.00029 A4,4 0 0 0 13.45361,15.99971 A120.1436,120.1436 0 0 0 10.54639,15.99971 A4,4 0 0 0 10.54639,8.00029 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.54639,8.00029 A120.1436,120.1436 0 0 0 13.45361,8.00029 A4,4 0 0 0 13.45361,15.99971 A120.1436,120.1436 0 0 0 10.54639,15.99971 A4,4 0 0 0 10.54639,8.00029 Z"
+        android:valueTo="M10.28074,8.00066 A94.95959,94.95959 0 0 0 13.71926,8.00066 A4,4 0 0 0 13.71926,15.99934 A94.95959,94.95959 0 0 0 10.28074,15.99934 A4,4 0 0 0 10.28074,8.00066 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.28074,8.00066 A94.95959,94.95959 0 0 0 13.71926,8.00066 A4,4 0 0 0 13.71926,15.99934 A94.95959,94.95959 0 0 0 10.28074,15.99934 A4,4 0 0 0 10.28074,8.00066 Z"
+        android:valueTo="M10.02217,8.0015 A72.18479,72.18479 0 0 0 13.97783,8.0015 A4,4 0 0 0 13.97783,15.9985 A72.18479,72.18479 0 0 0 10.02217,15.9985 A4,4 0 0 0 10.02217,8.0015 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.02217,8.0015 A72.18479,72.18479 0 0 0 13.97783,8.0015 A4,4 0 0 0 13.97783,15.9985 A72.18479,72.18479 0 0 0 10.02217,15.9985 A4,4 0 0 0 10.02217,8.0015 Z"
+        android:valueTo="M9.78909,8.00348 A53.01941,53.01941 0 0 0 14.21091,8.00348 A4,4 0 0 0 14.21091,15.99652 A53.01941,53.01941 0 0 0 9.78909,15.99652 A4,4 0 0 0 9.78909,8.00348 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.78909,8.00348 A53.01941,53.01941 0 0 0 14.21091,8.00348 A4,4 0 0 0 14.21091,15.99652 A53.01941,53.01941 0 0 0 9.78909,15.99652 A4,4 0 0 0 9.78909,8.00348 Z"
+        android:valueTo="M9.60004,8.00806 A37.82044,37.82044 0 0 0 14.39996,8.00806 A4,4 0 0 0 14.39996,15.99194 A37.82044,37.82044 0 0 0 9.60004,15.99194 A4,4 0 0 0 9.60004,8.00806 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.60004,8.00806 A37.82044,37.82044 0 0 0 14.39996,8.00806 A4,4 0 0 0 14.39996,15.99194 A37.82044,37.82044 0 0 0 9.60004,15.99194 A4,4 0 0 0 9.60004,8.00806 Z"
+        android:valueTo="M9.47363,8.0185 A26.30121,26.30121 0 0 0 14.52637,8.0185 A4,4 0 0 0 14.52637,15.9815 A26.30121,26.30121 0 0 0 9.47363,15.9815 A4,4 0 0 0 9.47363,8.0185 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.47363,8.0185 A26.30121,26.30121 0 0 0 14.52637,8.0185 A4,4 0 0 0 14.52637,15.9815 A26.30121,26.30121 0 0 0 9.47363,15.9815 A4,4 0 0 0 9.47363,8.0185 Z"
+        android:valueTo="M9.42947,8.04163 A17.86272,17.86272 0 0 0 14.57053,8.04163 A4,4 0 0 0 14.57053,15.95837 A17.86272,17.86272 0 0 0 9.42947,15.95837 A4,4 0 0 0 9.42947,8.04163 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.42947,8.04163 A17.86272,17.86272 0 0 0 14.57053,8.04163 A4,4 0 0 0 14.57053,15.95837 A17.86272,17.86272 0 0 0 9.42947,15.95837 A4,4 0 0 0 9.42947,8.04163 Z"
+        android:valueTo="M9.48765,8.09095 A11.84898,11.84898 0 0 0 14.51235,8.09095 A4,4 0 0 0 14.51235,15.90905 A11.84898,11.84898 0 0 0 9.48765,15.90905 A4,4 0 0 0 9.48765,8.09095 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.48765,8.09095 A11.84898,11.84898 0 0 0 14.51235,8.09095 A4,4 0 0 0 14.51235,15.90905 A11.84898,11.84898 0 0 0 9.48765,15.90905 A4,4 0 0 0 9.48765,8.09095 Z"
+        android:valueTo="M9.66289,8.18982 A7.67788,7.67788 0 0 0 14.33711,8.18982 A4,4 0 0 0 14.33711,15.81018 A7.67788,7.67788 0 0 0 9.66289,15.81018 A4,4 0 0 0 9.66289,8.18982 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.66289,8.18982 A7.67788,7.67788 0 0 0 14.33711,8.18982 A4,4 0 0 0 14.33711,15.81018 A7.67788,7.67788 0 0 0 9.66289,15.81018 A4,4 0 0 0 9.66289,8.18982 Z"
+        android:valueTo="M9.95,8.37007 A4.87988,4.87988 0 0 0 14.05,8.37007 A4,4 0 0 0 14.05,15.62993 A4.87988,4.87988 0 0 0 9.95,15.62993 A4,4 0 0 0 9.95,8.37007 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.95,8.37007 A4.87988,4.87988 0 0 0 14.05,8.37007 A4,4 0 0 0 14.05,15.62993 A4.87988,4.87988 0 0 0 9.95,15.62993 A4,4 0 0 0 9.95,8.37007 Z"
+        android:valueTo="M10.30583,8.65609 A3.08725,3.08725 0 0 0 13.69417,8.65609 A4,4 0 0 0 13.69417,15.34391 A3.08725,3.08725 0 0 0 10.30583,15.34391 A4,4 0 0 0 10.30583,8.65609 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.30583,8.65609 A3.08725,3.08725 0 0 0 13.69417,8.65609 A4,4 0 0 0 13.69417,15.34391 A3.08725,3.08725 0 0 0 10.30583,15.34391 A4,4 0 0 0 10.30583,8.65609 Z"
+        android:valueTo="M10.65267,9.03561 A2.00675,2.00675 0 0 0 13.34733,9.03561 A4,4 0 0 0 13.34733,14.96439 A2.00675,2.00675 0 0 0 10.65267,14.96439 A4,4 0 0 0 10.65267,9.03561 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.65267,9.03561 A2.00675,2.00675 0 0 0 13.34733,9.03561 A4,4 0 0 0 13.34733,14.96439 A2.00675,2.00675 0 0 0 10.65267,14.96439 A4,4 0 0 0 10.65267,9.03561 Z"
+        android:valueTo="M10.91968,9.45104 A1.4018,1.4018 0 0 0 13.08032,9.45104 A4,4 0 0 0 13.08032,14.54896 A1.4018,1.4018 0 0 0 10.91968,14.54896 A4,4 0 0 0 10.91968,9.45104 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.91968,9.45104 A1.4018,1.4018 0 0 0 13.08032,9.45104 A4,4 0 0 0 13.08032,14.54896 A1.4018,1.4018 0 0 0 10.91968,14.54896 A4,4 0 0 0 10.91968,9.45104 Z"
+        android:valueTo="M11.08237,9.83453 A1.09139,1.09139 0 0 0 12.91763,9.83453 A4,4 0 0 0 12.91763,14.16547 A1.09139,1.09139 0 0 0 11.08237,14.16547 A4,4 0 0 0 11.08237,9.83453 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.08237,9.83453 A1.09139,1.09139 0 0 0 12.91763,9.83453 A4,4 0 0 0 12.91763,14.16547 A1.09139,1.09139 0 0 0 11.08237,14.16547 A4,4 0 0 0 11.08237,9.83453 Z"
+        android:valueTo="M11.15712,10.14645 A0.95116,0.95116 0 0 0 12.84288,10.14645 A4,4 0 0 0 12.84288,13.85355 A0.95116,0.95116 0 0 0 11.15712,13.85355 A4,4 0 0 0 11.15712,10.14645 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.15712,10.14645 A0.95116,0.95116 0 0 0 12.84288,10.14645 A4,4 0 0 0 12.84288,13.85355 A0.95116,0.95116 0 0 0 11.15712,13.85355 A4,4 0 0 0 11.15712,10.14645 Z"
+        android:valueTo="M11.17306,10.38005 A0.90443,0.90443 0 0 0 12.82694,10.38005 A4,4 0 0 0 12.82694,13.61995 A0.90443,0.90443 0 0 0 11.17306,13.61995 A4,4 0 0 0 11.17306,10.38005 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.17306,10.38005 A0.90443,0.90443 0 0 0 12.82694,10.38005 A4,4 0 0 0 12.82694,13.61995 A0.90443,0.90443 0 0 0 11.17306,13.61995 A4,4 0 0 0 11.17306,10.38005 Z"
+        android:valueTo="M11.15472,10.54657 A0.90729,0.90729 0 0 0 12.84528,10.54657 A4,4 0 0 0 12.84528,13.45343 A0.90729,0.90729 0 0 0 11.15472,13.45343 A4,4 0 0 0 11.15472,10.54657 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.15472,10.54657 A0.90729,0.90729 0 0 0 12.84528,10.54657 A4,4 0 0 0 12.84528,13.45343 A0.90729,0.90729 0 0 0 11.15472,13.45343 A4,4 0 0 0 11.15472,10.54657 Z"
+        android:valueTo="M11.11832,10.66202 A0.93557,0.93557 0 0 0 12.88168,10.66202 A4,4 0 0 0 12.88168,13.33798 A0.93557,0.93557 0 0 0 11.11832,13.33798 A4,4 0 0 0 11.11832,10.66202 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.11832,10.66202 A0.93557,0.93557 0 0 0 12.88168,10.66202 A4,4 0 0 0 12.88168,13.33798 A0.93557,0.93557 0 0 0 11.11832,13.33798 A4,4 0 0 0 11.11832,10.66202 Z"
+        android:valueTo="M11.0736,10.74103 A0.97601,0.97601 0 0 0 12.9264,10.74103 A4,4 0 0 0 12.9264,13.25897 A0.97601,0.97601 0 0 0 11.0736,13.25897 A4,4 0 0 0 11.0736,10.74103 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.0736,10.74103 A0.97601,0.97601 0 0 0 12.9264,10.74103 A4,4 0 0 0 12.9264,13.25897 A0.97601,0.97601 0 0 0 11.0736,13.25897 A4,4 0 0 0 11.0736,10.74103 Z"
+        android:valueTo="M11.02613,10.79494 A1.02132,1.02132 0 0 0 12.97387,10.79494 A4,4 0 0 0 12.97387,13.20506 A1.02132,1.02132 0 0 0 11.02613,13.20506 A4,4 0 0 0 11.02613,10.79494 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.02613,10.79494 A1.02132,1.02132 0 0 0 12.97387,10.79494 A4,4 0 0 0 12.97387,13.20506 A1.02132,1.02132 0 0 0 11.02613,13.20506 A4,4 0 0 0 11.02613,10.79494 Z"
+        android:valueTo="M10.97907,10.83196 A1.06745,1.06745 0 0 0 13.02093,10.83196 A4,4 0 0 0 13.02093,13.16804 A1.06745,1.06745 0 0 0 10.97907,13.16804 A4,4 0 0 0 10.97907,10.83196 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.97907,10.83196 A1.06745,1.06745 0 0 0 13.02093,10.83196 A4,4 0 0 0 13.02093,13.16804 A1.06745,1.06745 0 0 0 10.97907,13.16804 A4,4 0 0 0 10.97907,10.83196 Z"
+        android:valueTo="M10.93417,10.85777 A1.11214,1.11214 0 0 0 13.06583,10.85777 A4,4 0 0 0 13.06583,13.14223 A1.11214,1.11214 0 0 0 10.93417,13.14223 A4,4 0 0 0 10.93417,10.85777 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.93417,10.85777 A1.11214,1.11214 0 0 0 13.06583,10.85777 A4,4 0 0 0 13.06583,13.14223 A1.11214,1.11214 0 0 0 10.93417,13.14223 A4,4 0 0 0 10.93417,10.85777 Z"
+        android:valueTo="M10.89236,10.87616 A1.15413,1.15413 0 0 0 13.10764,10.87616 A4,4 0 0 0 13.10764,13.12384 A1.15413,1.15413 0 0 0 10.89236,13.12384 A4,4 0 0 0 10.89236,10.87616 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.89236,10.87616 A1.15413,1.15413 0 0 0 13.10764,10.87616 A4,4 0 0 0 13.10764,13.12384 A1.15413,1.15413 0 0 0 10.89236,13.12384 A4,4 0 0 0 10.89236,10.87616 Z"
+        android:valueTo="M10.85409,10.88967 A1.19278,1.19278 0 0 0 13.14591,10.88967 A4,4 0 0 0 13.14591,13.11033 A1.19278,1.19278 0 0 0 10.85409,13.11033 A4,4 0 0 0 10.85409,10.88967 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.85409,10.88967 A1.19278,1.19278 0 0 0 13.14591,10.88967 A4,4 0 0 0 13.14591,13.11033 A1.19278,1.19278 0 0 0 10.85409,13.11033 A4,4 0 0 0 10.85409,10.88967 Z"
+        android:valueTo="M10.81954,10.89991 A1.2278,1.2278 0 0 0 13.18046,10.89991 A4,4 0 0 0 13.18046,13.10009 A1.2278,1.2278 0 0 0 10.81954,13.10009 A4,4 0 0 0 10.81954,10.89991 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.81954,10.89991 A1.2278,1.2278 0 0 0 13.18046,10.89991 A4,4 0 0 0 13.18046,13.10009 A1.2278,1.2278 0 0 0 10.81954,13.10009 A4,4 0 0 0 10.81954,10.89991 Z"
+        android:valueTo="M10.78872,10.90792 A1.25911,1.25911 0 0 0 13.21128,10.90792 A4,4 0 0 0 13.21128,13.09208 A1.25911,1.25911 0 0 0 10.78872,13.09208 A4,4 0 0 0 10.78872,10.90792 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.78872,10.90792 A1.25911,1.25911 0 0 0 13.21128,10.90792 A4,4 0 0 0 13.21128,13.09208 A1.25911,1.25911 0 0 0 10.78872,13.09208 A4,4 0 0 0 10.78872,10.90792 Z"
+        android:valueTo="M10.76154,10.91436 A1.28676,1.28676 0 0 0 13.23846,10.91436 A4,4 0 0 0 13.23846,13.08564 A1.28676,1.28676 0 0 0 10.76154,13.08564 A4,4 0 0 0 10.76154,10.91436 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.76154,10.91436 A1.28676,1.28676 0 0 0 13.23846,10.91436 A4,4 0 0 0 13.23846,13.08564 A1.28676,1.28676 0 0 0 10.76154,13.08564 A4,4 0 0 0 10.76154,10.91436 Z"
+        android:valueTo="M10.73787,10.91962 A1.31085,1.31085 0 0 0 13.26213,10.91962 A4,4 0 0 0 13.26213,13.08038 A1.31085,1.31085 0 0 0 10.73787,13.08038 A4,4 0 0 0 10.73787,10.91962 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.73787,10.91962 A1.31085,1.31085 0 0 0 13.26213,10.91962 A4,4 0 0 0 13.26213,13.08038 A1.31085,1.31085 0 0 0 10.73787,13.08038 A4,4 0 0 0 10.73787,10.91962 Z"
+        android:valueTo="M10.71755,10.92395 A1.33153,1.33153 0 0 0 13.28245,10.92395 A4,4 0 0 0 13.28245,13.07605 A1.33153,1.33153 0 0 0 10.71755,13.07605 A4,4 0 0 0 10.71755,10.92395 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.71755,10.92395 A1.33153,1.33153 0 0 0 13.28245,10.92395 A4,4 0 0 0 13.28245,13.07605 A1.33153,1.33153 0 0 0 10.71755,13.07605 A4,4 0 0 0 10.71755,10.92395 Z"
+        android:valueTo="M10.70042,10.92751 A1.34897,1.34897 0 0 0 13.29958,10.92751 A4,4 0 0 0 13.29958,13.07249 A1.34897,1.34897 0 0 0 10.70042,13.07249 A4,4 0 0 0 10.70042,10.92751 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.70042,10.92751 A1.34897,1.34897 0 0 0 13.29958,10.92751 A4,4 0 0 0 13.29958,13.07249 A1.34897,1.34897 0 0 0 10.70042,13.07249 A4,4 0 0 0 10.70042,10.92751 Z"
+        android:valueTo="M10.68631,10.9304 A1.36333,1.36333 0 0 0 13.31369,10.9304 A4,4 0 0 0 13.31369,13.0696 A1.36333,1.36333 0 0 0 10.68631,13.0696 A4,4 0 0 0 10.68631,10.9304 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.68631,10.9304 A1.36333,1.36333 0 0 0 13.31369,10.9304 A4,4 0 0 0 13.31369,13.0696 A1.36333,1.36333 0 0 0 10.68631,13.0696 A4,4 0 0 0 10.68631,10.9304 Z"
+        android:valueTo="M10.67508,10.93268 A1.37476,1.37476 0 0 0 13.32492,10.93268 A4,4 0 0 0 13.32492,13.06732 A1.37476,1.37476 0 0 0 10.67508,13.06732 A4,4 0 0 0 10.67508,10.93268 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.67508,10.93268 A1.37476,1.37476 0 0 0 13.32492,10.93268 A4,4 0 0 0 13.32492,13.06732 A1.37476,1.37476 0 0 0 10.67508,13.06732 A4,4 0 0 0 10.67508,10.93268 Z"
+        android:valueTo="M10.66657,10.9344 A1.38343,1.38343 0 0 0 13.33343,10.9344 A4,4 0 0 0 13.33343,13.0656 A1.38343,1.38343 0 0 0 10.66657,13.0656 A4,4 0 0 0 10.66657,10.9344 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.66657,10.9344 A1.38343,1.38343 0 0 0 13.33343,10.9344 A4,4 0 0 0 13.33343,13.0656 A1.38343,1.38343 0 0 0 10.66657,13.0656 A4,4 0 0 0 10.66657,10.9344 Z"
+        android:valueTo="M10.66064,10.9356 A1.38946,1.38946 0 0 0 13.33936,10.9356 A4,4 0 0 0 13.33936,13.0644 A1.38946,1.38946 0 0 0 10.66064,13.0644 A4,4 0 0 0 10.66064,10.9356 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.66064,10.9356 A1.38946,1.38946 0 0 0 13.33936,10.9356 A4,4 0 0 0 13.33936,13.0644 A1.38946,1.38946 0 0 0 10.66064,13.0644 A4,4 0 0 0 10.66064,10.9356 Z"
+        android:valueTo="M10.65717,10.93629 A1.39299,1.39299 0 0 0 13.34283,10.93629 A4,4 0 0 0 13.34283,13.06371 A1.39299,1.39299 0 0 0 10.65717,13.06371 A4,4 0 0 0 10.65717,10.93629 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.65717,10.93629 A1.39299,1.39299 0 0 0 13.34283,10.93629 A4,4 0 0 0 13.34283,13.06371 A1.39299,1.39299 0 0 0 10.65717,13.06371 A4,4 0 0 0 10.65717,10.93629 Z"
+        android:valueTo="M10.65604,10.93652 A1.39414,1.39414 0 0 0 13.34396,10.93652 A4,4 0 0 0 13.34396,13.06348 A1.39414,1.39414 0 0 0 10.65604,13.06348 A4,4 0 0 0 10.65604,10.93652 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.65604,10.93652 A1.39414,1.39414 0 0 0 13.34396,10.93652 A4,4 0 0 0 13.34396,13.06348 A1.39414,1.39414 0 0 0 10.65604,13.06348 A4,4 0 0 0 10.65604,10.93652 Z"
+        android:valueTo="M10.65717,10.93629 A1.39299,1.39299 0 0 0 13.34283,10.93629 A4,4 0 0 0 13.34283,13.06371 A1.39299,1.39299 0 0 0 10.65717,13.06371 A4,4 0 0 0 10.65717,10.93629 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.65717,10.93629 A1.39299,1.39299 0 0 0 13.34283,10.93629 A4,4 0 0 0 13.34283,13.06371 A1.39299,1.39299 0 0 0 10.65717,13.06371 A4,4 0 0 0 10.65717,10.93629 Z"
+        android:valueTo="M10.66064,10.9356 A1.38946,1.38946 0 0 0 13.33936,10.9356 A4,4 0 0 0 13.33936,13.0644 A1.38946,1.38946 0 0 0 10.66064,13.0644 A4,4 0 0 0 10.66064,10.9356 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.66064,10.9356 A1.38946,1.38946 0 0 0 13.33936,10.9356 A4,4 0 0 0 13.33936,13.0644 A1.38946,1.38946 0 0 0 10.66064,13.0644 A4,4 0 0 0 10.66064,10.9356 Z"
+        android:valueTo="M10.66657,10.9344 A1.38343,1.38343 0 0 0 13.33343,10.9344 A4,4 0 0 0 13.33343,13.0656 A1.38343,1.38343 0 0 0 10.66657,13.0656 A4,4 0 0 0 10.66657,10.9344 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.66657,10.9344 A1.38343,1.38343 0 0 0 13.33343,10.9344 A4,4 0 0 0 13.33343,13.0656 A1.38343,1.38343 0 0 0 10.66657,13.0656 A4,4 0 0 0 10.66657,10.9344 Z"
+        android:valueTo="M10.67508,10.93268 A1.37476,1.37476 0 0 0 13.32492,10.93268 A4,4 0 0 0 13.32492,13.06732 A1.37476,1.37476 0 0 0 10.67508,13.06732 A4,4 0 0 0 10.67508,10.93268 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.67508,10.93268 A1.37476,1.37476 0 0 0 13.32492,10.93268 A4,4 0 0 0 13.32492,13.06732 A1.37476,1.37476 0 0 0 10.67508,13.06732 A4,4 0 0 0 10.67508,10.93268 Z"
+        android:valueTo="M10.68631,10.9304 A1.36333,1.36333 0 0 0 13.31369,10.9304 A4,4 0 0 0 13.31369,13.0696 A1.36333,1.36333 0 0 0 10.68631,13.0696 A4,4 0 0 0 10.68631,10.9304 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.68631,10.9304 A1.36333,1.36333 0 0 0 13.31369,10.9304 A4,4 0 0 0 13.31369,13.0696 A1.36333,1.36333 0 0 0 10.68631,13.0696 A4,4 0 0 0 10.68631,10.9304 Z"
+        android:valueTo="M10.70042,10.92751 A1.34897,1.34897 0 0 0 13.29958,10.92751 A4,4 0 0 0 13.29958,13.07249 A1.34897,1.34897 0 0 0 10.70042,13.07249 A4,4 0 0 0 10.70042,10.92751 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.70042,10.92751 A1.34897,1.34897 0 0 0 13.29958,10.92751 A4,4 0 0 0 13.29958,13.07249 A1.34897,1.34897 0 0 0 10.70042,13.07249 A4,4 0 0 0 10.70042,10.92751 Z"
+        android:valueTo="M10.71755,10.92395 A1.33153,1.33153 0 0 0 13.28245,10.92395 A4,4 0 0 0 13.28245,13.07605 A1.33153,1.33153 0 0 0 10.71755,13.07605 A4,4 0 0 0 10.71755,10.92395 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.71755,10.92395 A1.33153,1.33153 0 0 0 13.28245,10.92395 A4,4 0 0 0 13.28245,13.07605 A1.33153,1.33153 0 0 0 10.71755,13.07605 A4,4 0 0 0 10.71755,10.92395 Z"
+        android:valueTo="M10.73787,10.91962 A1.31085,1.31085 0 0 0 13.26213,10.91962 A4,4 0 0 0 13.26213,13.08038 A1.31085,1.31085 0 0 0 10.73787,13.08038 A4,4 0 0 0 10.73787,10.91962 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.73787,10.91962 A1.31085,1.31085 0 0 0 13.26213,10.91962 A4,4 0 0 0 13.26213,13.08038 A1.31085,1.31085 0 0 0 10.73787,13.08038 A4,4 0 0 0 10.73787,10.91962 Z"
+        android:valueTo="M10.76154,10.91436 A1.28676,1.28676 0 0 0 13.23846,10.91436 A4,4 0 0 0 13.23846,13.08564 A1.28676,1.28676 0 0 0 10.76154,13.08564 A4,4 0 0 0 10.76154,10.91436 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.76154,10.91436 A1.28676,1.28676 0 0 0 13.23846,10.91436 A4,4 0 0 0 13.23846,13.08564 A1.28676,1.28676 0 0 0 10.76154,13.08564 A4,4 0 0 0 10.76154,10.91436 Z"
+        android:valueTo="M10.78872,10.90792 A1.25911,1.25911 0 0 0 13.21128,10.90792 A4,4 0 0 0 13.21128,13.09208 A1.25911,1.25911 0 0 0 10.78872,13.09208 A4,4 0 0 0 10.78872,10.90792 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.78872,10.90792 A1.25911,1.25911 0 0 0 13.21128,10.90792 A4,4 0 0 0 13.21128,13.09208 A1.25911,1.25911 0 0 0 10.78872,13.09208 A4,4 0 0 0 10.78872,10.90792 Z"
+        android:valueTo="M10.81954,10.89991 A1.2278,1.2278 0 0 0 13.18046,10.89991 A4,4 0 0 0 13.18046,13.10009 A1.2278,1.2278 0 0 0 10.81954,13.10009 A4,4 0 0 0 10.81954,10.89991 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.81954,10.89991 A1.2278,1.2278 0 0 0 13.18046,10.89991 A4,4 0 0 0 13.18046,13.10009 A1.2278,1.2278 0 0 0 10.81954,13.10009 A4,4 0 0 0 10.81954,10.89991 Z"
+        android:valueTo="M10.85409,10.88967 A1.19278,1.19278 0 0 0 13.14591,10.88967 A4,4 0 0 0 13.14591,13.11033 A1.19278,1.19278 0 0 0 10.85409,13.11033 A4,4 0 0 0 10.85409,10.88967 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.85409,10.88967 A1.19278,1.19278 0 0 0 13.14591,10.88967 A4,4 0 0 0 13.14591,13.11033 A1.19278,1.19278 0 0 0 10.85409,13.11033 A4,4 0 0 0 10.85409,10.88967 Z"
+        android:valueTo="M10.89236,10.87616 A1.15413,1.15413 0 0 0 13.10764,10.87616 A4,4 0 0 0 13.10764,13.12384 A1.15413,1.15413 0 0 0 10.89236,13.12384 A4,4 0 0 0 10.89236,10.87616 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.89236,10.87616 A1.15413,1.15413 0 0 0 13.10764,10.87616 A4,4 0 0 0 13.10764,13.12384 A1.15413,1.15413 0 0 0 10.89236,13.12384 A4,4 0 0 0 10.89236,10.87616 Z"
+        android:valueTo="M10.93417,10.85777 A1.11214,1.11214 0 0 0 13.06583,10.85777 A4,4 0 0 0 13.06583,13.14223 A1.11214,1.11214 0 0 0 10.93417,13.14223 A4,4 0 0 0 10.93417,10.85777 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.93417,10.85777 A1.11214,1.11214 0 0 0 13.06583,10.85777 A4,4 0 0 0 13.06583,13.14223 A1.11214,1.11214 0 0 0 10.93417,13.14223 A4,4 0 0 0 10.93417,10.85777 Z"
+        android:valueTo="M10.97907,10.83196 A1.06745,1.06745 0 0 0 13.02093,10.83196 A4,4 0 0 0 13.02093,13.16804 A1.06745,1.06745 0 0 0 10.97907,13.16804 A4,4 0 0 0 10.97907,10.83196 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.97907,10.83196 A1.06745,1.06745 0 0 0 13.02093,10.83196 A4,4 0 0 0 13.02093,13.16804 A1.06745,1.06745 0 0 0 10.97907,13.16804 A4,4 0 0 0 10.97907,10.83196 Z"
+        android:valueTo="M11.02613,10.79494 A1.02132,1.02132 0 0 0 12.97387,10.79494 A4,4 0 0 0 12.97387,13.20506 A1.02132,1.02132 0 0 0 11.02613,13.20506 A4,4 0 0 0 11.02613,10.79494 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.02613,10.79494 A1.02132,1.02132 0 0 0 12.97387,10.79494 A4,4 0 0 0 12.97387,13.20506 A1.02132,1.02132 0 0 0 11.02613,13.20506 A4,4 0 0 0 11.02613,10.79494 Z"
+        android:valueTo="M11.0736,10.74103 A0.97601,0.97601 0 0 0 12.9264,10.74103 A4,4 0 0 0 12.9264,13.25897 A0.97601,0.97601 0 0 0 11.0736,13.25897 A4,4 0 0 0 11.0736,10.74103 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.0736,10.74103 A0.97601,0.97601 0 0 0 12.9264,10.74103 A4,4 0 0 0 12.9264,13.25897 A0.97601,0.97601 0 0 0 11.0736,13.25897 A4,4 0 0 0 11.0736,10.74103 Z"
+        android:valueTo="M11.11832,10.66202 A0.93557,0.93557 0 0 0 12.88168,10.66202 A4,4 0 0 0 12.88168,13.33798 A0.93557,0.93557 0 0 0 11.11832,13.33798 A4,4 0 0 0 11.11832,10.66202 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.11832,10.66202 A0.93557,0.93557 0 0 0 12.88168,10.66202 A4,4 0 0 0 12.88168,13.33798 A0.93557,0.93557 0 0 0 11.11832,13.33798 A4,4 0 0 0 11.11832,10.66202 Z"
+        android:valueTo="M11.15472,10.54657 A0.90729,0.90729 0 0 0 12.84528,10.54657 A4,4 0 0 0 12.84528,13.45343 A0.90729,0.90729 0 0 0 11.15472,13.45343 A4,4 0 0 0 11.15472,10.54657 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.15472,10.54657 A0.90729,0.90729 0 0 0 12.84528,10.54657 A4,4 0 0 0 12.84528,13.45343 A0.90729,0.90729 0 0 0 11.15472,13.45343 A4,4 0 0 0 11.15472,10.54657 Z"
+        android:valueTo="M11.17306,10.38005 A0.90443,0.90443 0 0 0 12.82694,10.38005 A4,4 0 0 0 12.82694,13.61995 A0.90443,0.90443 0 0 0 11.17306,13.61995 A4,4 0 0 0 11.17306,10.38005 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.17306,10.38005 A0.90443,0.90443 0 0 0 12.82694,10.38005 A4,4 0 0 0 12.82694,13.61995 A0.90443,0.90443 0 0 0 11.17306,13.61995 A4,4 0 0 0 11.17306,10.38005 Z"
+        android:valueTo="M11.15712,10.14645 A0.95116,0.95116 0 0 0 12.84288,10.14645 A4,4 0 0 0 12.84288,13.85355 A0.95116,0.95116 0 0 0 11.15712,13.85355 A4,4 0 0 0 11.15712,10.14645 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.15712,10.14645 A0.95116,0.95116 0 0 0 12.84288,10.14645 A4,4 0 0 0 12.84288,13.85355 A0.95116,0.95116 0 0 0 11.15712,13.85355 A4,4 0 0 0 11.15712,10.14645 Z"
+        android:valueTo="M11.08237,9.83453 A1.09139,1.09139 0 0 0 12.91763,9.83453 A4,4 0 0 0 12.91763,14.16547 A1.09139,1.09139 0 0 0 11.08237,14.16547 A4,4 0 0 0 11.08237,9.83453 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.08237,9.83453 A1.09139,1.09139 0 0 0 12.91763,9.83453 A4,4 0 0 0 12.91763,14.16547 A1.09139,1.09139 0 0 0 11.08237,14.16547 A4,4 0 0 0 11.08237,9.83453 Z"
+        android:valueTo="M10.91968,9.45104 A1.4018,1.4018 0 0 0 13.08032,9.45104 A4,4 0 0 0 13.08032,14.54896 A1.4018,1.4018 0 0 0 10.91968,14.54896 A4,4 0 0 0 10.91968,9.45104 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.91968,9.45104 A1.4018,1.4018 0 0 0 13.08032,9.45104 A4,4 0 0 0 13.08032,14.54896 A1.4018,1.4018 0 0 0 10.91968,14.54896 A4,4 0 0 0 10.91968,9.45104 Z"
+        android:valueTo="M10.65267,9.03561 A2.00675,2.00675 0 0 0 13.34733,9.03561 A4,4 0 0 0 13.34733,14.96439 A2.00675,2.00675 0 0 0 10.65267,14.96439 A4,4 0 0 0 10.65267,9.03561 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.65267,9.03561 A2.00675,2.00675 0 0 0 13.34733,9.03561 A4,4 0 0 0 13.34733,14.96439 A2.00675,2.00675 0 0 0 10.65267,14.96439 A4,4 0 0 0 10.65267,9.03561 Z"
+        android:valueTo="M10.30583,8.65609 A3.08725,3.08725 0 0 0 13.69417,8.65609 A4,4 0 0 0 13.69417,15.34391 A3.08725,3.08725 0 0 0 10.30583,15.34391 A4,4 0 0 0 10.30583,8.65609 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.30583,8.65609 A3.08725,3.08725 0 0 0 13.69417,8.65609 A4,4 0 0 0 13.69417,15.34391 A3.08725,3.08725 0 0 0 10.30583,15.34391 A4,4 0 0 0 10.30583,8.65609 Z"
+        android:valueTo="M9.95,8.37007 A4.87988,4.87988 0 0 0 14.05,8.37007 A4,4 0 0 0 14.05,15.62993 A4.87988,4.87988 0 0 0 9.95,15.62993 A4,4 0 0 0 9.95,8.37007 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.95,8.37007 A4.87988,4.87988 0 0 0 14.05,8.37007 A4,4 0 0 0 14.05,15.62993 A4.87988,4.87988 0 0 0 9.95,15.62993 A4,4 0 0 0 9.95,8.37007 Z"
+        android:valueTo="M9.66289,8.18982 A7.67788,7.67788 0 0 0 14.33711,8.18982 A4,4 0 0 0 14.33711,15.81018 A7.67788,7.67788 0 0 0 9.66289,15.81018 A4,4 0 0 0 9.66289,8.18982 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="10"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.66289,8.18982 A7.67788,7.67788 0 0 0 14.33711,8.18982 A4,4 0 0 0 14.33711,15.81018 A7.67788,7.67788 0 0 0 9.66289,15.81018 A4,4 0 0 0 9.66289,8.18982 Z"
+        android:valueTo="M9.48765,8.09095 A11.84898,11.84898 0 0 0 14.51235,8.09095 A4,4 0 0 0 14.51235,15.90905 A11.84898,11.84898 0 0 0 9.48765,15.90905 A4,4 0 0 0 9.48765,8.09095 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.48765,8.09095 A11.84898,11.84898 0 0 0 14.51235,8.09095 A4,4 0 0 0 14.51235,15.90905 A11.84898,11.84898 0 0 0 9.48765,15.90905 A4,4 0 0 0 9.48765,8.09095 Z"
+        android:valueTo="M9.42947,8.04163 A17.86272,17.86272 0 0 0 14.57053,8.04163 A4,4 0 0 0 14.57053,15.95837 A17.86272,17.86272 0 0 0 9.42947,15.95837 A4,4 0 0 0 9.42947,8.04163 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.42947,8.04163 A17.86272,17.86272 0 0 0 14.57053,8.04163 A4,4 0 0 0 14.57053,15.95837 A17.86272,17.86272 0 0 0 9.42947,15.95837 A4,4 0 0 0 9.42947,8.04163 Z"
+        android:valueTo="M9.47363,8.0185 A26.30121,26.30121 0 0 0 14.52637,8.0185 A4,4 0 0 0 14.52637,15.9815 A26.30121,26.30121 0 0 0 9.47363,15.9815 A4,4 0 0 0 9.47363,8.0185 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.47363,8.0185 A26.30121,26.30121 0 0 0 14.52637,8.0185 A4,4 0 0 0 14.52637,15.9815 A26.30121,26.30121 0 0 0 9.47363,15.9815 A4,4 0 0 0 9.47363,8.0185 Z"
+        android:valueTo="M9.60004,8.00806 A37.82044,37.82044 0 0 0 14.39996,8.00806 A4,4 0 0 0 14.39996,15.99194 A37.82044,37.82044 0 0 0 9.60004,15.99194 A4,4 0 0 0 9.60004,8.00806 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.60004,8.00806 A37.82044,37.82044 0 0 0 14.39996,8.00806 A4,4 0 0 0 14.39996,15.99194 A37.82044,37.82044 0 0 0 9.60004,15.99194 A4,4 0 0 0 9.60004,8.00806 Z"
+        android:valueTo="M9.78909,8.00348 A53.01941,53.01941 0 0 0 14.21091,8.00348 A4,4 0 0 0 14.21091,15.99652 A53.01941,53.01941 0 0 0 9.78909,15.99652 A4,4 0 0 0 9.78909,8.00348 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M9.78909,8.00348 A53.01941,53.01941 0 0 0 14.21091,8.00348 A4,4 0 0 0 14.21091,15.99652 A53.01941,53.01941 0 0 0 9.78909,15.99652 A4,4 0 0 0 9.78909,8.00348 Z"
+        android:valueTo="M10.02217,8.0015 A72.18479,72.18479 0 0 0 13.97783,8.0015 A4,4 0 0 0 13.97783,15.9985 A72.18479,72.18479 0 0 0 10.02217,15.9985 A4,4 0 0 0 10.02217,8.0015 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.02217,8.0015 A72.18479,72.18479 0 0 0 13.97783,8.0015 A4,4 0 0 0 13.97783,15.9985 A72.18479,72.18479 0 0 0 10.02217,15.9985 A4,4 0 0 0 10.02217,8.0015 Z"
+        android:valueTo="M10.28074,8.00066 A94.95959,94.95959 0 0 0 13.71926,8.00066 A4,4 0 0 0 13.71926,15.99934 A94.95959,94.95959 0 0 0 10.28074,15.99934 A4,4 0 0 0 10.28074,8.00066 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.28074,8.00066 A94.95959,94.95959 0 0 0 13.71926,8.00066 A4,4 0 0 0 13.71926,15.99934 A94.95959,94.95959 0 0 0 10.28074,15.99934 A4,4 0 0 0 10.28074,8.00066 Z"
+        android:valueTo="M10.54639,8.00029 A120.1436,120.1436 0 0 0 13.45361,8.00029 A4,4 0 0 0 13.45361,15.99971 A120.1436,120.1436 0 0 0 10.54639,15.99971 A4,4 0 0 0 10.54639,8.00029 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.54639,8.00029 A120.1436,120.1436 0 0 0 13.45361,8.00029 A4,4 0 0 0 13.45361,15.99971 A120.1436,120.1436 0 0 0 10.54639,15.99971 A4,4 0 0 0 10.54639,8.00029 Z"
+        android:valueTo="M10.80258,8.00013 A145.88596,145.88596 0 0 0 13.19742,8.00013 A4,4 0 0 0 13.19742,15.99987 A145.88596,145.88596 0 0 0 10.80258,15.99987 A4,4 0 0 0 10.80258,8.00013 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M10.80258,8.00013 A145.88596,145.88596 0 0 0 13.19742,8.00013 A4,4 0 0 0 13.19742,15.99987 A145.88596,145.88596 0 0 0 10.80258,15.99987 A4,4 0 0 0 10.80258,8.00013 Z"
+        android:valueTo="M11.03712,8.00006 A170.25404,170.25404 0 0 0 12.96288,8.00006 A4,4 0 0 0 12.96288,15.99994 A170.25404,170.25404 0 0 0 11.03712,15.99994 A4,4 0 0 0 11.03712,8.00006 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.03712,8.00006 A170.25404,170.25404 0 0 0 12.96288,8.00006 A4,4 0 0 0 12.96288,15.99994 A170.25404,170.25404 0 0 0 11.03712,15.99994 A4,4 0 0 0 11.03712,8.00006 Z"
+        android:valueTo="M11.24325,8.00003 A191.79873,191.79873 0 0 0 12.75675,8.00003 A4,4 0 0 0 12.75675,15.99997 A191.79873,191.79873 0 0 0 11.24325,15.99997 A4,4 0 0 0 11.24325,8.00003 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.24325,8.00003 A191.79873,191.79873 0 0 0 12.75675,8.00003 A4,4 0 0 0 12.75675,15.99997 A191.79873,191.79873 0 0 0 11.24325,15.99997 A4,4 0 0 0 11.24325,8.00003 Z"
+        android:valueTo="M11.41894,8.00002 A209.78349,209.78349 0 0 0 12.58106,8.00002 A4,4 0 0 0 12.58106,15.99998 A209.78349,209.78349 0 0 0 11.41894,15.99998 A4,4 0 0 0 11.41894,8.00002 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.41894,8.00002 A209.78349,209.78349 0 0 0 12.58106,8.00002 A4,4 0 0 0 12.58106,15.99998 A209.78349,209.78349 0 0 0 11.41894,15.99998 A4,4 0 0 0 11.41894,8.00002 Z"
+        android:valueTo="M11.56521,8.00001 A224.08888,224.08888 0 0 0 12.43479,8.00001 A4,4 0 0 0 12.43479,15.99999 A224.08888,224.08888 0 0 0 11.56521,15.99999 A4,4 0 0 0 11.56521,8.00001 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.56521,8.00001 A224.08888,224.08888 0 0 0 12.43479,8.00001 A4,4 0 0 0 12.43479,15.99999 A224.08888,224.08888 0 0 0 11.56521,15.99999 A4,4 0 0 0 11.56521,8.00001 Z"
+        android:valueTo="M11.68461,8 A234.98959,234.98959 0 0 0 12.31539,8 A4,4 0 0 0 12.31539,16 A234.98959,234.98959 0 0 0 11.68461,16 A4,4 0 0 0 11.68461,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.68461,8 A234.98959,234.98959 0 0 0 12.31539,8 A4,4 0 0 0 12.31539,16 A234.98959,234.98959 0 0 0 11.68461,16 A4,4 0 0 0 11.68461,8 Z"
+        android:valueTo="M11.78018,8 A242.95181,242.95181 0 0 0 12.21982,8 A4,4 0 0 0 12.21982,16 A242.95181,242.95181 0 0 0 11.78018,16 A4,4 0 0 0 11.78018,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.78018,8 A242.95181,242.95181 0 0 0 12.21982,8 A4,4 0 0 0 12.21982,16 A242.95181,242.95181 0 0 0 11.78018,16 A4,4 0 0 0 11.78018,8 Z"
+        android:valueTo="M11.85494,8 A248.4988,248.4988 0 0 0 12.14506,8 A4,4 0 0 0 12.14506,16 A248.4988,248.4988 0 0 0 11.85494,16 A4,4 0 0 0 11.85494,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.85494,8 A248.4988,248.4988 0 0 0 12.14506,8 A4,4 0 0 0 12.14506,16 A248.4988,248.4988 0 0 0 11.85494,16 A4,4 0 0 0 11.85494,8 Z"
+        android:valueTo="M11.9116,8 A252.1379,252.1379 0 0 0 12.0884,8 A4,4 0 0 0 12.0884,16 A252.1379,252.1379 0 0 0 11.9116,16 A4,4 0 0 0 11.9116,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.9116,8 A252.1379,252.1379 0 0 0 12.0884,8 A4,4 0 0 0 12.0884,16 A252.1379,252.1379 0 0 0 11.9116,16 A4,4 0 0 0 11.9116,8 Z"
+        android:valueTo="M11.95256,8 A254.32832,254.32832 0 0 0 12.04744,8 A4,4 0 0 0 12.04744,16 A254.32832,254.32832 0 0 0 11.95256,16 A4,4 0 0 0 11.95256,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.95256,8 A254.32832,254.32832 0 0 0 12.04744,8 A4,4 0 0 0 12.04744,16 A254.32832,254.32832 0 0 0 11.95256,16 A4,4 0 0 0 11.95256,8 Z"
+        android:valueTo="M11.97985,8 A255.47287,255.47287 0 0 0 12.02015,8 A4,4 0 0 0 12.02015,16 A255.47287,255.47287 0 0 0 11.97985,16 A4,4 0 0 0 11.97985,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.97985,8 A255.47287,255.47287 0 0 0 12.02015,8 A4,4 0 0 0 12.02015,16 A255.47287,255.47287 0 0 0 11.97985,16 A4,4 0 0 0 11.97985,8 Z"
+        android:valueTo="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z" />
+    <objectAnimator
+        android:propertyName="pathData"
+        android:duration="11"
+        android:interpolator="@android:interpolator/linear"
+        android:valueType="pathType"
+        android:valueFrom="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z"
+        android:valueTo="M11.99232,8 A255.85661,255.85661 0 0 0 12.00768,8 A4,4 0 0 0 12.00768,16 A255.85661,255.85661 0 0 0 11.99232,16 A4,4 0 0 0 11.99232,8 Z" />
+</set>
