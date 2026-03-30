@@ -6,6 +6,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,7 +33,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.ui.theme.ComposePlaygroundTheme
-import com.skul.yuriy.composeplayground.util.cornerDarkRedLinearGradient2
 
 class SensorRotationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,21 +64,28 @@ private fun SensorRotationScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = cornerDarkRedLinearGradient2())
+            .background(Color.White)
     ) {
-        SensorRotationTopAppBar(
+        Box(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = rememberStatusBarHeight()),
-            title = stringResource(R.string.sensor_rotation_demo),
-            onNavUp = onNavUp
-        )
+                .fillMaxSize()
+                .padding(4.dp)
+                .border(width = 1.dp, color = Color.Red)
+        ) {
+            SensorRotationTopAppBar(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = rememberStatusBarHeight()),
+                title = stringResource(R.string.sensor_rotation_demo),
+                onNavUp = onNavUp
+            )
 
-        Text(
-            modifier = Modifier.align(Alignment.Center),
-            text = stringResource(R.string.sensor_rotation_demo_placeholder),
-            color = Color.White
-        )
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = stringResource(R.string.sensor_rotation_demo_placeholder),
+                color = Color.Black
+            )
+        }
     }
 }
 
@@ -93,7 +100,7 @@ private fun SensorRotationTopAppBar(
         modifier = modifier,
         windowInsets = WindowInsets(0),
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent,
+            containerColor = Color.Black,
             navigationIconContentColor = Color.White
         ),
         navigationIcon = {
