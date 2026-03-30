@@ -84,6 +84,8 @@
     <string name="drop_shadow_example">Drop Shadow Example</string>
     <string name="effects_description">Effects:\n- Animated blurred arc with sweep gradient\n- Animated radial gradient border\n- Animated drop shadow for vector icon</string>
     <string name="effects_description_rect">Supports circle and rectangle shapes with individually adjustable corner radii.</string>
+    <string name="sensor_rotation_demo">Sensor Rotation Demo</string>
+    <string name="sensor_rotation_demo_placeholder">Sensor-driven rotation screen placeholder</string>
     <string name="show_border_parts">Show Parts</string>
     <string name="static_png_glow_border">Crossfading Between PNG States</string>
     <string name="metaballs_classic_approach">Metaballs: Classic Approach</string>
