@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -72,22 +74,52 @@ private fun SensorRotationScreen(
                 .padding(4.dp)
                 .border(width = 1.dp, color = Color.Red)
         ) {
-            SensorRotationTopAppBar(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = rememberStatusBarHeight()),
-                title = stringResource(R.string.sensor_rotation_demo),
-                onNavUp = onNavUp
-            )
+            Canvas(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                val centerY = size.height / 2f
+                drawLine(
+                    color = Color.Black,
+                    start = Offset(x = 0f, y = centerY),
+                    end = Offset(x = size.width, y = centerY),
+                    strokeWidth = 2.dp.toPx()
+                )
+            }
 
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = stringResource(R.string.sensor_rotation_demo_placeholder),
-                color = Color.Black
-            )
+            // dont delete - прост опока он не нужен
+
+//            SensorRotationTopAppBar(
+//                modifier = Modifier
+//                    .align(Alignment.TopCenter)
+//                    .padding(top = rememberStatusBarHeight()),
+//                title = stringResource(R.string.sensor_rotation_demo),
+//                onNavUp = onNavUp
+//            )
+//
+//            Text(
+//                modifier = Modifier.align(Alignment.Center),
+//                text = stringResource(R.string.sensor_rotation_demo_placeholder),
+//                color = Color.Black
+//            )
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
