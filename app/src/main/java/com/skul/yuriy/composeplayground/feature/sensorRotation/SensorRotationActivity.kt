@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -51,6 +52,7 @@ import com.skul.yuriy.composeplayground.ui.theme.ComposePlaygroundTheme
 class SensorRotationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         Log.wtf("SensorRotationActivity", "onCreate")
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
