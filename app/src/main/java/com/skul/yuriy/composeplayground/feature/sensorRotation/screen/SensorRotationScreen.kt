@@ -20,8 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -144,6 +146,18 @@ private fun CornerDebugCanvas(
         drawCircle(color = Color.Blue, radius = markerRadius, center = bottomRight)
         drawCircle(color = Color.Blue, radius = markerRadius, center = bottomLeft)
 
+        drawPath(
+            path = Path().apply {
+                moveTo(topPair.a1.x, topPair.a1.y)
+                lineTo(topPair.b1.x, topPair.b1.y)
+                lineTo(bottomPair.c1.x, bottomPair.c1.y)
+                lineTo(bottomPair.d1.x, bottomPair.d1.y)
+                close()
+            },
+            color = Color.Green,
+            style = Stroke(width = 2.dp.toPx())
+        )
+
         drawCircle(color = Color.Green, radius = insetMarkerRadius, center = topPair.a1)
         drawCircle(color = Color.Green, radius = insetMarkerRadius, center = topPair.b1)
         drawCircle(color = Color.Green, radius = insetMarkerRadius, center = bottomPair.c1)
@@ -172,36 +186,75 @@ private fun resolveTopPair(
         x = cos(radians).toFloat(),
         y = sin(radians).toFloat()
     )
+    val fixedPointShiftProgress = resolveFixedPointShiftProgress(rotationDegrees)
 
     val bLowerThanA = dot(anchorB, gravityDown) > dot(anchorA, gravityDown)
     return if (bLowerThanA) {
-        val a1 = intersectRayWithSegment(
-            rayOrigin = anchorB,
-            rayDirection = horizontalRight * -1f,
-            segmentStart = anchorA,
-            segmentEnd = anchorD
-        )
+        val (a1, b1) = if (fixedPointShiftProgress == 0f) {
+            val movedA1 = intersectRayWithSegment(
+                rayOrigin = anchorB,
+                rayDirection = horizontalRight * -1f,
+                segmentStart = anchorA,
+                segmentEnd = anchorD
+            )
+            movedA1 to anchorB
+        } else {
+            val boundaryHorizontalRight = horizontalRightAtBoundary(rotationDegrees)
+            val boundaryA1 = intersectRayWithSegment(
+                rayOrigin = anchorB,
+                rayDirection = boundaryHorizontalRight * -1f,
+                segmentStart = anchorA,
+                segmentEnd = anchorD
+            )
+            val movedA1 = lerp(boundaryA1, anchorD, fixedPointShiftProgress)
+            val dependentB1 = intersectRayWithSegment(
+                rayOrigin = movedA1,
+                rayDirection = horizontalRight,
+                segmentStart = anchorA,
+                segmentEnd = anchorB
+            )
+            movedA1 to dependentB1
+        }
         Log.d(
             "SensorRotationTopPair",
-            "B lower by gravity: fixed=B1, moved=A1"
+            "B lower by gravity: fixed=B1, moved=A1, shiftProgress=$fixedPointShiftProgress"
         )
         TopPair(
             a1 = a1,
-            b1 = anchorB
+            b1 = b1
         )
     } else {
-        val b1 = intersectRayWithSegment(
-            rayOrigin = anchorA,
-            rayDirection = horizontalRight,
-            segmentStart = anchorB,
-            segmentEnd = anchorC
-        )
+        val (a1, b1) = if (fixedPointShiftProgress == 0f) {
+            val movedB1 = intersectRayWithSegment(
+                rayOrigin = anchorA,
+                rayDirection = horizontalRight,
+                segmentStart = anchorB,
+                segmentEnd = anchorC
+            )
+            anchorA to movedB1
+        } else {
+            val boundaryHorizontalRight = horizontalRightAtBoundary(rotationDegrees)
+            val boundaryB1 = intersectRayWithSegment(
+                rayOrigin = anchorA,
+                rayDirection = boundaryHorizontalRight,
+                segmentStart = anchorB,
+                segmentEnd = anchorC
+            )
+            val movedB1 = lerp(boundaryB1, anchorC, fixedPointShiftProgress)
+            val dependentA1 = intersectRayWithSegment(
+                rayOrigin = movedB1,
+                rayDirection = horizontalRight * -1f,
+                segmentStart = anchorA,
+                segmentEnd = anchorB
+            )
+            dependentA1 to movedB1
+        }
         Log.d(
             "SensorRotationTopPair",
-            "A lower by gravity: fixed=A1, moved=B1"
+            "A lower by gravity: fixed=A1, moved=B1, shiftProgress=$fixedPointShiftProgress"
         )
         TopPair(
-            a1 = anchorA,
+            a1 = a1,
             b1 = b1
         )
     }
@@ -223,39 +276,102 @@ private fun resolveBottomPair(
         x = cos(radians).toFloat(),
         y = sin(radians).toFloat()
     )
+    val fixedPointShiftProgress = resolveFixedPointShiftProgress(rotationDegrees)
 
     val cHigherThanD = dot(anchorC, gravityDown) < dot(anchorD, gravityDown)
     return if (cHigherThanD) {
-        val d1 = intersectRayWithSegment(
-            rayOrigin = anchorC,
-            rayDirection = horizontalRight * -1f,
-            segmentStart = anchorA,
-            segmentEnd = anchorD
-        )
+        val (c1, d1) = if (fixedPointShiftProgress == 0f) {
+            val movedD1 = intersectRayWithSegment(
+                rayOrigin = anchorC,
+                rayDirection = horizontalRight * -1f,
+                segmentStart = anchorA,
+                segmentEnd = anchorD
+            )
+            anchorC to movedD1
+        } else {
+            val boundaryHorizontalRight = horizontalRightAtBoundary(rotationDegrees)
+            val boundaryD1 = intersectRayWithSegment(
+                rayOrigin = anchorC,
+                rayDirection = boundaryHorizontalRight * -1f,
+                segmentStart = anchorA,
+                segmentEnd = anchorD
+            )
+            val movedD1 = lerp(boundaryD1, anchorA, fixedPointShiftProgress)
+            val dependentC1 = intersectRayWithSegment(
+                rayOrigin = movedD1,
+                rayDirection = horizontalRight,
+                segmentStart = anchorC,
+                segmentEnd = anchorD
+            )
+            dependentC1 to movedD1
+        }
         Log.d(
             "SensorRotationBottomPair",
-            "C higher by gravity: fixed=C1, moved=D1"
-        )
-        BottomPair(
-            c1 = anchorC,
-            d1 = d1
-        )
-    } else {
-        val c1 = intersectRayWithSegment(
-            rayOrigin = anchorD,
-            rayDirection = horizontalRight,
-            segmentStart = anchorB,
-            segmentEnd = anchorC
-        )
-        Log.d(
-            "SensorRotationBottomPair",
-            "D higher by gravity: fixed=D1, moved=C1"
+            "C higher by gravity: fixed=C1, moved=D1, shiftProgress=$fixedPointShiftProgress"
         )
         BottomPair(
             c1 = c1,
-            d1 = anchorD
+            d1 = d1
+        )
+    } else {
+        val (c1, d1) = if (fixedPointShiftProgress == 0f) {
+            val movedC1 = intersectRayWithSegment(
+                rayOrigin = anchorD,
+                rayDirection = horizontalRight,
+                segmentStart = anchorB,
+                segmentEnd = anchorC
+            )
+            movedC1 to anchorD
+        } else {
+            val boundaryHorizontalRight = horizontalRightAtBoundary(rotationDegrees)
+            val boundaryC1 = intersectRayWithSegment(
+                rayOrigin = anchorD,
+                rayDirection = boundaryHorizontalRight,
+                segmentStart = anchorB,
+                segmentEnd = anchorC
+            )
+            val movedC1 = lerp(boundaryC1, anchorB, fixedPointShiftProgress)
+            val dependentD1 = intersectRayWithSegment(
+                rayOrigin = movedC1,
+                rayDirection = horizontalRight * -1f,
+                segmentStart = anchorC,
+                segmentEnd = anchorD
+            )
+            movedC1 to dependentD1
+        }
+        Log.d(
+            "SensorRotationBottomPair",
+            "D higher by gravity: fixed=D1, moved=C1, shiftProgress=$fixedPointShiftProgress"
+        )
+        BottomPair(
+            c1 = c1,
+            d1 = d1
         )
     }
+}
+
+private fun resolveFixedPointShiftProgress(rotationDegrees: Float): Float {
+    val absoluteAngle = kotlin.math.abs(rotationDegrees)
+    if (absoluteAngle <= 45f) return 0f
+    if (absoluteAngle >= 90f) return 1f
+    return (absoluteAngle - 45f) / 45f
+}
+
+private fun horizontalRightAtBoundary(rotationDegrees: Float): Offset {
+    val boundaryAngle = if (rotationDegrees >= 0f) 45f else -45f
+    val radians = Math.toRadians(boundaryAngle.toDouble())
+    return Offset(
+        x = cos(radians).toFloat(),
+        y = sin(radians).toFloat()
+    )
+}
+
+private fun lerp(start: Offset, end: Offset, progress: Float): Offset {
+    val clampedProgress = progress.coerceIn(0f, 1f)
+    return Offset(
+        x = start.x + (end.x - start.x) * clampedProgress,
+        y = start.y + (end.y - start.y) * clampedProgress
+    )
 }
 
 private fun intersectRayWithSegment(
