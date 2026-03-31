@@ -131,6 +131,13 @@ private fun CornerDebugCanvas(
             anchorD = insetBottomLeft,
             rotationDegrees = rotationDegrees
         )
+        val bottomPair = resolveBottomPair(
+            anchorA = insetTopLeft,
+            anchorB = insetTopRight,
+            anchorC = insetBottomRight,
+            anchorD = insetBottomLeft,
+            rotationDegrees = rotationDegrees
+        )
 
         drawCircle(color = Color.Blue, radius = markerRadius, center = topLeft)
         drawCircle(color = Color.Blue, radius = markerRadius, center = topRight)
@@ -139,8 +146,8 @@ private fun CornerDebugCanvas(
 
         drawCircle(color = Color.Green, radius = insetMarkerRadius, center = topPair.a1)
         drawCircle(color = Color.Green, radius = insetMarkerRadius, center = topPair.b1)
-        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = insetBottomRight)
-        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = insetBottomLeft)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = bottomPair.c1)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = bottomPair.d1)
 
         drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetTopLeft)
         drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetTopRight)
@@ -200,6 +207,57 @@ private fun resolveTopPair(
     }
 }
 
+private fun resolveBottomPair(
+    anchorA: Offset,
+    anchorB: Offset,
+    anchorC: Offset,
+    anchorD: Offset,
+    rotationDegrees: Float
+): BottomPair {
+    val radians = Math.toRadians(rotationDegrees.toDouble())
+    val gravityDown = Offset(
+        x = (-sin(radians)).toFloat(),
+        y = cos(radians).toFloat()
+    )
+    val horizontalRight = Offset(
+        x = cos(radians).toFloat(),
+        y = sin(radians).toFloat()
+    )
+
+    val cHigherThanD = dot(anchorC, gravityDown) < dot(anchorD, gravityDown)
+    return if (cHigherThanD) {
+        val d1 = intersectRayWithSegment(
+            rayOrigin = anchorC,
+            rayDirection = horizontalRight * -1f,
+            segmentStart = anchorA,
+            segmentEnd = anchorD
+        )
+        Log.d(
+            "SensorRotationBottomPair",
+            "C higher by gravity: fixed=C1, moved=D1"
+        )
+        BottomPair(
+            c1 = anchorC,
+            d1 = d1
+        )
+    } else {
+        val c1 = intersectRayWithSegment(
+            rayOrigin = anchorD,
+            rayDirection = horizontalRight,
+            segmentStart = anchorB,
+            segmentEnd = anchorC
+        )
+        Log.d(
+            "SensorRotationBottomPair",
+            "D higher by gravity: fixed=D1, moved=C1"
+        )
+        BottomPair(
+            c1 = c1,
+            d1 = anchorD
+        )
+    }
+}
+
 private fun intersectRayWithSegment(
     rayOrigin: Offset,
     rayDirection: Offset,
@@ -227,6 +285,11 @@ private fun dot(a: Offset, b: Offset): Float = a.x * b.x + a.y * b.y
 private data class TopPair(
     val a1: Offset,
     val b1: Offset
+)
+
+private data class BottomPair(
+    val c1: Offset,
+    val d1: Offset
 )
 
 @Composable
