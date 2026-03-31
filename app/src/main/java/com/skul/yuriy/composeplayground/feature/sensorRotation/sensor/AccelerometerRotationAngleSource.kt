@@ -13,7 +13,7 @@ class AccelerometerRotationAngleSource(
 ) : RotationAngleSource {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-    private var smoothedAngle = 0f
+    private var smoothedAngle: Float? = null
     private var isFlat = false
     private var listener: SensorEventListener? = null
 
@@ -41,12 +41,16 @@ class AccelerometerRotationAngleSource(
                 if (isFlat) return
 
                 val angle = Math.toDegrees(atan2(x.toDouble(), y.toDouble())).toFloat()
-                smoothedAngle = smoothAngle(
-                    previousAngle = smoothedAngle,
-                    targetAngle = angle,
-                    alpha = ANGLE_SMOOTHING_ALPHA
-                )
-                onAngleChanged(smoothedAngle)
+                // Seed the stream with the raw angle so the screen opens at the current tilt
+                // instead of visually easing in from an arbitrary previous smoothed state.
+                smoothedAngle = smoothedAngle?.let { previousAngle ->
+                    smoothAngle(
+                        previousAngle = previousAngle,
+                        targetAngle = angle,
+                        alpha = ANGLE_SMOOTHING_ALPHA
+                    )
+                } ?: angle
+                onAngleChanged(smoothedAngle ?: angle)
             }
 
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
@@ -62,5 +66,6 @@ class AccelerometerRotationAngleSource(
     override fun stop() {
         listener?.let(sensorManager::unregisterListener)
         listener = null
+        smoothedAngle = null
     }
 }
