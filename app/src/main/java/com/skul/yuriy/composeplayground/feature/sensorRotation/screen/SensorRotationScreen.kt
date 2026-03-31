@@ -46,7 +46,8 @@ fun SensorRotationScreen(
         ) {
             CornerDebugCanvas(
                 modifier = Modifier.fillMaxSize(),
-                inset = 6.dp
+                inset = 16.dp,
+                rotationDegrees = tiltAngle
             )
 
             Box(
@@ -99,12 +100,14 @@ fun SensorRotationScreen(
 @Composable
 private fun CornerDebugCanvas(
     modifier: Modifier = Modifier,
-    inset: Dp
+    inset: Dp,
+    rotationDegrees: Float
 ) {
     Canvas(modifier = modifier) {
         val insetPx = inset.toPx()
-        val strokeWidth = 2.dp.toPx()
         val markerRadius = 3.dp.toPx()
+        val anchorMarkerRadius = 3.dp.toPx()
+        val insetMarkerRadius = 5.dp.toPx()
 
         val topLeft = Offset(0f, 0f)
         val topRight = Offset(size.width, 0f)
@@ -116,15 +119,20 @@ private fun CornerDebugCanvas(
         val insetBottomRight = Offset(size.width - insetPx, size.height - insetPx)
         val insetBottomLeft = Offset(insetPx, size.height - insetPx)
 
-        drawLine(Color.Green, insetTopLeft, insetTopRight, strokeWidth = strokeWidth)
-        drawLine(Color.Green, insetTopRight, insetBottomRight, strokeWidth = strokeWidth)
-        drawLine(Color.Green, insetBottomRight, insetBottomLeft, strokeWidth = strokeWidth)
-        drawLine(Color.Green, insetBottomLeft, insetTopLeft, strokeWidth = strokeWidth)
-
         drawCircle(color = Color.Blue, radius = markerRadius, center = topLeft)
         drawCircle(color = Color.Blue, radius = markerRadius, center = topRight)
         drawCircle(color = Color.Blue, radius = markerRadius, center = bottomRight)
         drawCircle(color = Color.Blue, radius = markerRadius, center = bottomLeft)
+
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = insetTopLeft)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = insetTopRight)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = insetBottomRight)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = insetBottomLeft)
+
+        drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetTopLeft)
+        drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetTopRight)
+        drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetBottomRight)
+        drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetBottomLeft)
     }
 }
 
