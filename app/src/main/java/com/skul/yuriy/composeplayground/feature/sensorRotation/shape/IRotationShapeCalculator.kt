@@ -2,7 +2,7 @@ package com.skul.yuriy.composeplayground.feature.sensorRotation.shape
 
 import androidx.compose.ui.geometry.Offset
 
-interface RotationShapeCalculatorContract {
+interface IRotationShapeCalculator {
     fun calculate(
         anchorA: Offset,
         anchorB: Offset,

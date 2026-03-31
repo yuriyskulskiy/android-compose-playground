@@ -5,7 +5,18 @@ import androidx.compose.ui.geometry.Offset
 import kotlin.math.cos
 import kotlin.math.sin
 
-class TwoPhaseSlidingShapeCalculator : RotationShapeCalculatorContract {
+/**
+ * Two-phase shape calculation used by the original debug model.
+ *
+ * For the first half of each 90-degree sector one point in the top pair and one point in the
+ * bottom pair stay anchored to the corner that is closest to the world horizon, while the paired
+ * points are resolved from ray/segment intersections so the shelves stay parallel to the debug
+ * horizon. After 45 degrees the algorithm enters the second phase: the previously anchored points
+ * also start sliding toward the next corners, while their paired points continue to be recomputed
+ * from the same geometric constraints. Angles outside [-90, 90] are mirrored from the working
+ * base sector to preserve the same two-phase behavior across the full rotation.
+ */
+class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
     override fun calculate(
         anchorA: Offset,
         anchorB: Offset,

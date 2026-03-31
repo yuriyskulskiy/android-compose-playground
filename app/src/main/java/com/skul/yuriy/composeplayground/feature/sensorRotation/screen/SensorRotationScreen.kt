@@ -31,9 +31,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.ContinuousSlidingShapeCalculator
-import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.RotationShapeCalculatorContract
-import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.ShapePoints
+import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.AspectSlidingShapesCalculator
+import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.TwoPhaseSlidingShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.sensor.AccelerometerRotationAngleSource
 import com.skul.yuriy.composeplayground.feature.sensorRotation.sensor.OrientationEventRotationAngleSource
@@ -45,8 +44,8 @@ fun SensorRotationScreen(
 ) {
     val tiltAngle = rememberRotationAngle()
     var useSecondVariant by rememberSaveable { mutableStateOf(true) }
-    val shapeCalculator: RotationShapeCalculatorContract = remember(useSecondVariant) {
-        if (useSecondVariant) ContinuousSlidingShapeCalculator()
+    val shapeCalculator: IRotationShapeCalculator = remember(useSecondVariant) {
+        if (useSecondVariant) AspectSlidingShapesCalculator()
         else TwoPhaseSlidingShapeCalculator()
     }
     val calculatorLabel = if (useSecondVariant) "smooth phase slide" else "2 phase slide"
@@ -135,7 +134,7 @@ private fun CornerDebugCanvas(
     modifier: Modifier = Modifier,
     inset: Dp,
     rotationDegrees: Float,
-    shapeCalculator: RotationShapeCalculatorContract
+    shapeCalculator: IRotationShapeCalculator
 ) {
     Canvas(modifier = modifier) {
         val insetPx = inset.toPx()
