@@ -40,8 +40,7 @@ class AccelerometerRotationAngleSource(
 
                 if (isFlat) return
 
-                val rawAngle = Math.toDegrees(atan2(y.toDouble(), -x.toDouble())).toFloat()
-                val angle = normalizeDegrees(rawAngle + 180f)
+                val angle = Math.toDegrees(atan2(x.toDouble(), y.toDouble())).toFloat()
                 smoothedAngle = smoothAngle(
                     previousAngle = smoothedAngle,
                     targetAngle = angle,

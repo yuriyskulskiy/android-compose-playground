@@ -22,7 +22,7 @@ class OrientationEventRotationAngleSource(
             if (orientation == ORIENTATION_UNKNOWN) return
 
             val rawAngle = if (orientation == 0) 0f else 360f - orientation.toFloat()
-            val angle = normalizeDegrees(rawAngle - 90f)
+            val angle = normalizeDegrees(rawAngle)
             smoothedAngle = smoothAngle(
                 previousAngle = smoothedAngle,
                 targetAngle = angle,
