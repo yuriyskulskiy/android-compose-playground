@@ -4,15 +4,19 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,8 +31,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.RotationShapeCalculator
+import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.ContinuousSlidingShapeCalculator
+import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.RotationShapeCalculatorContract
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.ShapePoints
+import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.TwoPhaseSlidingShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.sensor.AccelerometerRotationAngleSource
 import com.skul.yuriy.composeplayground.feature.sensorRotation.sensor.OrientationEventRotationAngleSource
 import com.skul.yuriy.composeplayground.feature.sensorRotation.sensor.RotationAngleSourceType
@@ -38,6 +44,12 @@ fun SensorRotationScreen(
     onNavUp: () -> Unit
 ) {
     val tiltAngle = rememberRotationAngle()
+    var useSecondVariant by rememberSaveable { mutableStateOf(true) }
+    val shapeCalculator: RotationShapeCalculatorContract = remember(useSecondVariant) {
+        if (useSecondVariant) ContinuousSlidingShapeCalculator()
+        else TwoPhaseSlidingShapeCalculator()
+    }
+    val calculatorLabel = if (useSecondVariant) "smooth phase slide" else "2 phase slide"
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -52,7 +64,8 @@ fun SensorRotationScreen(
             CornerDebugCanvas(
                 modifier = Modifier.fillMaxSize(),
                 inset = 16.dp,
-                rotationDegrees = tiltAngle
+                rotationDegrees = tiltAngle,
+                shapeCalculator = shapeCalculator
             )
 
             Box(
@@ -83,6 +96,19 @@ fun SensorRotationScreen(
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .offset(y = 56.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Button(
+                        onClick = { useSecondVariant = !useSecondVariant }
+                    ) {
+                        Text(calculatorLabel)
+                    }
+                }
             }
 
             // dont delete - прост опока он не нужен
@@ -108,9 +134,9 @@ fun SensorRotationScreen(
 private fun CornerDebugCanvas(
     modifier: Modifier = Modifier,
     inset: Dp,
-    rotationDegrees: Float
+    rotationDegrees: Float,
+    shapeCalculator: RotationShapeCalculatorContract
 ) {
-    val shapeCalculator = remember { RotationShapeCalculator() }
     Canvas(modifier = modifier) {
         val insetPx = inset.toPx()
         val markerRadius = 3.dp.toPx()

@@ -5,7 +5,7 @@ import androidx.compose.ui.geometry.Offset
 import kotlin.math.cos
 import kotlin.math.sin
 
-class RotationShapeCalculator : RotationShapeCalculatorContract {
+class TwoPhaseSlidingShapeCalculator : RotationShapeCalculatorContract {
     override fun calculate(
         anchorA: Offset,
         anchorB: Offset,
