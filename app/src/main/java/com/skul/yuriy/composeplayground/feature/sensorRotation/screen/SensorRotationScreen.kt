@@ -126,14 +126,7 @@ private fun CornerDebugCanvas(
         val insetTopRight = Offset(size.width - insetPx, insetPx)
         val insetBottomRight = Offset(size.width - insetPx, size.height - insetPx)
         val insetBottomLeft = Offset(insetPx, size.height - insetPx)
-        val topPair = resolveTopPair(
-            anchorA = insetTopLeft,
-            anchorB = insetTopRight,
-            anchorC = insetBottomRight,
-            anchorD = insetBottomLeft,
-            rotationDegrees = rotationDegrees
-        )
-        val bottomPair = resolveBottomPair(
+        val shapePoints = resolveShapePoints(
             anchorA = insetTopLeft,
             anchorB = insetTopRight,
             anchorC = insetBottomRight,
@@ -148,26 +141,107 @@ private fun CornerDebugCanvas(
 
         drawPath(
             path = Path().apply {
-                moveTo(topPair.a1.x, topPair.a1.y)
-                lineTo(topPair.b1.x, topPair.b1.y)
-                lineTo(bottomPair.c1.x, bottomPair.c1.y)
-                lineTo(bottomPair.d1.x, bottomPair.d1.y)
+                moveTo(shapePoints.a1.x, shapePoints.a1.y)
+                lineTo(shapePoints.b1.x, shapePoints.b1.y)
+                lineTo(shapePoints.c1.x, shapePoints.c1.y)
+                lineTo(shapePoints.d1.x, shapePoints.d1.y)
                 close()
             },
             color = Color.Green,
             style = Stroke(width = 2.dp.toPx())
         )
 
-        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = topPair.a1)
-        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = topPair.b1)
-        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = bottomPair.c1)
-        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = bottomPair.d1)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = shapePoints.a1)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = shapePoints.b1)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = shapePoints.c1)
+        drawCircle(color = Color.Green, radius = insetMarkerRadius, center = shapePoints.d1)
 
         drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetTopLeft)
         drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetTopRight)
         drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetBottomRight)
         drawCircle(color = Color.Black, radius = anchorMarkerRadius, center = insetBottomLeft)
     }
+}
+
+private fun resolveShapePoints(
+    anchorA: Offset,
+    anchorB: Offset,
+    anchorC: Offset,
+    anchorD: Offset,
+    rotationDegrees: Float
+): ShapePoints {
+    return when {
+        rotationDegrees < -90f -> {
+            val mirroredShapePoints = resolveBaseShapePoints(
+                anchorA = anchorA,
+                anchorB = anchorB,
+                anchorC = anchorC,
+                anchorD = anchorD,
+                rotationDegrees = -180f - rotationDegrees
+            )
+            val centerY = (anchorA.y + anchorD.y) / 2f
+            ShapePoints(
+                a1 = mirrorHorizontally(mirroredShapePoints.b1, centerY),
+                b1 = mirrorHorizontally(mirroredShapePoints.a1, centerY),
+                c1 = mirrorHorizontally(mirroredShapePoints.d1, centerY),
+                d1 = mirrorHorizontally(mirroredShapePoints.c1, centerY)
+            )
+        }
+        rotationDegrees <= 90f -> {
+        resolveBaseShapePoints(
+            anchorA = anchorA,
+            anchorB = anchorB,
+            anchorC = anchorC,
+            anchorD = anchorD,
+            rotationDegrees = rotationDegrees
+        )
+        }
+        else -> {
+            val mirroredShapePoints = resolveBaseShapePoints(
+                anchorA = anchorA,
+                anchorB = anchorB,
+                anchorC = anchorC,
+                anchorD = anchorD,
+                rotationDegrees = 180f - rotationDegrees
+            )
+            val centerX = (anchorA.x + anchorB.x) / 2f
+            ShapePoints(
+                a1 = mirrorVertically(mirroredShapePoints.b1, centerX),
+                b1 = mirrorVertically(mirroredShapePoints.a1, centerX),
+                c1 = mirrorVertically(mirroredShapePoints.d1, centerX),
+                d1 = mirrorVertically(mirroredShapePoints.c1, centerX)
+            )
+        }
+    }
+}
+
+private fun resolveBaseShapePoints(
+    anchorA: Offset,
+    anchorB: Offset,
+    anchorC: Offset,
+    anchorD: Offset,
+    rotationDegrees: Float
+): ShapePoints {
+    val topPair = resolveTopPair(
+        anchorA = anchorA,
+        anchorB = anchorB,
+        anchorC = anchorC,
+        anchorD = anchorD,
+        rotationDegrees = rotationDegrees
+    )
+    val bottomPair = resolveBottomPair(
+        anchorA = anchorA,
+        anchorB = anchorB,
+        anchorC = anchorC,
+        anchorD = anchorD,
+        rotationDegrees = rotationDegrees
+    )
+    return ShapePoints(
+        a1 = topPair.a1,
+        b1 = topPair.b1,
+        c1 = bottomPair.c1,
+        d1 = bottomPair.d1
+    )
 }
 
 private fun resolveTopPair(
@@ -374,6 +448,16 @@ private fun lerp(start: Offset, end: Offset, progress: Float): Offset {
     )
 }
 
+private fun mirrorVertically(point: Offset, centerX: Float): Offset = Offset(
+    x = centerX - (point.x - centerX),
+    y = point.y
+)
+
+private fun mirrorHorizontally(point: Offset, centerY: Float): Offset = Offset(
+    x = point.x,
+    y = centerY - (point.y - centerY)
+)
+
 private fun intersectRayWithSegment(
     rayOrigin: Offset,
     rayDirection: Offset,
@@ -404,6 +488,13 @@ private data class TopPair(
 )
 
 private data class BottomPair(
+    val c1: Offset,
+    val d1: Offset
+)
+
+private data class ShapePoints(
+    val a1: Offset,
+    val b1: Offset,
     val c1: Offset,
     val d1: Offset
 )
