@@ -31,6 +31,5 @@ internal fun normalizeDegrees(angle: Float): Float {
 internal const val FLAT_ENTER_Z_THRESHOLD = 8.7f
 internal const val FLAT_EXIT_Z_THRESHOLD = 8.0f
 internal const val FLAT_XY_THRESHOLD = 2.0f
-internal const val ANGLE_SMOOTHING_ALPHA = 0.12f
 internal const val ACCELEROMETER_SENSOR_DELAY = android.hardware.SensorManager.SENSOR_DELAY_GAME
-internal const val ORIENTATION_EVENT_SENSOR_DELAY = android.hardware.SensorManager.SENSOR_DELAY_GAME
+internal const val ORIENTATION_EVENT_SENSOR_DELAY = android.hardware.SensorManager.SENSOR_DELAY_UI

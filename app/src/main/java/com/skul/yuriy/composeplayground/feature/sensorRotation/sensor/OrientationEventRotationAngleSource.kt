@@ -7,7 +7,6 @@ import android.view.OrientationEventListener
 class OrientationEventRotationAngleSource(
     context: Context
 ) : RotationAngleSource {
-    private var smoothedAngle = 0f
     private val orientationListener = object : OrientationEventListener(
         context,
         ORIENTATION_EVENT_SENSOR_DELAY
@@ -23,12 +22,7 @@ class OrientationEventRotationAngleSource(
 
             val rawAngle = if (orientation == 0) 0f else 360f - orientation.toFloat()
             val angle = normalizeDegrees(rawAngle)
-            smoothedAngle = smoothAngle(
-                previousAngle = smoothedAngle,
-                targetAngle = angle,
-                alpha = ANGLE_SMOOTHING_ALPHA
-            )
-            onAngleChanged?.invoke(smoothedAngle)
+            onAngleChanged?.invoke(angle)
         }
     }
 
