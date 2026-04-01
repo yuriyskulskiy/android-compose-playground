@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
@@ -23,6 +25,7 @@ internal fun RotationShapeContainer(
     inset: Dp,
     rotationDegrees: Float,
     shapeCalculator: IRotationShapeCalculator,
+    rotateContentWithShape: Boolean,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
     val shape =
@@ -37,7 +40,19 @@ internal fun RotationShapeContainer(
             .clip(shape)
             .background(Color.White)
     ) {
-        content()
+        Box(
+            modifier =
+                if (rotateContentWithShape) {
+                    Modifier.graphicsLayer {
+                        rotationZ = rotationDegrees
+                        transformOrigin = TransformOrigin.Center
+                    }
+                } else {
+                    Modifier
+                }
+        ) {
+            content()
+        }
     }
 }
 

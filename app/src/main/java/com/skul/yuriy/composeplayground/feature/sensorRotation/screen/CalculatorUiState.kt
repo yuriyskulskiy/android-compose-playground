@@ -7,18 +7,31 @@ import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.MorphingRec
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.TwoPhaseSlidingShapeCalculator
 
 internal enum class CalculatorUiState(
-    val label: String
+    val label: String,
+    val rotateContentWithShape: Boolean,
 ) {
-    TwoPhaseSlide(label = "2 phase slide") {
+    TwoPhaseSlide(
+        label = "2 phase slide",
+        rotateContentWithShape = false,
+    ) {
         override fun createCalculator(): IRotationShapeCalculator = TwoPhaseSlidingShapeCalculator()
     },
-    AspectSlide(label = "aspect slide") {
+    AspectSlide(
+        label = "aspect slide",
+        rotateContentWithShape = false,
+    ) {
         override fun createCalculator(): IRotationShapeCalculator = AspectSlidingShapesCalculator()
     },
-    MorphingRect(label = "morph rect") {
+    MorphingRect(
+        label = "morph rect",
+        rotateContentWithShape = true,
+    ) {
         override fun createCalculator(): IRotationShapeCalculator = MorphingRectShapeCalculator()
     },
-    FittedMorphingRect(label = "fit morph rect") {
+    FittedMorphingRect(
+        label = "fit morph rect",
+        rotateContentWithShape = true,
+    ) {
         override fun createCalculator(): IRotationShapeCalculator = FittedMorphingRectShapeCalculator()
     };
 

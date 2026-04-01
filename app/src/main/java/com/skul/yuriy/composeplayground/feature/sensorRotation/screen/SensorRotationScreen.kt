@@ -1,6 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,9 +14,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
+import com.skul.yuriy.composeplayground.feature.sensorRotation.text.RotationShapeText
 
 @Composable
 fun SensorRotationScreen(
@@ -26,7 +29,9 @@ fun SensorRotationScreen(
     val shapeCalculator: IRotationShapeCalculator = remember(calculatorState) {
         calculatorState.createCalculator()
     }
-    val calculatorLabel = calculatorState.label
+    val rotateContentWithShape = calculatorState.rotateContentWithShape
+    val baseText = stringResource(R.string.very_long_mock_text)
+    val demoText = "$baseText\n\n$baseText"
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,18 +48,17 @@ fun SensorRotationScreen(
                 .padding(4.dp),
             inset = 16.dp,
             rotationDegrees = tiltAngle,
-            shapeCalculator = shapeCalculator
-        )
-
-        return
-        DebugRotationFrame(
-            modifier = Modifier.fillMaxSize(),
-            inset = 16.dp,
-            rotationDegrees = tiltAngle,
             shapeCalculator = shapeCalculator,
-            calculatorLabel = calculatorLabel,
-            onSwitchCalculator = { calculatorState = calculatorState.next() }
-        )
+//            rotateContentWithShape = rotateContentWithShape,
+            rotateContentWithShape = true,
+        ) {
+            RotationShapeText(
+                text = demoText,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp)
+            )
+        }
 
         // dont delete - прост опока он не нужен
 
