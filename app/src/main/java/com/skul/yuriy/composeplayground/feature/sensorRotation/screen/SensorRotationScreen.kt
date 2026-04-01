@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.AspectSlidingShapesCalculator
+import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.FittedMorphingRectShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.MorphingRectShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.TwoPhaseSlidingShapeCalculator
@@ -229,6 +230,9 @@ private enum class CalculatorUiState(
     },
     MorphingRect(label = "morph rect") {
         override fun createCalculator(): IRotationShapeCalculator = MorphingRectShapeCalculator()
+    },
+    FittedMorphingRect(label = "fit morph rect") {
+        override fun createCalculator(): IRotationShapeCalculator = FittedMorphingRectShapeCalculator()
     };
 
     abstract fun createCalculator(): IRotationShapeCalculator
