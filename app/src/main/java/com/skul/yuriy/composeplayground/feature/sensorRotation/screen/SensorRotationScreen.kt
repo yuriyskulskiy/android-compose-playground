@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.AspectSlidingShapesCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
+import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.MorphingRectShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.TwoPhaseSlidingShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.sensor.AccelerometerRotationAngleSource
 import com.skul.yuriy.composeplayground.feature.sensorRotation.sensor.OrientationEventRotationAngleSource
@@ -225,6 +226,9 @@ private enum class CalculatorUiState(
     },
     AspectSlide(label = "aspect slide") {
         override fun createCalculator(): IRotationShapeCalculator = AspectSlidingShapesCalculator()
+    },
+    MorphingRect(label = "morph rect") {
+        override fun createCalculator(): IRotationShapeCalculator = MorphingRectShapeCalculator()
     };
 
     abstract fun createCalculator(): IRotationShapeCalculator
