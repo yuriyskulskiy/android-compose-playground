@@ -14,8 +14,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
+import com.skul.yuriy.composeplayground.feature.sensorRotation.text.RotationShapeText
 
 @Composable
 fun SensorRotationScreen(
@@ -31,6 +34,8 @@ fun SensorRotationScreen(
     val shapeCalculator: IRotationShapeCalculator = remember(calculatorState) {
         calculatorState.createCalculator()
     }
+    val baseText = stringResource(R.string.very_long_mock_text).trimIndent().trim()
+    val demoText = "$baseText\n\n$baseText"
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -50,6 +55,10 @@ fun SensorRotationScreen(
             shapeCalculator = shapeCalculator,
             rotateContentWithShape = true,
         ) {
+            RotationShapeText(
+                text = demoText,
+                modifier = Modifier.fillMaxSize()
+            )
         }
 
         DebugRotationFrame(
