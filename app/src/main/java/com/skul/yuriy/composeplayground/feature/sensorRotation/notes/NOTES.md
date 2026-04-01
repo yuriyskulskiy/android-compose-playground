@@ -23,6 +23,7 @@
 - Noise suppression / smoothing is also split into two strategies:
   - `AlphaRotationAngleSmoother`
   - `AnimatedRotationAngleSmoother`
+  - `SpringLockRotationAngleSmoother` (experimental)
 
 ### Alpha Smoothing
 
@@ -73,3 +74,45 @@
   - the buffer effectively stores only the freshest value
   - outdated intermediate values are dropped
   - the smoother always works with the latest relevant angle
+
+## Angle Anchoring
+
+- Anchoring logic is now separated from generic smoothing under the `anchoring` package.
+- The current shared helper is:
+  - [SnapAnchorSupport.kt](/Users/yuriyskulskiy/playground/app/src/main/java/com/skul/yuriy/composeplayground/feature/sensorRotation/anchoring/SnapAnchorSupport.kt)
+- It contains:
+  - canonical anchor lookup
+  - angle normalization for anchoring math
+  - hysteresis thresholds for enter / exit / settle
+- The current anchoring model uses hysteresis:
+  - enter the anchor zone with a smaller threshold
+  - leave it only through a wider threshold
+- This avoids rapid toggling near the boundary of a canonical angle zone.
+- The current implementation also avoids an instant visual jump:
+  - entering the anchor zone does not immediately replace `9.9°` with `0°`
+  - instead, the smoother switches its target to the anchor
+  - the angle approaches that anchor smoothly
+  - only after settling does it become a fully snapped/anchored value
+
+### Current Practical Options
+
+- `smoothAlpha`
+  - best with dense, noisy raw sensor streams
+  - uses alpha smoothing in free motion
+  - uses the same alpha approach to converge toward anchors
+- `animateTo`
+  - best with quantized listener angles
+  - uses `Animatable` in free motion
+  - uses the same animation mechanism to converge toward anchors
+- `springLock`
+  - experimental physical-style alternative
+  - adds a spring phase before hard lock
+
+### More Advanced Options
+
+- The current anchoring is based on hysteresis + target switching.
+- More advanced variants are still possible:
+  - nonlinear angle distortion like `easeDegrees`
+  - hybrid soft-attraction plus tiny hard snap
+  - spring + hysteresis + hard lock around canonical angles
+  - full value remapping / distortion around anchors

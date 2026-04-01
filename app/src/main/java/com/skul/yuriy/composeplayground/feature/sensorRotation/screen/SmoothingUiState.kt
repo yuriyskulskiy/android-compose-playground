@@ -1,9 +1,9 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation.screen
 
-import androidx.compose.runtime.rememberCoroutineScope
 import com.skul.yuriy.composeplayground.feature.sensorRotation.smoothing.AlphaRotationAngleSmoother
 import com.skul.yuriy.composeplayground.feature.sensorRotation.smoothing.AnimatedRotationAngleSmoother
 import com.skul.yuriy.composeplayground.feature.sensorRotation.smoothing.IRotationAngleSmoother
+import com.skul.yuriy.composeplayground.feature.sensorRotation.smoothing.SpringLockRotationAngleSmoother
 import kotlinx.coroutines.CoroutineScope
 
 internal enum class SmoothingUiState(
@@ -16,6 +16,10 @@ internal enum class SmoothingUiState(
     AnimateTo(label = "animateTo") {
         override fun createSmoother(scope: CoroutineScope): IRotationAngleSmoother =
             AnimatedRotationAngleSmoother(scope)
+    },
+    SpringLock(label = "springLock") {
+        override fun createSmoother(scope: CoroutineScope): IRotationAngleSmoother =
+            SpringLockRotationAngleSmoother(scope)
     };
 
     abstract fun createSmoother(scope: CoroutineScope): IRotationAngleSmoother
