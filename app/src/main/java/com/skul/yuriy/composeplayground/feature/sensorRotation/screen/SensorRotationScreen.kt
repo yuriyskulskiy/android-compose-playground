@@ -43,12 +43,11 @@ fun SensorRotationScreen(
     onNavUp: () -> Unit
 ) {
     val tiltAngle = rememberRotationAngle()
-    var useSecondVariant by rememberSaveable { mutableStateOf(true) }
-    val shapeCalculator: IRotationShapeCalculator = remember(useSecondVariant) {
-        if (useSecondVariant) AspectSlidingShapesCalculator()
-        else TwoPhaseSlidingShapeCalculator()
+    var calculatorState by rememberSaveable { mutableStateOf(CalculatorUiState.AspectSlide) }
+    val shapeCalculator: IRotationShapeCalculator = remember(calculatorState) {
+        calculatorState.createCalculator()
     }
-    val calculatorLabel = if (useSecondVariant) "smooth phase slide" else "2 phase slide"
+    val calculatorLabel = calculatorState.label
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -103,7 +102,7 @@ fun SensorRotationScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Button(
-                        onClick = { useSecondVariant = !useSecondVariant }
+                        onClick = { calculatorState = calculatorState.next() }
                     ) {
                         Text(calculatorLabel)
                     }
@@ -217,3 +216,18 @@ private fun rememberRotationAngle(
 
 private val DEFAULT_ROTATION_ANGLE_SOURCE = RotationAngleSourceType.Accelerometer
 private val ALTERNATIVE_ROTATION_ANGLE_SOURCE = RotationAngleSourceType.OrientationEventListener
+
+private enum class CalculatorUiState(
+    val label: String
+) {
+    TwoPhaseSlide(label = "2 phase slide") {
+        override fun createCalculator(): IRotationShapeCalculator = TwoPhaseSlidingShapeCalculator()
+    },
+    AspectSlide(label = "aspect slide") {
+        override fun createCalculator(): IRotationShapeCalculator = AspectSlidingShapesCalculator()
+    };
+
+    abstract fun createCalculator(): IRotationShapeCalculator
+
+    fun next(): CalculatorUiState = entries[(ordinal + 1) % entries.size]
+}
