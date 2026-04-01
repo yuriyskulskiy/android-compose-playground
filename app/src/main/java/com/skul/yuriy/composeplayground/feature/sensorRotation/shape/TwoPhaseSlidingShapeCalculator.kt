@@ -23,8 +23,8 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
         anchorC: Offset,
         anchorD: Offset,
         rotationDegrees: Float
-    ): ShapePoints {
-        return when {
+    ): RotationShapeLayoutData {
+        val shapePoints = when {
             rotationDegrees < -90f -> {
                 val mirroredShapePoints = resolveBaseShapePoints(
                     anchorA = anchorA,
@@ -69,6 +69,7 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
                 )
             }
         }
+        return RotationShapeLayoutData.fromShapePoints(shapePoints)
     }
 
     private fun resolveBaseShapePoints(
@@ -338,13 +339,6 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
 
     private fun dot(a: Offset, b: Offset): Float = a.x * b.x + a.y * b.y
 }
-
-data class ShapePoints(
-    val a1: Offset,
-    val b1: Offset,
-    val c1: Offset,
-    val d1: Offset
-)
 
 private data class TopPair(
     val a1: Offset,

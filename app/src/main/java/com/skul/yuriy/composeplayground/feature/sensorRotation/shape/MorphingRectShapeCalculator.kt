@@ -1,6 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation.shape
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
@@ -20,7 +21,7 @@ class MorphingRectShapeCalculator : IRotationShapeCalculator {
         anchorC: Offset,
         anchorD: Offset,
         rotationDegrees: Float
-    ): ShapePoints {
+    ): RotationShapeLayoutData {
         val normalizedAngle = normalizeToSignedHalfTurn(rotationDegrees)
         val absoluteAngle = abs(normalizedAngle)
         val completedQuarterTurns = (absoluteAngle / QUARTER_TURN_DEGREES).toInt()
@@ -43,7 +44,7 @@ class MorphingRectShapeCalculator : IRotationShapeCalculator {
         val halfWidth = currentWidth / 2f
         val halfHeight = currentHeight / 2f
 
-        return ShapePoints(
+        val shapePoints = ShapePoints(
             a1 = rotateLocalPoint(
                 localPoint = Offset(-halfWidth, -halfHeight),
                 center = center,
@@ -64,6 +65,10 @@ class MorphingRectShapeCalculator : IRotationShapeCalculator {
                 center = center,
                 rotationDegrees = normalizedAngle
             )
+        )
+        return RotationShapeLayoutData.fromShapePoints(
+            shapePoints = shapePoints,
+            contentSize = Size(width = currentWidth, height = currentHeight),
         )
     }
 

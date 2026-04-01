@@ -30,7 +30,7 @@ fun SensorRotationScreen(
         calculatorState.createCalculator()
     }
     val rotateContentWithShape = calculatorState.rotateContentWithShape
-    val baseText = stringResource(R.string.very_long_mock_text)
+    val baseText = stringResource(R.string.very_long_mock_text).trimIndent().trim()
     val demoText = "$baseText\n\n$baseText"
     Box(
         modifier = Modifier
@@ -54,9 +54,7 @@ fun SensorRotationScreen(
         ) {
             RotationShapeText(
                 text = demoText,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
+                modifier = Modifier.fillMaxSize()
             )
         }
 

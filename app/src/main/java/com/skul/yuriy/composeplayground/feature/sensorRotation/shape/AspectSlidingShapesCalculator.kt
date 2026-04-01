@@ -22,7 +22,7 @@ class AspectSlidingShapesCalculator : IRotationShapeCalculator {
         anchorC: Offset,
         anchorD: Offset,
         rotationDegrees: Float
-    ): ShapePoints {
+    ): RotationShapeLayoutData {
         val normalizedAngle = normalizeToSignedHalfTurn(rotationDegrees)
         val isClockwise = normalizedAngle >= 0f
         val absoluteAngle = abs(normalizedAngle)
@@ -35,7 +35,7 @@ class AspectSlidingShapesCalculator : IRotationShapeCalculator {
         val localAnchorC = anchors[rotateIndex(2, completedQuarterTurns, isClockwise)]
         val localAnchorD = anchors[rotateIndex(3, completedQuarterTurns, isClockwise)]
 
-        return if (isClockwise) {
+        val shapePoints = if (isClockwise) {
             resolveClockwiseSectorShapePoints(
                 anchorA = localAnchorA,
                 anchorB = localAnchorB,
@@ -52,6 +52,7 @@ class AspectSlidingShapesCalculator : IRotationShapeCalculator {
                 localRotationDegrees = localRotationDegrees
             )
         }
+        return RotationShapeLayoutData.fromShapePoints(shapePoints)
     }
 
     private fun resolveClockwiseSectorShapePoints(

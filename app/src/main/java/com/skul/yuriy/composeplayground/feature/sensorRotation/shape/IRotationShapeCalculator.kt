@@ -9,5 +9,5 @@ interface IRotationShapeCalculator {
         anchorC: Offset,
         anchorD: Offset,
         rotationDegrees: Float
-    ): ShapePoints
+    ): RotationShapeLayoutData
 }

@@ -52,13 +52,14 @@ internal fun DebugRotationFrame(
             val insetTopRight = Offset(size.width - insetPx, insetPx)
             val insetBottomRight = Offset(size.width - insetPx, size.height - insetPx)
             val insetBottomLeft = Offset(insetPx, size.height - insetPx)
-            val shapePoints = shapeCalculator.calculate(
+            val layoutData = shapeCalculator.calculate(
                 anchorA = insetTopLeft,
                 anchorB = insetTopRight,
                 anchorC = insetBottomRight,
                 anchorD = insetBottomLeft,
                 rotationDegrees = rotationDegrees
             )
+            val shapePoints = layoutData.shapePoints
 
             drawCircle(color = Color.Blue, radius = markerRadius, center = topLeft)
             drawCircle(color = Color.Blue, radius = markerRadius, center = topRight)
@@ -66,13 +67,7 @@ internal fun DebugRotationFrame(
             drawCircle(color = Color.Blue, radius = markerRadius, center = bottomLeft)
 
             drawPath(
-                path = Path().apply {
-                    moveTo(shapePoints.a1.x, shapePoints.a1.y)
-                    lineTo(shapePoints.b1.x, shapePoints.b1.y)
-                    lineTo(shapePoints.c1.x, shapePoints.c1.y)
-                    lineTo(shapePoints.d1.x, shapePoints.d1.y)
-                    close()
-                },
+                path = layoutData.path,
                 color = Color.Green,
                 style = Stroke(width = 2.dp.toPx())
             )
