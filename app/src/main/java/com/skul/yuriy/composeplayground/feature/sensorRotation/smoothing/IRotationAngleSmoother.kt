@@ -12,6 +12,8 @@ package com.skul.yuriy.composeplayground.feature.sensorRotation.smoothing
  * through [onRawAngle], so different strategies remain interchangeable inside Compose.
  */
 interface IRotationAngleSmoother {
+    val hasAngle: Boolean
+
     val angle: Float
 
     fun onRawAngle(rawAngle: Float)

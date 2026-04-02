@@ -87,6 +87,54 @@
   - outdated intermediate values are dropped
   - the smoother always works with the latest relevant angle
 
+## Startup Angle
+
+- There is a startup problem on this screen:
+  - when the screen opens while the phone lies flat, the raw accelerometer source may emit nothing
+  - waiting for the first real sensor angle can leave the screen blank
+- The current practical solution is:
+  - keep `SensorRotationActivity` portrait-locked in the manifest
+  - read the opening display rotation before the new screen starts rotating itself
+  - pass that raw display rotation into `SensorRotationActivity` through an `Intent` extra
+  - convert it into a simple startup fallback angle:
+    - portrait family -> `0°`
+    - landscape family -> `±90°`
+  - use that fallback immediately on first composition
+  - when the first real sensor angle arrives, the smoother snaps to it immediately
+  - after that, normal `smoothAlpha` / `animateTo` behavior continues
+- This avoids:
+  - black screen on startup
+  - waiting for the first sensor event while the device is flat
+  - startup blink caused by reading `display.rotation` too late from inside the already portrait-locked activity
+- The important detail is:
+  - the opening rotation is captured in the previous screen before `SensorRotationActivity` starts
+  - if it is read only inside the new activity, Android may already have forced the new window into portrait semantics
+  - that leads to wrong startup fallback and visible blink
+
+### More Serious Alternative
+
+- A more advanced approach would be:
+  - do not hardcode portrait in the manifest
+  - open the activity in the same orientation in which it was launched
+  - determine that opening orientation in `onCreate`
+  - then lock the activity dynamically to that exact quarter-turn orientation
+- That would reduce some system-level startup rotation issues, but it is much more complex.
+- With that approach, the whole feature would need to support multiple base window orientations:
+  - portrait
+  - reverse portrait
+  - landscape
+  - reverse landscape
+- In practice that means many geometry paths would need to become orientation-aware:
+  - rotation host measurements
+  - top bar and fake status bar insets
+  - bottom action panel placement
+  - rhombus text line shifting
+  - all rotation pattern calculators
+- So the current project uses the simpler pragmatic approach:
+  - keep the activity portrait-based
+  - rotate content inside that portrait host
+  - use startup fallback angle only to avoid bad first-frame behavior
+
 ## Rhombus Text
 
 - A custom text path was added for rhombus / parallelogram rotation shapes.
@@ -103,9 +151,9 @@
 
 ## Angle Anchoring
 
-- Anchoring logic is now separated from generic smoothing under the `anchoring` package.
+- Anchoring logic is currently shared inside the `smoothing` package.
 - The current shared helper is:
-  - [SnapAnchorSupport.kt](/Users/yuriyskulskiy/playground/app/src/main/java/com/skul/yuriy/composeplayground/feature/sensorRotation/anchoring/SnapAnchorSupport.kt)
+  - [SnapAnchorSupport.kt](/Users/yuriyskulskiy/playground/app/src/main/java/com/skul/yuriy/composeplayground/feature/sensorRotation/smoothing/SnapAnchorSupport.kt)
 - It contains:
   - canonical anchor lookup
   - angle normalization for anchoring math

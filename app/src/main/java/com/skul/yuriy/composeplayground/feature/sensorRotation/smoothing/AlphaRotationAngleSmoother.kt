@@ -2,6 +2,7 @@ package com.skul.yuriy.composeplayground.feature.sensorRotation.smoothing
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 private const val ANGLE_SMOOTHING_ALPHA = 0.12f
@@ -20,6 +21,9 @@ private const val ANGLE_SMOOTHING_ALPHA = 0.12f
 internal class AlphaRotationAngleSmoother : IRotationAngleSmoother {
     private var smoothedAngle: Float? = null
     private var mode: AlphaMode = AlphaMode.Free
+
+    override var hasAngle by mutableStateOf(false)
+        private set
 
     override var angle by mutableFloatStateOf(0f)
         private set
@@ -77,12 +81,14 @@ internal class AlphaRotationAngleSmoother : IRotationAngleSmoother {
         }
 
         smoothedAngle = nextAngle
+        hasAngle = true
         angle = nextAngle
     }
 
     override fun reset() {
         smoothedAngle = null
         mode = AlphaMode.Free
+        hasAngle = false
         angle = 0f
     }
 }

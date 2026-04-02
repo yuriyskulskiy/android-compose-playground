@@ -22,7 +22,7 @@ internal fun rememberRotationAngle(
 //    sourceType: RotationAngleSourceType = ACCELEROMETER_ROTATION_ANGLE_SOURCE,
     smoothingType: SmoothingUiState = DEFAULT_SMOOTHING_TYPE,
     sourceType: RotationAngleSourceType = ORIENTATION_EVENT_LISTENER_ROTATION_ANGLE_SOURCE
-): Float {
+): Float? {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val angleSource = remember(context, sourceType) {
@@ -62,7 +62,7 @@ internal fun rememberRotationAngle(
         }
     }
 
-    return angleSmoother.angle
+    return if (angleSmoother.hasAngle) angleSmoother.angle else null
 }
 
 private val ACCELEROMETER_ROTATION_ANGLE_SOURCE = RotationAngleSourceType.Accelerometer

@@ -6,6 +6,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -28,6 +29,9 @@ internal class AnimatedRotationAngleSmoother(
     private var isInitialized = false
     private var mode: AnimatedMode = AnimatedMode.Free
 
+    override var hasAngle by mutableStateOf(false)
+        private set
+
     override var angle by mutableFloatStateOf(0f)
         private set
 
@@ -39,6 +43,7 @@ internal class AnimatedRotationAngleSmoother(
                 isInitialized = true
                 mode = AnimatedMode.Free
                 animatable.snapTo(normalizedRawAngle)
+                hasAngle = true
                 angle = normalizedRawAngle
                 return@launch
             }
@@ -98,6 +103,7 @@ internal class AnimatedRotationAngleSmoother(
     override fun reset() {
         isInitialized = false
         mode = AnimatedMode.Free
+        hasAngle = false
         angle = 0f
     }
 }

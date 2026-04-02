@@ -1,6 +1,7 @@
 package com.skul.yuriy.composeplayground.starter
 
 import android.content.Intent
+import android.view.Surface
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -152,7 +153,15 @@ fun NavigationContent(modifier: Modifier) {
                 is ActivityStarterDestination -> NavigationItem(
                     text = stringResource(destination.titleRes),
                     onClick = {
-                        context.startActivity(Intent(context, destination.activityClass))
+                        val intent = Intent(context, destination.activityClass)
+                        if (destination.activityClass == SensorRotationActivity::class.java) {
+                            val displayRotation = context.display?.rotation ?: Surface.ROTATION_0
+                            intent.putExtra(
+                                SensorRotationActivity.EXTRA_INITIAL_DISPLAY_ROTATION,
+                                displayRotation
+                            )
+                        }
+                        context.startActivity(intent)
                     }
                 )
             }

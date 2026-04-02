@@ -70,6 +70,7 @@ private val RotationPatternBorderColor = Color.White.copy(alpha = 0.2f)
 
 @Composable
 fun SensorRotationScreen(
+    initialAngle: Float,
     onNavUp: () -> Unit
 ) {
     var smoothingState by rememberSaveable { mutableStateOf(SmoothingUiState.SmoothAlpha) }
@@ -84,7 +85,8 @@ fun SensorRotationScreen(
     }
     val baseText = stringResource(R.string.sensor_rotation_demo_text)
     val demoText = "$baseText\n\n$baseText"
-    val topBarTitle = "${tiltAngle.roundToInt()}°"
+    val currentAngle = tiltAngle ?: initialAngle
+    val topBarTitle = "${currentAngle.roundToInt()}°"
     val switchSourceMode = {
         sourceState = sourceState.next()
         smoothingState =
@@ -119,7 +121,7 @@ fun SensorRotationScreen(
             modifier = Modifier
                 .fillMaxSize(),
             inset = 0.dp,
-            rotationDegrees = tiltAngle,
+            rotationDegrees = currentAngle,
             shapeCalculator = shapeCalculator,
             rotateContentWithShape = calculatorState.rotateContentWithShape,
         ) { textLayoutInfo ->

@@ -18,6 +18,7 @@
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboardHidden"
             android:exported="false"
             android:label="@string/sensor_rotation_demo"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ComposePlayground" />
         <activity
             android:name=".MainActivity"
