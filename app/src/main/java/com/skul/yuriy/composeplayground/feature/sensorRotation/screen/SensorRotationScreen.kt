@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -52,8 +50,8 @@ import androidx.compose.ui.unit.sp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.text.RotationShapeText
-import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus.RhombusText
-import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus.RhombusTextLayoutConfig
+import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombustext.RhombusText
+import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombustext.RhombusTextLayoutConfig
 import kotlin.math.roundToInt
 
 private val RotationHostTopBarHeight = 64.dp

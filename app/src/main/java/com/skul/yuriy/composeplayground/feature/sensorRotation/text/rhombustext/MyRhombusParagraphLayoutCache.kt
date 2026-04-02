@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus
+package com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombustext
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.MultiParagraph

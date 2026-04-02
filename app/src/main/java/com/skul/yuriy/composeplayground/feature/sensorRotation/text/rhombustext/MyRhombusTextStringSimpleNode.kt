@@ -1,4 +1,4 @@
-package com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus
+package com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombustext
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
