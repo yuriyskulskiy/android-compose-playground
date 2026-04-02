@@ -5,9 +5,9 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -75,19 +75,27 @@ fun SensorRotationScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                CustomTopAppBar(
-                    title = stringResource(R.string.sensor_rotation_demo),
-                    onNavUp = onNavUp,
+                Box(
                     modifier = Modifier
-                        .padding(start = topBarStartInset)
-                        .height(RotationHostTopBarHeight),
-                    enableHorizontalDivider = false,
-                )
+                        .height(RotationHostTopBarHeight)
+                        .fillMaxWidth()
+                        .background(Color.Black)
+                ) {
+                    CustomTopAppBar(
+                        title = "Rotation",
+                        onNavUp = onNavUp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = topBarStartInset),
+                        enableHorizontalDivider = false,
+                    )
+                }
 
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize()
+                        .background(Color.White)
                 ) {
                     if (calculatorState.usesRhombusText) {
                         RhombusText(

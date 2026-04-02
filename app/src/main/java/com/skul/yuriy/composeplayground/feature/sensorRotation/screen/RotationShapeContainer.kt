@@ -84,7 +84,7 @@ internal fun RotationShapeContainer(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(shape)
-                .background(Color.White)
+                .background(Color.Black)
         ) {
             val parallelogramFrame =
                 if (rotateContentWithShape) {
