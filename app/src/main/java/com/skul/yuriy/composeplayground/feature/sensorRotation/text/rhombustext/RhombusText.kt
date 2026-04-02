@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow.Companion.Clip
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.platform.LocalDensity
+import com.skul.yuriy.composeplayground.feature.sensorRotation.scroll.rememberRotationAwareFlingBehavior
 
 /**
  * Project-owned text entry point for rhombus/parallelogram-like layout.
@@ -30,6 +31,7 @@ import androidx.compose.ui.platform.LocalDensity
 @Composable
 internal fun RhombusText(
     text: String,
+    angleDegrees: Float,
     config: RhombusTextLayoutConfig,
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,
@@ -46,13 +48,17 @@ internal fun RhombusText(
     val fontFamilyResolver = LocalFontFamilyResolver.current
     val density = LocalDensity.current
     val scrollState = rememberScrollState()
+    val flingBehavior = rememberRotationAwareFlingBehavior(angleDegrees)
     val finalConfig = config.copy(
         scrollOffset = with(density) { scrollState.value.toDp() }
     )
 
     val finalModifier =
         modifier
-            .verticalScroll(scrollState)
+            .verticalScroll(
+                state = scrollState,
+                flingBehavior = flingBehavior,
+            )
             .then(
             MyRhombusTextStringSimpleElement(
                 text = text,
