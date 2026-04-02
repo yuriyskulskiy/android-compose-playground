@@ -149,6 +149,32 @@
   - effectively `paragraph count = rendered line count`
 - This makes it possible to keep the text visually inside rhombus-like shapes while the shape changes during rotation.
 
+## Rotated Scroll And Fling
+
+- A separate bug appeared after moving scroll state into the child text composables.
+- Manual drag scrolling still felt correct, but fling became inverted in these angle ranges:
+  - `90..180`
+  - `-180..-90`
+- The reason is:
+  - the scrollable content is rotated visually with the host
+  - drag still feels mostly correct because pointer movement and content movement stay visually coupled
+  - but fling uses inertial velocity in the scrollable content's local coordinate system
+  - in the "upside-down" quadrants that local vertical direction no longer matches the vertical direction the user sees on screen
+- So the problem was not regular scroll itself, but fling velocity interpretation after rotation.
+- The fix is:
+  - keep normal drag scroll behavior unchanged
+  - detect whether the current host angle belongs to an inverted quadrant
+  - only for fling, invert the initial velocity sign before delegating to the default Compose fling behavior
+- This logic is now isolated in:
+  - [RotationScrollDirection.kt](/Users/yuriyskulskiy/playground/app/src/main/java/com/skul/yuriy/composeplayground/feature/sensorRotation/scroll/RotationScrollDirection.kt)
+  - [RotationAwareFlingBehavior.kt](/Users/yuriyskulskiy/playground/app/src/main/java/com/skul/yuriy/composeplayground/feature/sensorRotation/scroll/RotationAwareFlingBehavior.kt)
+- The custom fling behavior is applied to both text paths:
+  - rectangular text
+  - rhombus text
+- The inclusive boundaries were chosen intentionally:
+  - `90`, `180`, `-90`, `-180`
+  - because those edge angles already belong to the same flipped local-axis case
+
 ## Angle Anchoring
 
 - Anchoring logic is currently shared inside the `smoothing` package.
