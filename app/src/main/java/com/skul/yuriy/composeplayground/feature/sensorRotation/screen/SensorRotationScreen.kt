@@ -89,6 +89,7 @@ fun SensorRotationScreen(
     val baseText = stringResource(R.string.sensor_rotation_demo_text)
     val demoText = "$baseText\n\n$baseText"
     val topBarTitle = "${tiltAngle.roundToInt()}°"
+    val textScrollState = rememberScrollState()
     val switchSourceMode = {
         sourceState = sourceState.next()
         smoothingState =
@@ -216,7 +217,7 @@ fun SensorRotationScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
+                                .verticalScroll(textScrollState)
                         ) {
                             if (calculatorState.usesRhombusText) {
                                 RhombusText(
@@ -226,6 +227,7 @@ fun SensorRotationScreen(
                                         firstLineOffset = textLayoutInfo.firstLineOffset,
                                         horizontalShiftPerHeight = textLayoutInfo.horizontalShiftPerHeight,
                                         contentTopInset = rotationHostStatusBarHeight + RotationHostTopBarHeight,
+                                        scrollOffset = with(density) { textScrollState.value.toDp() },
                                     ),
                                     modifier = Modifier.fillMaxSize()
                                 )
