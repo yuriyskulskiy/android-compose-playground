@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
+import com.skul.yuriy.composeplayground.feature.sensorRotation.statusbar.rememberStatusBarHeight
 import kotlin.math.roundToInt
 
 private val RotationPatternButtonsBottomInset = 4.dp
