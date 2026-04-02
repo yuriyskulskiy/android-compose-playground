@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation
 
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
@@ -30,10 +31,10 @@ import com.skul.yuriy.composeplayground.feature.sensorRotation.screen.SensorRota
 import com.skul.yuriy.composeplayground.ui.theme.ComposePlaygroundTheme
 
 class SensorRotationActivity : ComponentActivity() {
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        Log.wtf("SensorRotationActivity", "onCreate")
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
@@ -41,8 +42,8 @@ class SensorRotationActivity : ComponentActivity() {
         WindowInsetsControllerCompat(window, window.decorView).apply {
             hide(WindowInsetsCompat.Type.systemBars())
             systemBarsBehavior =
+                //hide real status bar and use fake one for rotation
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-//                WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
         }
         setContent {
             ComposePlaygroundTheme {
