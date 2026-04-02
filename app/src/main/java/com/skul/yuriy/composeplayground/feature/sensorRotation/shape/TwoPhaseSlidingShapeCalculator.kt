@@ -24,7 +24,7 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
         anchorD: Offset,
         rotationDegrees: Float
     ): RotationShapeLayoutData {
-        val shapePoints = when {
+        val rawShapePoints = when {
             rotationDegrees < -90f -> {
                 val mirroredShapePoints = resolveBaseShapePoints(
                     anchorA = anchorA,
@@ -69,7 +69,38 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
                 )
             }
         }
+        val shapePoints = canonicalizeShapePoints(
+            shapePoints = rawShapePoints,
+            rotationDegrees = rotationDegrees
+        )
         return RotationShapeLayoutData.fromShapePoints(shapePoints)
+    }
+
+    private fun canonicalizeShapePoints(
+        shapePoints: ShapePoints,
+        rotationDegrees: Float,
+    ): ShapePoints {
+        val radians = Math.toRadians(rotationDegrees.toDouble())
+        val gravityDown = Offset(
+            x = (-sin(radians)).toFloat(),
+            y = cos(radians).toFloat()
+        )
+        val horizontalRight = Offset(
+            x = cos(radians).toFloat(),
+            y = sin(radians).toFloat()
+        )
+
+        val points = listOf(shapePoints.a1, shapePoints.b1, shapePoints.c1, shapePoints.d1)
+        val sortedByGravity = points.sortedBy { dot(it, gravityDown) }
+        val topPoints = sortedByGravity.take(2).sortedBy { dot(it, horizontalRight) }
+        val bottomPoints = sortedByGravity.takeLast(2).sortedBy { dot(it, horizontalRight) }
+
+        return ShapePoints(
+            a1 = topPoints.first(),
+            b1 = topPoints.last(),
+            c1 = bottomPoints.last(),
+            d1 = bottomPoints.first(),
+        )
     }
 
     private fun resolveBaseShapePoints(
