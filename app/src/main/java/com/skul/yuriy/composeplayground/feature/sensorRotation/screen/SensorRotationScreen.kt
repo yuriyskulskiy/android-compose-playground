@@ -20,10 +20,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -89,7 +87,6 @@ fun SensorRotationScreen(
     val baseText = stringResource(R.string.sensor_rotation_demo_text)
     val demoText = "$baseText\n\n$baseText"
     val topBarTitle = "${tiltAngle.roundToInt()}°"
-    val textScrollState = rememberScrollState()
     val switchSourceMode = {
         sourceState = sourceState.next()
         smoothingState =
@@ -214,29 +211,22 @@ fun SensorRotationScreen(
                             .fillMaxSize()
                             .background(Color.White)
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .verticalScroll(textScrollState)
-                        ) {
-                            if (calculatorState.usesRhombusText) {
-                                RhombusText(
-                                    text = demoText,
-                                    config = RhombusTextLayoutConfig(
-                                        lineWidth = textLayoutInfo.lineWidth,
-                                        firstLineOffset = textLayoutInfo.firstLineOffset,
-                                        horizontalShiftPerHeight = textLayoutInfo.horizontalShiftPerHeight,
-                                        contentTopInset = rotationHostStatusBarHeight + RotationHostTopBarHeight,
-                                        scrollOffset = with(density) { textScrollState.value.toDp() },
-                                    ),
-                                    modifier = Modifier.fillMaxSize()
-                                )
-                            } else {
-                                RotationShapeText(
-                                    text = demoText,
-                                    modifier = Modifier.fillMaxSize()
-                                )
-                            }
+                        if (calculatorState.usesRhombusText) {
+                            RhombusText(
+                                text = demoText,
+                                config = RhombusTextLayoutConfig(
+                                    lineWidth = textLayoutInfo.lineWidth,
+                                    firstLineOffset = textLayoutInfo.firstLineOffset,
+                                    horizontalShiftPerHeight = textLayoutInfo.horizontalShiftPerHeight,
+                                    contentTopInset = rotationHostStatusBarHeight + RotationHostTopBarHeight,
+                                ),
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        } else {
+                            RotationShapeText(
+                                text = demoText,
+                                modifier = Modifier.fillMaxSize()
+                            )
                         }
                     }
                 }

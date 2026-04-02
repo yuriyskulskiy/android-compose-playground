@@ -1,5 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
@@ -17,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextOverflow.Companion.Clip
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.platform.LocalFontFamilyResolver
+import androidx.compose.ui.platform.LocalDensity
 
 /**
  * Project-owned text entry point for rhombus/parallelogram-like layout.
@@ -41,14 +44,21 @@ internal fun RhombusText(
     validateRhombusMinMaxLines(minLines = minLines, maxLines = maxLines)
     require(autoSize == null) { "RhombusText does not support autoSize yet." }
     val fontFamilyResolver = LocalFontFamilyResolver.current
+    val density = LocalDensity.current
+    val scrollState = rememberScrollState()
+    val finalConfig = config.copy(
+        scrollOffset = with(density) { scrollState.value.toDp() }
+    )
 
     val finalModifier =
-        modifier.then(
+        modifier
+            .verticalScroll(scrollState)
+            .then(
             MyRhombusTextStringSimpleElement(
                 text = text,
                 style = style,
                 fontFamilyResolver = fontFamilyResolver,
-                config = config,
+                config = finalConfig,
                 overflow = overflow,
                 softWrap = softWrap,
                 maxLines = maxLines,
