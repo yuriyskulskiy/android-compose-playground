@@ -1,6 +1,7 @@
 package com.skul.yuriy.composeplayground.util.regularComponents
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,7 +28,8 @@ fun CustomTopAppBar(
     navigationIconColor: Color = Color.White,
     titleColor: Color = Color.White,
     enableHorizontalDivider: Boolean = true,
-    dividerColor: Color = Color.Gray
+    dividerColor: Color = Color.Gray,
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     Column(modifier = modifier) {
         TopAppBar(
@@ -53,7 +55,8 @@ fun CustomTopAppBar(
                     text = title,
                     color = titleColor
                 )
-            }
+            },
+            actions = actions,
         )
         if (enableHorizontalDivider) {
             HorizontalDivider(

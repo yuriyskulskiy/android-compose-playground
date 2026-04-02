@@ -16,6 +16,7 @@ out/
 # ===== Local config =====
 local.properties
 Local*
+old/
 
 # ===== Android tooling =====
 captures/

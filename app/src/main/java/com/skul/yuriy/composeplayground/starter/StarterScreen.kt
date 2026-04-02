@@ -1,5 +1,7 @@
 package com.skul.yuriy.composeplayground.starter
 
+import android.content.Intent
+import android.view.Surface
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,12 +10,15 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.LocalNavBackStack
 import com.skul.yuriy.composeplayground.R
+import com.skul.yuriy.composeplayground.feature.sensorRotation.SensorRotationActivity
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedArk
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedBorderRect
 import com.skul.yuriy.composeplayground.navigation.navigateToAnimatedCircularBtn
@@ -53,6 +58,81 @@ fun StarterScreen(
 
 @Composable
 fun NavigationContent(modifier: Modifier) {
+    val localNavBackStack = LocalNavBackStack.current
+    val context = LocalContext.current
+    val destinations = remember {
+        listOf<StarterDestination>(
+            ActivityStarterDestination(
+                titleRes = R.string.sensor_rotation_demo,
+                activityClass = SensorRotationActivity::class.java
+            ),
+            ComposeStarterDestination(R.string.animated_rect_button) {
+                navigateToAnimatedRectBtn()
+            },
+            ComposeStarterDestination(R.string.animated_border_rect) {
+                navigateToAnimatedBorderRect()
+            },
+            ComposeStarterDestination(R.string.liquid_bar) {
+                navigateToLiquidBar()
+            },
+            ComposeStarterDestination(R.string.custom_alpha_blur_radial) {
+                navigateToCustomAlphaBlurRadial()
+            },
+            ComposeStarterDestination(R.string.custom_alpha_blur) {
+                navigateToCustomAlphaBlur()
+            },
+            ComposeStarterDestination(R.string.metaball_edge_horizontal_scroll) {
+                navigateToMetaballEdgeHorizontalScroll()
+            },
+            ComposeStarterDestination(R.string.metaball_edge_advanced) {
+                navigateToMetaballEdgeAdvanced()
+            },
+            ComposeStarterDestination(R.string.metaball_edge) {
+                navigateToMetaballEdges()
+            },
+            ComposeStarterDestination(R.string.metaball_edge_text_title) {
+                navigateToMetaballPrimer()
+            },
+            StarterYearDivider(label = "Year 2026"),
+            ComposeStarterDestination(R.string.parallax_scroll_list) {
+                navigateToParallax()
+            },
+            ComposeStarterDestination(R.string.metaballs_blur) {
+                navigateToMetaballsScreen()
+            },
+            ComposeStarterDestination(R.string.topbar_animated_elevation) {
+                navigateToAnimatedElevationEdge()
+            },
+            ComposeStarterDestination(R.string.fading_edges_screen) {
+                navigateToFadingEdgesScreen()
+            },
+            ComposeStarterDestination(R.string.circular_halo_border) {
+                navigateToCircularHaloBorder()
+            },
+            ComposeStarterDestination(R.string.animated_ark) {
+                navigateToAnimatedArk()
+            },
+            ComposeStarterDestination(R.string.transparent_outline_shadow) {
+                navigateToShadowBox()
+            },
+            ComposeStarterDestination(R.string.bottom_edge_shadow) {
+                navigateToBottomEdgeShadowScreen()
+            },
+            ComposeStarterDestination(R.string.sticky_header_state_tracker) {
+                navigateToStickyHeaderStateTracker()
+            },
+            ComposeStarterDestination(R.string.vector_drawable_shadow) {
+                navigateToVectorIconWithShadow()
+            },
+            ComposeStarterDestination(R.string.animated_circular_button) {
+                navigateToAnimatedCircularBtn()
+            },
+            ComposeStarterDestination(R.string.metaballs_classic_approach) {
+                navigateToMetaballMath()
+            }
+        )
+    }
+
     Column(
         modifier = modifier
             .statusBarsPadding()
@@ -61,85 +141,30 @@ fun NavigationContent(modifier: Modifier) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        val localNavBackStack = LocalNavBackStack.current
-
-        NavigationItem(
-            text = stringResource(R.string.animated_rect_button),
-            onClick = { localNavBackStack.navigateToAnimatedRectBtn() })
-        NavigationItem(
-            text = stringResource(R.string.animated_border_rect),
-            onClick = { localNavBackStack.navigateToAnimatedBorderRect() })
-
-        NavigationItem(
-            text = stringResource(R.string.liquid_bar),
-            onClick = { localNavBackStack.navigateToLiquidBar() })
-
-        NavigationItem(
-            text = stringResource(R.string.custom_alpha_blur_radial),
-            onClick = { localNavBackStack.navigateToCustomAlphaBlurRadial() })
-
-        NavigationItem(
-            text = stringResource(R.string.custom_alpha_blur),
-            onClick = { localNavBackStack.navigateToCustomAlphaBlur() })
-
-        NavigationItem(
-            text = stringResource(R.string.metaball_edge_horizontal_scroll),
-            onClick = { localNavBackStack.navigateToMetaballEdgeHorizontalScroll() })
-
-        NavigationItem(
-            text = stringResource(R.string.metaball_edge_advanced),
-            onClick = { localNavBackStack.navigateToMetaballEdgeAdvanced() })
-
-        NavigationItem(
-            text = stringResource(R.string.metaball_edge),
-            onClick = { localNavBackStack.navigateToMetaballEdges() })
-
-        NavigationItem(
-            text = stringResource(R.string.metaball_edge_text_title),
-            onClick = {
-                localNavBackStack.navigateToMetaballPrimer()
-            })
-        YearDivider(label = "Year 2026")
-
-        NavigationItem(
-            text = stringResource(R.string.parallax_scroll_list),
-            onClick = { localNavBackStack.navigateToParallax() })
-        NavigationItem(
-            text = stringResource(R.string.metaballs_blur),
-            onClick = { localNavBackStack.navigateToMetaballsScreen() })
-        NavigationItem(
-            text = stringResource(R.string.topbar_animated_elevation),
-            onClick = { localNavBackStack.navigateToAnimatedElevationEdge() })
-        NavigationItem(
-            text = stringResource(R.string.fading_edges_screen),
-            onClick = { localNavBackStack.navigateToFadingEdgesScreen() })
-        NavigationItem(
-            text = stringResource(R.string.circular_halo_border),
-            onClick = { localNavBackStack.navigateToCircularHaloBorder() })
-        NavigationItem(
-            text = stringResource(R.string.animated_ark),
-            onClick = { localNavBackStack.navigateToAnimatedArk() })
-        NavigationItem(
-            text = stringResource(R.string.transparent_outline_shadow),
-            onClick = { localNavBackStack.navigateToShadowBox() })
-        NavigationItem(
-            text = stringResource(R.string.bottom_edge_shadow),
-            onClick = { localNavBackStack.navigateToBottomEdgeShadowScreen() })
-        NavigationItem(
-            text = stringResource(R.string.sticky_header_state_tracker),
-            onClick = { localNavBackStack.navigateToStickyHeaderStateTracker() })
-        NavigationItem(
-            text = stringResource(R.string.vector_drawable_shadow),
-            onClick = { localNavBackStack.navigateToVectorIconWithShadow() })
-        NavigationItem(
-            text = stringResource(R.string.animated_circular_button),
-            onClick = { localNavBackStack.navigateToAnimatedCircularBtn() })
-        NavigationItem(
-            text = "Gooey Effect",
-            onClick = { localNavBackStack.navigateToGooeyScreen() })
-        NavigationItem(
-            text = stringResource(R.string.metaballs_classic_approach),
-            onClick = { localNavBackStack.navigateToMetaballMath() })
-
+        destinations.forEach { destination ->
+            when (destination) {
+                is StarterYearDivider -> YearDivider(label = destination.label)
+                is ComposeStarterDestination -> NavigationItem(
+                    text = stringResource(destination.titleRes),
+                    onClick = {
+                        destination.navigate.invoke(localNavBackStack)
+                    }
+                )
+                is ActivityStarterDestination -> NavigationItem(
+                    text = stringResource(destination.titleRes),
+                    onClick = {
+                        val intent = Intent(context, destination.activityClass)
+                        if (destination.activityClass == SensorRotationActivity::class.java) {
+                            val displayRotation = context.display?.rotation ?: Surface.ROTATION_0
+                            intent.putExtra(
+                                SensorRotationActivity.EXTRA_INITIAL_DISPLAY_ROTATION,
+                                displayRotation
+                            )
+                        }
+                        context.startActivity(intent)
+                    }
+                )
+            }
+        }
     }
 }

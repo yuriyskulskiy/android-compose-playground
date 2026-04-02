@@ -84,6 +84,13 @@
     <string name="drop_shadow_example">Drop Shadow Example</string>
     <string name="effects_description">Effects:\n- Animated blurred arc with sweep gradient\n- Animated radial gradient border\n- Animated drop shadow for vector icon</string>
     <string name="effects_description_rect">Supports circle and rectangle shapes with individually adjustable corner radii.</string>
+    <string name="sensor_rotation_demo">Sensor Rotation Demo</string>
+    <string name="sensor_rotation_demo_placeholder">Sensor-driven rotation screen placeholder</string>
+    <string name="sensor_rotation_demo_text">The quick brown fox jumps over the lazy dog. This text is intentionally clean and regular so the rotation demo shows shape behavior instead of XML indentation artifacts. Each paragraph starts from the same margin and uses consistent spacing.
+
+The layout should stay readable while the container rotates, changes its proportions, or becomes a rhombus-like shape. That makes it easier to see clipping issues, line shifts, and scroll behavior without being distracted by random whitespace.
+
+Rectangular hosts can still rely on the regular paragraph engine. Rhombus-like hosts need custom line positioning so each next line can slide left or right while staying inside the visible shape.</string>
     <string name="show_border_parts">Show Parts</string>
     <string name="static_png_glow_border">Crossfading Between PNG States</string>
     <string name="metaballs_classic_approach">Metaballs: Classic Approach</string>
