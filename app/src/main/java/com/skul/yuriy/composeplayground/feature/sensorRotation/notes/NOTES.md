@@ -87,6 +87,23 @@
   - outdated intermediate values are dropped
   - the smoother always works with the latest relevant angle
 
+## Fake Status Bar
+
+- Android does not give normal app UI full visual control over the real system status bar contents.
+- For a strong custom-screen effect, the real system bar can be partially hidden and replaced visually by app-owned UI.
+- A common window flag for that approach is:
+  - `WindowCompat.setDecorFitsSystemWindows(window, false)`
+- After that, the app can draw its own top chrome and fake status bar inside edge-to-edge content.
+- In this project the fake status bar is used mostly for fun and for the visual completeness of the rotation host.
+- It currently shows real runtime information:
+  - current time
+  - battery percentage
+  - charging state
+  - Wi‑Fi state
+- It is still only a fake status bar:
+  - the real system status bar remains a system-controlled surface
+  - the app only imitates its appearance inside app content
+
 ## Startup Angle
 
 - There is a startup problem on this screen:
