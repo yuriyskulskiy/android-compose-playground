@@ -40,9 +40,9 @@ fun SensorRotationScreen(
         sourceType = sourceState.sourceType,
         smoothingType = smoothingState
     )
-    var calculatorState by rememberSaveable { mutableStateOf(CalculatorUiState.TwoPhaseSlide) }
-    val shapeCalculator: IRotationShapeCalculator = remember(calculatorState) {
-        calculatorState.createCalculator()
+    var viewportPattern by rememberSaveable { mutableStateOf(RotationViewportPattern.TwoPhaseSlide) }
+    val shapeCalculator: IRotationShapeCalculator = remember(viewportPattern) {
+        viewportPattern.createCalculator()
     }
     val baseText = stringResource(R.string.sensor_rotation_demo_text)
     val demoText = remember(baseText) { "$baseText\n\n$baseText" }
@@ -74,7 +74,7 @@ fun SensorRotationScreen(
             )
             .pointerInput(Unit) {
                 detectTapGestures {
-                    calculatorState = calculatorState.next()
+                    viewportPattern = viewportPattern.next()
                 }
             }
     ) {
@@ -84,7 +84,7 @@ fun SensorRotationScreen(
             inset = 0.dp,
             rotationDegrees = currentAngle,
             shapeCalculator = shapeCalculator,
-            rotateContentWithShape = calculatorState.rotateContentWithShape,
+            rotateContentWithShape = viewportPattern.rotateContentWithShape,
         ) { textLayoutInfo ->
             val density = LocalDensity.current
             val rotationHostStatusBarHeight = rememberStatusBarHeight()
@@ -161,7 +161,8 @@ fun SensorRotationScreen(
 
                     RotationTextContent(
                         text = demoText,
-                        calculatorState = calculatorState,
+                        angleDegrees = currentAngle,
+                        viewportPattern = viewportPattern,
                         textLayoutInfo = textLayoutInfo,
                         statusBarHeight = rotationHostStatusBarHeight,
                         modifier = Modifier
@@ -173,8 +174,8 @@ fun SensorRotationScreen(
 
                 RotationPatternControlBar(
                     items = patternItems,
-                    selectedState = calculatorState,
-                    onPatternClick = { calculatorState = it },
+                    selectedState = viewportPattern,
+                    onPatternClick = { viewportPattern = it },
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(

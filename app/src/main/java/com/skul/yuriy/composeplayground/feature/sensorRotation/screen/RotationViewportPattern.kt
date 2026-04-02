@@ -6,7 +6,7 @@ import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationSh
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.MorphingRectShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.TwoPhaseSlidingShapeCalculator
 
-internal enum class CalculatorUiState(
+internal enum class RotationViewportPattern(
     val label: String,
     val rotateContentWithShape: Boolean,
     val usesRhombusText: Boolean,
@@ -42,5 +42,5 @@ internal enum class CalculatorUiState(
 
     abstract fun createCalculator(): IRotationShapeCalculator
 
-    fun next(): CalculatorUiState = entries[(ordinal + 1) % entries.size]
+    fun next(): RotationViewportPattern = entries[(ordinal + 1) % entries.size]
 }

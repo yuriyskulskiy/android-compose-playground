@@ -12,15 +12,17 @@ import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombustext.
 @Composable
 internal fun RotationTextContent(
     text: String,
-    calculatorState: CalculatorUiState,
+    angleDegrees: Float,
+    viewportPattern: RotationViewportPattern,
     textLayoutInfo: RotationShapeTextLayoutInfo,
     statusBarHeight: Dp,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
-        if (calculatorState.usesRhombusText) {
+        if (viewportPattern.usesRhombusText) {
             RhombusText(
                 text = text,
+                angleDegrees = angleDegrees,
                 config = RhombusTextLayoutConfig(
                     lineWidth = textLayoutInfo.lineWidth,
                     firstLineOffset = textLayoutInfo.firstLineOffset,
@@ -32,6 +34,7 @@ internal fun RotationTextContent(
         } else {
             RotationShapeText(
                 text = text,
+                angleDegrees = angleDegrees,
                 modifier = Modifier.fillMaxSize()
             )
         }

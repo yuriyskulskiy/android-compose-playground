@@ -32,7 +32,7 @@ private val PressedRotationPatternBackground = Color(0xFF3A3A3A)
 private val RotationPatternBorderColor = Color.White.copy(alpha = 0.2f)
 
 internal data class RotationPatternUiItem(
-    val state: CalculatorUiState,
+    val state: RotationViewportPattern,
     @param:DrawableRes val iconRes: Int,
     val contentDescription: String,
 )
@@ -42,22 +42,22 @@ internal fun rememberRotationPatternItems(): List<RotationPatternUiItem> =
     remember {
         listOf(
             RotationPatternUiItem(
-                state = CalculatorUiState.TwoPhaseSlide,
+                state = RotationViewportPattern.TwoPhaseSlide,
                 iconRes = R.drawable.ic_rotation_pattern_two_phase,
                 contentDescription = "Two-phase pattern",
             ),
             RotationPatternUiItem(
-                state = CalculatorUiState.AspectSlide,
+                state = RotationViewportPattern.AspectSlide,
                 iconRes = R.drawable.ic_rotation_pattern_aspect,
                 contentDescription = "Aspect pattern",
             ),
             RotationPatternUiItem(
-                state = CalculatorUiState.MorphingRect,
+                state = RotationViewportPattern.MorphingRect,
                 iconRes = R.drawable.ic_rotation_pattern_rect,
                 contentDescription = "Rectangle pattern",
             ),
             RotationPatternUiItem(
-                state = CalculatorUiState.FittedMorphingRect,
+                state = RotationViewportPattern.FittedMorphingRect,
                 iconRes = R.drawable.ic_rotation_pattern_fitted,
                 contentDescription = "Fitted pattern",
             ),
@@ -67,8 +67,8 @@ internal fun rememberRotationPatternItems(): List<RotationPatternUiItem> =
 @Composable
 internal fun RotationPatternControlBar(
     items: List<RotationPatternUiItem>,
-    selectedState: CalculatorUiState,
-    onPatternClick: (CalculatorUiState) -> Unit,
+    selectedState: RotationViewportPattern,
+    onPatternClick: (RotationViewportPattern) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
