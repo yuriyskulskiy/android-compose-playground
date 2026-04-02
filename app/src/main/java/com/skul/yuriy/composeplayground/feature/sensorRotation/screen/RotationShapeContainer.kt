@@ -25,10 +25,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.ShapePoints
-import kotlin.math.cos
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sin
 
 @Composable
 internal fun RotationShapeContainer(
@@ -89,10 +85,8 @@ internal fun RotationShapeContainer(
         ) {
             val resolvedContentSize =
                 if (rotateContentWithShape) {
-                    resolvePreRotationContentSize(
-                        shapePoints = layoutData.shapePoints,
-                        center = layoutData.center,
-                        rotationDegrees = rotationDegrees,
+                    resolveParallelogramContentSize(
+                        shapePoints = layoutData.shapePoints
                     )
                 } else {
                     layoutData.contentSize
@@ -129,36 +123,16 @@ internal fun RotationShapeContainer(
     }
 }
 
-private fun resolvePreRotationContentSize(
+private fun resolveParallelogramContentSize(
     shapePoints: ShapePoints,
-    center: Offset,
-    rotationDegrees: Float,
 ): Size {
-    val radians = Math.toRadians((-rotationDegrees).toDouble())
-    val cosValue = cos(radians).toFloat()
-    val sinValue = sin(radians).toFloat()
-
-    fun unrotate(point: Offset): Offset {
-        val translatedX = point.x - center.x
-        val translatedY = point.y - center.y
-        return Offset(
-            x = translatedX * cosValue - translatedY * sinValue,
-            y = translatedX * sinValue + translatedY * cosValue,
-        )
-    }
-
-    val localA = unrotate(shapePoints.a1)
-    val localB = unrotate(shapePoints.b1)
-    val localC = unrotate(shapePoints.c1)
-    val localD = unrotate(shapePoints.d1)
-    val minX = min(min(localA.x, localB.x), min(localC.x, localD.x))
-    val maxX = max(max(localA.x, localB.x), max(localC.x, localD.x))
-    val minY = min(min(localA.y, localB.y), min(localC.y, localD.y))
-    val maxY = max(max(localA.y, localB.y), max(localC.y, localD.y))
-
     return Size(
-        width = maxX - minX,
-        height = maxY - minY,
+        width = distance(shapePoints.a1, shapePoints.b1),
+        height = perpendicularDistanceToLine(
+            point = shapePoints.d1,
+            lineStart = shapePoints.a1,
+            lineEnd = shapePoints.b1,
+        ),
     )
 }
 
@@ -166,6 +140,23 @@ private fun distance(start: Offset, end: Offset): Float {
     val dx = end.x - start.x
     val dy = end.y - start.y
     return kotlin.math.sqrt(dx * dx + dy * dy)
+}
+
+private fun perpendicularDistanceToLine(
+    point: Offset,
+    lineStart: Offset,
+    lineEnd: Offset,
+): Float {
+    val lineLength = distance(lineStart, lineEnd)
+    if (lineLength == 0f) return 0f
+
+    val doubledTriangleArea =
+        kotlin.math.abs(
+            (lineEnd.x - lineStart.x) * (lineStart.y - point.y) -
+                (lineStart.x - point.x) * (lineEnd.y - lineStart.y)
+        )
+
+    return doubledTriangleArea / lineLength
 }
 
 private class RotationShapeOutline(
