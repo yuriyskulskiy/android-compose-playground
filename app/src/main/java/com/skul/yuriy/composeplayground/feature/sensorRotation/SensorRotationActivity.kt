@@ -1,6 +1,7 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation
 
 import android.os.Bundle
+import android.os.Build
 import android.view.Surface
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -20,7 +21,7 @@ class SensorRotationActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val openingRotation = intent.getIntExtra(
             EXTRA_INITIAL_DISPLAY_ROTATION,
-            display?.rotation ?: Surface.ROTATION_0
+            currentDisplayRotation()
         )
         val openingRotationDegrees = displayRotationDegrees(openingRotation)
         enableEdgeToEdge(
@@ -48,5 +49,13 @@ class SensorRotationActivity : ComponentActivity() {
             Surface.ROTATION_90 -> -90f
             Surface.ROTATION_270 -> 90f
             else -> 0f
+        }
+
+    @Suppress("DEPRECATION")
+    private fun currentDisplayRotation(): Int =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            display?.rotation ?: Surface.ROTATION_0
+        } else {
+            windowManager.defaultDisplay?.rotation ?: Surface.ROTATION_0
         }
 }
