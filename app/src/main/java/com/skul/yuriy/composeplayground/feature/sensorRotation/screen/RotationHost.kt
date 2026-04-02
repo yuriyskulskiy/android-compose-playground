@@ -30,7 +30,7 @@ import kotlin.math.abs
 import kotlin.math.atan2
 
 @Composable
-internal fun RotationShapeContainer(
+internal fun RotationHost(
     modifier: Modifier = Modifier,
     inset: Dp,
     rotationDegrees: Float,
@@ -70,7 +70,7 @@ internal fun RotationShapeContainer(
             val widthByPoints = distance(layoutData.shapePoints.a1, layoutData.shapePoints.b1)
             val heightByPoints = distance(layoutData.shapePoints.b1, layoutData.shapePoints.c1)
             Log.wtf(
-                "RotationShapeContainer",
+                "RotationHost",
                 "contentSizePx width=${layoutData.contentSize.width}, " +
                     "height=${layoutData.contentSize.height}, " +
                     "a1b1=$widthByPoints, " +
