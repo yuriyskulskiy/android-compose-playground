@@ -9,6 +9,9 @@
 - The feature can track device angle in two different ways:
   - `AccelerometerRotationAngleSource`
   - `OrientationEventRotationAngleSource`
+- The compact `raw / lis` switch in the top bar changes not only the source, but the whole paired motion pipeline:
+  - `raw` switches to accelerometer source + `smoothAlpha`
+  - `lis` switches to orientation-listener source + `animateTo`
 - The accelerometer-based source behaves like a raw sensor stream:
   - it is continuous
   - it is noisy
@@ -29,6 +32,9 @@
 
 - Alpha smoothing uses the classic low-pass formula:
   - `new = previous + (target - previous) * alpha`
+- In other words, raw sensor mode does not jump directly to the new angle.
+- It moves toward the latest value smoothly using:
+  - `smoothed = previous + (raw - previous) * alpha`
 - `alpha` controls how strongly the new raw angle affects the output:
   - `alpha = 1` means no smoothing, the output becomes the raw angle immediately
   - `alpha = 0.1` means very strong smoothing and much slower motion
@@ -47,6 +53,9 @@
 ### Animated Smoothing
 
 - The alternative strategy uses `Animatable` and animates the current angle to the latest target angle.
+- In listener mode this is the default paired behavior:
+  - source = `OrientationEventRotationAngleSource`
+  - smoothing = `AnimatedRotationAngleSmoother`
 - A broken version lagged heavily when every new sensor event:
   - started a new outer `Job`
   - canceled the previous job manually
@@ -61,6 +70,9 @@
   - fewer updates
   - larger quantized angle steps
   - `Animatable` can interpolate those steps into smooth visual motion
+- In this mode angle anchoring is built as:
+  - hysteresis around canonical angles
+  - then smooth convergence to the chosen anchor via `animateTo(anchor)`
 
 ## Event Stream Filtering
 
@@ -74,6 +86,20 @@
   - the buffer effectively stores only the freshest value
   - outdated intermediate values are dropped
   - the smoother always works with the latest relevant angle
+
+## Rhombus Text
+
+- A custom text path was added for rhombus / parallelogram rotation shapes.
+- The regular Compose `Text` works for rectangular hosts, but it cannot correctly lay out text inside rhombus-like shapes.
+- For rhombus cases the feature now uses a custom text implementation that:
+  - recalculates line placement for the current shape geometry
+  - shifts each next line left or right depending on the current slant of the shape
+  - keeps line width constant while changing the start position of each line
+- This text is not a single paragraph.
+- Internally it uses many paragraph fragments:
+  - one paragraph per visual line
+  - effectively `paragraph count = rendered line count`
+- This makes it possible to keep the text visually inside rhombus-like shapes while the shape changes during rotation.
 
 ## Angle Anchoring
 
