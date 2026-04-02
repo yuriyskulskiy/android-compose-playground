@@ -1,6 +1,5 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation.shape
 
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import kotlin.math.cos
 import kotlin.math.sin
@@ -177,10 +176,6 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
                 )
                 movedA1 to dependentB1
             }
-            Log.d(
-                "SensorRotationTopPair",
-                "B lower by gravity: fixed=B1, moved=A1, shiftProgress=$fixedPointShiftProgress"
-            )
             TopPair(
                 a1 = a1,
                 b1 = b1
@@ -211,10 +206,6 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
                 )
                 dependentA1 to movedB1
             }
-            Log.d(
-                "SensorRotationTopPair",
-                "A lower by gravity: fixed=A1, moved=B1, shiftProgress=$fixedPointShiftProgress"
-            )
             TopPair(
                 a1 = a1,
                 b1 = b1
@@ -267,10 +258,6 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
                 )
                 dependentC1 to movedD1
             }
-            Log.d(
-                "SensorRotationBottomPair",
-                "C higher by gravity: fixed=C1, moved=D1, shiftProgress=$fixedPointShiftProgress"
-            )
             BottomPair(
                 c1 = c1,
                 d1 = d1
@@ -301,10 +288,6 @@ class TwoPhaseSlidingShapeCalculator : IRotationShapeCalculator {
                 )
                 movedC1 to dependentD1
             }
-            Log.d(
-                "SensorRotationBottomPair",
-                "D higher by gravity: fixed=D1, moved=C1, shiftProgress=$fixedPointShiftProgress"
-            )
             BottomPair(
                 c1 = c1,
                 d1 = d1
