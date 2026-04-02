@@ -52,31 +52,7 @@ class SensorRotationActivity : ComponentActivity() {
             }
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        Log.wtf("SensorRotationActivity", "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.wtf("SensorRotationActivity", "onResume")
-    }
-
-    override fun onPause() {
-        Log.wtf("SensorRotationActivity", "onPause")
-        super.onPause()
-    }
-
-    override fun onStop() {
-        Log.wtf("SensorRotationActivity", "onStop")
-        super.onStop()
-    }
 }
-
-
-
-
 
 
 

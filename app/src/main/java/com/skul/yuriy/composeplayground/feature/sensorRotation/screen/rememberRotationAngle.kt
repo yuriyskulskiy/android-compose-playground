@@ -40,10 +40,13 @@ internal fun rememberRotationAngle(
 
     DisposableEffect(angleSource, angleSmoother) {
         val angleEvents = callbackFlow {
-            angleSource.start { angle -> trySend(angle) }
-            awaitClose(angleSource::stop)
+            angleSource.start { angle ->
+                trySend(angle)
+            }
+            awaitClose {
+                angleSource.stop()
+            }
         }
-
         val collectJob = scope.launch {
             angleEvents
                 .conflate()
