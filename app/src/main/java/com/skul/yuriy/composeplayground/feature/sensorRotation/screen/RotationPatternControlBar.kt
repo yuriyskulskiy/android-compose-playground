@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation.screen
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,8 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.skul.yuriy.composeplayground.R
 
 internal val RotationPatternButtonSize = 40.dp
 private val SelectedRotationPatternTint = Color.Red
@@ -31,7 +33,7 @@ private val RotationPatternBorderColor = Color.White.copy(alpha = 0.2f)
 
 internal data class RotationPatternUiItem(
     val state: CalculatorUiState,
-    val icon: ImageVector,
+    @param:DrawableRes val iconRes: Int,
     val contentDescription: String,
 )
 
@@ -41,22 +43,22 @@ internal fun rememberRotationPatternItems(): List<RotationPatternUiItem> =
         listOf(
             RotationPatternUiItem(
                 state = CalculatorUiState.TwoPhaseSlide,
-                icon = RotationPatternIcons.TwoPhase,
+                iconRes = R.drawable.ic_rotation_pattern_two_phase,
                 contentDescription = "Two-phase pattern",
             ),
             RotationPatternUiItem(
                 state = CalculatorUiState.AspectSlide,
-                icon = RotationPatternIcons.Aspect,
+                iconRes = R.drawable.ic_rotation_pattern_aspect,
                 contentDescription = "Aspect pattern",
             ),
             RotationPatternUiItem(
                 state = CalculatorUiState.MorphingRect,
-                icon = RotationPatternIcons.Fitted,
+                iconRes = R.drawable.ic_rotation_pattern_rect,
                 contentDescription = "Rectangle pattern",
             ),
             RotationPatternUiItem(
                 state = CalculatorUiState.FittedMorphingRect,
-                icon = RotationPatternIcons.Morph,
+                iconRes = R.drawable.ic_rotation_pattern_fitted,
                 contentDescription = "Fitted pattern",
             ),
         )
@@ -76,7 +78,7 @@ internal fun RotationPatternControlBar(
     ) {
         items.forEach { item ->
             RotationPatternIconButton(
-                imageVector = item.icon,
+                iconRes = item.iconRes,
                 contentDescription = item.contentDescription,
                 isSelected = selectedState == item.state,
                 onClick = { onPatternClick(item.state) },
@@ -87,7 +89,7 @@ internal fun RotationPatternControlBar(
 
 @Composable
 private fun RotationPatternIconButton(
-    imageVector: ImageVector,
+    @DrawableRes iconRes: Int,
     contentDescription: String,
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
@@ -123,7 +125,7 @@ private fun RotationPatternIconButton(
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            imageVector = imageVector,
+            painter = painterResource(iconRes),
             contentDescription = contentDescription,
             tint = iconTint,
         )
