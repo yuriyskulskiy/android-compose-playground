@@ -3,8 +3,11 @@ package com.skul.yuriy.composeplayground.feature.sensorRotation.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
@@ -21,6 +25,9 @@ import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationSh
 import com.skul.yuriy.composeplayground.feature.sensorRotation.text.RotationShapeText
 import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus.RhombusText
 import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus.RhombusTextLayoutConfig
+import com.skul.yuriy.composeplayground.util.regularComponents.CustomTopAppBar
+
+private val RotationHostTopBarHeight = 64.dp
 
 @Composable
 fun SensorRotationScreen(
@@ -57,21 +64,49 @@ fun SensorRotationScreen(
             shapeCalculator = shapeCalculator,
             rotateContentWithShape = calculatorState.rotateContentWithShape,
         ) { textLayoutInfo ->
-            if (calculatorState.usesRhombusText) {
-                RhombusText(
-                    text = demoText,
-                    config = RhombusTextLayoutConfig(
-                        lineWidth = textLayoutInfo.lineWidth,
-                        firstLineOffset = textLayoutInfo.firstLineOffset,
-                        horizontalShiftPerHeight = textLayoutInfo.horizontalShiftPerHeight,
-                    ),
-                    modifier = Modifier.fillMaxSize()
+            val density = LocalDensity.current
+            val topBarStartInset = with(density) {
+                val topBarLocalY = RotationHostTopBarHeight.toPx() / 2f
+                val shiftAtTopBar =
+                    textLayoutInfo.firstLineOffset.toPx() +
+                        topBarLocalY * textLayoutInfo.horizontalShiftPerHeight
+                maxOf(0f, shiftAtTopBar).toDp()
+            }
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CustomTopAppBar(
+                    title = stringResource(R.string.sensor_rotation_demo),
+                    onNavUp = onNavUp,
+                    modifier = Modifier
+                        .padding(start = topBarStartInset)
+                        .height(RotationHostTopBarHeight),
+                    enableHorizontalDivider = false,
                 )
-            } else {
-                RotationShapeText(
-                    text = demoText,
-                    modifier = Modifier.fillMaxSize()
-                )
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxSize()
+                ) {
+                    if (calculatorState.usesRhombusText) {
+                        RhombusText(
+                            text = demoText,
+                            config = RhombusTextLayoutConfig(
+                                lineWidth = textLayoutInfo.lineWidth,
+                                firstLineOffset = textLayoutInfo.firstLineOffset,
+                                horizontalShiftPerHeight = textLayoutInfo.horizontalShiftPerHeight,
+                                contentTopInset = RotationHostTopBarHeight,
+                            ),
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    } else {
+                        RotationShapeText(
+                            text = demoText,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                }
             }
         }
 
@@ -91,19 +126,5 @@ fun SensorRotationScreen(
         )
 
         // dont delete - прост опока он не нужен
-
-//            SensorRotationTopAppBar(
-//                modifier = Modifier
-//                    .align(Alignment.TopCenter)
-//                    .padding(top = rememberStatusBarHeight()),
-//                title = stringResource(R.string.sensor_rotation_demo)
-//                onNavUp = onNavUp
-//            )
-//
-//            Text(
-//                modifier = Modifier.align(Alignment.Center),
-//                text = stringResource(R.string.sensor_rotation_demo_placeholder),
-//                color = Color.Black
-//            )
     }
 }

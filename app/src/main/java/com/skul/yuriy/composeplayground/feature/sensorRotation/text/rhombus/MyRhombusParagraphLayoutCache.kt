@@ -173,6 +173,7 @@ internal class MyRhombusParagraphLayoutCache(
         val horizontalPaddingPx = localDensity.run { config.horizontalPadding.roundToPx() }
         val verticalPaddingPx = localDensity.run { config.verticalPadding.roundToPx() }
         val edgeInsetPx = localDensity.run { config.edgeInset.roundToPx() }
+        val contentTopInsetPx = localDensity.run { config.contentTopInset.roundToPx() }
         val lineWidthPx =
             max(
                 1,
@@ -207,7 +208,7 @@ internal class MyRhombusParagraphLayoutCache(
                 firstLineOffsetPx +
                     horizontalPaddingPx +
                     edgeInsetPx +
-                    (currentOffsetY * config.horizontalShiftPerHeight).roundToInt()
+                    ((contentTopInsetPx + currentOffsetY) * config.horizontalShiftPerHeight).roundToInt()
 
             fragments +=
                 RhombusTextFragment(
