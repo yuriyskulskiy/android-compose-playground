@@ -19,9 +19,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun rememberRotationAngle(
-//    sourceType: RotationAngleSourceType = ACCELEROMETER_ROTATION_ANGLE_SOURCE,
-    smoothingType: SmoothingUiState = DEFAULT_SMOOTHING_TYPE,
-    sourceType: RotationAngleSourceType = ORIENTATION_EVENT_LISTENER_ROTATION_ANGLE_SOURCE
+    smoothingType: SmoothingUiState,
+    sourceType: RotationAngleSourceType,
 ): Float? {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -64,7 +63,3 @@ internal fun rememberRotationAngle(
 
     return if (angleSmoother.hasAngle) angleSmoother.angle else null
 }
-
-private val ACCELEROMETER_ROTATION_ANGLE_SOURCE = RotationAngleSourceType.Accelerometer
-private val ORIENTATION_EVENT_LISTENER_ROTATION_ANGLE_SOURCE = RotationAngleSourceType.OrientationEventListener
-private val DEFAULT_SMOOTHING_TYPE = SmoothingUiState.SmoothAlpha

@@ -7,11 +7,11 @@ internal enum class RotationSourceUiState(
     val sourceType: RotationAngleSourceType
 ) {
     RawSensor(
-        label = "raw",
+        label = "rawCensor",
         sourceType = RotationAngleSourceType.Accelerometer
     ),
     AngleListener(
-        label = "lis",
+        label = "angleListener",
         sourceType = RotationAngleSourceType.OrientationEventListener
     );
 

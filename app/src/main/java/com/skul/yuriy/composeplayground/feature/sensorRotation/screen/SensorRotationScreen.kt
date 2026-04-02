@@ -2,10 +2,7 @@ package com.skul.yuriy.composeplayground.feature.sensorRotation.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -58,23 +54,15 @@ private val RotationHostTopBarHeight = 64.dp
 private val RotationHostHorizontalContentPadding = 14.dp
 private val RotationHostStatusBarStartPadding = 20.dp
 private val RotationHostStatusBarEndPadding = 20.dp
-private val RotationPatternButtonSize = 40.dp
 private val RotationPatternButtonsBottomInset = 4.dp
-private val SelectedRotationPatternTint = Color.Red
-private val DefaultRotationPatternTint = Color.White
-private val PressedRotationPatternTint = Color(0xFFF2F2F2)
-private val PressedSelectedRotationPatternTint = Color(0xFFFF9A9A)
-private val DefaultRotationPatternBackground = Color.Black
-private val PressedRotationPatternBackground = Color(0xFF3A3A3A)
-private val RotationPatternBorderColor = Color.White.copy(alpha = 0.2f)
 
 @Composable
 fun SensorRotationScreen(
     initialAngle: Float,
     onNavUp: () -> Unit
 ) {
-    var smoothingState by rememberSaveable { mutableStateOf(SmoothingUiState.SmoothAlpha) }
-    var sourceState by rememberSaveable { mutableStateOf(RotationSourceUiState.RawSensor) }
+    var smoothingState by rememberSaveable { mutableStateOf(SmoothingUiState.AnimateTo) }
+    var sourceState by rememberSaveable { mutableStateOf(RotationSourceUiState.AngleListener) }
     val tiltAngle = rememberRotationAngle(
         sourceType = sourceState.sourceType,
         smoothingType = smoothingState
@@ -84,9 +72,10 @@ fun SensorRotationScreen(
         calculatorState.createCalculator()
     }
     val baseText = stringResource(R.string.sensor_rotation_demo_text)
-    val demoText = "$baseText\n\n$baseText"
+    val demoText = remember(baseText) { "$baseText\n\n$baseText" }
     val currentAngle = tiltAngle ?: initialAngle
     val topBarTitle = "${currentAngle.roundToInt()}°"
+    val patternItems = rememberRotationPatternItems()
     val switchSourceMode = {
         sourceState = sourceState.next()
         smoothingState =
@@ -105,10 +94,9 @@ fun SensorRotationScreen(
                 }
             }
     ) {
-        //todo COULD be one box
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .matchParentSize()
                 .padding(1.dp)
                 .border(
                     width = 1.dp,
@@ -180,58 +168,37 @@ fun SensorRotationScreen(
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Column(
+                    RotationHeader(
+                        title = topBarTitle,
+                        onNavUp = onNavUp,
+                        sourceLabel = sourceState.label,
+                        onSourceClick = switchSourceMode,
+                        statusBarHeight = rotationHostStatusBarHeight,
+                        statusBarStartInset = statusBarStartInset,
+                        statusBarEndInset = statusBarEndInset,
+                        topBarStartInset = topBarStartInset,
+                        topBarEndInset = topBarEndInset,
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.Black)
-                    ) {
-                        FakeRotationStatusBar(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(rotationHostStatusBarHeight)
-                                .padding(start = statusBarStartInset, end = statusBarEndInset),
-                        )
-                        SensorRotationTopAppBar(
-                            title = topBarTitle,
-                            onNavUp = onNavUp,
-                            sourceLabel = sourceState.label,
-                            onSourceClick = switchSourceMode,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(RotationHostTopBarHeight)
-                                .padding(top = 1.dp)
-                                .padding(start = topBarStartInset, end = topBarEndInset),
-                        )
-                    }
-                    HorizontalDivider(color = Color.White)
+                    )
 
-                    Box(
+                    RotationTextContent(
+                        text = demoText,
+                        calculatorState = calculatorState,
+                        textLayoutInfo = textLayoutInfo,
+                        statusBarHeight = rotationHostStatusBarHeight,
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxSize()
-                            .background(Color.White)
-                    ) {
-                        if (calculatorState.usesRhombusText) {
-                            RhombusText(
-                                text = demoText,
-                                config = RhombusTextLayoutConfig(
-                                    lineWidth = textLayoutInfo.lineWidth,
-                                    firstLineOffset = textLayoutInfo.firstLineOffset,
-                                    horizontalShiftPerHeight = textLayoutInfo.horizontalShiftPerHeight,
-                                    contentTopInset = rotationHostStatusBarHeight + RotationHostTopBarHeight,
-                                ),
-                                modifier = Modifier.fillMaxSize()
-                            )
-                        } else {
-                            RotationShapeText(
-                                text = demoText,
-                                modifier = Modifier.fillMaxSize()
-                            )
-                        }
-                    }
+                            .background(Color.White),
+                    )
                 }
 
-                Row(
+                RotationPatternControlBar(
+                    items = patternItems,
+                    selectedState = calculatorState,
+                    onPatternClick = { calculatorState = it },
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(
@@ -239,37 +206,73 @@ fun SensorRotationScreen(
                             bottom = RotationPatternButtonsBottomInset,
                         )
                         .width(textLayoutInfo.lineWidth),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    RotationPatternIconButton(
-                        imageVector = RotationPatternIcons.TwoPhase,
-                        contentDescription = "Two-phase pattern",
-                        isSelected = calculatorState == CalculatorUiState.TwoPhaseSlide,
-                        onClick = { calculatorState = CalculatorUiState.TwoPhaseSlide },
-                    )
-                    RotationPatternIconButton(
-                        imageVector = RotationPatternIcons.Aspect,
-                        contentDescription = "Aspect pattern",
-                        isSelected = calculatorState == CalculatorUiState.AspectSlide,
-                        onClick = { calculatorState = CalculatorUiState.AspectSlide },
-                    )
-                    RotationPatternIconButton(
-                        imageVector = RotationPatternIcons.Fitted,
-                        contentDescription = "Rectangle pattern",
-                        isSelected = calculatorState == CalculatorUiState.MorphingRect,
-                        onClick = { calculatorState = CalculatorUiState.MorphingRect },
-                    )
-                    RotationPatternIconButton(
-                        imageVector = RotationPatternIcons.Morph,
-                        contentDescription = "Fitted pattern",
-                        isSelected = calculatorState == CalculatorUiState.FittedMorphingRect,
-                        onClick = { calculatorState = CalculatorUiState.FittedMorphingRect },
-                    )
-                }
+                )
             }
         }
+    }
+}
 
+@Composable
+private fun RotationHeader(
+    title: String,
+    onNavUp: () -> Unit,
+    sourceLabel: String,
+    onSourceClick: () -> Unit,
+    statusBarHeight: androidx.compose.ui.unit.Dp,
+    statusBarStartInset: androidx.compose.ui.unit.Dp,
+    statusBarEndInset: androidx.compose.ui.unit.Dp,
+    topBarStartInset: androidx.compose.ui.unit.Dp,
+    topBarEndInset: androidx.compose.ui.unit.Dp,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        FakeRotationStatusBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(statusBarHeight)
+                .padding(start = statusBarStartInset, end = statusBarEndInset),
+        )
+        SensorRotationTopAppBar(
+            title = title,
+            onNavUp = onNavUp,
+            sourceLabel = sourceLabel,
+            onSourceClick = onSourceClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(RotationHostTopBarHeight)
+                .padding(top = 1.dp)
+                .padding(start = topBarStartInset, end = topBarEndInset),
+        )
+        HorizontalDivider(color = Color.White)
+    }
+}
+
+@Composable
+private fun RotationTextContent(
+    text: String,
+    calculatorState: CalculatorUiState,
+    textLayoutInfo: RotationShapeTextLayoutInfo,
+    statusBarHeight: androidx.compose.ui.unit.Dp,
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier = modifier) {
+        if (calculatorState.usesRhombusText) {
+            RhombusText(
+                text = text,
+                config = RhombusTextLayoutConfig(
+                    lineWidth = textLayoutInfo.lineWidth,
+                    firstLineOffset = textLayoutInfo.firstLineOffset,
+                    horizontalShiftPerHeight = textLayoutInfo.horizontalShiftPerHeight,
+                    contentTopInset = statusBarHeight + RotationHostTopBarHeight,
+                ),
+                modifier = Modifier.fillMaxSize()
+            )
+        } else {
+            RotationShapeText(
+                text = text,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 }
 
@@ -374,50 +377,5 @@ private fun FakeRotationStatusBar(
                     .background(Color.White)
             )
         }
-    }
-}
-
-@Composable
-private fun RotationPatternIconButton(
-    imageVector: androidx.compose.ui.graphics.vector.ImageVector,
-    contentDescription: String,
-    modifier: Modifier = Modifier,
-    isSelected: Boolean = false,
-    onClick: () -> Unit = {},
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val iconTint =
-        when {
-            isSelected && isPressed -> PressedSelectedRotationPatternTint
-            isSelected -> SelectedRotationPatternTint
-            isPressed -> PressedRotationPatternTint
-            else -> DefaultRotationPatternTint
-        }
-    val backgroundColor =
-        if (isPressed) PressedRotationPatternBackground else DefaultRotationPatternBackground
-    Box(
-        modifier = Modifier
-            .then(modifier)
-            .size(RotationPatternButtonSize)
-            .clip(CircleShape)
-            .background(backgroundColor)
-            .border(
-                width = 1.dp,
-                color = RotationPatternBorderColor,
-                shape = CircleShape,
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onClick,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = imageVector,
-            contentDescription = contentDescription,
-            tint = iconTint,
-        )
     }
 }
