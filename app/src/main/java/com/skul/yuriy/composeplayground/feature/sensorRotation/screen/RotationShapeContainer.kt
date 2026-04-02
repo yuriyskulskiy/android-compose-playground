@@ -23,8 +23,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.ShapePoints
+import kotlin.math.abs
+import kotlin.math.atan2
 
 @Composable
 internal fun RotationShapeContainer(
@@ -33,7 +36,7 @@ internal fun RotationShapeContainer(
     rotationDegrees: Float,
     shapeCalculator: IRotationShapeCalculator,
     rotateContentWithShape: Boolean,
-    content: @Composable BoxScope.() -> Unit = {}
+    content: @Composable BoxScope.(RotationShapeTextLayoutInfo) -> Unit = {}
 ) {
     BoxWithConstraints(
         modifier = modifier
@@ -83,23 +86,41 @@ internal fun RotationShapeContainer(
                 .clip(shape)
                 .background(Color.White)
         ) {
-            val resolvedContentSize =
+            val parallelogramFrame =
                 if (rotateContentWithShape) {
-                    resolveParallelogramContentSize(
-                        shapePoints = layoutData.shapePoints
+                    resolveParallelogramFrame(
+                        shapePoints = layoutData.shapePoints,
                     )
                 } else {
-                    layoutData.contentSize
+                    ParallelogramFrame(
+                        contentBoundingWidth = layoutData.contentSize.width,
+                        contentHeight = layoutData.contentSize.height,
+                        lineWidth = layoutData.contentSize.width,
+                        firstLineOffset = 0f,
+                        horizontalShiftPerHeight = 0f,
+                    )
                 }
             val contentWidth =
                 with(density) {
                     if (rotateContentWithShape) {
-                        resolvedContentSize.width.toDp()
+                        parallelogramFrame.contentBoundingWidth.toDp()
                     } else {
-                        resolvedContentSize.width.toDp()
+                        parallelogramFrame.contentBoundingWidth.toDp()
                     }
                 }
-            val contentHeight = with(density) { resolvedContentSize.height.toDp() }
+            val contentHeight = with(density) { parallelogramFrame.contentHeight.toDp() }
+            val contentLayoutInfo =
+                RotationShapeTextLayoutInfo(
+                    contentWidth = contentWidth,
+                    contentHeight = contentHeight,
+                    lineWidth = with(density) { parallelogramFrame.lineWidth.toDp() },
+                    firstLineOffset = with(density) { parallelogramFrame.firstLineOffset.toDp() },
+                    topEdgeRotationDegrees = topEdgeRotationDegrees(
+                        start = layoutData.shapePoints.a1,
+                        end = layoutData.shapePoints.b1,
+                    ),
+                    horizontalShiftPerHeight = parallelogramFrame.horizontalShiftPerHeight,
+                )
 
             Box(
                 modifier =
@@ -109,7 +130,7 @@ internal fun RotationShapeContainer(
                         .then(
                             if (rotateContentWithShape) {
                                 Modifier.graphicsLayer {
-                                    rotationZ = rotationDegrees
+                                    rotationZ = contentLayoutInfo.topEdgeRotationDegrees
                                     transformOrigin = TransformOrigin.Center
                                 }
                             } else {
@@ -117,22 +138,51 @@ internal fun RotationShapeContainer(
                             }
                         )
             ) {
-                content()
+                content(contentLayoutInfo)
             }
         }
     }
 }
 
-private fun resolveParallelogramContentSize(
+internal data class RotationShapeTextLayoutInfo(
+    val contentWidth: Dp = 0.dp,
+    val contentHeight: Dp = 0.dp,
+    val lineWidth: Dp = 0.dp,
+    val firstLineOffset: Dp = 0.dp,
+    val topEdgeRotationDegrees: Float = 0f,
+    val horizontalShiftPerHeight: Float = 0f,
+)
+
+private data class ParallelogramFrame(
+    val contentBoundingWidth: Float,
+    val contentHeight: Float,
+    val lineWidth: Float,
+    val firstLineOffset: Float,
+    val horizontalShiftPerHeight: Float,
+)
+
+private fun resolveParallelogramFrame(
     shapePoints: ShapePoints,
-): Size {
-    return Size(
-        width = distance(shapePoints.a1, shapePoints.b1),
-        height = perpendicularDistanceToLine(
+): ParallelogramFrame {
+    val lineWidth = distance(shapePoints.a1, shapePoints.b1)
+    val contentHeight =
+        perpendicularDistanceToLine(
             point = shapePoints.d1,
             lineStart = shapePoints.a1,
             lineEnd = shapePoints.b1,
-        ),
+        )
+    val totalHorizontalShift = horizontalShift(shapePoints)
+    val horizontalShiftPerHeight =
+        if (contentHeight == 0f) 0f else totalHorizontalShift / contentHeight
+    val firstLineOffset = if (totalHorizontalShift < 0f) -totalHorizontalShift else 0f
+    val contentBoundingWidth = lineWidth + abs(totalHorizontalShift)
+
+    return ParallelogramFrame(
+        contentBoundingWidth = contentBoundingWidth,
+        contentHeight = contentHeight,
+        lineWidth = lineWidth,
+        firstLineOffset = firstLineOffset,
+        horizontalShiftPerHeight = horizontalShiftPerHeight,
     )
 }
 
@@ -157,6 +207,31 @@ private fun perpendicularDistanceToLine(
         )
 
     return doubledTriangleArea / lineLength
+}
+
+private fun topEdgeRotationDegrees(
+    start: Offset,
+    end: Offset,
+): Float {
+    return Math.toDegrees(
+        atan2(
+            y = (end.y - start.y).toDouble(),
+            x = (end.x - start.x).toDouble(),
+        )
+    ).toFloat()
+}
+
+private fun horizontalShift(shapePoints: ShapePoints): Float {
+    val baseVectorX = shapePoints.b1.x - shapePoints.a1.x
+    val baseVectorY = shapePoints.b1.y - shapePoints.a1.y
+    val sideVectorX = shapePoints.d1.x - shapePoints.a1.x
+    val sideVectorY = shapePoints.d1.y - shapePoints.a1.y
+    val baseLength = distance(shapePoints.a1, shapePoints.b1)
+    if (baseLength == 0f) return 0f
+
+    val unitBaseX = baseVectorX / baseLength
+    val unitBaseY = baseVectorY / baseLength
+    return sideVectorX * unitBaseX + sideVectorY * unitBaseY
 }
 
 private class RotationShapeOutline(

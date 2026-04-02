@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.text.RotationShapeText
+import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus.RhombusText
+import com.skul.yuriy.composeplayground.feature.sensorRotation.text.rhombus.RhombusTextLayoutConfig
 
 @Composable
 fun SensorRotationScreen(
@@ -34,7 +36,7 @@ fun SensorRotationScreen(
     val shapeCalculator: IRotationShapeCalculator = remember(calculatorState) {
         calculatorState.createCalculator()
     }
-    val baseText = stringResource(R.string.very_long_mock_text).trimIndent().trim()
+    val baseText = stringResource(R.string.sensor_rotation_demo_text)
     val demoText = "$baseText\n\n$baseText"
     Box(
         modifier = Modifier
@@ -53,12 +55,24 @@ fun SensorRotationScreen(
             inset = 16.dp,
             rotationDegrees = tiltAngle,
             shapeCalculator = shapeCalculator,
-            rotateContentWithShape = true,
-        ) {
-            RotationShapeText(
-                text = demoText,
-                modifier = Modifier.fillMaxSize()
-            )
+            rotateContentWithShape = calculatorState.rotateContentWithShape,
+        ) { textLayoutInfo ->
+            if (calculatorState.usesRhombusText) {
+                RhombusText(
+                    text = demoText,
+                    config = RhombusTextLayoutConfig(
+                        lineWidth = textLayoutInfo.lineWidth,
+                        firstLineOffset = textLayoutInfo.firstLineOffset,
+                        horizontalShiftPerHeight = textLayoutInfo.horizontalShiftPerHeight,
+                    ),
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                RotationShapeText(
+                    text = demoText,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
 
         DebugRotationFrame(
