@@ -32,7 +32,7 @@ fun SensorRotationScreen(
         sourceType = sourceState.sourceType,
         smoothingType = smoothingState
     )
-    var calculatorState by rememberSaveable { mutableStateOf(CalculatorUiState.AspectSlide) }
+    var calculatorState by rememberSaveable { mutableStateOf(CalculatorUiState.TwoPhaseSlide) }
     val shapeCalculator: IRotationShapeCalculator = remember(calculatorState) {
         calculatorState.createCalculator()
     }
