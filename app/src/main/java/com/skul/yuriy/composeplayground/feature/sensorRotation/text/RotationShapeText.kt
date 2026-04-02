@@ -1,6 +1,5 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation.text
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,14 +18,11 @@ internal fun RotationShapeText(
     text: String,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier =
-            modifier.verticalScroll(rememberScrollState()),
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp),
-            overflow = TextOverflow.Clip,
-        )
-    }
+    Text(
+        text = text,
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 24.dp, vertical = 24.dp),
+        overflow = TextOverflow.Clip,
+    )
 }
