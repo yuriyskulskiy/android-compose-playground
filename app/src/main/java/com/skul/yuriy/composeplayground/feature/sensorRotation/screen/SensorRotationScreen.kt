@@ -88,23 +88,23 @@ fun SensorRotationScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
+            .padding(2.dp)
+            .border(
+                width = 2.dp,
+                color = Color.Red,
+                shape = RoundedCornerShape(
+                    topStart = 28.dp,
+                    topEnd = 28.dp,
+                    bottomStart = 26.dp,
+                    bottomEnd = 26.dp
+                ),
+            )
             .pointerInput(Unit) {
                 detectTapGestures {
                     calculatorState = calculatorState.next()
                 }
             }
     ) {
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .padding(1.dp)
-                .border(
-                    width = 1.dp,
-                    color = Color.Red,
-                    shape = RoundedCornerShape(48.dp),
-                )
-        )
-
         RotationShapeContainer(
             modifier = Modifier
                 .fillMaxSize(),
@@ -116,14 +116,16 @@ fun SensorRotationScreen(
             val density = LocalDensity.current
             val rotationHostStatusBarHeight = rememberStatusBarHeight()
             val topBarStartInset = with(density) {
-                val topBarLocalY = rotationHostStatusBarHeight.toPx() + RotationHostTopBarHeight.toPx() / 2f
+                val topBarLocalY =
+                    rotationHostStatusBarHeight.toPx() + RotationHostTopBarHeight.toPx() / 2f
                 val shiftAtTopBar =
                     textLayoutInfo.firstLineOffset.toPx() +
                             topBarLocalY * textLayoutInfo.horizontalShiftPerHeight
                 maxOf(0f, shiftAtTopBar).toDp()
             }
             val topBarEndInset = with(density) {
-                val topBarLocalY = rotationHostStatusBarHeight.toPx() + RotationHostTopBarHeight.toPx() / 2f
+                val topBarLocalY =
+                    rotationHostStatusBarHeight.toPx() + RotationHostTopBarHeight.toPx() / 2f
                 val leftBoundaryAtTopBar =
                     textLayoutInfo.firstLineOffset.toPx() +
                             topBarLocalY * textLayoutInfo.horizontalShiftPerHeight
@@ -136,15 +138,16 @@ fun SensorRotationScreen(
                 val statusBarLocalY = rotationHostStatusBarHeight.toPx() / 2f
                 val shiftAtStatusBar =
                     textLayoutInfo.firstLineOffset.toPx() +
-                        statusBarLocalY * textLayoutInfo.horizontalShiftPerHeight
+                            statusBarLocalY * textLayoutInfo.horizontalShiftPerHeight
                 maxOf(0f, shiftAtStatusBar).toDp()
             }
             val statusBarEndInset = with(density) {
                 val statusBarLocalY = rotationHostStatusBarHeight.toPx() / 2f
                 val leftBoundaryAtStatusBar =
                     textLayoutInfo.firstLineOffset.toPx() +
-                        statusBarLocalY * textLayoutInfo.horizontalShiftPerHeight
-                val rightBoundaryAtStatusBar = leftBoundaryAtStatusBar + textLayoutInfo.lineWidth.toPx()
+                            statusBarLocalY * textLayoutInfo.horizontalShiftPerHeight
+                val rightBoundaryAtStatusBar =
+                    leftBoundaryAtStatusBar + textLayoutInfo.lineWidth.toPx()
                 (textLayoutInfo.contentWidth.toPx() - rightBoundaryAtStatusBar)
                     .coerceAtLeast(0f)
                     .toDp()
