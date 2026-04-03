@@ -6,7 +6,8 @@ This repository is a collection of non-trivial Jetpack Compose UI/graphics exper
 
 Each feature is centered around a specific Compose problem and an implementation built to solve or explore it.
 
-## Scope
+<details>
+<summary><strong>Scope</strong></summary>
 
 This project is intentionally focused on the UI layer only.
 
@@ -14,7 +15,10 @@ It does not try to demonstrate production architecture, modularization, domain/d
 
 It also does not follow one custom design system or one visual specification. That is intentional: this repository collects very different Jetpack Compose problems, and each feature uses the visual approach that best exposes the idea behind the implementation.
 
-## Topics
+</details>
+
+<details>
+<summary><strong>Topics</strong></summary>
 
 The project currently explores topics such as:
 
@@ -27,6 +31,8 @@ The project currently explores topics such as:
 - sticky header state detection
 - parallax and animated controls
 - custom Canvas-based rendering
+
+</details>
 
 ## Articles
 
