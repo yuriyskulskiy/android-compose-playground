@@ -39,11 +39,14 @@ The project currently explores topics such as:
 
 </details>
 
-## Articles
+<details>
+<summary><strong>Articles</strong></summary>
 
 All features are described in my Medium articles:
 
 - Medium profile: https://medium.com/@yuriyskul
+
+</details>
 
 <details>
 <summary><strong>Tech</strong></summary>
