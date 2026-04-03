@@ -67,6 +67,6 @@ All features are described in my Medium articles:
 
 A Jetpack Compose experiment that explores sensor-driven rotation, custom shape morphing, and text layout inside rotating non-rectangular containers.
 
-<img src="docs/gifs/sensor_rotation_git.gif" alt="Sensor Rotation demo" width="400" />
+<img src="docs/gifs/sensor_rotation_git.gif" alt="Sensor Rotation demo" width="300" />
 
 Status: WIP, not published
