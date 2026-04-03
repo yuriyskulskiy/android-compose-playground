@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,12 +29,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun RotationStatusBarBatteryWidget() {
     val batteryStatus = rememberBatteryStatus()
+    val density = LocalDensity.current
+    val textSize = 12.sp
+    val glyphHeight = with(density) { textSize.toDp() }
+    val batteryBodyHeight = glyphHeight * 0.72f
+    val batteryBodyWidth = glyphHeight * 1.18f
+    val batteryTipWidth = glyphHeight * 0.2f
+    val batteryTipHeight = glyphHeight * 0.42f
+    val batteryFillWidth =
+        (batteryBodyWidth - 2.dp) * (batteryStatus.level / 100f).coerceIn(0f, 1f)
+    val chargingIconSize = glyphHeight
     Row(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -41,18 +55,19 @@ internal fun RotationStatusBarBatteryWidget() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(2.dp),
             verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.offset(y = 0.5.dp),
         ) {
             Box(
                 modifier = Modifier
-                    .size(width = 12.dp, height = 8.dp)
+                    .size(width = batteryBodyWidth, height = batteryBodyHeight)
                     .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(2.dp))
             ) {
                 Box(
                     modifier = Modifier
                         .padding(1.dp)
                         .size(
-                            width = (10f * (batteryStatus.level / 100f)).coerceIn(1f, 10f).dp,
-                            height = 6.dp,
+                            width = batteryFillWidth,
+                            height = batteryBodyHeight - 2.dp,
                         )
                         .clip(RoundedCornerShape(1.dp))
                         .background(
@@ -62,7 +77,7 @@ internal fun RotationStatusBarBatteryWidget() {
             }
             Box(
                 modifier = Modifier
-                    .size(width = 4.dp, height = 6.dp)
+                    .size(width = batteryTipWidth, height = batteryTipHeight)
                     .clip(RoundedCornerShape(2.dp))
                     .background(Color.White.copy(alpha = 0.85f))
             )
@@ -72,13 +87,17 @@ internal fun RotationStatusBarBatteryWidget() {
                 imageVector = Icons.Filled.Bolt,
                 contentDescription = "Charging",
                 tint = Color(0xFF7CFF8A),
-                modifier = Modifier.size(10.dp),
+                modifier = Modifier
+                    .size(chargingIconSize),
             )
         }
         Text(
             text = "${batteryStatus.level}%",
             color = Color.White,
-            fontSize = 12.sp,
+            style = TextStyle(
+                fontSize = textSize,
+                platformStyle = PlatformTextStyle(includeFontPadding = false),
+            ),
         )
     }
 }

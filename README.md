@@ -61,6 +61,6 @@ All features are described in my Medium articles:
 
 </details>
 
-## More details later
+## Feature Catalog
 
 Feature descriptions, screenshots, and videos will be added later.

@@ -18,10 +18,11 @@ import kotlinx.coroutines.delay
 @Composable
 internal fun RotationStatusBarTimeWidget() {
     val timeText = rememberCurrentTimeText()
+    val timeTextSize = 12.sp
     Text(
         text = timeText,
         color = Color.White,
-        style = TextStyle(fontSize = 13.sp),
+        style = TextStyle(fontSize = timeTextSize),
     )
 }
 

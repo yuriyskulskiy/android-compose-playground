@@ -1,5 +1,6 @@
 package com.skul.yuriy.composeplayground.feature.sensorRotation.statusbar
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -24,7 +25,7 @@ internal fun FakeRotationStatusBar(
         modifier = modifier
             .fillMaxHeight()
             .padding(
-                top = 2.dp,
+                top = 3.dp,
                 start = RotationHostStatusBarStartPadding,
                 end = RotationHostStatusBarEndPadding,
             ),

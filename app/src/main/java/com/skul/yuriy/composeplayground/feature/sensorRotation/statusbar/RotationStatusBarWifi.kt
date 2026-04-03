@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material3.Icon
@@ -17,16 +18,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun RotationStatusBarWifiWidget() {
     val isWifiConnected = rememberWifiConnected()
+    val density = LocalDensity.current
+    val wifiIconSize = with(density) { 12.sp.toDp() }
     Icon(
         imageVector = Icons.Filled.Wifi,
         contentDescription = "Wi-Fi",
         tint = if (isWifiConnected) Color.White else Color.White.copy(alpha = 0.35f),
-        modifier = Modifier,
+        modifier = Modifier.size(wifiIconSize),
     )
 }
 

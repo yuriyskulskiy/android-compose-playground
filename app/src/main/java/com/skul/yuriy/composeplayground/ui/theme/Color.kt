@@ -14,5 +14,6 @@ val LightWhite = Color(0xFFD3CEDD)
 
 val PinkVeryLight = Color(0xFFF1E7F8)
 
-
 val BrightNeonBlue =Color(0xFF00BFFF)
+
+val light_background_for_night = Color(0xFF5F5A52)

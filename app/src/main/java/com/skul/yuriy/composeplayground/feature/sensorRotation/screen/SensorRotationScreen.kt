@@ -18,6 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.skul.yuriy.composeplayground.R
 import com.skul.yuriy.composeplayground.feature.sensorRotation.shape.IRotationShapeCalculator
 import com.skul.yuriy.composeplayground.feature.sensorRotation.statusbar.rememberStatusBarHeight
+import com.skul.yuriy.composeplayground.ui.theme.light_background_for_night
 import kotlin.math.roundToInt
 
 private val RotationPatternButtonsBottomInset = 4.dp
@@ -35,6 +37,12 @@ fun SensorRotationScreen(
     initialAngle: Float,
     onNavUp: () -> Unit
 ) {
+    val frameShape = RoundedCornerShape(
+        topStart = 28.dp,
+        topEnd = 28.dp,
+        bottomStart = 26.dp,
+        bottomEnd = 26.dp,
+    )
     var smoothingState by rememberSaveable { mutableStateOf(SmoothingUiState.AnimateTo) }
     var sourceState by rememberSaveable { mutableStateOf(RotationSourceUiState.AngleListener) }
     val tiltAngle = rememberRotationAngle(
@@ -62,16 +70,12 @@ fun SensorRotationScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
-            .padding(2.dp)
+            .padding(horizontal = 6.dp, vertical = 4.dp)
+            .clip(frameShape)
             .border(
                 width = 2.dp,
                 color = Color.Red,
-                shape = RoundedCornerShape(
-                    topStart = 28.dp,
-                    topEnd = 28.dp,
-                    bottomStart = 26.dp,
-                    bottomEnd = 26.dp
-                ),
+                shape = frameShape,
             )
             .pointerInput(Unit) {
                 detectTapGestures {
@@ -169,7 +173,7 @@ fun SensorRotationScreen(
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxSize()
-                            .background(Color.White),
+                            .background(light_background_for_night),
                     )
                 }
 
