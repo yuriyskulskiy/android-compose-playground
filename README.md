@@ -70,3 +70,9 @@ A Jetpack Compose experiment that explores sensor-driven rotation, custom shape 
 <img src="docs/gifs/sensor_rotation_git.gif" alt="Sensor Rotation demo" width="300" />
 
 Status: WIP, not published
+
+### Flow Text
+
+<img src="docs/gifs/text_overflow_gif.gif" alt="Flow Text demo" width="300" />
+
+Status: WIP, not published
