@@ -1,10 +1,15 @@
 # Compose Playground
 
+<details>
+<summary><strong>About</strong></summary>
+
 Medium profile: https://medium.com/@yuriyskul
 
 This repository is a collection of non-trivial Jetpack Compose UI/graphics experiments.
 
 Each feature is centered around a specific Compose problem and an implementation built to solve or explore it.
+
+</details>
 
 <details>
 <summary><strong>Scope</strong></summary>
@@ -40,13 +45,18 @@ All features are described in my Medium articles:
 
 - Medium profile: https://medium.com/@yuriyskul
 
-## Tech
+<details>
+<summary><strong>Tech</strong></summary>
 
 - Kotlin
 - Jetpack Compose
+- Compose customization
+- Animation
 - AGSL
 - Canvas drawing
 - Android graphics / blur / shader experiments
+
+</details>
 
 ## More details later
 
