@@ -1,10 +1,8 @@
 # Compose Playground
 
-<p align="left">
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" alt="Android" width="28" height="28" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin" width="28" height="28" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Jetpack_Compose_logo.png" alt="Jetpack Compose" width="28" height="28" />
-</p>
+![Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=flat&logo=kotlin&logoColor=white)
+![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=flat&logoColor=white)
 
 <details>
 <summary><strong>About</strong></summary>
