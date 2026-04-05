@@ -73,6 +73,8 @@ Published: not published
 
 Code: [feature/sensorRotation](app/src/main/java/com/skul/yuriy/composeplayground/feature/sensorRotation)
 
+---
+
 ### Flow Text
 
 A text-flow experiment focused on overflow behavior and non-standard text layout presentation in Compose.
@@ -81,11 +83,11 @@ A text-flow experiment focused on overflow behavior and non-standard text layout
 
 Published: not published
 
-Code: [feature/overflowText](app/src/main/java/com/skul/yuriy/composeplayground/feature/overflowText)
+---
 
 ### Rect Snake Border
 
-A Jetpack Compose animated rectangle border with a snake-style highlight traveling around the shape.
+A Jetpack Compose animated rectangle border with a snake-style highlight and support for different corner radii.
 
 <img src="docs/gifs/featured_cropped_github.gif" alt="Rect Snake Border demo" width="300" />
 
