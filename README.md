@@ -3,6 +3,7 @@
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=flat&logo=kotlin&logoColor=white)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=flat&logoColor=white)
+![AGSL](https://img.shields.io/badge/AGSL-Shaders-222222?style=flat)
 
 <details>
 <summary><strong>About</strong></summary>
