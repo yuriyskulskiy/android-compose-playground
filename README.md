@@ -190,3 +190,15 @@ The goal here is applying blur locally, where blur strength gradually changes ba
 Published in: [Medium](https://medium.com/@yuriyskul/agsl-alpha-blur-with-local-regions-and-dynamic-radius-linear-and-gaussian-17-61-101-taps-3a36198c9567)
 
 Code: [feature/customAlphaBlur](app/src/main/java/com/skul/yuriy/composeplayground/feature/customAlphaBlur), [feature/customAlphaBlurRadial](app/src/main/java/com/skul/yuriy/composeplayground/feature/customAlphaBlurRadial)
+
+---
+
+### Text Metaball Scrolling Edges: local overlay with regular Compose `Modifier.blur()`
+
+This approach uses the standard `blur()` API. To avoid blurring the whole screen, the text is additionally covered with top and bottom overlay bands that duplicate the text and its position in blurred form. The scroll offset is synchronized through the scroll state of the main full-screen text. This solution is more of a foreground workaround that demonstrates why a local dynamic blur implementation was needed.
+
+<img src="docs/gifs/text_metaball_scrolling_edges.gif" alt="Text metaball scrolling edges demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/text-metaball-scrolling-edges-local-overlay-with-regular-compose-modifier-blur-23b835242815)
+
+Code: [feature/metaballEdgesRegular](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgesRegular)
