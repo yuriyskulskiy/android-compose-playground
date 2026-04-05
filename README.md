@@ -69,10 +69,26 @@ A Jetpack Compose experiment that explores sensor-driven rotation, custom shape 
 
 <img src="docs/gifs/sensor_rotation_git.gif" alt="Sensor Rotation demo" width="300" />
 
-Status: WIP, not published
+Published: not published
+
+Code: [feature/sensorRotation](app/src/main/java/com/skul/yuriy/composeplayground/feature/sensorRotation)
 
 ### Flow Text
 
+A text-flow experiment focused on overflow behavior and non-standard text layout presentation in Compose.
+
 <img src="docs/gifs/text_overflow_gif.gif" alt="Flow Text demo" width="300" />
 
-Status: WIP, not published
+Published: not published
+
+Code: [feature/overflowText](app/src/main/java/com/skul/yuriy/composeplayground/feature/overflowText)
+
+### Rect Snake Border
+
+A Jetpack Compose animated rectangle border with a snake-style highlight traveling around the shape.
+
+<img src="docs/gifs/featured_cropped_github.gif" alt="Rect Snake Border demo" width="300" />
+
+Published in: [ProAndroidDev](https://proandroiddev.com/jetpack-compose-animated-snake-border-for-rectangle-shapes-31de5e9ef713)
+
+Code: [feature/animatedRectButton](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedRectButton)
