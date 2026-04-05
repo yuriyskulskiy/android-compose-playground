@@ -1,5 +1,11 @@
 # Compose Playground
 
+<p align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" alt="Android" width="28" height="28" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin" width="28" height="28" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Jetpack_Compose_logo.png" alt="Jetpack Compose" width="28" height="28" />
+</p>
+
 <details>
 <summary><strong>About</strong></summary>
 
