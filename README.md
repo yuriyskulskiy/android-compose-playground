@@ -96,7 +96,7 @@ Published in: <img src="docs/gifs/logo/proAndroidDevLogo.png" alt="ProAndroidDev
 
 Code: [feature/animatedRectButton](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedRectButton)
 
-## Glowing Border Rect
+## Animated Glowing Border
 
 A Jetpack Compose experiment that explores multiple ways to draw glowing rectangle borders and compares them with HWUI profiling.
 
