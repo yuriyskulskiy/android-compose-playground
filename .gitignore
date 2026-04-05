@@ -17,6 +17,7 @@ out/
 local.properties
 Local*
 old/
+docs/video/
 
 # ===== Android tooling =====
 captures/
