@@ -105,23 +105,24 @@ Code: [feature/animatedRectButton](app/src/main/java/com/skul/yuriy/composeplayg
 
 A Jetpack Compose experiment that explores multiple ways to draw glowing rectangle borders and compares them with HWUI profiling.
 
-- PNG borders with crossfade on tap
-- Multi-layering in Canvas with different sizes
-- Paint with `BlurMaskFilter`
-- Blur using `RenderEffect`
-- Applying `Paint.setShadowLayer()` multiple times
-- Circular gradient for rounded corners + linear gradients for the four sides
-- Custom AGSL applied via `RuntimeEffect` or as a Canvas shader
-- Advanced AGSL originally prototyped by me in GLSL on [ShaderToy](https://www.shadertoy.com/view/fcfGzH)
+0. PNG borders with crossfade on tap
+1. Multi-layering in Canvas with different sizes
+2. Paint with `BlurMaskFilter`
+3. Blur using `RenderEffect`
+4. Applying `Paint.setShadowLayer()` multiple times
+5. Circular gradient for rounded corners + linear gradients for the four sides
+6. Custom AGSL applied via `RuntimeEffect` or as a Canvas shader
+7. Advanced AGSL originally prototyped by me in GLSL on [ShaderToy](https://www.shadertoy.com/view/fcfGzH)
 
 <p align="left">
+  <img src="docs/gifs/animated_border_rect/0.gif" alt="Glowing Border Rect demo 0" width="150" />
   <img src="docs/gifs/animated_border_rect/1.gif" alt="Glowing Border Rect demo 1" width="150" />
   <img src="docs/gifs/animated_border_rect/2.gif" alt="Glowing Border Rect demo 2" width="150" />
   <img src="docs/gifs/animated_border_rect/3.gif" alt="Glowing Border Rect demo 3" width="150" />
-  <img src="docs/gifs/animated_border_rect/4.gif" alt="Glowing Border Rect demo 4" width="150" />
 </p>
 
 <p align="left">
+  <img src="docs/gifs/animated_border_rect/4.gif" alt="Glowing Border Rect demo 4" width="150" />
   <img src="docs/gifs/animated_border_rect/5.gif" alt="Glowing Border Rect demo 5" width="150" />
   <img src="docs/gifs/animated_border_rect/6.gif" alt="Glowing Border Rect demo 6" width="150" />
   <img src="docs/gifs/animated_border_rect/7.gif" alt="Glowing Border Rect demo 7" width="150" />
