@@ -82,7 +82,7 @@ internal class AnimatedRotationAngleSmoother(
                 }
             }
 
-            animatable.animateRotationToShortestPath(
+            animatable.animateToTargetAngle(
                 targetValue = targetAngle,
                 block = {
                     val normalizedValue = normalizeAnchoringDegrees(value)
@@ -114,7 +114,13 @@ private sealed interface AnimatedMode {
     data class Snapped(val anchor: Float) : AnimatedMode
 }
 
-private suspend fun Animatable<Float, AnimationVector1D>.animateRotationToShortestPath(
+/**
+ * Animates rotation toward [targetValue] using the shortest angular path.
+ *
+ * This avoids long visual jumps when the angle crosses the wrap boundary,
+ * for example from `179°` to `-179°`.
+ */
+private suspend fun Animatable<Float, AnimationVector1D>.animateToTargetAngle(
     targetValue: Float,
     block: Animatable<Float, AnimationVector1D>.() -> Unit,
 ) {
