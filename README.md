@@ -66,9 +66,9 @@ All features are described in my Medium articles:
 
 </details>
 
-## Feature Catalog
+**Feature Catalog**
 
-### Sensor Rotation
+## Sensor Rotation
 
 A Jetpack Compose experiment that explores sensor-driven rotation, custom shape morphing, and text layout inside rotating non-rectangular containers.
 
@@ -78,9 +78,7 @@ Published: not published
 
 Code: [feature/sensorRotation](app/src/main/java/com/skul/yuriy/composeplayground/feature/sensorRotation)
 
----
-
-### Flow Text
+## Flow Text
 
 A text-flow experiment focused on overflow behavior and non-standard text layout presentation in Compose.
 
@@ -88,9 +86,7 @@ A text-flow experiment focused on overflow behavior and non-standard text layout
 
 Published: not published
 
----
-
-### Rect Snake Border
+## Rect Snake Border
 
 A Jetpack Compose animated rectangle border with a snake-style highlight and support for different corner radii.
 
@@ -100,9 +96,7 @@ Published in: <img src="docs/gifs/logo/proAndroidDevLogo.png" alt="ProAndroidDev
 
 Code: [feature/animatedRectButton](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedRectButton)
 
----
-
-### Glowing Border Rect
+## Glowing Border Rect
 
 A Jetpack Compose experiment that explores multiple ways to draw glowing rectangle borders and compares them with HWUI profiling.
 
@@ -133,9 +127,7 @@ Published in: <img src="docs/gifs/logo/proAndroidDevLogo.png" alt="ProAndroidDev
 
 Code: [feature/animatedBorderRect](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedBorderRect)
 
----
-
-### PDE-Based Wave Simulation in Jetpack Compose: Canvas vs AGSL
+## PDE-Based Wave Simulation in Jetpack Compose: Canvas vs AGSL
 
 A Jetpack Compose experiment that compares three ways to build a PDE-based wave effect and highlights where classic Canvas rendering can outperform per-pixel AGSL for simple 1D simulations.
 
