@@ -132,3 +132,21 @@ A Jetpack Compose experiment that explores multiple ways to draw glowing rectang
 Published in: <img src="docs/gifs/logo/proAndroidDevLogo.png" alt="ProAndroidDev" width="28" /> [ProAndroidDev](https://proandroiddev.com/how-many-ways-do-you-know-to-draw-a-glowing-border-in-jetpack-compose-57980d049562)
 
 Code: [feature/animatedBorderRect](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedBorderRect)
+
+---
+
+### PDE-Based Wave Simulation in Jetpack Compose: Canvas vs AGSL
+
+A Jetpack Compose experiment that compares three ways to build a PDE-based wave effect and highlights where classic Canvas rendering can outperform per-pixel AGSL for simple 1D simulations.
+
+- AGSL `RenderEffect`
+- AGSL shader via `Paint`
+- A classic Canvas approach
+
+For simple 1D simulations, the classic Android `Path` API with cubic interpolation can outperform per-pixel AGSL rendering.
+
+<img src="docs/gifs/liquid_bar.gif" alt="PDE Wave Simulation demo" width="300" />
+
+Published in: <img src="docs/gifs/logo/proAndroidDevLogo.png" alt="ProAndroidDev" width="28" /> [ProAndroidDev](https://proandroiddev.com/pde-based-wave-simulation-in-jetpack-compose-canvas-vs-agsl-58d52a88f22f)
+
+Code: [feature/liquidBar](app/src/main/java/com/skul/yuriy/composeplayground/feature/liquidBar)
