@@ -173,3 +173,20 @@ Horizontal metaball edges
 Horizontal scroll code: [feature/metaballEdgeHorizontalScroll](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgeHorizontalScroll)
 
 Published in: <img src="docs/gifs/logo/proAndroidDevLogo.png" alt="ProAndroidDev" width="28" /> [ProAndroidDev](https://proandroiddev.com/jetpack-compose-metaball-edge-effect-final-part-ac8a4cc7a425)
+
+---
+
+### AGSL Alpha Blur with Local Regions and Dynamic Radius (Linear and Gaussian, 17/61/101 taps)
+
+A Jetpack Compose experiment focused on dynamic and local alpha blur on Android. Native blur is static and cannot be applied selectively to a local region inside a composable, so this AGSL-based Gaussian alpha blur explores 17-, 61-, and 101-tap kernel quality, selective blur applied only to chosen composable areas, and blur strength that changes with distance.
+
+<p align="left">
+  <img src="docs/gifs/custom_blur_liniar.gif" alt="Custom blur linear demo" width="300" />
+  <img src="docs/gifs/custom_blur_circular.gif" alt="Custom blur circular demo" width="300" />
+</p>
+
+The goal here is applying blur locally, where blur strength gradually changes based on the distance from the center.
+
+Published in: [Medium](https://medium.com/@yuriyskul/agsl-alpha-blur-with-local-regions-and-dynamic-radius-linear-and-gaussian-17-61-101-taps-3a36198c9567)
+
+Code: [feature/customAlphaBlur](app/src/main/java/com/skul/yuriy/composeplayground/feature/customAlphaBlur), [feature/customAlphaBlurRadial](app/src/main/java/com/skul/yuriy/composeplayground/feature/customAlphaBlurRadial)
