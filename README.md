@@ -105,6 +105,15 @@ Code: [feature/animatedRectButton](app/src/main/java/com/skul/yuriy/composeplayg
 
 A Jetpack Compose experiment that explores multiple ways to draw glowing rectangle borders and compares them with HWUI profiling.
 
+- PNG borders with crossfade on tap
+- Multi-layering in Canvas with different sizes
+- Paint with `BlurMaskFilter`
+- Blur using `RenderEffect`
+- Applying `Paint.setShadowLayer()` multiple times
+- Circular gradient for rounded corners + linear gradients for the four sides
+- Custom AGSL applied via `RuntimeEffect` or as a Canvas shader
+- Advanced AGSL originally prototyped by me in GLSL on [ShaderToy](https://www.shadertoy.com/view/fcfGzH)
+
 <p align="left">
   <img src="docs/gifs/animated_border_rect/1.gif" alt="Glowing Border Rect demo 1" width="150" />
   <img src="docs/gifs/animated_border_rect/2.gif" alt="Glowing Border Rect demo 2" width="150" />
