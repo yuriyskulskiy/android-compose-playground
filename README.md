@@ -147,18 +147,19 @@ Code: [feature/liquidBar](app/src/main/java/com/skul/yuriy/composeplayground/fea
 
 A controlled way to build metaball interaction between scrolling content and screen edges. The core idea is a localized custom blur applied only near the edges, with a dynamically increasing radius as elements approach the boundary. This avoids the typical issue where everything turns into a blob and keeps the effect visually clean and controlled.
 
-<img src="docs/gifs/metaball_scroll_vertical_edge.gif" alt="Metaball scroll edge demo" width="300" />
+<p align="left">
+  <img src="docs/gifs/metaball_scroll_vertical_edge.gif" alt="Metaball scroll edge demo" width="300" />
+  <img src="docs/gifs/metaball_scroll_vertical_melt.gif" alt="Metaball melt demo" width="300" />
+</p>
 
-Gooey edge effect
+Gooey edge effect + Melt effect
 
-<img src="docs/gifs/metaball_scroll_vertical_melt.gif" alt="Metaball melt demo" width="300" />
-
-Melt effect
+Vertical scroll code: [feature/metaballEdgesAdvanced](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgesAdvanced)
 
 <img src="docs/gifs/horizontal_metaball_edges.gif" alt="Horizontal metaball edges demo" width="300" />
 
 Horizontal metaball edges
 
-Published in: <img src="docs/gifs/logo/proAndroidDevLogo.png" alt="ProAndroidDev" width="28" /> [ProAndroidDev](https://proandroiddev.com/jetpack-compose-metaball-edge-effect-final-part-ac8a4cc7a425)
+Horizontal scroll code: [feature/metaballEdgeHorizontalScroll](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgeHorizontalScroll)
 
-Code: [feature/metaballEdgesAdvanced](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgesAdvanced), [feature/metaballEdgeHorizontalScroll](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgeHorizontalScroll)
+Published in: <img src="docs/gifs/logo/proAndroidDevLogo.png" alt="ProAndroidDev" width="28" /> [ProAndroidDev](https://proandroiddev.com/jetpack-compose-metaball-edge-effect-final-part-ac8a4cc7a425)
