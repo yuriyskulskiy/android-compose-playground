@@ -439,3 +439,15 @@ A Jetpack Compose parallax implementation for `LazyColumn`, where each item trac
 Published in: [Medium](https://medium.com/@yuriyskul/android-jetpack-compose-how-to-add-parallax-scrolling-to-lazy-lists-e617ed7f4d00)
 
 Code: [feature/parallax](app/src/main/java/com/skul/yuriy/composeplayground/feature/parallax)
+
+---
+
+### Creating Dynamic TopAppBar Elevation in Jetpack Compose Based on Lazy List or Column Scroll
+
+A simple Jetpack Compose solution for dynamic `TopAppBar` elevation with both scrolled `Column` and `LazyColumn`. It tracks `ScrollState` / `LazyListState`, detects whether content is scrolled to the top or not, and uses `derivedStateOf` with `animateDpAsState` to animate the app bar elevation.
+
+<img src="docs/gifs/animated_elevaion_lists.gif" alt="Animated top app bar elevation demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/creating-dynamic-topappbar-elevation-in-jetpack-compose-based-on-lazy-list-or-column-scroll-a81c244499bf)
+
+Code: [feature/scrollEdge/animatedElevation](app/src/main/java/com/skul/yuriy/composeplayground/feature/scrollEdge/animatedElevation)
