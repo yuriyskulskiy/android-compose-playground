@@ -367,7 +367,7 @@ Code: [feature/stickyHeader](app/src/main/java/com/skul/yuriy/composeplayground/
 
 A Jetpack Compose solution for drawing shadow only on the bottom edge of a composable instead of all sides. It uses the regular Android shadow API together with Compose `clipPath` intersection to keep the built-in shadow behavior while restricting the visible shadow area to the bottom edge.
 
-<img src="docs/video/bottom_edge_shadow.webp" alt="Bottom edge shadow demo" width="300" />
+<img src="docs/gifs/bottom_edge_shadow.webp" alt="Bottom edge shadow demo" width="300" />
 
 Published in: [Medium](https://medium.com/@yuriyskul/drawing-bottom-edge-shadow-only-in-jetpack-compose-1503d05bc9f6)
 
