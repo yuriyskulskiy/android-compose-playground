@@ -379,7 +379,10 @@ Code: [feature/bottomEdge](app/src/main/java/com/skul/yuriy/composeplayground/fe
 
 The problem is drawing a transparent container with the native `.shadow()` modifier. As soon as the container becomes transparent, the default Android shadow is drawn not only around the shape but also produces visible artifacts under the container. In the demo, tapping the default shadow example toggles the container between opaque and transparent states, making that glitch clearly visible.
 
-<img src="docs/gifs/custom_shadow_like_nativ.gif" alt="Transparent container shadow comparison demo" width="300" />
+<p align="left">
+  <img src="docs/gifs/custom_shadow_like_nativ.gif" alt="Transparent container shadow comparison demo" width="300" />
+  <img src="docs/gifs/transparent_conteiner_glitch.webp" alt="Transparent container shadow glitch still frame" width="300" />
+</p>
 
 Published in: [Medium](https://medium.com/@yuriyskul/different-approaches-to-create-android-style-shadows-with-transparent-containers-in-jetpack-compose-e299a215557e)
 
