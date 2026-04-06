@@ -340,8 +340,8 @@ Two related Jetpack Compose solutions built on the same `feature/metaballBlur` f
 
 Left: solid metaball background. Right: transparent outline metaball.
 
-Published in:
+Published with 2 parts:
 - [Building a Metaballs (Gooey) Animation in Android Compose Using RenderEffect API](https://medium.com/@yuriyskul/building-a-metaballs-gooey-animation-in-android-compose-using-rendereffect-api-120b8f8465da)
-- [Chaining Blur and AGSL Runtime RenderEffects to Create Transparent Metaball Backgrounds with Outline Stroke Borders in Jetpack Compose](https://medium.com/@yuriyskul/chaining-blur-and-agsl-runtime-rendereffects-to-create-transparent-metaball-backgrounds-with-15680ad1e1a9)
+- [Outline Metaball Implementation with Blur and AGSL Runtime RenderEffects](https://medium.com/@yuriyskul/chaining-blur-and-agsl-runtime-rendereffects-to-create-transparent-metaball-backgrounds-with-15680ad1e1a9)
 
 Code: [feature/metaballBlur](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballBlur)
