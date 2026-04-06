@@ -233,3 +233,15 @@ This feature explores a transparent-background gooey outline metaball effect in 
 Published in: [Medium](https://medium.com/@yuriyskul/compose-agsl-shader-gooey-outline-metaball-effect-with-transparent-background-cb8b0e72286c)
 
 Code: [ExampleRuntimeRenderEffectOutline.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept/ExampleRuntimeRenderEffectOutline.kt), [OutlineAgslShader.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept/util/shader/OutlineAgslShader.kt)
+
+---
+
+### Jetpack Compose: Gooey (Metaball) Interaction Using AGSL Shader and Blur - Fixing Coloring Issues
+
+A small follow-up to the previous gooey AGSL work focused on fixing coloring issues. The key takeaways are that AGSL should always be clipped to the intended bounds so it does not affect content outside the target area, and the shader should explicitly return the target color for the semi-transparent metaball region instead of relying on the original blurred input color.
+
+<img src="docs/gifs/color_issue.gif" alt="Gooey metaball coloring issue fix demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/jetpack-compose-gooey-metaball-interaction-using-agsl-shader-and-blur-fixing-coloring-issues-c70affdcde0f)
+
+Code: [ExampleRuntimeRenderEffectColorFix.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept/ExampleRuntimeRenderEffectColorFix.kt)
