@@ -311,3 +311,15 @@ A fully customized Jetpack Compose rotating circular border built from a sweep-g
 Published in: [Medium](https://medium.com/@yuriyskul/animating-circular-shadow-borders-in-jetpack-compose-rotating-arcs-with-blur-and-gradient-effects-4e4288daf7bf)
 
 Code: [feature/rotationArk](app/src/main/java/com/skul/yuriy/composeplayground/feature/rotationArk)
+
+---
+
+### Metaballs in Jetpack Compose: Classic Math Approach Using Field Function 1/distance²
+
+This article demonstrates the classic metaball approach in Jetpack Compose using the field function `1 / distance²` to calculate the metaball shape. The implementation relies on Compose Canvas for precise rendering and dynamic animation.
+
+<img src="docs/gifs/classic_metaball_formula.gif" alt="Classic metaball formula demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/metaballs-in-jetpack-compose-classic-math-approach-using-field-function-1-distance%C2%B2-37f86738db30)
+
+Code: [feature/metaballClassic](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballClassic)
