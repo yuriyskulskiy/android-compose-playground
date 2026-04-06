@@ -23,6 +23,12 @@ The catalog is a sequence of catalog items separated by:
 
 Each catalog item describes one feature or one publication-related group of features.
 
+Default ordering rule:
+
+- new catalog items should be inserted at the top of the catalog
+- the newest items should appear first
+- exception: when backfilling older features or older publications, insert the item where it fits historically, including at the end if needed
+
 ## Media Folders
 
 ### `docs/gifs/`
@@ -230,7 +236,8 @@ When adding a new catalog item:
 3. Export the final README-ready GIF or image.
 4. Place the final asset into `docs/gifs/`.
 5. Add the catalog item to `README.md`.
-6. Reference only committed assets from `docs/gifs/`.
+6. By default, insert the new item at the top of the catalog unless this is a backfill of an older feature.
+7. Reference only committed assets from `docs/gifs/`.
 
 ## Consistency Notes
 

@@ -102,18 +102,6 @@ Code: [feature/animatedRectButton](app/src/main/java/com/skul/yuriy/composeplayg
 
 ---
 
-### Animated Glowing Circular Button
-
-This Jetpack Compose experiment combines glow, blur, and gradient-shadow techniques into one animated circular button. The rotating border is driven by an animated angle for a circular shape, the press animation is built with a clipped inner halo circular gradient, and the inner drop shadow is a second blurred icon layer with a dynamic offset derived from the current animation angle.
-
-<img src="docs/gifs/circular_snake_border.gif" alt="Animated glowing circular button demo" width="300" />
-
-Published in: [Medium](https://medium.com/@yuriyskul/making-an-animated-glowing-circular-button-with-blur-and-gradient-shadows-in-jetpack-compose-72ffe9a3169d)
-
-Code: [feature/animatedCircularButton](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedCircularButton)
-
----
-
 ### Animated Glowing Border
 
 A Jetpack Compose experiment that explores multiple ways to draw glowing rectangle borders and compares them with HWUI profiling.
@@ -281,3 +269,15 @@ A cross-API overview of gooey (metaball) effects in Jetpack Compose. All version
 Published in: [Medium](https://medium.com/@yuriyskul/gooey-metaball-effects-on-android-with-jetpack-compose-blurring-and-alpha-filtering-concepts-63f1cf879257)
 
 Code: [feature/gooey/blurConcept](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept)
+
+---
+
+### Animated Glowing Circular Button
+
+A complete Jetpack Compose implementation that combines glow, blur, and gradient-shadow techniques into an animated circular button. The rotating circular border is driven by an animated angle, the press state is rendered with a clipped halo gradient, and the inner drop shadow is implemented as a second blurred icon layer with a dynamic offset derived from the current rotation angle.
+
+<img src="docs/gifs/circular_snake_border.gif" alt="Animated glowing circular button demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/making-an-animated-glowing-circular-button-with-blur-and-gradient-shadows-in-jetpack-compose-72ffe9a3169d)
+
+Code: [feature/animatedCircularButton](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedCircularButton)
