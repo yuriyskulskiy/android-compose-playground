@@ -62,9 +62,6 @@ fun NavigationContent(modifier: Modifier) {
     val context = LocalContext.current
     val destinations = remember {
         listOf<StarterDestination>(
-            ComposeStarterDestination(R.string.gooey_effect_across_apis) {
-                navigateToGooeyScreen()
-            },
             ActivityStarterDestination(
                 titleRes = R.string.sensor_rotation_demo,
                 activityClass = SensorRotationActivity::class.java
@@ -97,6 +94,9 @@ fun NavigationContent(modifier: Modifier) {
                 navigateToMetaballPrimer()
             },
             StarterYearDivider(label = "Year 2026"),
+            ComposeStarterDestination(R.string.gooey_effect_across_apis) {
+                navigateToGooeyScreen()
+            },
             ComposeStarterDestination(R.string.parallax_scroll_list) {
                 navigateToParallax()
             },
