@@ -299,3 +299,15 @@ Left: Direct drop shadow. Right: Spread shadow.
 Published in: [Medium](https://medium.com/@yuriyskul/jetpack-compose-creating-direct-and-spread-light-shadows-for-vector-drawables-api-12-230362982a0f)
 
 Code: [DropShadowSection.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/vectorIconShadow/DropShadowSection.kt), [SpreadHaloShadowSection.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/vectorIconShadow/SpreadHaloShadowSection.kt)
+
+---
+
+### Animating Circular Shadow Borders in Jetpack Compose: Rotating Arcs with Blur and Gradient Effects
+
+A fully customized Jetpack Compose rotating circular border built from a sweep-gradient arc body and a blurred glowing arc layer. The border rotation is animated independently from the inner content, while arc width, blur radius, padding behavior, and glow styling remain fully configurable.
+
+<img src="docs/gifs/animated_circular_border.gif" alt="Animated circular border demo" width="270" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/animating-circular-shadow-borders-in-jetpack-compose-rotating-arcs-with-blur-and-gradient-effects-4e4288daf7bf)
+
+Code: [feature/rotationArk](app/src/main/java/com/skul/yuriy/composeplayground/feature/rotationArk)
