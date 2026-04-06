@@ -202,3 +202,22 @@ This approach uses the standard `blur()` API. To avoid blurring the whole screen
 Published in: [Medium](https://medium.com/@yuriyskul/text-metaball-scrolling-edges-local-overlay-with-regular-compose-modifier-blur-23b835242815)
 
 Code: [feature/metaballEdgesRegular](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgesRegular)
+
+---
+
+### AGSL Text Metaball Scrolling Edges And Text
+
+This experiment covers two related problems at once: how to create a metaball effect between the screen edge and an object, and what makes metaball behavior with text a separate problem.
+
+<p align="left">
+  <img src="docs/gifs/metaball_circle_to_edge.gif" alt="Metaball circle to edge demo" width="300" />
+  <img src="docs/gifs/blur_alpha_filter.gif" alt="Metaball blur alpha filter demo" width="300" />
+</p>
+
+<p align="left">
+  <img src="docs/gifs/text_metaball_swap.gif" alt="Text metaball swap demo" width="300" />
+</p>
+
+Published in: [Medium](https://medium.com/@yuriyskul/agsl-text-metaball-scrolling-edges-getting-started-696d59418127)
+
+Code: [feature/metaballEdgesAndText](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgesAndText)
