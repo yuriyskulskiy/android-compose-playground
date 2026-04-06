@@ -323,3 +323,25 @@ This article demonstrates the classic metaball approach in Jetpack Compose using
 Published in: [Medium](https://medium.com/@yuriyskul/metaballs-in-jetpack-compose-classic-math-approach-using-field-function-1-distance%C2%B2-37f86738db30)
 
 Code: [feature/metaballClassic](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballClassic)
+
+---
+
+### Metaball Blur RenderEffects: Solid Gooey Background and Transparent Outline Upgrade
+
+Two related Jetpack Compose solutions built on the same `feature/metaballBlur` foundation:
+
+- Solid metaball background: a basic gooey effect built with a chained blur and color-filter `RenderEffect`.
+- Transparent outline metaball: an upgraded version that replaces the linear color filter with a chained blur + AGSL runtime `RenderEffect` to isolate only the outline border on a transparent background.
+
+<p align="left">
+  <img src="docs/gifs/meteball_blur_basic.gif" alt="Solid metaball blur demo" width="356" />
+  <img src="docs/gifs/metaball_blur_outline.gif" alt="Transparent outline metaball demo" width="600" />
+</p>
+
+Left: solid metaball background. Right: transparent outline metaball.
+
+Published in:
+- [Building a Metaballs (Gooey) Animation in Android Compose Using RenderEffect API](https://medium.com/@yuriyskul/building-a-metaballs-gooey-animation-in-android-compose-using-rendereffect-api-120b8f8465da)
+- [Chaining Blur and AGSL Runtime RenderEffects to Create Transparent Metaball Backgrounds with Outline Stroke Borders in Jetpack Compose](https://medium.com/@yuriyskul/chaining-blur-and-agsl-runtime-rendereffects-to-create-transparent-metaball-backgrounds-with-15680ad1e1a9)
+
+Code: [feature/metaballBlur](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballBlur)
