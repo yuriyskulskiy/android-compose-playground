@@ -102,6 +102,18 @@ Code: [feature/animatedRectButton](app/src/main/java/com/skul/yuriy/composeplayg
 
 ---
 
+### Animated Glowing Circular Button
+
+This Jetpack Compose experiment combines glow, blur, and gradient-shadow techniques into one animated circular button. The rotating border is driven by an animated angle for a circular shape, the press animation is built with a clipped inner halo circular gradient, and the inner drop shadow is a second blurred icon layer with a dynamic offset derived from the current animation angle.
+
+<img src="docs/gifs/circular_snake_border.gif" alt="Animated glowing circular button demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/making-an-animated-glowing-circular-button-with-blur-and-gradient-shadows-in-jetpack-compose-72ffe9a3169d)
+
+Code: [feature/animatedCircularButton](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedCircularButton)
+
+---
+
 ### Animated Glowing Border
 
 A Jetpack Compose experiment that explores multiple ways to draw glowing rectangle borders and compares them with HWUI profiling.
