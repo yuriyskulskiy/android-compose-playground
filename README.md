@@ -372,3 +372,15 @@ A Jetpack Compose solution for drawing shadow only on the bottom edge of a compo
 Published in: [Medium](https://medium.com/@yuriyskul/drawing-bottom-edge-shadow-only-in-jetpack-compose-1503d05bc9f6)
 
 Code: [feature/bottomEdge](app/src/main/java/com/skul/yuriy/composeplayground/feature/bottomEdge)
+
+---
+
+### Different Approaches to Create Android-Style Shadows with Transparent Containers in Jetpack Compose
+
+A Jetpack Compose comparison of shadow approaches for transparent containers. As soon as the container becomes transparent, the default Android shadow is drawn not only around the shape but also produces visible artifacts under the container. In the demo, tapping the default shadow example toggles the container between opaque and transparent states, making that glitch clearly visible.
+
+<img src="docs/gifs/custom_shadow_like_nativ.gif" alt="Transparent container shadow comparison demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/different-approaches-to-create-android-style-shadows-with-transparent-containers-in-jetpack-compose-e299a215557e)
+
+Code: [feature/shadowBox](app/src/main/java/com/skul/yuriy/composeplayground/feature/shadowBox)
