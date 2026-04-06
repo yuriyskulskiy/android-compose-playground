@@ -335,7 +335,7 @@ Two related Jetpack Compose solutions built on the same `feature/metaballBlur` f
 
 <p align="left">
   <img src="docs/gifs/meteball_blur_basic.gif" alt="Solid metaball blur demo" width="356" />
-  <img src="docs/gifs/metaball_blur_outline.gif" alt="Transparent outline metaball demo" width="600" />
+  <img src="docs/gifs/metaball_blur_outline.gif" alt="Transparent outline metaball demo" width="356" />
 </p>
 
 Left: solid metaball background. Right: transparent outline metaball.
