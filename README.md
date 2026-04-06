@@ -207,7 +207,7 @@ Code: [feature/metaballEdgesRegular](app/src/main/java/com/skul/yuriy/composepla
 
 ### AGSL Text Metaball Scrolling Edges And Text
 
-This experiment covers two related problems at once: how to create a metaball effect between the screen edge and an object, and what makes metaball behavior with text a separate problem.
+This feature covers two related ideas at once: the basic metaball concept between the screen edge and a dragging object (circle shape), and the core text metaball behavior, where blur causes the text to merge and interact with itself.
 
 <p align="left">
   <img src="docs/gifs/metaball_circle_to_edge.gif" alt="Metaball circle to edge demo" width="300" />
