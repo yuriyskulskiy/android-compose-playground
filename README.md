@@ -281,3 +281,21 @@ A complete Jetpack Compose implementation that combines glow, blur, and gradient
 Published in: [Medium](https://medium.com/@yuriyskul/making-an-animated-glowing-circular-button-with-blur-and-gradient-shadows-in-jetpack-compose-72ffe9a3169d)
 
 Code: [feature/animatedCircularButton](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedCircularButton)
+
+---
+
+### Jetpack Compose: Creating Direct and Spread Light Shadows for Vector Drawables (API 12+)
+
+A Jetpack Compose implementation for direct and spread vector shadows built from a second duplicated icon layer. The shadow is created by blurring that extra layer, then applying an offset for direct drop shadow, or adding scale for spread shadow around the original icon.
+
+<p align="left">
+  <img src="docs/gifs/direct_drop_shadow.gif" alt="Direct drop shadow demo" width="300" />
+  <img src="docs/gifs/spread_shadow.gif" alt="Spread shadow demo" width="300" />
+</p>
+
+Left: Direct drop shadow. Right: Spread shadow.
+
+
+Published in: [Medium](https://medium.com/@yuriyskul/jetpack-compose-creating-direct-and-spread-light-shadows-for-vector-drawables-api-12-230362982a0f)
+
+Code: [DropShadowSection.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/vectorIconShadow/DropShadowSection.kt), [SpreadHaloShadowSection.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/vectorIconShadow/SpreadHaloShadowSection.kt)
