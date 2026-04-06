@@ -62,6 +62,9 @@ fun NavigationContent(modifier: Modifier) {
     val context = LocalContext.current
     val destinations = remember {
         listOf<StarterDestination>(
+            ComposeStarterDestination(R.string.gooey_effect_across_apis) {
+                navigateToGooeyScreen()
+            },
             ActivityStarterDestination(
                 titleRes = R.string.sensor_rotation_demo,
                 activityClass = SensorRotationActivity::class.java
