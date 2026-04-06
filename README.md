@@ -345,3 +345,15 @@ Published with 2 parts:
 - [Outline Metaball Implementation with Blur and AGSL Runtime RenderEffects](https://medium.com/@yuriyskul/chaining-blur-and-agsl-runtime-rendereffects-to-create-transparent-metaball-backgrounds-with-15680ad1e1a9)
 
 Code: [feature/metaballBlur](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballBlur)
+
+---
+
+### Sticky Header Stuck State in Jetpack Compose
+
+A Jetpack Compose solution for implementing sticky headers and reliably detecting when a header becomes stuck at the top. Using `LazyListState`, this approach tracks header position changes so the UI can react with elevation, shadows, color updates, or other visual state changes when the header becomes fixed.
+
+<img src="docs/gifs/sticky_header.gif" alt="Sticky header stuck state demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/how-to-track-and-detect-sticky-headers-stuck-states-in-jetpack-compose-f4f2499f2ae8)
+
+Code: [feature/stickyHeader](app/src/main/java/com/skul/yuriy/composeplayground/feature/stickyHeader)
