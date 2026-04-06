@@ -426,4 +426,4 @@ A Jetpack Compose implementation of a shadow halo border for circular shapes wit
 
 Published in: [Medium](https://medium.com/@yuriyskul/shadow-halo-effect-with-transparent-outline-borders-for-circular-shapes-in-jetpack-compose-using-c2d03562e17b)
 
-Code: [feature/animatedBorder](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedBorder), [CircleHaloShadow.kt](app/src/main/java/com/skul/yuriy/composeplayground/util/shadowborder/CircleHaloShadow.kt)
+Code: [feature/animatedBorder](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedBorder), [drawOutlineHaloShadowBlur](app/src/main/java/com/skul/yuriy/composeplayground/util/shadowborder/CircleHaloShadow.kt), [drawOutlineCircularShadowGradient](app/src/main/java/com/skul/yuriy/composeplayground/util/shadowborder/CircleHaloShadow.kt)
