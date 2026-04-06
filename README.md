@@ -396,7 +396,7 @@ A Jetpack Compose solution for elegant fading edges on scrollable content with a
 
 <img src="docs/gifs/fading_edges_screen.gif" alt="Fading edges scroll demo" width="300" />
 
-How to use:
+How to use `fadingTopBottomEdgesDp`:
 
 ```kotlin
 LazyColumn(
