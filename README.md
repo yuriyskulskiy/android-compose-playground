@@ -245,3 +245,15 @@ A small follow-up to the previous gooey AGSL work focused on fixing coloring iss
 Published in: [Medium](https://medium.com/@yuriyskul/jetpack-compose-gooey-metaball-interaction-using-agsl-shader-and-blur-fixing-coloring-issues-c70affdcde0f)
 
 Code: [ExampleRuntimeRenderEffectColorFix.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept/ExampleRuntimeRenderEffectColorFix.kt)
+
+---
+
+### Compose Gooey (Metaball) Button Effect: Fixing Blur Mask Issues on Pre-Android 10 Devices
+
+A legacy-device workaround for gooey metaball buttons on pre-Android 10. `BlurMaskFilter` is replaced with a circular gradient, while the metaball filtering still relies on the legacy Android color-filter pipeline.
+
+<img src="docs/gifs/legacy_metaball.gif" alt="Legacy metaball demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/compose-gooey-metaball-button-effect-fixing-blur-mask-issues-on-pre-android-10-devices-with-d8f3fadc2680)
+
+Code: [ExampleLegacySolution.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept/ExampleLegacySolution.kt)
