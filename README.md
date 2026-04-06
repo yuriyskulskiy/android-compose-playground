@@ -348,9 +348,12 @@ Code: [feature/metaballBlur](app/src/main/java/com/skul/yuriy/composeplayground/
 
 ---
 
-### Sticky Header Stuck State in Jetpack Compose
+### How to Track/Detect Sticky Header Stuck State
 
-A Jetpack Compose solution for implementing sticky headers and reliably detecting when a header becomes stuck at the top. Using `LazyListState`, this approach tracks header position changes so the UI can react with elevation, shadows, color updates, or other visual state changes when the header becomes fixed.
+A Jetpack Compose solution for sticky headers in expandable section lists, where each section can animate open and closed with per-item `AnimatedVisibility`. Using `LazyListState.layoutInfo.visibleItemsInfo`, this approach detects when a specific header is truly stuck at the top by checking the current header key, top offset, and the relation between `header.size` and `nextElement.offset`. When that stuck state becomes active, the header can animate into a lifted-on-top state with elevation, shadow, or other visual changes.
+
+- The tracked header must be the first visible item and already aligned to the top: `header.key == key && header.offset == 0`
+- The next visible element must still be positioned under that header: `header.size > nextElement.offset`
 
 <img src="docs/gifs/sticky_header.gif" alt="Sticky header stuck state demo" width="300" />
 
