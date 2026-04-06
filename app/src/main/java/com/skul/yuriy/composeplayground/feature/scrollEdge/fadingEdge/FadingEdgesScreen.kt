@@ -26,7 +26,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,7 +43,11 @@ import com.skul.yuriy.composeplayground.util.fadingTopBottomEdgesDp
 fun FadingEdgesRoute() {
     ScreenBackground(
         modifier = Modifier.fillMaxSize(),
-        imageRes = R.drawable.forest
+        imageRes = R.drawable.forest,
+        colorFilter = ColorFilter.tint(
+            Color.Black.copy(alpha = 0.38f),
+            blendMode = BlendMode.Darken
+        )
     ) {
         FadingEdgesScreen(
             modifier = Modifier.fillMaxSize()
