@@ -427,3 +427,15 @@ A Jetpack Compose implementation of a shadow halo border for circular shapes wit
 Published in: [Medium](https://medium.com/@yuriyskul/shadow-halo-effect-with-transparent-outline-borders-for-circular-shapes-in-jetpack-compose-using-c2d03562e17b)
 
 Code: [feature/animatedBorder](app/src/main/java/com/skul/yuriy/composeplayground/feature/animatedBorder), [drawOutlineHaloShadowBlur](app/src/main/java/com/skul/yuriy/composeplayground/util/shadowborder/CircleHaloShadow.kt), [drawOutlineCircularShadowGradient](app/src/main/java/com/skul/yuriy/composeplayground/util/shadowborder/CircleHaloShadow.kt)
+
+---
+
+### Android Jetpack Compose: How to Add Parallax Scrolling to Lazy Lists
+
+A Jetpack Compose parallax implementation for `LazyColumn`, where each item tracks its position inside the viewport through `LazyListState`. Based on that normalized scroll progress, the inner content is shifted vertically up or down, creating the parallax effect while the card itself stays in place.
+
+<img src="docs/gifs/paralax_scroll_list.gif" alt="Parallax scroll list demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/android-jetpack-compose-how-to-add-parallax-scrolling-to-lazy-lists-e617ed7f4d00)
+
+Code: [feature/parallax](app/src/main/java/com/skul/yuriy/composeplayground/feature/parallax)
