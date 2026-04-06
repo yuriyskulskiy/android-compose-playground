@@ -434,7 +434,7 @@ Code: [feature/animatedBorder](app/src/main/java/com/skul/yuriy/composeplaygroun
 
 A Jetpack Compose parallax implementation for `LazyColumn`, where each item tracks its position inside the viewport through `LazyListState`. Based on that normalized scroll progress, the inner content is shifted vertically up or down, creating the parallax effect while the card itself stays in place.
 
-<img src="docs/gifs/paralax_scroll_list.gif" alt="Parallax scroll list demo" width="300" />
+<img src="docs/gifs/paralax.gif" alt="Parallax scroll list demo" width="300" />
 
 Published in: [Medium](https://medium.com/@yuriyskul/android-jetpack-compose-how-to-add-parallax-scrolling-to-lazy-lists-e617ed7f4d00)
 
