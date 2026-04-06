@@ -221,3 +221,15 @@ This feature covers two related ideas at once: the basic metaball concept betwee
 Published in: [Medium](https://medium.com/@yuriyskul/agsl-text-metaball-scrolling-edges-getting-started-696d59418127)
 
 Code: [feature/metaballEdgesAndText](app/src/main/java/com/skul/yuriy/composeplayground/feature/metaballEdgesAndText)
+
+---
+
+### Compose AGSL Shader: Gooey Outline Metaball Effect with Transparent Background
+
+This feature explores a transparent-background gooey outline metaball effect in Compose using AGSL and per-element blur. Marker color detection, alpha filtering, and brightness-based transparency are used to preserve the outline and support smooth icon disappearance and reappearance during metaball interaction.
+
+<img src="docs/gifs/supra_metaball.gif" alt="Gooey outline metaball demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/compose-agsl-shader-gooey-outline-metaball-effect-with-transparent-background-cb8b0e72286c)
+
+Code: [ExampleRuntimeRenderEffectOutline.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept/ExampleRuntimeRenderEffectOutline.kt), [OutlineAgslShader.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept/util/shader/OutlineAgslShader.kt)
