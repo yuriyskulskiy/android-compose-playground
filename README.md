@@ -257,3 +257,15 @@ A legacy-device workaround for gooey metaball buttons on pre-Android 10. `BlurMa
 Published in: [Medium](https://medium.com/@yuriyskul/compose-gooey-metaball-button-effect-fixing-blur-mask-issues-on-pre-android-10-devices-with-d8f3fadc2680)
 
 Code: [ExampleLegacySolution.kt](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept/ExampleLegacySolution.kt)
+
+---
+
+### Gooey (Metaball) Effects on Android with Jetpack Compose: Blurring and Alpha Filtering Concepts Across All API Levels
+
+A cross-API overview of gooey (metaball) effects in Jetpack Compose. All versions are based on the same idea: blur first, then filter by alpha. The API 33+ version uses AGSL Runtime Shader, the API 31+ version uses RenderEffect for blur and color filtering, and the pre-31 version falls back to Paint with BlurMaskFilter.
+
+<img src="docs/gifs/metaball_across_api.gif" alt="Metaball across API levels demo" width="300" />
+
+Published in: [Medium](https://medium.com/@yuriyskul/gooey-metaball-effects-on-android-with-jetpack-compose-blurring-and-alpha-filtering-concepts-63f1cf879257)
+
+Code: [feature/gooey/blurConcept](app/src/main/java/com/skul/yuriy/composeplayground/feature/gooey/blurConcept)
