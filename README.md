@@ -316,7 +316,7 @@ Code: [feature/rotationArk](app/src/main/java/com/skul/yuriy/composeplayground/f
 
 ### Metaballs in Jetpack Compose: Classic Math Approach Using Field Function 1/distance²
 
-This article demonstrates the classic metaball approach in Jetpack Compose using the field function `1 / distance²` to calculate the metaball shape. The implementation relies on Compose Canvas for precise rendering and dynamic animation.
+This article demonstrates the classic metaball approach in Jetpack Compose using the field function `1 / distance²` to calculate the metaball shape. The implementation relies on Compose `Canvas` for precise rendering and dynamic animation.
 
 <img src="docs/gifs/classic_metaball_formula.gif" alt="Classic metaball formula demo" width="300" />
 
