@@ -387,3 +387,31 @@ The problem is drawing a transparent container with the native `.shadow()` modif
 Published in: [Medium](https://medium.com/@yuriyskul/different-approaches-to-create-android-style-shadows-with-transparent-containers-in-jetpack-compose-e299a215557e)
 
 Code: [feature/shadowBox](app/src/main/java/com/skul/yuriy/composeplayground/feature/shadowBox)
+
+---
+
+### Applying Smooth Gradient Edges for Scrollable Content in Jetpack Compose
+
+A Jetpack Compose solution for elegant fading edges on scrollable content with a single modifier, even when the screen has an image, shader, or other complex background. Instead of drawing gradient overlays above the whole screen, this approach uses `graphicsLayer` with `BlendMode.DstIn` so the fade is applied only to the drawn content and does not darken the background itself.
+
+<img src="docs/gifs/fading_edges_screen.gif" alt="Fading edges scroll demo" width="300" />
+
+How to use:
+
+```kotlin
+LazyColumn(
+    modifier = Modifier
+        .fillMaxSize()
+        .fadingTopBottomEdgesDp(
+            topFadeHeight = 16.dp,
+            bottomFadeHeight = 16.dp
+        )
+        .clipToBounds()
+) {
+    // content
+}
+```
+
+Published in: [Medium](https://medium.com/@yuriyskul/applying-smooth-gradient-edges-for-scrollable-content-in-jetpack-compose-814a10fec8ca)
+
+Code: [feature/scrollEdge](app/src/main/java/com/skul/yuriy/composeplayground/feature/scrollEdge), [FadeTopBottomEdge.kt](app/src/main/java/com/skul/yuriy/composeplayground/util/FadeTopBottomEdge.kt)
